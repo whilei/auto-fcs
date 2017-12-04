@@ -17,14 +17,32 @@ halfway
 F1638687_004
 F1638593_032
 file="2016-11-07_PANEL 1_ZF_Group one_F1636999_009.fcs"
+
+news
+
+file="2016-06-07_PANEL 1_DHS_Group one_F1631352_005.fcs"
+file="2016-06-09_PANEL 1_ZF_Group one_F1632288_005.fcs"
+file="2017-06-02_PANEL 1_LSR_HB_Group one-ZF_F1635125_029.fcs"
+file="2017-08-16_PANEL 1_LSR_EC_Group one_EC_F1640263_006.fcs"
+
+file="2016-05-16_PANEL 1_DHS_panel one_F1632231_009.fcs"
+file="2017-06-02_PANEL 1_LSR_HB_Group one-ZF_F1635259_036.fcs"
+
+
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
+
+if(getMachineType(frame)=="FORTESSA"){
+templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph, outputDir = outputDir,spliceFile = spliceFile)
+
+gt_lymph <-
+  gatingTemplate(templateLymphFortessa, autostart = 1L)
+  print(getMachineType(frame))
+}else{
 gt_lymph <-
     gatingTemplate(templateLymph, autostart = 1L)
-    gateTemplate = gt_lymph
-templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph, outputDir = outputDir,spliceFile = spliceFile)
-  gt_lymph <-
-    gatingTemplate(templateLymphFortessa, autostart = 1L)
+}
+
     gateTemplate = gt_lymph
     
 print(paste("compensating ....", file))
@@ -60,28 +78,7 @@ gating(gateTemplate, gs1)
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")
     
     
-    
-
- empty <- ggplot()+geom_point(aes(1,1), colour="white")+
-         theme(axis.ticks=element_blank(), 
-               panel.background=element_blank(), 
-               axis.text.x=element_blank(), axis.text.y=element_blank(),           
-               axis.title.x=element_blank(), axis.title.y=element_blank())      
-scatter =   ggcyto(gs1,
-              mapping = aes(x = "CD4", y = "CD8"),
-              subset = "Tcells") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")
-   
-    
-hist_top =   ggcyto(gs1,
-       mapping = aes(x = "CD4"),
-       subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)   
-       hist_right =   ggcyto(gs1,
-       mapping = aes(x = "CD8"),
-       subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
-    
-grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
-
+  
 
 
 
@@ -106,4 +103,25 @@ hist_top =   ggcyto(gs1,
     
 grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
     
-       
+   #+ xlim(c(-50, 250))   
+
+ empty <- ggplot()+geom_point(aes(1,1), colour="white")+
+         theme(axis.ticks=element_blank(), 
+               panel.background=element_blank(), 
+               axis.text.x=element_blank(), axis.text.y=element_blank(),           
+               axis.title.x=element_blank(), axis.title.y=element_blank())      
+scatter =   ggcyto(gs1,
+              mapping = aes(x = "CD4", y = "CD8"),
+              subset = "Tcells") +
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")
+   
+    
+hist_top =   ggcyto(gs1,
+       mapping = aes(x = "CD4"),
+       subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300) 
+       hist_right =   ggcyto(gs1,
+       mapping = aes(x = "CD8"),
+       subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+    
+grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
+   
