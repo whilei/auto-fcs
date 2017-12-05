@@ -66,7 +66,7 @@ gt_mono <-
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=100
+sub=150
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
@@ -141,7 +141,7 @@ if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
   fcsFilesAll =c(fcsFilesAll,filesToDefInclude)
 }
-fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 1))
+fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 15))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)
@@ -365,20 +365,20 @@ plotP2 <- function(gs1) {
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
 
   grid.arrange(
-    # as.ggplot(t1),
-    # as.ggplot(t2),
-    # as.ggplot(t3),
-    # as.ggplot(t4),
-    # as.ggplot(t5),
-    # as.ggplot(t6_1),
+    as.ggplot(t1),
+    as.ggplot(t2),
+    as.ggplot(t3),
+    as.ggplot(t4),
+    as.ggplot(t5),
+    as.ggplot(t6_1),
     as.ggplot(t7),
     # as.ggplot(t8),
-    # as.ggplot(t9),
-    # as.ggplot(t10),
+    as.ggplot(t9),
+    as.ggplot(t10),
     as.ggplot(t11),
-    # as.ggplot(t12),
-    # as.ggplot(t12.1),
-    # as.ggplot(t13),
+    as.ggplot(t12),
+    as.ggplot(t12.1),
+    as.ggplot(t13),
 
 
     ncol = 2
