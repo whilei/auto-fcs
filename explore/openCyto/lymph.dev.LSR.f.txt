@@ -24,7 +24,7 @@ CD4	CD4+CD8-	Tcells	"CD4,CD8"	refGate	CD4HTTrim:CD4HTTwo	NA	NA	NA	NA
 CD8CTOne	CD4-CD8+	Tcells	"CD4,CD8"	refGate	CD4-:CD8POne	NA	NA	NA	NA
 CD8CTTwo	CD4-	CD8CTOne	CD4	tailgate	"positive = FALSE,side='right',adjust=6,tol=6e-5,max=165,num_peaks=2,ref_peak=1,strict=FALSE,min=0"	NA	NA	NA	NA
 CD8+	CD8+	CD8CTTwo	CD8	tailgate	"tol=1e-4, positive = FALSE,side='left',adjust=2.5,max=200"	NA	NA	NA	NA
-CD8	CD4-CD8+	Tcells	"CD4,CD8"	refGate	CD8CTTwo:CD8+	NA	NA	NA	NA
+CD8	CD4-CD8+	Tcells	"CD4,CD8"	refGate	CD4+:CD8+	NA	NA	NA	NA
 CD8Bool		Tcells	"CD4,CD8"	boolGate	CD4-&CD8	NA	NA	NA	NA
 ActivatedCD4	HLA-DR+	CD4	HLA-DR	tailgate	tol=9.9e-6	NA	NA	standardize_flowset	NA
 *	CD45RA+/-	CD4	CD45RA	mindensity	"gate_range=c(100,150),adjust=1.5"	NA	NA	NA	NA

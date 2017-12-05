@@ -28,7 +28,12 @@ file="2017-08-16_PANEL 1_LSR_EC_Group one_EC_F1640263_006.fcs"
 file="2016-05-16_PANEL 1_DHS_panel one_F1632231_009.fcs"
 file="2017-06-02_PANEL 1_LSR_HB_Group one-ZF_F1635259_036.fcs"
 
+file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
 
+file="2017-02-27_PANEL 1_DHS_group one_F1653150_021.fcs"
+
+file="2016-06-27_PANEL 1_DHS_Group one_F1631267_006.fcs"
+file="2016-11-18_PANEL 1_HB_HRS-P1-GROUP1_F1635598_022.fcs"
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
 
