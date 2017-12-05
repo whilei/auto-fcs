@@ -10,8 +10,8 @@ PBMC	PBMC+	Singlets	FSC-A	mindensity	"gate_range=c(4.5e4,5e4)"	NA	NA	NA	NA
 *	CD3+/-	PBMC	CD3	mindensity	"gate_range=c(80,150)"	NA	NA	NA	NA
 *	CD19+/-	PBMC	CD19	mindensity	"gate_range=c(125,200),adjust=1.5"	NA	NA	NA	NA
 D_NK_M	CD3-CD19-	PBMC	"CD3,CD19"	refGate	CD3-:CD19-	NA	NA	NA	NA
-*	CD14+/-	D_NK_M	CD14	mindensity	"gate_range=c(75,160)"	NA	NA	NA	NA
-Mono	CD14+	CD14+	CD14	tailgate	"tol=5e-4, positive = TRUE,side='left',min=120"	NA	NA	NA	NA
+*	CD14+/-	D_NK_M	CD14	mindensity	"gate_range=c(90,160),max=175"	NA	NA	NA	NA
+Mono	CD14+	CD14+	CD14	tailgate	"tol=5e-4, positive = TRUE,side='left'"	NA	NA	NA	NA
 *	CD16+/-	D_NK_M	CD16	mindensity	"gate_range=c(90,200)"	NA	NA	NA	NA
 NonClassT	CD14+CD16+	D_NK_M	"CD14,CD16"	refGate	Mono:D_NK_M/CD16+	NA	NA	NA	NA
 NonClass		D_NK_M	"CD14,CD16"	boolGate	D_NK_M/CD14+&NonClassT	NA	NA	NA	NA
@@ -21,7 +21,7 @@ CD14_MinusTmp	CD14-	CD14-	CD14	tailgate	"tol=1e-4, positive = FALSE,side='right'
 CD14_MinusTrim	CD14-	D_NK_M	CD14	refGate	CD14_MinusTmp	NA	NA	NA	NA
 CD20-	CD20-	CD14_MinusTrim	CD20	tailgate	tol=1e-2	NA	NA	standardize_flowset	NA
 NKCells	CD16+	CD20-	CD16	refGate	D_NK_M/CD16+	NA	NA	NA	NA
-CD56	CD56+/-	NKCells	CD56	flowClust	K=1	NA	NA	prior_flowClust	K=1
+CD56	CD56+/-	NKCells	CD56	mindensity	"gate_range=c(25,100)"	NA	NA	NA	NA
 *	CD16+/-CD56+	NKCells	"CD16,CD56"	refGate	D_NK_M/CD16+:CD56+	NA	NA	NA	NA
 *	CD16+/-CD56-	NKCells	"CD16,CD56"	refGate	D_NK_M/CD16+:CD56-	NA	NA	NA	NA
 CD56PlusPlus	CD56+	CD16+CD56+	CD56	tailgate	tol=1e-2	NA	NA	standardize_flowset	NA

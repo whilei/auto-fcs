@@ -141,7 +141,7 @@ if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
   fcsFilesAll =c(fcsFilesAll,filesToDefInclude)
 }
-fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 15))
+fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 1))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)
@@ -342,10 +342,14 @@ plotP2 <- function(gs1) {
 
   t11 = ggcyto(gs1,
                mapping = aes(x = "CD56", y = "CD16"),
-               subset = "CD16+CD56+") +
+               subset = "NKCells") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
 
-
+  t11.1 = ggcyto(gs1,
+               mapping = aes(x = "CD56", y = "CD16"),
+               subset = "CD16+CD56+") +
+    geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
+  
   t12 = ggcyto(gs1,
                mapping = aes(x = "CD20", y = "HLA-DR"),
                subset = "CD20-") +
@@ -361,20 +365,20 @@ plotP2 <- function(gs1) {
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
 
   grid.arrange(
-    as.ggplot(t1),
-    as.ggplot(t2),
-    as.ggplot(t3),
-    as.ggplot(t4),
-    as.ggplot(t5),
-    as.ggplot(t6_1),
+    # as.ggplot(t1),
+    # as.ggplot(t2),
+    # as.ggplot(t3),
+    # as.ggplot(t4),
+    # as.ggplot(t5),
+    # as.ggplot(t6_1),
     as.ggplot(t7),
     # as.ggplot(t8),
-    as.ggplot(t9),
-    as.ggplot(t10),
+    # as.ggplot(t9),
+    # as.ggplot(t10),
     as.ggplot(t11),
-    as.ggplot(t12),
-    as.ggplot(t12.1),
-    as.ggplot(t13),
+    # as.ggplot(t12),
+    # as.ggplot(t12.1),
+    # as.ggplot(t13),
 
 
     ncol = 2
