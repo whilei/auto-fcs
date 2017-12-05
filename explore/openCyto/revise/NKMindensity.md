@@ -74,7 +74,7 @@ empty <- ggplot()+geom_point(aes(1,1), colour="white")+
 scatter =   ggcyto(gs1,
               mapping = aes(x = "CD16", y = "CD56"),
               subset = "NKCells") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD14+")
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats()
    
     
 hist_top =   ggcyto(gs1,
