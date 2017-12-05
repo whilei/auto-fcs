@@ -7,12 +7,7 @@ file = "2016-05-11_PANEL 2_ZF_panel 2_F1631920_007.fcs"
 file = "2016-12-01_PANEL 2_HB_group one_F1652726_008.fcs"
 file = "2017-04-14_PANEL 2_FORTESSA_RR_group two_F1642602_025.fcs"
 file="2017-01-19_PANEL 2_HB_group one_F1652578_006.fcs"
-
-file="2017-02-09_PANEL 2_RR_group one_F1652523_005.fcs"
-file="2017-01-12_PANEL 2_HB_group one_F1638549_006.fcs"
-file="2017-01-19_PANEL 2_HB_group one_F1652578_006.fcs"
-file="2017-02-09_PANEL 2_HB_group two_F1652965_006.fcs"
-file="2017-01-30_PANEL 2_ZF_group one_F1652753_010.fcs"
+file="2016-05-06_PANEL 1_ZF_panel one_F1631944_005.fcs"
 source(file = "generateFortessa.R")
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
@@ -76,17 +71,17 @@ empty <- ggplot()+geom_point(aes(1,1), colour="white")+
                axis.text.x=element_blank(), axis.text.y=element_blank(),           
                axis.title.x=element_blank(), axis.title.y=element_blank())      
 scatter =   ggcyto(gs1,
-              mapping = aes(x = "CD14", y = "CD16"),
-              subset = "D_NK_M") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("NonClassT")+geom_stats("ClassT")
+              mapping = aes(x = "CD16", y = "CD56"),
+              subset = "NKCells") +
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD14+")
    
     
 hist_top =   ggcyto(gs1,
-       mapping = aes(x = "CD14"),
-       subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300) 
-       hist_right =   ggcyto(gs1,
        mapping = aes(x = "CD16"),
-       subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+       subset = "NKCells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300) 
+       hist_right =   ggcyto(gs1,
+       mapping = aes(x = "CD56"),
+       subset = "NKCells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
     
 grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
    
