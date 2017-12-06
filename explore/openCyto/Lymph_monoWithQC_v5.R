@@ -40,9 +40,6 @@ library(flowAI)
 }
 
 
-
-
-
 registerPlugins(fun =.intersectGate, methodName = "intersectGate",dep='mvtnorm',"gating")
 
 registerPlugins(fun = .flowDensity,
@@ -94,7 +91,7 @@ gt_mono <-
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=150
+sub=50
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
