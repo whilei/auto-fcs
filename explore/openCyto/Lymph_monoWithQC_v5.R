@@ -30,7 +30,30 @@ library(flowAI)
     names(gate_coordinates) <- channels
     return(rectangleGate(gate_coordinates))
   } else{
+    # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
     gate_coordinates <- list(c(-Inf, min(xs[, 1])))
+    names(gate_coordinates) <- channels
+    rectangleGate(gate_coordinates, filterId = filterId)
+  }
+}
+
+.intersectGatePos <- function(fr, pp_res, channels = NA, filterId="",...) {
+  xs <- exprs(fr[,c(channels)]) # extract just the parameter values being inspected
+  print(max(xs[,1]))
+  print(min(xs[,1]))
+  
+  if (length(channels) == 2) {
+    print(max(xs[,2]))
+    print(min(xs[,2]))
+    c1 = (c(min(xs[, 1]), max(xs[, 1])))
+    c2 = (c(min(xs[, 2]), max(xs[, 2])))
+    
+    gate_coordinates = list(c1, c2)
+    names(gate_coordinates) <- channels
+    return(rectangleGate(gate_coordinates))
+  } else{
+    # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
+    gate_coordinates <- list(c(-Inf, max(xs[, 1])))
     names(gate_coordinates) <- channels
     rectangleGate(gate_coordinates, filterId = filterId)
   }
@@ -38,6 +61,7 @@ library(flowAI)
 
 
 registerPlugins(fun =.intersectGate, methodName = "intersectGate",dep='mvtnorm',"gating")
+registerPlugins(fun =.intersectGatePos, methodName = "intersectGatePos",dep='mvtnorm',"gating")
 
 registerPlugins(fun = .flowDensity,
                 methodName = "flowDensity",
