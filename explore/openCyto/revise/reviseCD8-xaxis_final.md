@@ -36,6 +36,8 @@ file="2016-06-27_PANEL 1_DHS_Group one_F1631267_006.fcs"
 file="2016-11-18_PANEL 1_HB_HRS-P1-GROUP1_F1635598_022.fcs"
 
 file="2017-04-07_PANEL 1_FORTESSA_RR_group two_F1640505_027.fcs"
+file="2017-02-01_PANEL 1_ZF_group one_F1652860_020.fcs"
+
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
 
@@ -120,7 +122,7 @@ grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.posit
 scatter =   ggcyto(gs1,
               mapping = aes(x = "CD4", y = "CD8"),
               subset = "Tcells") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")+ geom_stats("CD4")
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")
    
     
 hist_top =   ggcyto(gs1,
@@ -131,4 +133,5 @@ hist_top =   ggcyto(gs1,
        subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
     
 grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
+
    

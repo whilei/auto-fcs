@@ -175,6 +175,8 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1653150_021* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1631267_006* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1635598_022* ./
 
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1635598_022* ./
+
 F1635598_022
 
 
@@ -195,8 +197,10 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1652523* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1638549* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1652578* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1652965* ./
-scp msi:/scratch.global/lanej/flow/full/fcs/*F1652753* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1637159_011* ./
 
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1640505_027* ./
 
 
 

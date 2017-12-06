@@ -15,7 +15,35 @@ library(flowAI)
   
 }
 
+.intersectGate <- function(fr, pp_res, channels = NA, filterId="",...) {
+  xs <- exprs(fr[,c(channels)]) # extract just the parameter values being inspected
+  # pnts <- boundary(xs) # find the verticies of the gate
+  print(max(xs[,1]))
+  print(min(xs[,1]))
 
+
+  # 
+  if (length(channels) == 2) {
+    print(max(xs[,2]))
+    print(min(xs[,2]))
+    c1 = (c(min(xs[, 1]), max(xs[, 1])))
+    c2 = (c(min(xs[, 2]), max(xs[, 2])))
+    
+    gate_coordinates = list(c1, c2)
+    names(gate_coordinates) <- channels
+    return(rectangleGate(gate_coordinates))
+  } else{
+    gate_coordinates <- list(c(-Inf, min(xs[, 1])))
+    names(gate_coordinates) <- channels
+    rectangleGate(gate_coordinates, filterId = filterId)
+  }
+}
+
+
+
+
+
+registerPlugins(fun =.intersectGate, methodName = "intersectGate",dep='mvtnorm',"gating")
 
 registerPlugins(fun = .flowDensity,
                 methodName = "flowDensity",
