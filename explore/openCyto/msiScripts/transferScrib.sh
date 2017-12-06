@@ -78,7 +78,7 @@ mkdir ./Igd
 mkdir ./HelperT
 scp msi:/home/thyagara/shared/HRS/annotation/$rev"panel1"/*/*cytotoxic_Tcells-CD8+.png ./cytotoxic_Tcells
 
-
+scp msi:/home/thyagara/shared/HRS/annotation/$rev"panel1"/*/*Helper_Tcells-CD4* ./HelperT
 scp msi:/home/thyagara/shared/HRS/annotation/$rev"panel1"/*/*Tcells__CD3+_CD19-_* ./Tcells__CD3
 
 scp msi:/home/thyagara/shared/HRS/annotation/$rev"panel1"/*/*IgD-_memory_Bcells__CD27+* ./Igd
@@ -204,6 +204,13 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1637159_011* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1640505_027* ./
 
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1652860_020* ./
+
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1634971_033* ./
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*HRS034-D48_003* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1637822_005* ./
+
 
 
 
