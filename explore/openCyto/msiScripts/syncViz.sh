@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
 
-revIn=r25_2/
-revOut=CD8_sens_V2_81_CD14_68_CD56_76/
+revIn=r25_3/
+revOut=CD8_applyHT_82/
 
 baseInDir="/scratch.global/lanej/flow/full/results_"$revIn"/FULL/"
 outDir=/home/thyagara/shared/HRS/annotation/$revOut
@@ -10,7 +10,10 @@ mkdir -p $outDir"panel1/"
 mkdir -p $outDir"panel2/"
 
 rsync -rv $baseInDir*/panel1Vis/* $outDir"panel1/"
+
 rsync -rv $baseInDir*/panel2Vis/* $outDir"panel2/"
+
+
 
 
 
