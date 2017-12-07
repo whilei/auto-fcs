@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 
-revIn=r25_4/
+revIn=r25_5/
 revOut=CD14_CD16_83_76_68/
 
 baseInDir="/scratch.global/lanej/flow/full/results_"$revIn"/FULL/"
