@@ -112,7 +112,7 @@ gt_mono <-
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=150
+sub=25
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
