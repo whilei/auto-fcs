@@ -117,7 +117,6 @@ fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
              full = FALSE)
-fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 
 
 fcsFilesAllProbs = c("NONE")
@@ -126,6 +125,8 @@ fcsFilesAllProbs = c("NONE")
 filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
+
+fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 
 if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
