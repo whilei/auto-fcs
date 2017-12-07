@@ -10,9 +10,9 @@ PBMC	PBMC+	Singlets	FSC-A	mindensity	"gate_range=c(4.5e4,5e4)"	NA	NA	NA	NA
 *	CD3+/-	PBMC	CD3	mindensity	"gate_range=c(80,150)"	NA	NA	NA	NA
 *	CD19+/-	PBMC	CD19	mindensity	"gate_range=c(125,200),adjust=1.5"	NA	NA	NA	NA
 D_NK_M	CD3-CD19-	PBMC	"CD3,CD19"	refGate	CD3-:CD19-	NA	NA	NA	NA
-*	CD14+/-	D_NK_M	CD14	mindensity	"gate_range=c(90,160),max=175"	NA	NA	NA	NA
-Mono	CD14+	CD14+	CD14	tailgate	"tol=5e-4, positive = TRUE,side='left'"	NA	NA	NA	NA
-*	CD16+/-	D_NK_M	CD16	mindensity	"gate_range=c(90,200)"	NA	NA	NA	NA
+*	CD14+/-	D_NK_M	CD14	mindensity	"gate_range=c(90,140),max=175,adjust=1.5"	NA	NA	NA	NA
+Mono	CD14+	CD14+	CD14	tailgate	"tol=5e-4, positive = TRUE,side='left',num_peaks=2,ref_peak=2,adjust=1.5,strict=FALSE,max=175"	NA	NA	NA	NA
+*	CD16+/-	D_NK_M	CD16	mindensity	"gate_range=c(125,220),adjust=1.5"	NA	NA	NA	NA
 NonClassPrimary	CD14+CD16+	Mono	"CD14,CD16"	refGate	Mono:D_NK_M/CD16+	NA	NA	NA	NA
 NonClassConv		NonClassPrimary	"CD14,CD16"	intersectGate	NA	NA	NA	NA	NA
 NonClassT	CD14+CD16+	D_NK_M	"CD14,CD16"	refGate	NonClassConv	NA	NA	NA	NA

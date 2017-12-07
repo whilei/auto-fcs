@@ -117,6 +117,8 @@ fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
              full = FALSE)
+fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+
 
 fcsFilesAllProbs = c("NONE")
 
@@ -129,6 +131,8 @@ if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
   fcsFilesAll =c(fcsFilesAll,filesToDefInclude)
 }
+fcsFilesAll =sample(fcsFilesAll,length(fcsFilesAll),replace = FALSE)
+
 fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 15))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
@@ -350,27 +354,48 @@ plotP2 <- function(gs1) {
                mapping = aes(x = "CD11C", y = "CD123"),
                subset = "Dendritic") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
+  
+  
+  empty <- ggplot()+geom_point(aes(1,1), colour="white")+
+    theme(axis.ticks=element_blank(), 
+          panel.background=element_blank(), 
+          axis.text.x=element_blank(), axis.text.y=element_blank(),           
+          axis.title.x=element_blank(), axis.title.y=element_blank())      
+  scatter =   ggcyto(gs1,
+                     mapping = aes(x = "CD14", y = "CD16"),
+                     subset = "D_NK_M") +
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("NonClassT")+geom_stats("ClassT")
+  
+  
+  hist_top =   ggcyto(gs1,
+                      mapping = aes(x = "CD14"),
+                      subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300) 
+  hist_right =   ggcyto(gs1,
+                        mapping = aes(x = "CD16"),
+                        subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+  
+  grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
+  
 
-  grid.arrange(
-    as.ggplot(t1),
-    as.ggplot(t2),
-    as.ggplot(t3),
-    as.ggplot(t4),
-    as.ggplot(t5),
-    as.ggplot(t6_1),
-    as.ggplot(t7),
-    # as.ggplot(t8),
-    as.ggplot(t9),
-    as.ggplot(t10),
-    as.ggplot(t11),
-    as.ggplot(t12),
-    as.ggplot(t12.1),
-    as.ggplot(t13),
-
-
-    ncol = 2
-  )
+  # grid.arrange(
+  #   as.ggplot(t1),
+  #   as.ggplot(t2),
+  #   as.ggplot(t3),
+  #   as.ggplot(t4),
+  #   as.ggplot(t5),
+  #   as.ggplot(t6_1),
+  #   as.ggplot(t7),
+  #   # as.ggplot(t8),
+  #   as.ggplot(t9),
+  #   as.ggplot(t10),
+  #   as.ggplot(t11),
+  #   as.ggplot(t12),
+  #   as.ggplot(t12.1),
+  #   as.ggplot(t13),
+  #   ncol = 2
+  # )
 }
+
 compFrame <-
   function(frame,
            file,
