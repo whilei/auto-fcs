@@ -68,7 +68,7 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1633999_037* ./
 
 
 
-rev=CD14_CD16_83_76_68/
+rev=CD14_CD16_83_76_68_V2/
 mkdir ./Live_Single_PBMCs__SSC
 mkdir ./Tcells__CD3
 mkdir ./cytotoxic_Tcells

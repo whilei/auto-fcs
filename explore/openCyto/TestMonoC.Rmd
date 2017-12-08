@@ -1,0 +1,70 @@
+---
+title: "TestMonoC"
+author: "JL"
+date: "12/8/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+orig = orig[which(orig$MONOc<1000),]
+latest = read.delim("/Volumes/Beta/data/flow/results_r25_6/all.freq.metrics.txt", stringsAsFactors = FALSE)
+latest$ID=gsub(".* ","",latest$name)
+latest$ID=gsub("one_","",latest$ID)
+latest$ID=gsub("two_","",latest$ID)
+latest$ID=gsub("ZF_","",latest$ID)
+latest$ID=gsub("_.*","",latest$ID)
+totalCounts= read.delim("/Volumes/Beta/data/flow/results_r25_6/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+
+latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
+# latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
+
+table(latestM$ID %in% orig$Study.ID )
+
+merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
+merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+
+cor.test(merge$freqParent,merge$MONOc,method = "pearson")
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+ ggplot(merge,aes(x=freqParent,y=MONO)) +
+  geom_point() +
+  xlab("OC freq Mono") + 
+  ylab("Manual percent Mono")+t2
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
