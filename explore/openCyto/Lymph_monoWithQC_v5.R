@@ -126,15 +126,15 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+# fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 
 if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
   fcsFilesAll =c(fcsFilesAll,filesToDefInclude)
 }
-fcsFilesAll =sample(fcsFilesAll,length(fcsFilesAll),replace = FALSE)
+# fcsFilesAll =sample(fcsFilesAll,length(fcsFilesAll),replace = FALSE)
 
-fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 15))
+fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 25))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)
