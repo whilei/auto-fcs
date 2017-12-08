@@ -112,7 +112,7 @@ gt_mono <-
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=-1
+sub=25
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
@@ -126,7 +126,7 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+fcsFilesAll =fcsFilesAll[grepl("PANEL 1",fcsFilesAll)]
 
 if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
