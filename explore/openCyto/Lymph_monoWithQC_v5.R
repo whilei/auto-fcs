@@ -85,7 +85,7 @@ spliceFile = "TBSpliceFortessa.txt"
 
 runFlowAI = FALSE
 inputDir = "/Volumes/Beta/data/flow/fcs3/"
-outputDir = "/Volumes/Beta/data/flow/CD14_r/"
+outputDir = "/Volumes/Beta/data/flow/P2_CD14/"
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph, outputDir = outputDir,spliceFile = spliceFile)
 
@@ -112,7 +112,7 @@ gt_mono <-
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=25
+sub=60
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
@@ -126,7 +126,9 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 1",fcsFilesAll)]
+fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+# fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
+
 
 if(sub>0){
   fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)

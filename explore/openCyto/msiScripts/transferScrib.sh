@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+* ./#!/usr/bin/env bash 
 
 
 scp msi:/home/thyagara/shared/HRS/annotation/r23/panel1/*/*cytotoxic_Tcells-CD8+.png ./
@@ -252,6 +252,23 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1638751_008* ./
 
 
 
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1638961* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1631435* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1631858* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1638966* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1642058* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632566* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632515* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632770* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1634989* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1641791* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1635011* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632708* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1641978* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1642773* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1638218* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1637924* ./
 
 
-* ./
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*2_FORTESSA* ./
