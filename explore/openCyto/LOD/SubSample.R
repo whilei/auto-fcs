@@ -10,7 +10,7 @@ subSample <- function(fcsFile, outputDir, events) {
   baseOut = paste0(outputDir, basename(gsub(".fcs", "", fixed = TRUE, fcsFile)))
   frame = read.FCS(fcsFile)
   maxEvents = length(exprs(frame)[, "FSC-H"])
-  write.FCS(frameSub, paste0(baseOut, "_All_", maxEvents, ".fcs"))
+  write.FCS(frame, paste0(baseOut, "_All_", maxEvents, ".fcs"))
   
   for (eventCount in events) {
     sampler = sample(1:maxEvents, eventCount, replace = maxEvents < eventCount)
