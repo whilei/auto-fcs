@@ -79,7 +79,7 @@ mkdir ./CD14_review
 mkdir ./HelperT
 
 
-scp msi  msi:/home/thyagara/shared/HRS/annotation/$rev"panel2"/*/*Classical_monocytes__CD16-*.png ./CD14_review
+scp  msi:/home/thyagara/shared/HRS/annotation/$rev"panel2"/*/*Classical_monocytes__CD16-*.png ./CD14_review
 
 scp msi:/home/thyagara/shared/HRS/annotation/$rev"panel1"/*/*cytotoxic_Tcells-CD8+.png ./cytotoxic_Tcells
 
@@ -273,6 +273,7 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1634395_012* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1636954_034* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1635651_029* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1636276_024* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1642916_004* ./
 
 
 .
@@ -282,7 +283,7 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*2_FORTESSA* ./
 
  rsync  -zarv --include="*/" --include="*.pdf" --exclude="*" msi:/scratch.global/lanej/flow/full/results_r25_7/FULL/openCytoBatch_*/ ./
 
-
+scp msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch*/panel2Vis/*/*Classical_monocytes__CD16-*.png ./
 
  for i in `seq 0 31` ;do
 

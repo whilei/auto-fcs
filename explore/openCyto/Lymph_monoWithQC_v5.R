@@ -126,7 +126,7 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+# fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 # fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
 
 
