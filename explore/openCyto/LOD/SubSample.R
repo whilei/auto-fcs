@@ -20,13 +20,14 @@ subSample <- function(fcsFile, outputDir, events) {
   }
 }
 
-inputDir = "/Volumes/Beta/data/flow/ctrlFCS/"
+inputDir = "/scratch.global/lanej/flow/full/ctrlFCS/"
 
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
              full = TRUE)
 
+ 
 # numFiles = 10
 # p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 # p1Files = sample(p1Files, numFiles, replace = FALSE)
