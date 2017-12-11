@@ -27,14 +27,15 @@ fcsFilesAll <-
              pattern = ".fcs",
              full = TRUE)
 
-numFiles = 10
-p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
-p1Files = sample(p1Files, numFiles, replace = FALSE)
-p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
-p2Files = sample(p2Files, numFiles, replace = FALSE)
+# numFiles = 10
+# p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
+# p1Files = sample(p1Files, numFiles, replace = FALSE)
+# p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
+# p2Files = sample(p2Files, numFiles, replace = FALSE)
+# 
+# fcsFilesRun = c(p1Files, p2Files)
 
-fcsFilesRun = c(p1Files, p2Files)
-
+fcsFilesRun =fcsFilesAll
 for (fcsFile in fcsFilesRun) {
   subSample(fcsFile = fcsFile,
             outputDir = outputDir,
