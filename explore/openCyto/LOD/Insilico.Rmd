@@ -2,29 +2,32 @@
 title: "Insilco LOD"
 author: "JL"
 date: "12/11/2017"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
+
+
+
+
 ```{r setup, include=FALSE}
-orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
-orig = orig[which(orig$MONOc<1000),]
-latest = read.delim("/Volumes/Beta/data/flow/results_r25_6/all.freq.metrics.txt", stringsAsFactors = FALSE)
-latest$ID=gsub(".* ","",latest$name)
-latest$ID=gsub("one_","",latest$ID)
-latest$ID=gsub("two_","",latest$ID)
-latest$ID=gsub("ZF_","",latest$ID)
-latest$ID=gsub("_.*","",latest$ID)
-totalCounts= read.delim("/Volumes/Beta/data/flow/results_r25_6/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+totals = read.delim("/Volumes/Beta/data/flow/LODCtrls/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs = read.delim("/Volumes/Beta/data/flow/LODCtrls/all.freq.metrics.txt", stringsAsFactors = FALSE)
 
-latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
-# latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
+merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
 
-table(latestM$ID %in% orig$Study.ID )
 
-merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
-merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
-
-cor.test(merge$freqParent,merge$MONOc,method = "pearson")
+merge$ID=gsub(".* ","",merge$FILE)
+merge$ID=gsub(".*Ctl-","",merge$ID)
+merge$COUNTS=gsub(".fcs","",merge$ID,fixed = TRUE)
+merge$COUNTS=gsub(".*_","",merge$COUNTS)
+merge$COUNTS=as.numeric(merge$COUNTS)
+merge$ID=gsub("_.*","",merge$ID)
+merge$ORIGINAL_COUNT = "FALSE"
+original = grep("All",merge$FILE)
+merge$ORIGINAL_COUNT[original]=TRUE
+# merge=merge[which(merge$COUNTS<=merge$TOTAL_COUNTS),]
 
 library(ggplot2)
 t2 <- theme(
@@ -42,9 +45,43 @@ t2 <- theme(
 )
 theme_set(theme_grey(base_size = 18)) 
 
- ggplot(merge,aes(x=freqParent,y=MONO)) +
+
+```
+
+```{r fig.height=10,fig.width=12,echo=FALSE}
+pops=c("Tcells (CD3+ CD19-)","B cells (CD3- CD19+)","Helper Tcells-CD4+","cytotoxic Tcells-CD8+","MONOCYTES (CD14+)")
+failData=merge[which(is.na(merge$Parent)|merge$Manual=="Tcells (CD3+ CD19-)"|merge$Manual=="MONOCYTES (CD14+)"),]
+failData=failData[which(failData$ORIGINAL_COUNT=="FALSE"),]
+
+plotFailData = data.frame(EVENT_COUNT=numeric(),FAIL=character(),NUMBER=numeric(),PANEL=character())
+for(panel in unique(failData$PANEL) ){
+  tmp = failData[which(failData$PANEL==panel),]
+  t=as.data.frame(table(tmp$COUNTS,is.na(tmp$Manual)))
+  colnames(t)=c("EVENT_COUNT","FAIL","NUMBER");
+  t$PANEL=panel
+
+  pbf=ggplot(t,aes(x=EVENT_COUNT,y=NUMBER,colour=FAIL,size=FAIL)) +
   geom_point() +
-  xlab("OC freq Mono") + 
-  ylab("Manual percent Mono")+t2
+  xlab("Num Events Sampled") + 
+  ylab(paste0("COUNT"))+t2+ggtitle(panel)
+  print(pbf)
+}
+
+
+#   
+# 
+for(pop in pops){
+ p=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID,size=ORIGINAL_COUNT)) +
+  geom_point() +
+  xlab("Num Events Sampled") +
+  ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x) +ggtitle(paste0("POP=",pop))+ylim(0,1)
+
+ print(p)
+  pb=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID)) +
+  geom_boxplot() +
+  xlab("Num Sampled") +
+  ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x)+ggtitle(paste0("POP=",pop))+ylim(0,1)
+  print(pb)
+}
 
 ```

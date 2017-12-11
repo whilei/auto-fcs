@@ -1,5 +1,6 @@
 
 
+
 outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS/"
 events = c(2:10 %o% 10 ^ (3:5))
 
@@ -13,10 +14,12 @@ subSample <- function(fcsFile, outputDir, events) {
   write.FCS(frame, paste0(baseOut, "_All_", maxEvents, ".fcs"))
   
   for (eventCount in events) {
-    sampler = sample(1:maxEvents, eventCount, replace = maxEvents < eventCount)
-    frameSub = frame[sampler, ]
-    subOut = paste0(baseOut, "_", eventCount, ".fcs")
-    write.FCS(frameSub, subOut)
+    if (maxEvents > eventCount) {
+      sampler = sample(1:maxEvents, eventCount, replace = FALSE)
+      frameSub = frame[sampler,]
+      subOut = paste0(baseOut, "_", eventCount, ".fcs")
+      write.FCS(frameSub, subOut)
+    }
   }
 }
 
@@ -27,16 +30,16 @@ fcsFilesAll <-
              pattern = ".fcs",
              full = TRUE)
 
- 
+
 # numFiles = 10
 # p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 # p1Files = sample(p1Files, numFiles, replace = FALSE)
 # p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
 # p2Files = sample(p2Files, numFiles, replace = FALSE)
-# 
+#
 # fcsFilesRun = c(p1Files, p2Files)
 
-fcsFilesRun =fcsFilesAll
+fcsFilesRun = fcsFilesAll
 for (fcsFile in fcsFilesRun) {
   subSample(fcsFile = fcsFile,
             outputDir = outputDir,
