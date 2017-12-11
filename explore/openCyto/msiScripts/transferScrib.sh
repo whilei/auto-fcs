@@ -272,6 +272,7 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1634395_012* ./
 
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1636954_034* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1635651_029* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1636276_024* ./
 
 
 .
@@ -287,5 +288,5 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*2_FORTESSA* ./
 
  	mkdir "b_"$i
  	
- 	scp "msi:/scratch.global/lanej/flow/full/results_r25_7/FULL/openCytoBatch_$i/*.pdf" "./b_$i"
+ 	rsync "msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch_$i/*.pdf" "./b_$i"
 done 
