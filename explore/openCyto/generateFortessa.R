@@ -33,7 +33,7 @@ convertP2ToFortessa <- function(templateFile, outputDir) {
   template = read.delim(templateFile, stringsAsFactors = FALSE)
   # p2 might not need CD3 cut  
   template[which(template$pop == "CD19+/-"), c("gating_args")] = "gate_range=c(100,155),adjust=1.5"
-  template[which(template$alias == "Mono"), c("gating_args")] = "tol=5e-4, positive = TRUE,side='left',num_peaks=2,ref_peak=2,adjust=1.5,strict=FALSE,max=165"
+  template[which(template$alias == "Mono"), c("gating_args")] = "tol=5e-4, positive = TRUE,side='left',num_peaks=2,ref_peak=2,adjust=2,strict=FALSE,max=160"
   
   write.table(
     x = template,

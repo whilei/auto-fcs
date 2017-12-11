@@ -270,7 +270,11 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1638218* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1637924* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1634395_012* ./
 
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1636954_034* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1635651_029* ./
 
+
+.
 
 scp msi:/scratch.global/lanej/flow/full/fcs/*2_FORTESSA* ./
 
