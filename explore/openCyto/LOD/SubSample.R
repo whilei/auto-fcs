@@ -1,7 +1,7 @@
 
 
 outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS/"
-events = c(1:10 %o% 10 ^ (3:5))
+events = c(2:10 %o% 10 ^ (3:5))
 
 
 subSample <- function(fcsFile, outputDir, events) {
