@@ -1,7 +1,7 @@
 
 
-outputDir = "/Volumes/Beta/data/flow/isLOD/"
-events = c(2:10 %o% 10 ^ (3:5))
+outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS/"
+events = c(1:10 %o% 10 ^ (3:5))
 
 
 subSample <- function(fcsFile, outputDir, events) {
@@ -20,7 +20,7 @@ subSample <- function(fcsFile, outputDir, events) {
   }
 }
 
-inputDir = "/Volumes/Beta/data/flow/fcs3/"
+inputDir = "/Volumes/Beta/data/flow/ctrlFCS/"
 
 fcsFilesAll <-
   list.files(inputDir,
