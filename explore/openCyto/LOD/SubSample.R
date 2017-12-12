@@ -31,7 +31,7 @@ fcsFilesAll <-
              full = TRUE)
 
 
-numFiles = 100
+numFiles = 20
 p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 p1Files = sample(p1Files, numFiles, replace = FALSE)
 p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
