@@ -1,7 +1,7 @@
 
 
 
-outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS/"
+outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Reg/"
 events = c(2:10 %o% 10 ^ (3:5))
 
 
@@ -23,7 +23,7 @@ subSample <- function(fcsFile, outputDir, events) {
   }
 }
 
-inputDir = "/scratch.global/lanej/flow/full/ctrlFCS/"
+inputDir = "/scratch.global/lanej/flow/full/fcs/"
 
 fcsFilesAll <-
   list.files(inputDir,
@@ -31,13 +31,13 @@ fcsFilesAll <-
              full = TRUE)
 
 
-# numFiles = 10
-# p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
-# p1Files = sample(p1Files, numFiles, replace = FALSE)
-# p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
-# p2Files = sample(p2Files, numFiles, replace = FALSE)
-#
-# fcsFilesRun = c(p1Files, p2Files)
+numFiles = 100
+p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
+p1Files = sample(p1Files, numFiles, replace = FALSE)
+p2Files  = fcsFilesAll[grepl("PANEL 2", fcsFilesAll)]
+p2Files = sample(p2Files, numFiles, replace = FALSE)
+
+fcsFilesRun = c(p1Files, p2Files)
 
 fcsFilesRun = fcsFilesAll
 for (fcsFile in fcsFilesRun) {
