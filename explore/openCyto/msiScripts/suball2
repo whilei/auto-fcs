@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
  for file in *.pbs; do    qsub "$file"; done
 
  for file in *.pbs; do    qp "$file"; done
@@ -6,3 +8,20 @@
 
 
   for file in *.pbs; do    qsub "$file"; done
+
+
+ for i in `seq 0 9` ;do
+ 	qsub InsilicoLOD.sh
+done 
+
+
+ for file in *.pbs; do 
+    qp "$file"; 
+ done
+
+for file in *.sorted.bam; do
+ # new=$(md5sum "$file" | awk '{print $1}')
+ newBam=$(echo "$file" | sed -e "s/.bam/.dedup.bam/")
+ echo $newBam
+ #cp "$file" <destination>/
+done

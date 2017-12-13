@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
 
-revIn=r25_8/
-revOut=CD14_CD16_83_76_68_V3/
+revIn=r25_9full/
+revOut=r25/
 
 baseInDir="/scratch.global/lanej/flow/full/results_"$revIn"/FULL/"
 outDir=/home/thyagara/shared/HRS/annotation/$revOut
