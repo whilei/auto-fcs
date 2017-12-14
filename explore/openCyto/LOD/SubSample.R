@@ -31,7 +31,7 @@ fcsFilesAll <-
              full = TRUE)
 
 
-numFiles = 200
+numFiles = 250
 
 p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 p1Files = sample(p1Files, numFiles, replace = FALSE)
@@ -42,6 +42,7 @@ fcsFilesRun = c(p1Files, p2Files)
 
 # fcsFilesRun = fcsFilesAll
 for (fcsFile in fcsFilesRun) {
+  print(paste0("sampling file ",fcsFile))
   subSample(fcsFile = fcsFile,
             outputDir = outputDir,
             events = events)

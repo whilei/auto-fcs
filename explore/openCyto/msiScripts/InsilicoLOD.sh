@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=32000mb,walltime=6:00:00,nodes=1:ppn=1
+#PBS -l mem=32000mb,walltime=46:00:00,nodes=1:ppn=1
 
 module load java
 module load perl
