@@ -23,15 +23,25 @@ subSample <- function(fcsFile, outputDir, events) {
   }
 }
 
-inputDir = "/scratch.global/lanej/flow/full/fcs/"
-
-fcsFilesAll <-
-  list.files(inputDir,
-             pattern = ".fcs",
-             full = TRUE)
-
-
+  inputDir = "/scratch.global/lanej/flow/full/fcs/"
+  
+  fcsFilesAll <-
+    list.files(inputDir,
+               pattern = ".fcs",
+               full = TRUE)
+  
+  
 numFiles = 250
+not=!grepl("Compensation",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[not]
+not=!grepl("ASMIC",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[not]
+not=!grepl("PILOT",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[not]
+not=!grepl("Specimen",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[not]
+not=!grepl("settings",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[not]
 
 p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 p1Files = sample(p1Files, numFiles, replace = FALSE)
