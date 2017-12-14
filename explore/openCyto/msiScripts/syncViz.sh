@@ -8,10 +8,14 @@ outDir=/home/thyagara/shared/HRS/annotation/$revOut
 # outDir=/scratch.global/flow/$revOut
 mkdir -p $outDir"panel1/"
 mkdir -p $outDir"panel2/"
+cp -ur $baseInDir*/panel1Vis/* $outDir"panel1/"
+cp -ur $baseInDir*/panel2Vis/* $outDir"panel2/"
 
-rsync -rv $baseInDir*/panel2Vis/* $outDir"panel2/"
 
-rsync -rv $baseInDir*/panel1Vis/* $outDir"panel1/"
+rsync -r $baseInDir*/panel1Vis/* $outDir"panel1/"
+
+rsync -r $baseInDir*/panel2Vis/* $outDir"panel2/"
+
 
 
 

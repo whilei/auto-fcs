@@ -1,0 +1,87 @@
+---
+title: "Insilco LOD"
+author: "JL"
+date: "12/11/2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
+
+
+
+```{r setup, include=FALSE}
+totals = read.delim("/Volumes/Beta/data/flow/LODCtrlsV3/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs = read.delim("/Volumes/Beta/data/flow/LODCtrlsV3/all.freq.metrics.txt", stringsAsFactors = FALSE)
+totals$SUCCESS=totals$FILE %in% freqs$name
+merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
+
+use=grep("_F",merge$FILE)
+merge=merge[use,]
+fail = merge[which(!merge$SUCCESS),]
+
+merge$ID=gsub(".*_F","F",merge$FILE)
+merge$ID=gsub("_.*","",merge$ID)
+
+merge$ORIGINAL_COUNT = "FALSE"
+original = grep("All",merge$FILE)
+merge$ORIGINAL_COUNT[original]=TRUE
+# merge=merge[which(merge$COUNTS<=merge$TOTAL_COUNTS),]
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+```
+
+```{r fig.height=10,fig.width=12,echo=FALSE}
+pops=c("Tcells (CD3+ CD19-)","B cells (CD3- CD19+)","Helper Tcells-CD4+","cytotoxic Tcells-CD8+","MONOCYTES (CD14+)")
+failData=merge[which(!merge$SUCCESS|merge$Manual=="Tcells (CD3+ CD19-)"|merge$Manual=="MONOCYTES (CD14+)"),]
+failData=failData[which(failData$ORIGINAL_COUNT=="FALSE"),]
+
+plotFailData = data.frame(EVENT_COUNT=numeric(),FAIL=character(),NUMBER=numeric(),PANEL=character())
+for(panel in unique(failData$PANEL) ){
+  tmp = failData[which(failData$PANEL==panel),]
+  t=as.data.frame(table(tmp$TOTAL_COUNTS,is.na(tmp$Manual)))
+  colnames(t)=c("EVENT_COUNT","FAIL","NUMBER");
+  t$PANEL=panel
+
+  pbf=ggplot(t,aes(x=EVENT_COUNT,y=NUMBER,colour=FAIL,size=FAIL)) +
+  geom_point() +
+  xlab("Num Events Sampled") + 
+  ylab(paste0("COUNT"))+t2+ggtitle(panel) 
+  print(pbf)
+}
+
+
+#   
+# 
+# for(pop in pops){
+#  p=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID,size=ORIGINAL_COUNT)) +
+#   geom_point() +
+#   xlab("Num Events Sampled") +
+#   ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x) +ggtitle(paste0("POP=",pop))+ylim(0,1)
+# 
+#  print(p)
+#   pb=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID)) +
+#   geom_boxplot() +
+#   xlab("Num Sampled") +
+#   ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x)+ggtitle(paste0("POP=",pop))+ylim(0,1)
+#   print(pb)
+# }
+
+```
