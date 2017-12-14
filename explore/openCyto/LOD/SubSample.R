@@ -4,7 +4,6 @@
 outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Reg/"
 events = c(2:10 %o% 10 ^ (3:5))
 
-
 subSample <- function(fcsFile, outputDir, events) {
   require(flowCore)
   
