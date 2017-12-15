@@ -1,0 +1,7 @@
+grep "Submit"  *46162*.o |wc -l
+grep "Submit"  *4617*.o |wc -l
+
+find ./openCytoBatch_*/gatesRename/ -type f -name *Rename*.wsp|wc -l
+find ./openCytoBatch_*/gatesRename/ -type f -name *Rename*.wsp |grep "PANEL 1\|PANEL 2"|wc -l
+
+grep "TIM"  *46162*.o 

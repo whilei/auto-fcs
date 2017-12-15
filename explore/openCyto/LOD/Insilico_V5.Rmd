@@ -20,12 +20,13 @@ merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
 #over
 #_BC-D24-S+F_72HRS
 #Ctl
-dontCare <- c("24HRS", "over","D24","Ctl")
+dontCare <- c("24HRS", "over","D24","Ctl","SEPM","DAYS","ASMIC","bad")
 nonHZ=!grepl(paste(dontCare,collapse="|"),merge$FILE)
 merge=merge[nonHZ,]
+merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
 
-use=grep("_F",merge$FILE)
-merge=merge[use,]
+# use=grep("_F",merge$FILE)
+# merge=merge[use,]
 fail = merge[which(!merge$SUCCESS),]
 
 merge$ID=gsub(".*_F","F",merge$FILE)
@@ -44,9 +45,9 @@ t2 <- theme(
   # panel.grid.major.x = element_blank(),
   panel.grid.minor.x = element_blank(),
   # panel.grid.major.y = element_blank(),
-  panel.grid.minor.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
   panel.border = element_blank(),
-  panel.background = element_blank(),
+  # panel.background = element_blank(),
   # legend.position="none",
   axis.text.x=element_text(angle=90,hjust=1)
 )
