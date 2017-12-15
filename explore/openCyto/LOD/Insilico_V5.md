@@ -26,3 +26,9 @@ JL
 ```
 
 ![](Insilico_V5_files/figure-html/unnamed-chunk-1-3.png)<!-- -->
+
+```
+## Warning: Using size for a discrete variable is not advised.
+```
+
+![](Insilico_V5_files/figure-html/unnamed-chunk-1-4.png)<!-- -->

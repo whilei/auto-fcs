@@ -63,7 +63,9 @@ failData=failData[which(failData$ORIGINAL_COUNT=="FALSE"),]
 
 plotFailData = data.frame(EVENT_COUNT=numeric(),FAIL=character(),NUMBER=numeric(),PANEL=character())
 for(panel in unique(failData$PANEL) ){
-  tmp = failData[which(failData$PANEL==panel),]
+  if(panel!="panel_undetermined"){
+  for(machine in unique(failData$MACHINE.x)){
+  tmp = failData[which(failData$PANEL==panel&failData$MACHINE.x==machine),]
   t=as.data.frame(table(tmp$TOTAL_COUNTS,is.na(tmp$Manual)))
   colnames(t)=c("EVENT_COUNT","FAIL","NUMBER");
   t$PANEL=panel
@@ -71,8 +73,10 @@ for(panel in unique(failData$PANEL) ){
   pbf=ggplot(t,aes(x=EVENT_COUNT,y=NUMBER,colour=FAIL,size=FAIL)) +
   geom_point() +
   xlab("Num Events Sampled") + 
-  ylab(paste0("COUNT"))+t2+ggtitle(panel) 
+  ylab(paste0("COUNT"))+t2+ggtitle(paste0(panel, " ", machine)) 
   print(pbf)
+  }
+  }
 }
 
 
