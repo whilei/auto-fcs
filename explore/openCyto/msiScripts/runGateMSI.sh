@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_16full
+rev=r25_17full
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -29,7 +29,7 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/insi
 
 
 cd "$OUTDIR"
-sed -i "s/gate_tail/tailgate/g" "$OUTDIR/FULL/*.RScript"
+sed -i "s/gate_tail/tailgate/g" $OUTDIR/FULL/*.RScript
 
 #set up viz
 
