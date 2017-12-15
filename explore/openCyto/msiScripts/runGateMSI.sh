@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_15full
+rev=r25_16full
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -29,7 +29,7 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/insi
 
 
 cd "$OUTDIR"
-
+sed -i "s/rev=r21/rev=$rev/g" "$OUTDIR/FULL/"
 
 #set up viz
 
@@ -42,7 +42,7 @@ cp $coleInDir"submit.sh" $coleOutDir"submit.sh"
 lowPriorityFile=/scratch.global/cole0482/fcsVizPipe/lowPriority.txt
 priorityFile=/scratch.global/cole0482/fcsVizPipe/highPriority.txt
 
-sed -i "s/rev=r21/rev=$rev/g" $coleOutDir/*/*.qsub
+sed -i "s/gate_tail/tailgate/g" $coleOutDir/*/*.qsub
 
 batchIters=$(($batch-1))
 for i in `seq 0 $batchIters`;do

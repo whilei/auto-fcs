@@ -1,3 +1,4 @@
+set.seed(42)
 library(openCyto)
 library(flowCore)
 library(data.table)
