@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25LODTest_14full
+rev=r25_15full
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -8,8 +8,8 @@ p2Full=$REPO_DIR/explore/openCyto/dc.dev.LSR.c.txt
 jar=/home/pankrat2/lane0212/genvisisOC.jar
 p2=$OUTDIR"p2Trim.txt"
 p1=$OUTDIR"p1Trim.txt"
-batch=64
-threads=3
+batch=40
+threads=4
 
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1

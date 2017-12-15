@@ -32,13 +32,17 @@ file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
 
 file="2017-02-27_PANEL 1_DHS_group one_F1653150_021.fcs"
 
-file="2016-06-27_PANEL 1_DHS_Group one_F1631267_006.fcs"
 file="2016-11-18_PANEL 1_HB_HRS-P1-GROUP1_F1635598_022.fcs"
 
 file="2017-04-07_PANEL 1_FORTESSA_RR_group two_F1640505_027.fcs"
-file="2017-02-01_PANEL 1_ZF_group one_F1652860_020.fcs"
 file="2017-01-30_PANEL 1_DHS_Group one_F1652689_006.fcs"
 file="2017-07-24_PANEL 1_LSR_DHS_Group one_ZF_F1637634_027.fcs"
+
+
+file="2016-06-27_PANEL 1_DHS_Group one_F1631267_006.fcs"
+file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
+
+
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
@@ -136,4 +140,10 @@ hist_top =   ggcyto(gs1,
     
 grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
 
-   
+  
+  ggcyto(gs1,
+              mapping = aes(x = "CD3", y = "CD19"),
+              subset = "PE-A-") +
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate() +geom_stats()
+    
+     

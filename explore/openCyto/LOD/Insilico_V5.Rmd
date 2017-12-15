@@ -35,6 +35,8 @@ merge$ID=gsub("_.*","",merge$ID)
 merge$ORIGINAL_COUNT = "FALSE"
 original = grep("All",merge$FILE)
 merge$ORIGINAL_COUNT[original]=TRUE
+
+merge[merge$ORIGINAL_COUNT,]$TOTAL_COUNTS
 # merge=merge[which(merge$COUNTS<=merge$TOTAL_COUNTS),]
 
 library(ggplot2)

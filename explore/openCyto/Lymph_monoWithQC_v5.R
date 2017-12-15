@@ -59,9 +59,35 @@ library(flowAI)
   }
 }
 
+.errorCorrectTailgate <- function(fr, pp_res, channels = NA, filterId="",...) {
+  
+
+  
+  tryCatch({
+    ## This is what I want to do:
+    g = openCyto::gate_tail(fr = fr,
+                            channel = channels,
+                            filterId = filterId,
+                            ...)}, 
+      
+    ## But if an error occurs, do the following: 
+    error=function(error_message) {
+      print("tailgate failed, switching to single peak version")
+      args=list(...)
+      args$num_peaks=1
+      args$ref_peak = 1
+      args$fr=fr
+      args$channel=channels
+      args$filterId=filterId
+      do.call(openCyto::gate_tail,args)
+    }
+  )
+}
+
 
 registerPlugins(fun =.intersectGate, methodName = "intersectGate",dep='mvtnorm',"gating")
 registerPlugins(fun =.intersectGatePos, methodName = "intersectGatePos",dep='mvtnorm',"gating")
+registerPlugins(fun =.errorCorrectTailgate, methodName = "errorCorrectTailgate",dep='mvtnorm',"gating")
 
 registerPlugins(fun = .flowDensity,
                 methodName = "flowDensity",
