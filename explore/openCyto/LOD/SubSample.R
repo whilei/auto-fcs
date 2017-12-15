@@ -30,7 +30,7 @@ subSample <- function(fcsFile, outputDir, events) {
                full = TRUE)
   
   
-numFiles = 250
+numFiles = 100
 not=!grepl("Compensation",fcsFilesAll,ignore.case = TRUE)
 fcsFilesAll=fcsFilesAll[not]
 not=!grepl("ASMIC",fcsFilesAll,ignore.case = TRUE)
