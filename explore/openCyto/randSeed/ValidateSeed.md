@@ -94,6 +94,9 @@ JL
 
 ![](F1631927_005.gif)
 
+# Example (really bad outlier)
+
+![](F1638813_029.gif)
 
 
 |       |name.x                                                        |RealAutoParent.x |Manual.x                                           | freqParent.x| freqParent.y|
