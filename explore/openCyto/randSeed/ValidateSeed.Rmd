@@ -71,6 +71,26 @@ pbf
 
 ```
 
+
+# Correlation of frequency of parent counts (panel2)
+
+```{r  echo=FALSE}
+comboP2=combo[which(combo$Panel.x=="panel2"),]
+cor.test(comboP2$freqParent.x,comboP2$freqParent.y)
+cor.test(comboP2$freqParent.x,comboP2$freqParent.y,method = "spearman")
+pbf = ggplot(comboP2, aes(
+  x = freqParent.x,
+  y = freqParent.y,colour=Panel.x  )) +
+  geom_point() +
+  xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) +
+  ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1) 
+pbf
+
+```
+
+
+
+
 # Correlation of frequency of parent counts (> 1% difference)
 
 ```{r  echo=FALSE}

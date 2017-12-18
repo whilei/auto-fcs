@@ -81,6 +81,50 @@ JL
 
 ![](ValidateSeed_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
+
+# Correlation of frequency of parent counts (panel2)
+
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  comboP2$freqParent.x and comboP2$freqParent.y
+## t = 1.7711e+10, df = 139290, p-value < 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  1 1
+## sample estimates:
+## cor 
+##   1
+```
+
+```
+## Warning in cor.test.default(comboP2$freqParent.x, comboP2$freqParent.y, :
+## Cannot compute exact p-value with ties
+```
+
+```
+## 
+## 	Spearman's rank correlation rho
+## 
+## data:  comboP2$freqParent.x and comboP2$freqParent.y
+## S = 0, p-value < 2.2e-16
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+## rho 
+##   1
+```
+
+```
+## Warning: Removed 10074 rows containing missing values (geom_point).
+```
+
+![](ValidateSeed_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
+
+
 # Correlation of frequency of parent counts (> 1% difference)
 
 
@@ -88,7 +132,7 @@ JL
 ## Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
-![](ValidateSeed_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](ValidateSeed_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 # Example
 

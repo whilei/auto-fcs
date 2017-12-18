@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 
-revIn=r25_9full/
+revIn=r25_17full/
 revOut=r25/
 
 baseInDir="/scratch.global/lanej/flow/full/results_"$revIn"/FULL/"
@@ -10,6 +10,10 @@ mkdir -p $outDir"panel1/"
 mkdir -p $outDir"panel2/"
 cp -ur $baseInDir*/panel1Vis/* $outDir"panel1/"
 cp -ur $baseInDir*/panel2Vis/* $outDir"panel2/"
+
+
+
+
 
 
 rsync -r $baseInDir*/panel1Vis/* $outDir"panel1/"
