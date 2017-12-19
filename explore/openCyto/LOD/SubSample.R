@@ -3,8 +3,8 @@ set.seed(42)
 
 outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Ctls/"
 events = c(2:10 %o% 10 ^ (3:5))
-use=events<=600000
-events=events[use]
+use = events <= 600000
+events = events[use]
 
 subSample <- function(fcsFile, outputDir, events, iter) {
   require(flowCore)
@@ -18,11 +18,13 @@ subSample <- function(fcsFile, outputDir, events, iter) {
   }
   
   for (eventCount in events) {
-    if (maxEvents*.5 > eventCount) {
-      sampler = sample(1:maxEvents, eventCount, replace = FALSE)
-      frameSub = frame[sampler, ]
+    if (maxEvents * .5 > eventCount) {
       subOut = paste0(baseOut, "_count_", eventCount, "_iter_", iter, ".fcs")
-      write.FCS(frameSub, subOut)
+      if (!file.exists(subOut)) {
+        sampler = sample(1:maxEvents, eventCount, replace = FALSE)
+        frameSub = frame[sampler,]
+        write.FCS(frameSub, subOut)
+      }
     }
   }
 }
@@ -61,7 +63,7 @@ fcsFilesRun = c(p1Files, p2Files)
 # fcsFilesRun = fcsFilesAll
 for (fcsFile in fcsFilesRun) {
   for (iter in iters) {
-    print(paste0("sampling file ", fcsFile," iteration ",iter))
+    print(paste0("sampling file ", fcsFile, " iteration ", iter))
     subSample(
       fcsFile = fcsFile,
       outputDir = outputDir,
