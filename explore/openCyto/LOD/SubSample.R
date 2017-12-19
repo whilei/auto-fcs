@@ -1,4 +1,3 @@
-set.seed(42)
 
 
 outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Ctls/"
@@ -64,6 +63,7 @@ p2Files = sample(p2Files, numFiles, replace = FALSE)
 fcsFilesRun = c(p1Files, p2Files)
 
 # fcsFilesRun = fcsFilesAll
+set.seed(42)
 for (fcsFile in fcsFilesRun) {
   for (iter in iters) {
     print(paste0("sampling file ", fcsFile, " iteration ", iter))
