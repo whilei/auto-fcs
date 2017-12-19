@@ -9,6 +9,9 @@ outDir=/home/thyagara/shared/HRS/annotation/$revOut
 mkdir -p $outDir"panel1/"
 mkdir -p $outDir"panel2/"
 cp -ur $baseInDir*/panel1Vis/* $outDir"panel1/"
+
+
+
 cp -ur $baseInDir*/panel2Vis/* $outDir"panel2/"
 
 

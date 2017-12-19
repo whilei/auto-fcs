@@ -1,7 +1,7 @@
+set.seed(42)
 
 
-
-outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Reg/"
+outputDir = "/scratch.global/lanej/flow/full/insilicoLODFCS_Ctls/"
 events = c(2:10 %o% 10 ^ (3:5))
 
 subSample <- function(fcsFile, outputDir, events) {
@@ -41,6 +41,9 @@ not=!grepl("Specimen",fcsFilesAll,ignore.case = TRUE)
 fcsFilesAll=fcsFilesAll[not]
 not=!grepl("settings",fcsFilesAll,ignore.case = TRUE)
 fcsFilesAll=fcsFilesAll[not]
+
+use=grepl("Ctl",fcsFilesAll,ignore.case = TRUE)
+fcsFilesAll=fcsFilesAll[use]
 
 p1Files  = fcsFilesAll[grepl("PANEL 1", fcsFilesAll)]
 p1Files = sample(p1Files, numFiles, replace = FALSE)
