@@ -22,7 +22,7 @@ subSample <- function(fcsFile, outputDir, events, iter) {
       subOut = paste0(baseOut, "_count_", eventCount, "_iter_", iter, ".fcs")
       if (!file.exists(subOut)) {
         sampler = sample(1:maxEvents, eventCount, replace = FALSE)
-        frameSub = frame[sampler,]
+        frameSub = frame[sampler, ]
         write.FCS(frameSub, subOut)
       }
     }
@@ -49,6 +49,9 @@ not = !grepl("Specimen", fcsFilesAll, ignore.case = TRUE)
 fcsFilesAll = fcsFilesAll[not]
 not = !grepl("settings", fcsFilesAll, ignore.case = TRUE)
 fcsFilesAll = fcsFilesAll[not]
+not = !grepl("biolegend", fcsFilesAll, ignore.case = TRUE)
+fcsFilesAll = fcsFilesAll[not]
+
 
 use = grepl("Ctl", fcsFilesAll, ignore.case = TRUE)
 fcsFilesAll = fcsFilesAll[use]
