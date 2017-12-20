@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_18full
+rev=r25_19full
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -41,7 +41,7 @@ cp -r $coleInDir"panel1/" $coleOutDir"panel1/"
 cp -r $coleInDir"panel2/" $coleOutDir"panel2/"
 cp $coleInDir"submit.sh" $coleOutDir"submit.sh"
 lowPriorityFile=/scratch.global/cole0482/fcsVizPipe/lowPriority.txt
-priorityFile=/scratch.global/cole0482/fcsVizPipe/highPriority.txt
+priorityFile=$REPO_DIR/explore/openCyto/highPriority.txt
 
 sed -i "s/rev=r21/rev=$rev/g" $coleOutDir/*/*.qsub
 
@@ -53,11 +53,13 @@ for i in `seq 0 $batchIters`;do
     echo "mkdir -p $wspRename" >> $sub
     echo "cp $wsp/*Rename.wsp $wspRename" >> $sub
 
-	outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
-	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
-
     outP2="$OUTDIR/FULL/openCytoBatch_$i/panel2Vis/"
 	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP2 pipe=VIZ panel=2 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
 
+
+	outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
+	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
+
+  
 	
 	done 

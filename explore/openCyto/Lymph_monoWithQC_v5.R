@@ -426,6 +426,7 @@ plotP2 <- function(gs1) {
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   
   
+  
   empty <- ggplot() + geom_point(aes(1, 1), colour = "white") +
     theme(
       axis.ticks = element_blank(),
@@ -436,18 +437,18 @@ plotP2 <- function(gs1) {
       axis.title.y = element_blank()
     )
   scatter =   ggcyto(gs1,
-                     mapping = aes(x = "CD14", y = "CD16"),
-                     subset = "D_NK_M") +
+                     mapping = aes(x = "FSC-W", y = "FSC-H"),
+                     subset = "PE-A") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate() + geom_stats("NonClassT") +
-    geom_stats("ClassT")
+    geom_stats()
   
   
   hist_top =   ggcyto(gs1,
-                      mapping = aes(x = "CD14"),
-                      subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+                      mapping = aes(x = "FSC-W"),
+                      subset = "PE-A") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
   hist_right =   ggcyto(gs1,
-                        mapping = aes(x = "CD16"),
-                        subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+                        mapping = aes(x = "FSC-H"),
+                        subset = "PE-A") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
   
   grid.arrange(
     as.ggplot(hist_top),
@@ -459,7 +460,6 @@ plotP2 <- function(gs1) {
     widths = c(4, 1),
     heights = c(1, 4)
   )
-  
   
   # grid.arrange(
   #   as.ggplot(t1),
