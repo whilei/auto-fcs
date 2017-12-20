@@ -700,16 +700,16 @@ if (!file.exists(metricsFile)) {
             templateToUse = NULL
             if (machine == "FORTESSA") {
               templateToUse = gt_monoFortessa
-              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+              # if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoFortessaSS
                 print(paste0("using special Singlet gate for ", file))
-              }
+              # }
             } else if (machine == "LSR") {
               templateToUse = gt_mono
-              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+              # if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoSS
                 print(paste0("using special Singlet gate for ", file))
-              }
+              # }
             }
             metricBase = compFrame(
               frame = frame,

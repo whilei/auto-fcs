@@ -5,7 +5,7 @@ date: "12/8/2017"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, echo=FALSE,warning=FALSE}
 orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
 orig = orig[which(orig$MONOc<1000),]
 latest = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
@@ -19,14 +19,6 @@ totalCounts= read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.totalCe
 # latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
 # latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
 
-latestM=latest[which(latest$Manual=="cytotoxic Tcells-CD8+"),]
-table(latestM$ID %in% orig$Study.ID )
-
-merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
-merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
-
-cor.test(merge$freqParent,merge$CT,method = "pearson")
-cor.test(merge$freqParent,merge$CT,method = "spearman")
 
 library(ggplot2)
 t2 <- theme(
@@ -44,29 +36,39 @@ t2 <- theme(
 )
 theme_set(theme_grey(base_size = 18)) 
 
- ggplot(merge,aes(x=freqParent,y=MONO)) +
+
+popMaps = list(
+c("Tcells (CD3+ CD19-)", "Tcell"),
+c("cytotoxic Tcells-CD8+", "CT"),
+c("effector cytotoxic Tcells  (CCR7-  CD45RA+)", "E.CT"),
+c("effector memory cytotoxic Tcells (CCR7- , CD45RA-)", "EM.CT"),
+c("Helper Tcells-CD4+", "HT"),
+c("effector memory helper Tcells (CCR7- CD45RA-)", "EM.HT"),
+c("B cells (CD3- CD19+)", "Bcell"),
+c("DC NK MONOCYTES (CD3- CD19-)", "DC.NK.MONO"),
+c("MONOCYTES (CD14+)" ,"MONO")
+)
+
+
+
+for(map in popMaps){
+latestM=latest[which(latest$Manual==map[1]),]
+table(latestM$ID %in% orig$Study.ID )
+
+merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
+merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+
+print(map)
+t1 =cor.test(merge$freqParent,merge[,map[2]],method = "pearson")
+print(map)
+t2=cor.test(merge$freqParent,merge[,map[2]],method = "spearman")
+
+g= ggplot(merge,aes(x=freqParent,y=merge[,map[2]])) +
   geom_point() +
-  xlab("OC freq Mono") + 
-  ylab("Manual percent Mono")+t2
+  xlab(paste0("OC freq ",map[1])) +
+  ylab(paste0("Manual freq ",map[2]))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate ))
+
+print(g)
+}
 
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
