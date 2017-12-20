@@ -44,3 +44,21 @@ convertP2ToFortessa <- function(templateFile, outputDir) {
   )
   return(outFile)
 }
+
+convertP2SpecialSingletGate <- function(templateFile, outputDir) {
+  outFile = paste0(outputDir, basename(templateFile),".specialSinglet.txt")
+  template = read.delim(templateFile, stringsAsFactors = FALSE)
+  # p2 might not need CD3 cut  
+  template[which(template$alias == "SingletsW"), c("gating_args")] = "tol=9e-6,num_peaks=2,ref_peak=2,strict=FALSE,adjust=1.7"
+  template[which(template$alias == "SingletsH"), c("gating_args")] = "tol=5e-7,num_peaks=3,ref_peak=3,strict=FALSE"
+  template[which(template$alias == "SingletsH"), c("parent")] = "SingletsW"
+  
+  write.table(
+    x = template,
+    file = outFile,
+    row.names = FALSE,
+    quote = FALSE,
+    sep = "\t"
+  )
+  return(outFile)
+}

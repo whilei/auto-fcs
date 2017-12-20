@@ -8,23 +8,25 @@ output: html_document
 ```{r setup, include=FALSE}
 orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
 orig = orig[which(orig$MONOc<1000),]
-latest = read.delim("/Volumes/Beta/data/flow/results_r25_6/all.freq.metrics.txt", stringsAsFactors = FALSE)
+latest = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
 latest$ID=gsub(".* ","",latest$name)
 latest$ID=gsub("one_","",latest$ID)
 latest$ID=gsub("two_","",latest$ID)
 latest$ID=gsub("ZF_","",latest$ID)
 latest$ID=gsub("_.*","",latest$ID)
-totalCounts= read.delim("/Volumes/Beta/data/flow/results_r25_6/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+totalCounts= read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
 
-latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
+# latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
 # latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
 
+latestM=latest[which(latest$Manual=="cytotoxic Tcells-CD8+"),]
 table(latestM$ID %in% orig$Study.ID )
 
 merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
 merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
 
-cor.test(merge$freqParent,merge$MONOc,method = "pearson")
+cor.test(merge$freqParent,merge$CT,method = "pearson")
+cor.test(merge$freqParent,merge$CT,method = "spearman")
 
 library(ggplot2)
 t2 <- theme(

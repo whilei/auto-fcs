@@ -16,86 +16,113 @@ library(flowAI)
   
 }
 
-.intersectGate <- function(fr, pp_res, channels = NA, filterId="",...) {
-  xs <- exprs(fr[,c(channels)]) # extract just the parameter values being inspected
-  print(max(xs[,1]))
-  print(min(xs[,1]))
-  
-  if (length(channels) == 2) {
-    print(max(xs[,2]))
-    print(min(xs[,2]))
-    c1 = (c(min(xs[, 1]), max(xs[, 1])))
-    c2 = (c(min(xs[, 2]), max(xs[, 2])))
+.intersectGate <-
+  function(fr,
+           pp_res,
+           channels = NA,
+           filterId = "",
+           ...) {
+    xs <-
+      exprs(fr[, c(channels)]) # extract just the parameter values being inspected
+    print(max(xs[, 1]))
+    print(min(xs[, 1]))
     
-    gate_coordinates = list(c1, c2)
-    names(gate_coordinates) <- channels
-    return(rectangleGate(gate_coordinates))
-  } else{
-    # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
-    gate_coordinates <- list(c(-Inf, min(xs[, 1])))
-    names(gate_coordinates) <- channels
-    rectangleGate(gate_coordinates, filterId = filterId)
-  }
-}
-
-.intersectGatePos <- function(fr, pp_res, channels = NA, filterId="",...) {
-  xs <- exprs(fr[,c(channels)]) # extract just the parameter values being inspected
-  print(max(xs[,1]))
-  print(min(xs[,1]))
-  
-  if (length(channels) == 2) {
-    print(max(xs[,2]))
-    print(min(xs[,2]))
-    c1 = (c(min(xs[, 1]), max(xs[, 1])))
-    c2 = (c(min(xs[, 2]), max(xs[, 2])))
-    
-    gate_coordinates = list(c1, c2)
-    names(gate_coordinates) <- channels
-    return(rectangleGate(gate_coordinates))
-  } else{
-    # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
-    gate_coordinates <- list(c(-Inf, max(xs[, 1])))
-    names(gate_coordinates) <- channels
-    rectangleGate(gate_coordinates, filterId = filterId)
-  }
-}
-
-.errorCorrectTailgate <- function(fr, pp_res, channels = NA, filterId="",...) {
-  
-
-  
-  tryCatch({
-    ## This is what I want to do:
-    g = openCyto::gate_tail(fr = fr,
-                            channel = channels,
-                            filterId = filterId,
-                            ...)}, 
+    if (length(channels) == 2) {
+      print(max(xs[, 2]))
+      print(min(xs[, 2]))
+      c1 = (c(min(xs[, 1]), max(xs[, 1])))
+      c2 = (c(min(xs[, 2]), max(xs[, 2])))
       
-    ## But if an error occurs, do the following: 
-    error=function(error_message) {
-      print("tailgate failed, switching to single peak version")
-      args=list(...)
-      args$num_peaks=1
-      args$ref_peak = 1
-      args$fr=fr
-      args$channel=channels
-      args$filterId=filterId
-      do.call(openCyto::gate_tail,args)
+      gate_coordinates = list(c1, c2)
+      names(gate_coordinates) <- channels
+      return(rectangleGate(gate_coordinates))
+    } else{
+      # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
+      gate_coordinates <- list(c(-Inf, min(xs[, 1])))
+      names(gate_coordinates) <- channels
+      rectangleGate(gate_coordinates, filterId = filterId)
     }
-  )
-}
+  }
+
+.intersectGatePos <-
+  function(fr,
+           pp_res,
+           channels = NA,
+           filterId = "",
+           ...) {
+    xs <-
+      exprs(fr[, c(channels)]) # extract just the parameter values being inspected
+    print(max(xs[, 1]))
+    print(min(xs[, 1]))
+    
+    if (length(channels) == 2) {
+      print(max(xs[, 2]))
+      print(min(xs[, 2]))
+      c1 = (c(min(xs[, 1]), max(xs[, 1])))
+      c2 = (c(min(xs[, 2]), max(xs[, 2])))
+      
+      gate_coordinates = list(c1, c2)
+      names(gate_coordinates) <- channels
+      return(rectangleGate(gate_coordinates))
+    } else{
+      # https://rdrr.io/bioc/openCyto/src/R/gating-functions.R
+      gate_coordinates <- list(c(-Inf, max(xs[, 1])))
+      names(gate_coordinates) <- channels
+      rectangleGate(gate_coordinates, filterId = filterId)
+    }
+  }
+
+.errorCorrectTailgate <-
+  function(fr,
+           pp_res,
+           channels = NA,
+           filterId = "",
+           ...) {
+    tryCatch({
+      ## This is what I want to do:
+      g = openCyto::gate_tail(fr = fr,
+                              channel = channels,
+                              filterId = filterId,
+                              ...)
+    },
+    
+    ## But if an error occurs, do the following:
+    error = function(error_message) {
+      print("tailgate failed, switching to single peak version")
+      args = list(...)
+      args$num_peaks = 1
+      args$ref_peak = 1
+      args$fr = fr
+      args$channel = channels
+      args$filterId = filterId
+      do.call(openCyto::gate_tail, args)
+    })
+  }
 
 
-registerPlugins(fun =.intersectGate, methodName = "intersectGate",dep='mvtnorm',"gating")
-registerPlugins(fun =.intersectGatePos, methodName = "intersectGatePos",dep='mvtnorm',"gating")
-registerPlugins(fun =.errorCorrectTailgate, methodName = "errorCorrectTailgate",dep='mvtnorm',"gating")
+
+
+
+
+registerPlugins(fun = .intersectGate,
+                methodName = "intersectGate",
+                dep = 'mvtnorm',
+                "gating")
+registerPlugins(fun = .intersectGatePos,
+                methodName = "intersectGatePos",
+                dep = 'mvtnorm',
+                "gating")
+registerPlugins(fun = .errorCorrectTailgate,
+                methodName = "errorCorrectTailgate",
+                dep = 'mvtnorm',
+                "gating")
 
 registerPlugins(fun = .flowDensity,
                 methodName = "flowDensity",
                 dep = "flowDensity",
                 "gating")
 
-plotData=TRUE
+plotData = TRUE
 
 panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
 panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
@@ -110,14 +137,22 @@ source(file = "machineType.R")
 source(file = "generateFortessa.R")
 spliceFile = "TBSpliceFortessa.txt"
 
+specialSinglet="specialSingletGate.txt"
+branchFiles = read.delim(specialSinglet, stringsAsFactors = FALSE,header = FALSE)$V1
+branchFiles=gsub(".*/", "", branchFiles)
+
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs3/"
-outputDir = "/Volumes/Beta/data/flow/P2_CD14/"
+inputDir = "/Volumes/Beta/data/flow/fcs4/"
+outputDir = "/Volumes/Beta/data/flow/P2_SS/"
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
-templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph, outputDir = outputDir,spliceFile = spliceFile)
+templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph,
+                                            outputDir = outputDir,
+                                            spliceFile = spliceFile)
 
 templateMono = "~/git/auto-fcs/explore/openCyto/dc.dev.LSR.c.txt"
-templateMonoFortessa =convertP2ToFortessa(templateFile = templateMono, outputDir = outputDir)
+templateMonoSS = convertP2SpecialSingletGate(templateFile = templateMono, outputDir = outputDir)
+templateMonoFortessa = convertP2ToFortessa(templateFile = templateMono, outputDir = outputDir)
+templateMonoFortessaSS = convertP2SpecialSingletGate(templateFile = templateMonoFortessa, outputDir = outputDir)
 
 mapperFile = "/Volumes/Beta/data/flow/fcsMap.txt"
 
@@ -136,10 +171,16 @@ gt_lymphFortessa <-
 gt_mono <-
   gatingTemplate(templateMono, autostart = 1L)
 
+gt_monoSS <-
+  gatingTemplate(templateMonoSS, autostart = 1L)
+
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
-sub=-1
+gt_monoFortessaSS <-
+  gatingTemplate(templateMonoFortessaSS, autostart = 1L)
+
+sub = -1
 fcsFilesAll <-
   list.files(inputDir,
              pattern = ".fcs",
@@ -157,16 +198,16 @@ REPLACE_FOR_NEW_FILES = ""
 # fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
 
 
-if(sub>0){
-  fcsFilesAll =sample(fcsFilesAll,sub,replace = FALSE)
-  fcsFilesAll =c(fcsFilesAll,filesToDefInclude)
+if (sub > 0) {
+  fcsFilesAll = sample(fcsFilesAll, sub, replace = FALSE)
+  fcsFilesAll = c(fcsFilesAll, filesToDefInclude)
 }
 
 fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 25))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)
-
+  
   autoStats$METRIC = metric
   autoStats$GATE = gate
   autoStats$QC = qcVersion
@@ -188,32 +229,32 @@ plotP1 <- function(gs1) {
               mapping = aes(x = "FSC-A", y = "SSC-A"),
               subset = "root") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()  + xlim(c(0, 2e5)) + ylim(c(0, 2e5))
-
+  
   # + scale_x_flowJo_biexp()+ scale_y_flowJo_biexp()
-
+  
   t2 = ggcyto(gs1,
               mapping = aes(x = "FSC-A", y = "SSC-A"),
               subset = "boundary") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()  + xlim(c(0, 2e5)) + ylim(c(0, 2e5))
-
-
+  
+  
   t3 = ggcyto(gs1,
               mapping = aes(x = "FSC-A", y = "SSC-A"),
               subset = "nonDebris") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()  + xlim(c(0, 2e5)) + ylim(c(0, 2e5))
   # + scale_x_flowJo_biexp()+ scale_y_flowJo_biexp()
   
-
+  
   t4 = ggcyto(gs1,
               mapping = aes(x = "FSC-W", y = "FSC-H"),
               subset = "lymph") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t5 = ggcyto(gs1,
               mapping = aes(x = "PE-A", y = "FSC-H"),
               subset = "Singlets") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t6 = ggcyto(gs1,
               mapping = aes(x = "CD3", y = "CD19"),
               subset = "PE-A-") +
@@ -222,58 +263,58 @@ plotP1 <- function(gs1) {
                 mapping = aes(x = "CD3", y = "CD19"),
                 subset = "Tcells") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   # t1Bcell = ggcyto(gs1,
   #                  mapping = aes(x = "CD3", y = "CD19"),
   #                  subset = "CD3-") +
   #   geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t2Bcell = ggcyto(gs1,
                    mapping = aes(x = "IgD", y = "CD27"),
                    subset = "Bcells") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t7 = ggcyto(gs1,
               mapping = aes(x = "CD4", y = "CD8"),
               subset = "Tcells") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   # t7_1 = ggcyto(gs1,
   #               mapping = aes(x = "CD4", y = "CD8"),
   #               subset = "CD4_1") +
   #   geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t8 = ggcyto(gs1,
               mapping = aes(x = "CD4", y = "HLA-DR"),
               subset = "CD4") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t9 = ggcyto(gs1,
               mapping = aes(x = "CCR7", y = "CD45RA"),
               subset = "CD4") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   tCD8Active = ggcyto(gs1,
                       mapping = aes(x = "CD8", y = "HLA-DR"),
                       subset = "CD8") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   t10 = ggcyto(gs1,
                mapping = aes(x = "CCR7", y = "CD45RA"),
                subset = "CD8") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t11 = ggcyto(gs1,
                mapping = aes(x = "CD28", y = "CD27"),
                subset = "CD8/CCR7-CD45RA-") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   t12 = ggcyto(gs1,
                mapping = aes(x = "CD28", y = "CD27"),
                subset = "CD8/CCR7-CD45RA+") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t13 = ggcyto(gs1,
                mapping = aes(x = "CD95", y = "CD28"),
                subset = "CD4") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t14 = ggcyto(gs1,
                mapping = aes(x = "CD95", y = "CD28"),
                subset = "CD8") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   grid.arrange(
     # as.ggplot(t1),
     as.ggplot(t2),
@@ -305,21 +346,21 @@ plotP2 <- function(gs1) {
               mapping = aes(x = "FSC-A", y = "SSC-A"),
               subset = "root") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()  + xlim(c(0, 2e5)) + ylim(c(0, 2e5))
-
-
+  
+  
   t2 = ggcyto(gs1,
               mapping = aes(x = "CD45", y = "SSC-A"),
               subset = "boundary") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
-
-
-
+  
+  
+  
+  
   t3 = ggcyto(gs1,
               mapping = aes(x = "PE-A", y = "SSC-A"),
               subset = "CD45+") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t4 = ggcyto(gs1,
               mapping = aes(x = "FSC-W", y = "FSC-H"),
               subset = "PE-A") +
@@ -328,18 +369,18 @@ plotP2 <- function(gs1) {
               mapping = aes(x = "FSC-A", y = "SSC-A"),
               subset = "Singlets") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   # t6 = ggcyto(gs1,
   #             mapping = aes(x = "FSC-A", y = "SSC-A"),
   #             subset = "nonDebris") +
   #   geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t6_1 = ggcyto(gs1,
                 mapping = aes(x = "CD3", y = "CD19"),
                 subset = "PBMC") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
-
+  
+  
   t7 = ggcyto(gs1,
               mapping = aes(x = "CD14", y = "CD16"),
               subset = "D_NK_M") +
@@ -354,58 +395,72 @@ plotP2 <- function(gs1) {
               mapping = aes(x = "CD14", y = "CD20"),
               subset = "CD14_MinusTrim") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t10 = ggcyto(gs1,
                mapping = aes(x = "CD56", y = "CD16"),
                subset = "CD20-") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t11 = ggcyto(gs1,
                mapping = aes(x = "CD56", y = "CD16"),
                subset = "NKCells") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
+  
   t11.1 = ggcyto(gs1,
-               mapping = aes(x = "CD56", y = "CD16"),
-               subset = "CD16+CD56+") +
+                 mapping = aes(x = "CD56", y = "CD16"),
+                 subset = "CD16+CD56+") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   
   t12 = ggcyto(gs1,
                mapping = aes(x = "CD20", y = "HLA-DR"),
                subset = "CD20-") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
-
-  t12.1 =ggcyto(gs1,
-                mapping = aes(x = "HLA-DR"),
-                subset = "CD20-") + ggcyto_par_set(limits = "data") + geom_gate("HLA-DR+")+ geom_histogram(bins = 300)
-
+  
+  t12.1 = ggcyto(gs1,
+                 mapping = aes(x = "HLA-DR"),
+                 subset = "CD20-") + ggcyto_par_set(limits = "data") + geom_gate("HLA-DR+") + geom_histogram(bins = 300)
+  
   t13 = ggcyto(gs1,
                mapping = aes(x = "CD11C", y = "CD123"),
                subset = "Dendritic") +
     geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   
   
-  empty <- ggplot()+geom_point(aes(1,1), colour="white")+
-    theme(axis.ticks=element_blank(), 
-          panel.background=element_blank(), 
-          axis.text.x=element_blank(), axis.text.y=element_blank(),           
-          axis.title.x=element_blank(), axis.title.y=element_blank())      
+  empty <- ggplot() + geom_point(aes(1, 1), colour = "white") +
+    theme(
+      axis.ticks = element_blank(),
+      panel.background = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank()
+    )
   scatter =   ggcyto(gs1,
                      mapping = aes(x = "CD14", y = "CD16"),
                      subset = "D_NK_M") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("NonClassT")+geom_stats("ClassT")
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate() + geom_stats("NonClassT") +
+    geom_stats("ClassT")
   
   
   hist_top =   ggcyto(gs1,
                       mapping = aes(x = "CD14"),
-                      subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300) 
+                      subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
   hist_right =   ggcyto(gs1,
                         mapping = aes(x = "CD16"),
                         subset = "D_NK_M") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
   
-  grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.position="none"), as.ggplot(hist_right)+coord_flip(), ncol=2, nrow=2, widths=c(4, 1), heights=c(1, 4))
+  grid.arrange(
+    as.ggplot(hist_top),
+    empty,
+    as.ggplot(scatter) + theme(legend.position = "none"),
+    as.ggplot(hist_right) + coord_flip(),
+    ncol = 2,
+    nrow = 2,
+    widths = c(4, 1),
+    heights = c(1, 4)
+  )
   
-
+  
   # grid.arrange(
   #   as.ggplot(t1),
   #   as.ggplot(t2),
@@ -467,7 +522,7 @@ compFrame <-
     metrics = autoCounts
     
     if (!qcVersion) {
-      wsFile = mapper[which(mapper$FCS == file),]$WSP
+      wsFile = mapper[which(mapper$FCS == file), ]$WSP
       if (length(wsFile) > 0) {
         ws <- openWorkspace(wsFile)
         gs <-
@@ -645,8 +700,16 @@ if (!file.exists(metricsFile)) {
             templateToUse = NULL
             if (machine == "FORTESSA") {
               templateToUse = gt_monoFortessa
+              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+                templateToUse = gt_monoFortessaSS
+                print(paste0("using special Singlet gate for ", file))
+              }
             } else if (machine == "LSR") {
               templateToUse = gt_mono
+              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+                templateToUse = gt_monoSS
+                print(paste0("using special Singlet gate for ", file))
+              }
             }
             metricBase = compFrame(
               frame = frame,
@@ -683,7 +746,7 @@ if (!file.exists(metricsFile)) {
             flow_auto_qc(
               frame,
               folder_results = "",
-              mini_report = paste(basename(file), "mini", sep = ),
+              mini_report = paste(basename(file), "mini", sep =),
               fcs_QC = FALSE,
               pen_valueFS = 50,
               remove_from = "FR_FM",

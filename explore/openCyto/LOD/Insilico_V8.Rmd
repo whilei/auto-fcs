@@ -20,12 +20,15 @@ merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
 #over
 #_BC-D24-S+F_72HRS
 #Ctl
-dontCare <- c("24HRS", "over","D24","SEPM","DAYS","ASMIC","bad")
+dontCare <- c("24HRS", "over","D24","SEPM","DAYS","ASMIC","bad","P1","baseline")
 nonHZ=!grepl(paste(dontCare,collapse="|"),merge$FILE)
 
 merge=merge[nonHZ,]
 use=grepl("Ctl",merge$FILE)
 merge=merge[use,]
+use=grepl("iter_1",merge$FILE)
+merge=merge[use,]
+
 
 # merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
 
