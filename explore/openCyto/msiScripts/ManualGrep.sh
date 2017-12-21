@@ -30,4 +30,8 @@ done
 
 
 find . -type f -name *F1632119_012*Rename*.wsp
+find . -type f -name *F1636707_034*Rename*.wsp
+cp *F1632119_012*.fcs /home/thyagara/shared/HRS/annotation/testCD8Wsp
+cp *F1636707_034*.fcs /home/thyagara/shared/HRS/annotation/testCD8Wsp
+
 F1632119_012

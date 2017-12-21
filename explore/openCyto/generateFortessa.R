@@ -45,6 +45,23 @@ convertP2ToFortessa <- function(templateFile, outputDir) {
   return(outFile)
 }
 
+
+convertP1SpecialCD8Gate <- function(templateFile, outputDir) {
+  outFile = paste0(outputDir, basename(templateFile),".specialCD8.txt")
+  template = read.delim(templateFile, stringsAsFactors = FALSE)
+  # p2 might not need CD3 cut  
+  template[which(template$alias == "CD8"), c("gating_args")] = "CD4Expand:CD8POne"
+ 
+  write.table(
+    x = template,
+    file = outFile,
+    row.names = FALSE,
+    quote = FALSE,
+    sep = "\t"
+  )
+  return(outFile)
+}
+
 convertP2SpecialSingletGate <- function(templateFile, outputDir) {
   outFile = paste0(outputDir, basename(templateFile),".specialSinglet.txt")
   template = read.delim(templateFile, stringsAsFactors = FALSE)

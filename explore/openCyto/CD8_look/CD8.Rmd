@@ -67,14 +67,15 @@ library(ggplot2)
 
 ```
 
-#All samples
+# All samples
+
 ```{r  echo=FALSE,warning=FALSE}
 ggplot(data=merged, aes(DIFF_PERCENT_TCELLS)) + geom_histogram(bins = 50) 
 
 
 ```
 
-#Manual Cytotoxic gate samples
+# Manual Cytotoxic gate samples
 ```{r echo=FALSE,warning=FALSE}
 ggplot(data=merged[which(merged$MANUALGATE),], aes(DIFF_PERCENT_TCELLS)) + geom_histogram(bins = 50) 
 
@@ -92,6 +93,18 @@ ggplot(data=merged[which(!merged$MANUALGATE),], aes(DIFF_PERCENT_TCELLS)) + geom
     file = "/Volumes/Beta/data/flow/r25_SS/all.metrics.TDiff.txt",
     row.names = FALSE
   )
+  
+  
+  write.table(
+    merged[which(merged$MANUALGATE&merged$DIFF_PERCENT_TCELLS>2.5),c("name")],
+    sep = "\t",
+    quote = FALSE,
+    file = "~/git/auto-fcs/explore/openCyto/CD_8_quads.txt",
+    row.names = FALSE,
+    col.names =  FALSE
+    
+  )
+  
 
 ```
 

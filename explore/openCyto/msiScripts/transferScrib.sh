@@ -276,10 +276,49 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*F1636276_024* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1642916_004* ./
 scp msi:/scratch.global/lanej/flow/full/fcs/*F1637634* ./
 
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1636966_004* ./
 
-.
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1642645_031* ./
 
-scp msi:/scratch.global/lanej/flow/full/fcs/*2_FORTESSA* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1642663_025* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1638008_005* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1634925_023* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1637728_031* ./
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1637883_023* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1631008_006* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632268_010* ./
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632109_002* ./
+
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1636707_034* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1631370_027* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632119_012* ./
+
+
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631094_005.fcs* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*two_F1631079_025.fcs* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1630930_005.fcs* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*wo_F1630935_025.fcs* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1636541_003.fcs* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*two_F1631005_029.fcs* ./
+2016-08-16_PANEL 1_DHS_Group two_F1636540_033.fcs
+2016-08-18_PANEL 1_ZF_Group one_F1630986_009.fcs
+2016-08-29_PANEL 1_DHS_Group one_F1636866_007.fcs
+2016-09-06_PANEL 1_DHS_Group one_F1630963_002.fcs
+2016-09-08_PANEL 1_ZF_Group one_F1636896_006.fcs
+2016-09-08_PANEL 1_ZF_Group two_F1636587_029.fcs
+2016-09-19_PANEL 1_DHS_Group one_F1636585_001.fcs
+2016-10-03_PANEL 1_DHS_Group one_F1637170_001.fcs
+2016-10-10_PANEL 1_DHS_Group one_F1636935_013.fcs
+2016-10-17_PANEL 1_DHS_Group two_F1636707_034.fcs
+2016-10-18_PANEL 1_DHS_Group one_F1631161_014.fcs
+2016-10-18_PANEL 1_DHS_Group one_F1636674_001.fcs
+2016-10-24_PANEL 1_DHS_Group one_F1637313_007.fcs
+2016-11-01_PANEL 1_DHS_Group one_F1636976_003.fcs
+
 
 
  rsync  -zarv --include="*/" --include="*.pdf" --exclude="*" msi:/scratch.global/lanej/flow/full/results_r25_7/FULL/openCytoBatch_*/ ./
@@ -292,3 +331,4 @@ scp msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch*/panel2
  	
  	rsync "msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch_$i/*.pdf" "./b_$i"
 done 
+"

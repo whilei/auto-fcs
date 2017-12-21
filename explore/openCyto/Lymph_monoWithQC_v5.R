@@ -137,17 +137,29 @@ source(file = "machineType.R")
 source(file = "generateFortessa.R")
 spliceFile = "TBSpliceFortessa.txt"
 
-specialSinglet="specialSingletGate.txt"
-branchFiles = read.delim(specialSinglet, stringsAsFactors = FALSE,header = FALSE)$V1
-branchFiles=gsub(".*/", "", branchFiles)
+specialSinglet = "specialSingletGate.txt"
+branchFiles = read.delim(specialSinglet,
+                         stringsAsFactors = FALSE,
+                         header = FALSE)$V1
+branchFiles = gsub(".*/", "", branchFiles)
+
+specialCD8 = "CD_8_quads.txt"
+branchFilesCD8 = read.delim(specialCD8, stringsAsFactors = FALSE, header = FALSE)$V1
+branchFilesCD8 = gsub(".*/", "", branchFilesCD8)
+
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs3/"
-outputDir = "/Volumes/Beta/data/flow/P2_SS/"
+inputDir = "/Volumes/Beta/data/flow/fcs5/"
+outputDir = "/Volumes/Beta/data/flow/P1_CD8/"
+
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
+templateLymphCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph, outputDir = outputDir)
+
 templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph,
                                             outputDir = outputDir,
                                             spliceFile = spliceFile)
+templateLymphFortessaCD8S = convertP1SpecialCD8Gate(templateFile = templateLymphFortessa, outputDir = outputDir)
+
 
 templateMono = "~/git/auto-fcs/explore/openCyto/dc.dev.LSR.c.txt"
 templateMonoSS = convertP2SpecialSingletGate(templateFile = templateMono, outputDir = outputDir)
@@ -166,8 +178,14 @@ mapper = read.delim(mapperFile,
 theme_set(theme_bw(5))
 gt_lymph <-
   gatingTemplate(templateLymph, autostart = 1L)
+gt_lymphCD8 <-
+  gatingTemplate(templateLymphCD8S, autostart = 1L)
+
 gt_lymphFortessa <-
   gatingTemplate(templateLymphFortessa, autostart = 1L)
+gt_lymphFortessaCD8 <-
+  gatingTemplate(templateLymphFortessaCD8S, autostart = 1L)
+
 gt_mono <-
   gatingTemplate(templateMono, autostart = 1L)
 
@@ -194,7 +212,7 @@ filesToDefInclude = c()
 
 
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+# fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 # fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
 
 REPLACE_FOR_NEW_FILES = ""
@@ -316,29 +334,61 @@ plotP1 <- function(gs1) {
                mapping = aes(x = "CD95", y = "CD28"),
                subset = "CD8") + geom_hex(bins = 100) + ggcyto_par_set(limits = "data") + geom_gate()
   
+  empty <- ggplot() + geom_point(aes(1, 1), colour = "white") +
+    theme(
+      axis.ticks = element_blank(),
+      panel.background = element_blank(),
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank()
+    )
+  scatter =   ggcyto(gs1,
+                     mapping = aes(x = "CD4", y = "CD8"),
+                     subset = "Tcells") +
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate() + geom_stats()
+  
+  
+  hist_top =   ggcyto(gs1,
+                      mapping = aes(x = "CD4"),
+                      subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+  hist_right =   ggcyto(gs1,
+                        mapping = aes(x = "CD8"),
+                        subset = "Tcells") + ggcyto_par_set(limits = "data") + geom_histogram(bins = 300)
+  
   grid.arrange(
-    # as.ggplot(t1),
-    as.ggplot(t2),
-    as.ggplot(t3),
-    # as.ggplot(t4),
-    # as.ggplot(t5),
-    as.ggplot(t6),
-    as.ggplot(t6_1),
-    # as.ggplot(t1Bcell),
-    # as.ggplot(t2Bcell),
-    as.ggplot(t7),
-    # # as.ggplot(t7_1),
-    # as.ggplot(t8),
-    as.ggplot(t9),
-    # as.ggplot(tCD8Active),
-    as.ggplot(t10),
-    as.ggplot(t11),
-    # as.ggplot(t12),
-    # as.ggplot(t13),
-    # as.ggplot(t14),
-    #
-    ncol = 2
+    as.ggplot(hist_top),
+    empty,
+    as.ggplot(scatter) + theme(legend.position = "none"),
+    as.ggplot(hist_right) + coord_flip(),
+    ncol = 2,
+    nrow = 2,
+    widths = c(4, 1),
+    heights = c(1, 4)
   )
+  # grid.arrange(
+  #   # as.ggplot(t1),
+  #   as.ggplot(t2),
+  #   as.ggplot(t3),
+  #   # as.ggplot(t4),
+  #   # as.ggplot(t5),
+  #   as.ggplot(t6),
+  #   as.ggplot(t6_1),
+  #   # as.ggplot(t1Bcell),
+  #   # as.ggplot(t2Bcell),
+  #   as.ggplot(t7),
+  #   # # as.ggplot(t7_1),
+  #   # as.ggplot(t8),
+  #   as.ggplot(t9),
+  #   # as.ggplot(tCD8Active),
+  #   as.ggplot(t10),
+  #   as.ggplot(t11),
+  #   # as.ggplot(t12),
+  #   # as.ggplot(t13),
+  #   # as.ggplot(t14),
+  #   #
+  #   ncol = 2
+  # )
   
 }
 
@@ -523,7 +573,7 @@ compFrame <-
     metrics = autoCounts
     
     if (!qcVersion) {
-      wsFile = mapper[which(mapper$FCS == file), ]$WSP
+      wsFile = mapper[which(mapper$FCS == file),]$WSP
       if (length(wsFile) > 0) {
         ws <- openWorkspace(wsFile)
         gs <-
@@ -669,9 +719,24 @@ if (!file.exists(metricsFile)) {
           if (panel == "panel1") {
             templateToUse = NULL
             if (machine == "FORTESSA") {
+              templateFileUsed = templateLymphFortessa
               templateToUse = gt_lymphFortessa
+              if (length(grep(gsub(".*/", "", file), branchFilesCD8)) >= 1) {
+                templateToUse = gt_lymphFortessaCD8
+                print(paste0("using special CD8 gate for ", file))
+                templateFileUsed = templateLymphFortessaCD8S
+                
+              }
             } else if (machine == "LSR") {
               templateToUse = gt_lymph
+              templateFileUsed = templateLymph
+              
+              if (length(grep(gsub(".*/", "", file), branchFilesCD8)) >= 1) {
+                templateToUse = gt_lymphCD8
+                templateFileUsed = templateLymphCD8S
+                
+                print(paste0("using special CD8 gate for ", file))
+              }
             }
             metricBase = compFrame(
               frame = frame,
@@ -688,10 +753,12 @@ if (!file.exists(metricsFile)) {
               panel = panel,
               nodesToHide = panel1NodesToHide
             )
+            
             metricBase$Panel = panel
             metricBase$PDF = pdfFile
             metricBase$FlaggedSample = file %in% fcsFilesAllProbs
             metricBase$MACHINE = machine
+            metricBase$TEMPLATE_FILE_USED=templateFileUsed
             
             metrics = rbind(metrics, metricBase)
             print(metricBase)
@@ -701,16 +768,24 @@ if (!file.exists(metricsFile)) {
             templateToUse = NULL
             if (machine == "FORTESSA") {
               templateToUse = gt_monoFortessa
-              # if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+              templateFileUsed = templateMonoFortessa
+              
+              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoFortessaSS
+                templateFileUsed = templateMonoFortessaSS
+                
                 print(paste0("using special Singlet gate for ", file))
-              # }
+              }
             } else if (machine == "LSR") {
               templateToUse = gt_mono
-              # if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
+              templateFileUsed = templateMono
+              
+              if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoSS
+                templateFileUsed = templateMonoSS
+                
                 print(paste0("using special Singlet gate for ", file))
-              # }
+              }
             }
             metricBase = compFrame(
               frame = frame,
@@ -731,6 +806,8 @@ if (!file.exists(metricsFile)) {
             metricBase$PDF = pdfFile
             metricBase$FlaggedSample = file %in% fcsFilesAllProbs
             metricBase$MACHINE = machine
+            metricBase$TEMPLATE_FILE_USED=templateFileUsed
+            
             print(metricBase)
             
             metrics = rbind(metrics, metricBase)
@@ -747,7 +824,7 @@ if (!file.exists(metricsFile)) {
             flow_auto_qc(
               frame,
               folder_results = "",
-              mini_report = paste(basename(file), "mini", sep =),
+              mini_report = paste(basename(file), "mini", sep = ),
               fcs_QC = FALSE,
               pen_valueFS = 50,
               remove_from = "FR_FM",
