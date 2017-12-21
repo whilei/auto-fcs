@@ -1,13 +1,7 @@
 ---
-title: "TestManualGates"
+title: "Cyto T comp"
 author: "JL"
 date: "12/21/2017"
-output: html_document
----
----
-title: "ManualComps"
-author: "JL"
-date: "12/8/2017"
 output: 
   html_document: 
     keep_md: yes
