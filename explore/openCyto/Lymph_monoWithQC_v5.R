@@ -142,7 +142,7 @@ branchFiles = read.delim(specialSinglet, stringsAsFactors = FALSE,header = FALSE
 branchFiles=gsub(".*/", "", branchFiles)
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs4/"
+inputDir = "/Volumes/Beta/data/flow/fcs3/"
 outputDir = "/Volumes/Beta/data/flow/P2_SS/"
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph,
@@ -194,7 +194,7 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-# fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
+fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 # fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
 
 
@@ -203,7 +203,7 @@ if (sub > 0) {
   fcsFilesAll = c(fcsFilesAll, filesToDefInclude)
 }
 
-fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 25))
+fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 5))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)
