@@ -10,13 +10,16 @@ output:
 ```{r setup, echo=FALSE,warning=FALSE}
 orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
 orig = orig[which(orig$MONOc<1000),]
-latest = read.delim("/Volumes/Beta/data/flow/r25_SS/all.freq.metrics.txt", stringsAsFactors = FALSE)
+
+metrics= "/Volumes/Beta/data/flow/r25_SS/all.freq.metrics.txt"
+tc = "/Volumes/Beta/data/flow/r25_SS/all.totalCellCounts.metrics.txt"
+latest = read.delim(metrics, stringsAsFactors = FALSE)
 latest$ID=gsub(".* ","",latest$name)
 latest$ID=gsub("one_","",latest$ID)
 latest$ID=gsub("two_","",latest$ID)
 latest$ID=gsub("ZF_","",latest$ID)
 latest$ID=gsub("_.*","",latest$ID)
-totalCounts= read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+totalCounts= read.delim(tc, stringsAsFactors = FALSE)
 
 # latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
 # latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
@@ -45,10 +48,28 @@ c("cytotoxic Tcells-CD8+", "CT"),
 c("effector cytotoxic Tcells  (CCR7-  CD45RA+)", "E.CT"),
 c("effector memory cytotoxic Tcells (CCR7- , CD45RA-)", "EM.CT"),
 c("Helper Tcells-CD4+", "HT"),
+c("effector helper Tcells (CCR7- CD45RA+)","E.HT"),
 c("effector memory helper Tcells (CCR7- CD45RA-)", "EM.HT"),
+c("central memory helper Tcells (CCR7+ CD45RA-)","CM.HT"),
+
 c("B cells (CD3- CD19+)", "Bcell"),
+c("IgD+ memory Bcells (CD27+)", "IgD.MemB"),
+c("IgD- memory Bcells (CD27+)", "IgD.MemB.1"),
+c("naive Bcells (CD27- IgD+)", "N"),
+
+
 c("DC NK MONOCYTES (CD3- CD19-)", "DC.NK.MONO"),
-c("MONOCYTES (CD14+)" ,"MONO")
+c("MONOCYTES (CD14+)" ,"MONO"),
+c("Classical monocytes (CD16- CD14+)", "MONOc"),
+c("Non classical monocytes (CD16+ CD14+)", "MONOnc"),
+c("NK (CD16+)", "NK"),
+c("NK CD56HI", "NKHI"),
+c("NK CD56LO", "NKLO")
+
+
+
+
+
 )
 
 
@@ -61,6 +82,7 @@ merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
 merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
 
 print(map)
+merge = merge[which(merge[map[2]]<1000),]
 t1 =cor.test(merge$freqParent,merge[,map[2]],method = "pearson")
 print(map)
 t2=cor.test(merge$freqParent,merge[,map[2]],method = "spearman")
