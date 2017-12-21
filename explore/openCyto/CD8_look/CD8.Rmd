@@ -1,0 +1,117 @@
+---
+title: "TestManualGates"
+author: "JL"
+date: "12/21/2017"
+output: html_document
+---
+---
+title: "ManualComps"
+author: "JL"
+date: "12/8/2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, echo=FALSE,warning=FALSE}
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+orig = orig[which(orig$MONOc<1000),]
+
+metrics= "/Volumes/Beta/data/flow/r25_SS/all.metrics.txt"
+tc = "/Volumes/Beta/data/flow/r25_SS/all.totalCellCounts.metrics.txt"
+latest = read.delim(metrics, stringsAsFactors = FALSE)
+# latest[grepl("F1652336",latest$name),]$ID
+# latest[grepl("2016-12-29",latest$name),]$name
+
+latest$ID=gsub(".* ","",latest$name)
+latest$ID=gsub(".*HRS_","",latest$ID)
+latest$ID=gsub(".*_F","F",latest$ID)
+
+latest$ID=gsub("one_","",latest$ID)
+latest$ID=gsub("two_","",latest$ID)
+latest$ID=gsub("ZF_","",latest$ID)
+latest$ID=gsub("_.*","",latest$ID)
+totalCounts= read.delim(tc, stringsAsFactors = FALSE)
+
+latestCD8CTTwo=latest[which(latest$Population=="CD8CTTwo"),]
+latestCD8P=latest[which(latest$Population=="CD8+"),]
+latestT=latest[which(latest$Population=="Tcells"),]
+merged = merge(latestT,latestCD8P,by.x="name",by.y="name")
+merged = merge(merged,latestCD8CTTwo,by.x="name",by.y="name")
+# merged[grepl("F1652345",merged$name),]
+merged$CD8CTTwoPT = (merged$Count/merged$Count.x)*100
+merged$latestCD8PT = (merged$Count.y/merged$Count.x)*100
+
+merged$DIFF_PERCENT_TCELLS=merged$CD8CTTwoPT-merged$latestCD8PT
+
+
+
+manCD8="/Volumes/Beta/data/flow/r25Annotations/toTransCyto.txt"
+branchFiles = read.delim(manCD8, stringsAsFactors = FALSE,header = FALSE)$V1
+ctls = !grepl("Ctl",branchFiles)
+
+branchFilesT=branchFiles[ctls]
+pb=!grepl("PBMC",branchFilesT)
+branchFilesT=branchFilesT[pb]
+
+branchFilesT=gsub(".*/", "", branchFilesT)
+# branchFilesT=gsub(".*", "", branchFilesT)
+
+branchFilesT=gsub("_FORTESSA", "", branchFilesT)
+
+branchFilesT=gsub(".*_F", "F", branchFilesT)
+branchFilesT=gsub("_.*", "", branchFilesT)
+
+merged$MANUALGATE=(merged$ID %in% branchFilesT)
+
+
+library(ggplot2)
+
+
+
+
+
+```
+
+#All samples
+```{r  echo=FALSE,warning=FALSE}
+ggplot(data=merged, aes(DIFF_PERCENT_TCELLS)) + geom_histogram(bins = 50) 
+
+
+```
+
+#Manual Cytotoxic gate samples
+```{r echo=FALSE,warning=FALSE}
+ggplot(data=merged[which(merged$MANUALGATE),], aes(DIFF_PERCENT_TCELLS)) + geom_histogram(bins = 50) 
+
+
+```
+
+#Non Manual Cytotoxic gate samples
+```{r echo=FALSE,warning=FALSE}
+ggplot(data=merged[which(!merged$MANUALGATE),], aes(DIFF_PERCENT_TCELLS)) + geom_histogram(bins = 50) 
+
+  write.table(
+    merged,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/r25_SS/all.metrics.TDiff.txt",
+    row.names = FALSE
+  )
+
+```
+
+
+
+
+
+
+
+
+`r table(ctls)[1]`  control files + one weird file 2016-12-29_PANEL_1_RR_group_one_PBMC_LN_001
+
+
+`r length(branchFilesT)` total unique manual CD8 annotations
+
+
+

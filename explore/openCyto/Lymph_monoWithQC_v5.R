@@ -142,7 +142,7 @@ branchFiles = read.delim(specialSinglet, stringsAsFactors = FALSE,header = FALSE
 branchFiles=gsub(".*/", "", branchFiles)
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs4/"
+inputDir = "/Volumes/Beta/data/flow/fcs3/"
 outputDir = "/Volumes/Beta/data/flow/P2_SS/"
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph,

@@ -44,6 +44,11 @@ file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
 
 file="2016-06-28_PANEL 1_DHS_Group one_F1632109_002.fcs"
 
+file="2016-10-17_PANEL 1_DHS_Group two_F1636707_034.fcs"
+file="2016-08-04_PANEL 1_ZF_Group two_F1631370_027.fcs"
+
+file="2016-07-11_PANEL 1_DHS_Group one_F1632119_012.fcs"
+
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
 
@@ -128,7 +133,7 @@ grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.posit
 scatter =   ggcyto(gs1,
               mapping = aes(x = "CD4", y = "CD8"),
               subset = "Tcells") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("CD8")
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats()
    
     
 hist_top =   ggcyto(gs1,
