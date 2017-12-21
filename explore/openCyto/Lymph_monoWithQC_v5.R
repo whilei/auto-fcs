@@ -142,7 +142,7 @@ branchFiles = read.delim(specialSinglet, stringsAsFactors = FALSE,header = FALSE
 branchFiles=gsub(".*/", "", branchFiles)
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs3/"
+inputDir = "/Volumes/Beta/data/flow/fcs4/"
 outputDir = "/Volumes/Beta/data/flow/P2_SS/"
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphFortessa = convertP1ToFortessa(templateFile = templateLymph,
@@ -192,11 +192,12 @@ fcsFilesAllProbs = c("NONE")
 
 filesToDefInclude = c()
 
-REPLACE_FOR_NEW_FILES = ""
+
 
 fcsFilesAll =fcsFilesAll[grepl("PANEL 2",fcsFilesAll)]
 # fcsFilesAll =fcsFilesAll[grepl("FORTESSA",fcsFilesAll)]
 
+REPLACE_FOR_NEW_FILES = ""
 
 if (sub > 0) {
   fcsFilesAll = sample(fcsFilesAll, sub, replace = FALSE)
@@ -846,6 +847,9 @@ if (!file.exists(metricsFile)) {
     file = paste(outputDir, "metrics.totalCellCounts.txt", sep = ""),
     row.names = FALSE
   )
+  
+  
+  
   
   write.table(
     metrics,
