@@ -125,16 +125,10 @@ pbf = ggplot(comboP1, aes(
 pbf
 ```
 
-# Example
 
-![](F1631927_005.gif)
-
-# Example (really bad outlier)
-
-![](F1638813_029.gif)
 
 ```{r  echo=FALSE}
 
-kable(comboP1[c("name.x","RealAutoParent.x","Manual.x","freqParent.x","freqParent.y")],format = "markdown")
+# kable(comboP1[c("name.x","RealAutoParent.x","Manual.x","freqParent.x","freqParent.y")],format = "markdown")
 
 ```
