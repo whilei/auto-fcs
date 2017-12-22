@@ -897,9 +897,7 @@ if (!file.exists(metricsFile)) {
               metricBaseQC$FlaggedSample = file %in% fcsFilesAllProbs
               metrics = rbind(metrics, metricBaseQC)
               metricBaseQC$MACHINE = machine
-              
             }
-            
           })
         })
       } else{

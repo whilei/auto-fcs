@@ -65,9 +65,6 @@ merged$MANUALGATE=(merged$ID %in% branchFilesT)
 library(ggplot2)
 
 
-
-
-
 ```
 
 # All samples
@@ -99,14 +96,13 @@ ggplot(data=merged[which(!merged$MANUALGATE),], aes(DIFF_PERCENT_TCELLS)) + geom
   
   
   write.table(
-    merged[which(merged$MANUALGATE&merged$DIFF_PERCENT_TCELLS>2.5),c("name")],
+    merged[which(merged$MANUALGATE),c("name")],
     sep = "\t",
     quote = FALSE,
     file = "~/git/auto-fcs/explore/openCyto/CD_8_quads.txt",
     row.names = FALSE,
     col.names =  FALSE
-    
-  )
+)
   
 
 ```

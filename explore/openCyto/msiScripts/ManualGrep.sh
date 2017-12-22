@@ -17,14 +17,19 @@ grep -i "manual" * |grep "cytotoxic_Tcells-CD8"|cut -f 2 -d "|"| sed "s/.fcs.*//
 grep -i "manual" * |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >toTrans.txt
 grep -i "manual" * |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT|wc -l
 grep -i "manual" *singlecellbranch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT|wc -l
-grep -i "manual" *r25_panel2* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT
+grep -i "manual" *r25_panel2* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |grep -v Ctl
 
 #counts per
 grep -i "manual" * |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
 grep -i "manual" *singlecellbranch* |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
 grep -i "manual" *r25_panel2* |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
 
+grep -i "manual" *r25_panel2* |cut -f 1,2,3 -d "|"| sed "s/.*IMAGE//g"|sed "s/C:.*\///g"|sed "s/.fcs.*|/|/g" > ~/r25_panel2.txt
+cat *singlecellbranch* |cut -f 1,2,3 -d "|"| sed "s/.*IMAGE//g"|sed "s/C:.*\///g"|sed "s/.fcs.*|/|/g" > ~/singlecellbranch.txt
 
+
+
+ sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |grep -v Ctl
 
 
 for i in $(cat toTransCyto.txt); do

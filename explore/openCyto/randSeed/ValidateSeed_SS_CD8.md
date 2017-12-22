@@ -12,13 +12,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  combo$Count.x and combo$Count.y
-## t = 3601.5, df = 4142, p-value < 2.2e-16
+## t = 62789, df = 514000, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9998303 0.9998498
+##  0.9999345 0.9999352
 ## sample estimates:
 ##       cor 
-## 0.9998404
+## 0.9999348
 ```
 
 ```
@@ -31,15 +31,15 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  combo$Count.x and combo$Count.y
-## S = 41543000, p-value < 2.2e-16
+## S = 3.1475e+13, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9964974
+## 0.9986093
 ```
 
 ```
-## Warning: Removed 519444 rows containing missing values (geom_point).
+## Warning: Removed 9960 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
@@ -53,13 +53,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  combo$freqParent.x and combo$freqParent.y
-## t = 781.59, df = 3984, p-value < 2.2e-16
+## t = 14370, df = 493760, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9965474 0.9969501
+##  0.9987999 0.9988132
 ## sample estimates:
-##      cor 
-## 0.996755
+##       cor 
+## 0.9988065
 ```
 
 ```
@@ -72,18 +72,24 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  combo$freqParent.x and combo$freqParent.y
-## S = 36861000, p-value < 2.2e-16
+## S = 2.7205e+13, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9965078
+## 0.9986441
 ```
 
 ```
-## Warning: Removed 519603 rows containing missing values (geom_point).
+## Warning: Removed 30609 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```
+## Warning: Removed 30609 rows containing missing values (geom_point).
+```
+
+![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
 
 
 # Correlation of frequency of parent counts (panel2)
@@ -94,13 +100,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 235.39, df = 960, p-value < 2.2e-16
+## t = 4852.6, df = 129330, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9902995 0.9924609
+##  0.9972351 0.9972947
 ## sample estimates:
 ##       cor 
-## 0.9914479
+## 0.9972651
 ```
 
 ```
@@ -113,18 +119,24 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 1253300, p-value < 2.2e-16
+## S = 1.0209e+12, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9915537
+## 0.9971689
 ```
 
 ```
-## Warning: Removed 148408 rows containing missing values (geom_point).
+## Warning: Removed 20034 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```
+## Warning: Removed 20034 rows containing missing values (geom_point).
+```
+
+![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-3-2.png)<!-- -->![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-3-3.png)<!-- -->
 
 
 # Correlation of frequency of parent counts (panel1)
@@ -135,13 +147,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 1125.4, df = 3022, p-value < 2.2e-16
+## t = 17514, df = 364430, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9987211 0.9988910
+##  0.9994026 0.9994103
 ## sample estimates:
 ##       cor 
-## 0.9988091
+## 0.9994065
 ```
 
 ```
@@ -154,23 +166,34 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 5943300, p-value < 2.2e-16
+## S = 4.008e+12, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9987105
+## 0.9995031
 ```
 
 ```
-## Warning: Removed 371195 rows containing missing values (geom_point).
+## Warning: Removed 10575 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```
+## Warning: Removed 10575 rows containing missing values (geom_point).
+```
+
+![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-2.png)<!-- -->![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-3.png)<!-- -->
 
 
 
 
 # Correlation of frequency of parent counts (> 1% difference)
+
+
+```
+## Warning: Removed 11 rows containing missing values (geom_point).
+```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
