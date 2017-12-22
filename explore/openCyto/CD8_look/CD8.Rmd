@@ -44,8 +44,11 @@ manCD8="/Volumes/Beta/data/flow/r25Annotations/toTransCyto.txt"
 branchFiles = read.delim(manCD8, stringsAsFactors = FALSE,header = FALSE)$V1
 ctls = !grepl("Ctl",branchFiles)
 
+    # "2017-04-25-26-27" "2017-04-25" 
 branchFilesT=branchFiles[ctls]
 pb=!grepl("PBMC",branchFilesT)
+branchFilesT=branchFilesT[pb]
+pb=!grepl("2017-04-25-26-27_PANEL_1_FORTESSA_HB_2017-04-25_BC_CPT_0_020" ,branchFilesT)
 branchFilesT=branchFilesT[pb]
 
 branchFilesT=gsub(".*/", "", branchFilesT)

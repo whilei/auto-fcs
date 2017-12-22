@@ -1,5 +1,4 @@
- grep "|Manual\|manual" * |cut -f 2 -d "|"| sed "s/fcs.*//g"|sed "s/.*\///g"|more
-
+grep "|Manual\|manual" * |cut -f 2 -d "|"| sed "s/fcs.*//g"|sed "s/.*\///g"|more
 
 
 for i in $(cat toTrans.txt); do
@@ -9,7 +8,7 @@ done
 
 grep -i "manual" * |grep "Live_Single_immune_cells"|cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >toTrans.txt
 
-grep -i "manual" * |grep "cytotoxic_Tcells-CD8"|cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >/scratch.global/lanej/flow/full/results_r25_19full_AllSS/FULL/toTransCyto.txt
+grep -i "manual" * |grep "cytotoxic_Tcells-CD8"|cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >~/toTransCyto.txt
 
 +
 
@@ -17,8 +16,13 @@ grep -i "manual" * |grep "cytotoxic_Tcells-CD8"|cut -f 2 -d "|"| sed "s/.fcs.*//
 #number
 grep -i "manual" * |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >toTrans.txt
 grep -i "manual" * |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT|wc -l
+grep -i "manual" *singlecellbranch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT|wc -l
+grep -i "manual" *r25_panel2* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT
+
 #counts per
 grep -i "manual" * |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
+grep -i "manual" *singlecellbranch* |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
+grep -i "manual" *r25_panel2* |cut -f 1,3 -d "|"| sed "s/.*IMAGE//g"|sort -f |uniq -i -c |grep -v ANNOT |sort -nr
 
 
 

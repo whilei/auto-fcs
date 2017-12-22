@@ -21,10 +21,10 @@ JL
 
 
 
-22  control files + one weird file 2016-12-29_PANEL_1_RR_group_one_PBMC_LN_001
+63  control files + one weird file 2016-12-29_PANEL_1_RR_group_one_PBMC_LN_001
 
 
-180 total unique manual CD8 annotations
+461 total unique manual CD8 annotations
 
 
 
