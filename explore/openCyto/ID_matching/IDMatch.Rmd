@@ -1,0 +1,48 @@
+---
+title: "MatchIDs"
+author: "JL"
+date: "12/29/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+lookup=read.delim(file="/Volumes/Beta/data/flow/lookup/fcsLookup.txt",header = FALSE)
+singlets=read.delim(file="/Users/Kitty/git/auto-fcs/explore/openCyto/singletBranch/toSingletTrans.txt",header = FALSE)
+singlets$V1=paste0(singlets$V1,".fcs")
+  
+use=(lookup$V3 %in% singlets$V1 )
+  
+singletFCS =lookup[use,]
+
+write.table(
+    unique(singletFCS[,c("V2")]),
+    sep = "\t",
+    quote = FALSE,
+    file = "/Users/Kitty/git/auto-fcs/explore/openCyto/specialSingletGate.txt",
+    row.names = FALSE,
+    col.names = FALSE
+  )
+
+
+
+cd14s=read.delim(file="/Users/Kitty/git/auto-fcs/explore/openCyto/CD14_branch/toCD14Trans.txt",header = FALSE)
+cd14s$V1=paste0(cd14s$V1,".fcs")
+  
+use=(lookup$V3 %in% cd14s$V1 )
+  
+cd14Fcs =lookup[use,]
+
+write.table(
+    unique(cd14Fcs[,c("V2")]),
+    sep = "\t",
+    quote = FALSE,
+    file = "/Users/Kitty/git/auto-fcs/explore/openCyto/specialCD14Gate.txt",
+    row.names = FALSE,
+    col.names = FALSE
+  )
+
+
+
+
+
+```

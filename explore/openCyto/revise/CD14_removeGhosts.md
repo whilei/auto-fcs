@@ -18,7 +18,13 @@ file="2017-01-30_PANEL 2_ZF_group one_F1652753_010.fcs"
 file="2016-11-09_PANEL 2_HB_P2_HRS034-D48_003.fcs"
 
 
-
+file="2016-05-12_PANEL 2_HB_panel 2_F1632220_012.fcs"
+file="2016-06-15_PANEL 2_ZF_Group two_F1636753_023.fcs"
+file="2016-08-16_PANEL 2_DHS_Group one_F1632265_010.fcs"
+file="2016-08-29_PANEL 2_DHS_Group one_F1631179_001.fcs"
+file="2017-07-28_PANEL 2_FORTESSA_HB_group oneB_HB_F1637416_036.fcs"
+file="2017-07-07_PANEL 2_FORTESSA_ZF_RR_group two_RR_F1637478_029.fcs"
+file="2017-03-28_PANEL 2_LSR_RR_Group two_F1634143_029.fcs"
 source(file = "generateFortessa.R")
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
@@ -84,7 +90,7 @@ empty <- ggplot()+geom_point(aes(1,1), colour="white")+
 scatter =   ggcyto(gs1,
               mapping = aes(x = "CD14", y = "CD16"),
               subset = "D_NK_M") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats("NonClassT")+geom_stats("ClassT")
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats()
    
     
 hist_top =   ggcyto(gs1,

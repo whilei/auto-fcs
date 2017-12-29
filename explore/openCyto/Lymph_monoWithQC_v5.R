@@ -147,10 +147,14 @@ specialCD8 = "CD_8_quads.txt"
 branchFilesCD8 = read.delim(specialCD8, stringsAsFactors = FALSE, header = FALSE)$V1
 branchFilesCD8 = gsub(".*/", "", branchFilesCD8)
 
+specialCD14 = "specialCD14Gate.txt"
+branchFilesCD14 = read.delim(specialCD14, stringsAsFactors = FALSE, header = FALSE)$V1
+branchFilesCD14 = gsub(".*/", "", branchFilesCD14)
+
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcs5/"
-outputDir = "/Volumes/Beta/data/flow/P1_CD8/"
+inputDir = "/Volumes/Beta/data/flow/fcsCD14/"
+outputDir = "/Volumes/Beta/data/flow/P2_CD14/"
 
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph, outputDir = outputDir)
@@ -163,8 +167,11 @@ templateLymphFortessaCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph
 
 templateMono = "~/git/auto-fcs/explore/openCyto/dc.dev.LSR.c.txt"
 templateMonoSS = convertP2SpecialSingletGate(templateFile = templateMono, outputDir = outputDir)
+templateMonoCD14 = convertP2SpecialCD14Gate(templateFile = templateMono, outputDir = outputDir)
+
 templateMonoFortessa = convertP2ToFortessa(templateFile = templateMono, outputDir = outputDir)
 templateMonoFortessaSS = convertP2SpecialSingletGate(templateFile = templateMonoFortessa, outputDir = outputDir)
+templateMonoFortessaCD14 = convertP2SpecialCD14Gate(templateFile = templateMonoFortessa, outputDir = outputDir)
 
 mapperFile = "/Volumes/Beta/data/flow/fcsMap.txt"
 
@@ -191,12 +198,14 @@ gt_mono <-
 
 gt_monoSS <-
   gatingTemplate(templateMonoSS, autostart = 1L)
-
+gt_monoCD14= gatingTemplate(templateMonoCD14, autostart = 1L)
 gt_monoFortessa <-
   gatingTemplate(templateMonoFortessa, autostart = 1L)
 
 gt_monoFortessaSS <-
   gatingTemplate(templateMonoFortessaSS, autostart = 1L)
+gt_monoFortessaCD14 <-
+  gatingTemplate(templateMonoFortessaCD14, autostart = 1L)
 
 sub = -1
 fcsFilesAll <-
@@ -770,6 +779,13 @@ if (!file.exists(metricsFile)) {
               templateToUse = gt_monoFortessa
               templateFileUsed = templateMonoFortessa
               
+              if (length(grep(gsub(".*/", "", file), branchFilesCD14)) >= 1) {
+                templateToUse = gt_monoFortessaCD14
+                templateFileUsed = templateMonoFortessaCD14
+                
+                print(paste0("using special CD14 gate for ", file))
+              }
+              
               if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoFortessaSS
                 templateFileUsed = templateMonoFortessaSS
@@ -779,6 +795,12 @@ if (!file.exists(metricsFile)) {
             } else if (machine == "LSR") {
               templateToUse = gt_mono
               templateFileUsed = templateMono
+              
+              if (length(grep(gsub(".*/", "", file), branchFilesCD14)) >= 1) {
+                templateToUse = gt_monoCD14
+                templateFileUsed = templateMonoCD14
+                print(paste0("using special CD14 gate for ", file))
+              }
               
               if (length(grep(gsub(".*/", "", file), branchFiles)) >= 1) {
                 templateToUse = gt_monoSS

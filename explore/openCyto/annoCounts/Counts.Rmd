@@ -48,5 +48,8 @@ kable(as.data.frame(table(allOrig$V1,allOrig$V3)),format = "markdown")
 kable(as.data.frame(table(allOrigStillProbs$V1,allOrigStillProbs$V3)),format = "markdown")
 
 
+CD14 = allOrigStillProbs[which(allOrigStillProbs$V1=="CD14-"),]
+
+
 ```
 

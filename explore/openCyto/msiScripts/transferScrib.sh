@@ -331,4 +331,8 @@ scp msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch*/panel2
  	
  	rsync "msi:/scratch.global/lanej/flow/full/results_r25_8/FULL/openCytoBatch_$i/*.pdf" "./b_$i"
 done 
-"
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1632220_012* ./
+scp msi:/scratch.global/lanej/flow/full/fcs/*F1636753_023* ./
+
+
