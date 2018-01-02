@@ -83,8 +83,10 @@ convertP2SpecialSingletGate <- function(templateFile, outputDir) {
 convertP2SpecialCD14Gate <- function(templateFile, outputDir) {
   outFile = paste0(outputDir, basename(templateFile),".specialCD14.txt")
   template = read.delim(templateFile, stringsAsFactors = FALSE)
-  template[which(template$alias == "CD14_MinusTmp"), c("gating_args")] = "tol=1e-4, positive = FALSE,side='right',min=50"
-
+  template[which(template$alias == "CD14_MinusTmp"), c("gating_args")] = "tol=9e-6, positive = FALSE,side='right',min=85,max=115"
+  template[which(template$pop == "CD14+/-"), c("gating_args")] = "gate_range=c(70,160),max=175,adjust=1.2"
+  
+  
   write.table(
     x = template,
     file = outFile,

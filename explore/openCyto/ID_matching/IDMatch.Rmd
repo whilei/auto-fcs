@@ -41,6 +41,16 @@ write.table(
     col.names = FALSE
   )
 
+cd14Fcs$V2=gsub(" ","\\ ",cd14Fcs$V2,fixed = TRUE)
+cd14Fcs$V2=paste0("scp msi:\"/scratch.global/lanej/flow/full/fcs/",cd14Fcs$V2,"\" ./")
+write.table(
+    unique(cd14Fcs[,c("V2")]),
+    sep = "\t",
+    quote = FALSE,
+    file = "/Users/Kitty/git/auto-fcs/explore/openCyto/scpFCSCD14FCS.txt",
+    row.names = FALSE,
+    col.names = FALSE
+  )
 
 
 

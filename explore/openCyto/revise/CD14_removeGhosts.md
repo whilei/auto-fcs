@@ -90,7 +90,7 @@ empty <- ggplot()+geom_point(aes(1,1), colour="white")+
 scatter =   ggcyto(gs1,
               mapping = aes(x = "CD14", y = "CD16"),
               subset = "D_NK_M") +
-    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate()+ geom_stats()
+    geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate("CD14_MinusTrim")+ geom_stats()
    
     
 hist_top =   ggcyto(gs1,
