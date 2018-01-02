@@ -20,4 +20,4 @@ rsync -av --include='*/' --include='*.fcs' --exclude='*' "$FILES" /scratch.globa
 
 FILES="/home/thyagara/shared/HRS/UPLOAD FCS HRS samples/" 
 cd "$FILES"
-find . -type f -name '*.fcs' -exec rsync -av {} /scratch.global/lanej/flow/full/fcs/  \; >/scratch.global/lanej/flow/rsync2.log
+find . -type f -name '*.fcs' -exec rsync -av {} /scratch.global/lanej/flow/full/fcs/  \; >/scratch.global/lanej/flow/rsync3.log
