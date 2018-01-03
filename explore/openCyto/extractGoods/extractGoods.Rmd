@@ -6,7 +6,6 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE,eval=FALSE}
-library(reshape2)
 library(openxlsx)
 
 latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
@@ -47,13 +46,24 @@ save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.f
 ```
 
 ```{r}
-load("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata")
+library(reshape2)
 
-latestUseTrim=latestUse[,c("name","Manual","Count")]
-latestUseTrimCast =dcast(data = latestUseTrim,formula = name~Manual,fun.aggregate = sum,value.var = "Count")
+load("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata")
+latestUse=latestUse[which(!is.na(latestUse$LAB_ID)),]
+latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel1"),]$Manual="P1Root"
+latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel2"),]$Manual="P2Root"
+
+p1pops=unique(latestUse[which(latestUse$Panel=="panel1"),]$Manual)
+p2pops=unique(latestUse[which(latestUse$Panel=="panel2"),]$Manual)
+
+latestUseTrim=latestUse[,c("LAB_ID","Manual","Count")]
+
+latestUseTrimCast =dcast(data = latestUseTrim,formula = LAB_ID~Manual,fun.aggregate = sum,value.var = "Count")
+
+latestUseTrimCast=latestUseTrimCast[,c("LAB_ID",p1pops,p2pops)]
 
   write.table(
-    latestUse,
+    latestUseTrimCast,
     sep = "\t",
     quote = FALSE,
     file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.cast.txt",
