@@ -5,8 +5,10 @@ date: "1/2/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE,eval=FALSE}
 library(reshape2)
+library(openxlsx)
+
 latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
 latest$SANITIZE=gsub(" ","_",latest$name)
 latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
@@ -16,14 +18,36 @@ combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE,
 use=!(latest$SANITIZE %in% combo$V1)
 
 latestUse =latest[use,]
+latestUse$LAB_ID=NA
 latestUse[which(is.na(latestUse$Manual)),]$Population
+ 
+
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+num=0
+for(id in manifest$Lab.ID){
+  match=grep(id,latestUse$name)
+  # print(match)
+  num=num+1
+  print(num)
+  if(length(match)>0){
+    # print(length(match))
+    latestUse[match,]$LAB_ID=id
+  }
+}
+
   write.table(
     latestUse,
     sep = "\t",
     quote = FALSE,
     file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt",
     row.names = FALSE
-  )  
+  ) 
+save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata" )
+
+```
+
+```{r}
+load("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata")
 
 latestUseTrim=latestUse[,c("name","Manual","Count")]
 latestUseTrimCast =dcast(data = latestUseTrim,formula = name~Manual,fun.aggregate = sum,value.var = "Count")

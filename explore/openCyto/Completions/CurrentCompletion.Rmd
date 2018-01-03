@@ -1,0 +1,83 @@
+---
+title: "Current Completion"
+author: "JL"
+date: "12/19/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(openxlsx)
+
+
+totals = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs =read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
+totals$SUCCESS=totals$FILE %in% freqs$name
+
+totals$LAB_ID =NA
+totals$HAS_MATCH =FALSE
+
+
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+manifest$PANEL_1_OC_FILE_ATTEMPTED=NA
+manifest$PANEL_2_OC_FILE_ATTEMPTED=NA
+
+manifest$PANEL_1_OC_GATED=FALSE
+manifest$PANEL_2_OC_GATED=FALSE
+
+manifest$PANEL_UNDETERMINED=NA
+
+
+num=0
+for(id in manifest$Lab.ID){
+  match=grep(id,totals$FILE)
+  # print(match)
+  num=num+1
+  print(num)
+  if(length(match)>0){
+    # print(length(match))
+    sub=totals[match,]
+    totals[match,]$LAB_ID=id
+    totals[match,]$HAS_MATCH=TRUE
+
+    p1=sub[which(sub$PANEL=="panel1"),]
+    p2=sub[which(sub$PANEL=="panel2"),]
+    pUnd=sub[which(sub$PANEL=="panel_undetermined"),]
+
+    if (length(pUnd[, 1]) > 0) {
+      manifest[which(manifest$Lab.ID == id), ]$PANEL_UNDETERMINED = paste(pUnd$FILE,collapse = ";")
+    }
+    if (length(p1[, 1]) > 0) {
+      manifest[which(manifest$Lab.ID == id), ]$PANEL_1_OC_GATED = paste(p1$SUCCESS,collapse = ";")
+      manifest[which(manifest$Lab.ID == id), ]$PANEL_1_OC_FILE_ATTEMPTED = paste(p1$FILE,collapse = ";")
+
+    }
+    if (length(p2[, 1]) > 0) {
+    manifest[which(manifest$Lab.ID == id), ]$PANEL_2_OC_GATED = paste(p2$SUCCESS,collapse = ";")
+    manifest[which(manifest$Lab.ID == id), ]$PANEL_2_OC_FILE_ATTEMPTED = paste(p2$FILE,collapse = ";")
+
+    }
+  }
+}
+
+ write.table(
+  manifest,
+  file =
+  "/Volumes/Beta/data/flow/HRS_sample_list_gated.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+ 
+ write.table(
+  totals,
+  file =
+  "/Volumes/Beta/data/flow/all.totalCellCounts.metrics.manifest_matched.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+
+
+
+```
+
