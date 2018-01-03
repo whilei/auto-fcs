@@ -1,0 +1,40 @@
+---
+title: "ExtractGoods"
+author: "JL"
+date: "1/2/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(reshape2)
+latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+
+combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE, stringsAsFactors = FALSE)
+
+use=!(latest$SANITIZE %in% combo$V1)
+
+latestUse =latest[use,]
+latestUse[which(is.na(latestUse$Manual)),]$Population
+  write.table(
+    latestUse,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt",
+    row.names = FALSE
+  )  
+
+latestUseTrim=latestUse[,c("name","Manual","Count")]
+latestUseTrimCast =dcast(data = latestUseTrim,formula = name~Manual,fun.aggregate = sum,value.var = "Count")
+
+  write.table(
+    latestUse,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.cast.txt",
+    row.names = FALSE
+  )  
+
+  
+```

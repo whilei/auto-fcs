@@ -53,5 +53,10 @@ grep -i "manual" * |grep "cytotoxic_Tcells-CD8"|cut -f 2 -d "|"| sed "s/.fcs.*//
 
 F1632119_012
 
+grep -i 'manual\|abnormal\|bad' ./panel1/* |cut -f 2 -d "|"| sed "s/.fcs.*.png//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >./manualPanel1.txt
+grep -i 'manual\|abnormal\|bad' ./panel2/* |cut -f 2 -d "|"| sed "s/.fcs.*.png//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >./manualPanel2.txt
+
+
+sed -i '' -e 's/scp/rsync \-av/g' rsyncscpFCSCD14FCS.txt
 
 

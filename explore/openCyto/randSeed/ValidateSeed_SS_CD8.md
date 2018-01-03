@@ -12,13 +12,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  combo$Count.x and combo$Count.y
-## t = 62789, df = 514000, p-value < 2.2e-16
+## t = 58030, df = 513960, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9999345 0.9999352
+##  0.9999233 0.9999241
 ## sample estimates:
 ##       cor 
-## 0.9999348
+## 0.9999237
 ```
 
 ```
@@ -31,15 +31,15 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  combo$Count.x and combo$Count.y
-## S = 3.1475e+13, p-value < 2.2e-16
+## S = 4.2399e+13, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9986093
+## 0.9981262
 ```
 
 ```
-## Warning: Removed 9960 rows containing missing values (geom_point).
+## Warning: Removed 9997 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
@@ -53,13 +53,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  combo$freqParent.x and combo$freqParent.y
-## t = 14370, df = 493760, p-value < 2.2e-16
+## t = 10776, df = 493730, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9987999 0.9988132
+##  0.9978690 0.9978926
 ## sample estimates:
 ##       cor 
-## 0.9988065
+## 0.9978808
 ```
 
 ```
@@ -72,21 +72,21 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  combo$freqParent.x and combo$freqParent.y
-## S = 2.7205e+13, p-value < 2.2e-16
+## S = 4.3358e+13, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9986441
+## 0.9978385
 ```
 
 ```
-## Warning: Removed 30609 rows containing missing values (geom_point).
+## Warning: Removed 30654 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ```
-## Warning: Removed 30609 rows containing missing values (geom_point).
+## Warning: Removed 30654 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
@@ -100,13 +100,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 4852.6, df = 129330, p-value < 2.2e-16
+## t = 4562.5, df = 129330, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9972351 0.9972947
+##  0.9968740 0.9969413
 ## sample estimates:
 ##       cor 
-## 0.9972651
+## 0.9969078
 ```
 
 ```
@@ -119,11 +119,11 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 1.0209e+12, p-value < 2.2e-16
+## S = 1.1542e+12, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
-##       rho 
-## 0.9971689
+##      rho 
+## 0.996799
 ```
 
 ```
@@ -147,13 +147,13 @@ JL
 ## 	Pearson's product-moment correlation
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 17514, df = 364430, p-value < 2.2e-16
+## t = 10006, df = 364390, p-value < 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.9994026 0.9994103
+##  0.9981732 0.9981968
 ## sample estimates:
-##       cor 
-## 0.9994065
+##      cor 
+## 0.998185
 ```
 
 ```
@@ -166,21 +166,21 @@ JL
 ## 	Spearman's rank correlation rho
 ## 
 ## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 4.008e+12, p-value < 2.2e-16
+## S = 1.2168e+13, p-value < 2.2e-16
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##       rho 
-## 0.9995031
+## 0.9984911
 ```
 
 ```
-## Warning: Removed 10575 rows containing missing values (geom_point).
+## Warning: Removed 10620 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ```
-## Warning: Removed 10575 rows containing missing values (geom_point).
+## Warning: Removed 10620 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-2.png)<!-- -->![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-4-3.png)<!-- -->
@@ -192,7 +192,7 @@ JL
 
 
 ```
-## Warning: Removed 11 rows containing missing values (geom_point).
+## Warning: Removed 34 rows containing missing values (geom_point).
 ```
 
 ![](ValidateSeed_SS_CD8_files/figure-html/unnamed-chunk-5-1.png)<!-- -->

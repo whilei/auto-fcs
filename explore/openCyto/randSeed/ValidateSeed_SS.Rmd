@@ -26,7 +26,7 @@ t2 <- theme(
 )
 theme_set(theme_grey(base_size = 18)) 
 
-rand = read.delim("/Volumes/Beta/data/flow/r25_SS/all.freq.metrics.txt", stringsAsFactors = FALSE)
+rand = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
 rand$KEY=paste0(rand$name,rand$Population,rand$Panel,rand$Parent,rand$MACHINE,gsub(".*FULL","",rand$PDF))
 
 reg= read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
