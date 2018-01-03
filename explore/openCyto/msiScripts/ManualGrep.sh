@@ -60,4 +60,5 @@ cat ./manualPanel2.txt >>combo.txt
 
 sed -i '' -e 's/scp/rsync \-av/g' rsyncscpFCSCD14FCS.txt
 
+grep -i 'bad' ./panel2/* |cut -f 2 -d "|"| sed "s/.fcs.*.png//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |wc -l
 
