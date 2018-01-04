@@ -27,16 +27,16 @@ t2 <- theme(
 theme_set(theme_grey(base_size = 18)) 
 
 rand = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
-rand$KEY=paste0(rand$name,rand$Population,rand$Panel,rand$Parent,rand$MACHINE)
+rand$KEY=paste0(rand$name,rand$Population,rand$Panel,rand$Parent,rand$MACHINE,rand$Manual)
 
-reg= read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
-reg$KEY=paste0(reg$name,reg$Population,reg$Panel,reg$Parent,reg$MACHINE)
+reg= read.delim("/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.freq.metrics.txt", stringsAsFactors = FALSE)
+reg$KEY=paste0(reg$name,reg$Population,reg$Panel,reg$Parent,reg$MACHINE,reg$Manual)
 table(reg$KEY %in% rand$KEY)
 reg$TEMPLATE_FILE_USEDTRIM =gsub(".*/","",reg$TEMPLATE_FILE_USED)
 reg$TEMPLATE_FILE_USEDTRIM =gsub(".dev","",reg$TEMPLATE_FILE_USEDTRIM)
 reg$TEMPLATE_FILE_USEDTRIM =gsub(".txt","",reg$TEMPLATE_FILE_USEDTRIM)
 
-combo=merge(rand,reg,by.x = "KEY",by.y = "KEY",all.x = TRUE)
+combo=merge(rand,reg,by.x = "KEY",by.y = "KEY")
 
 ```
 
@@ -106,7 +106,7 @@ pbf = ggplot(comboP2, aes(
   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1) 
 pbf
 
-comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="dc.dev.LSR.c.txt"|combo$TEMPLATE_FILE_USEDTRIM=="dc.dev.FORTESSA.c.txt"),]
+comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="dc.LSR.c"|combo$TEMPLATE_FILE_USEDTRIM=="dc.FORTESSA.c"),]
 
 pbf = ggplot(comboP2, aes(
   x = freqParent.x,
@@ -142,8 +142,18 @@ pbf = ggplot(comboP2, aes(
 pbf
 
 
-comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="lymph.dev.LSR.f.txt"|combo$TEMPLATE_FILE_USEDTRIM=="lymph.dev.FORTESSA.f.txt"),]
-
+comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="lymph.LSR.f"|combo$TEMPLATE_FILE_USEDTRIM=="lymph.FORTESSA.f"),]
+comboP2=comboP2[which(!is.na(comboP2$freqParent.x)&!is.na(comboP2$freqParent.y)),]
+probs=comboP2$freqParent.x!=comboP2$freqParent.y
+comboP2Probs=comboP2[probs,]
+write.table(
+  comboP2Probs,
+  file =
+  "/Users/Kitty/git/auto-fcs/explore/openCyto/Completions/toDoubleCheck.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
 
 pbf = ggplot(comboP2, aes(
   x = freqParent.x,

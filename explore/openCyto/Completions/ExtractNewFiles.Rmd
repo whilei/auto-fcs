@@ -1,0 +1,36 @@
+---
+title: "ExtractNewFiles"
+author: "JL"
+date: "1/4/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+previous= read.delim("/Volumes/Beta/data/flow/results_r25_17full/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+latest = read.delim("/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+
+select = !(latest$FILE %in% previous$FILE)
+
+new=latest[select,]
+new$SANITIZE=gsub(" ","_",new$FILE)
+
+write.table(
+  new[which(new$PANEL=="panel1"),c("SANITIZE")],
+  file =
+  "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/newImagesPanel1.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+write.table(
+  new[which(new$PANEL=="panel2"),c("SANITIZE")],
+  file =
+  "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/newImagesPanel2.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+
+
+
+```

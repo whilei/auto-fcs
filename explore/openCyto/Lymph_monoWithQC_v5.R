@@ -231,7 +231,7 @@ if (sub > 0) {
   fcsFilesAll = c(fcsFilesAll, filesToDefInclude)
 }
 
-fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 5))
+fcsFilesAll = split(fcsFilesAll, ceiling(seq_along(fcsFilesAll) / 25))
 
 getStats <- function(gs1, qcVersion, metric, gate) {
   autoStats = getPopStats(gs1, statistic = metric)

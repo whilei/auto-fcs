@@ -9,9 +9,12 @@ output: html_document
 library(openxlsx)
 
 
-totals = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
-freqs =read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
+totals = read.delim("/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs =read.delim("/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.freq.metrics.txt", stringsAsFactors = FALSE)
 totals$SUCCESS=totals$FILE %in% freqs$name
+
+# not = !grepl("post", totals$FILE, ignore.case = TRUE)
+# totals = totals[not,]
 
 totals$LAB_ID =NA
 totals$HAS_MATCH =FALSE
@@ -62,16 +65,39 @@ for(id in manifest$Lab.ID){
  write.table(
   manifest,
   file =
-  "/Volumes/Beta/data/flow/HRS_sample_list_gated.txt",
+  "/Volumes/Beta/data/flow/HRS_sample_list_gated.results_r25_21full_SS_SubCD8_SCD14.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+
+manifestManaualP1=manifest[which((manifest$PANEL_1_OC_FILE_ATTEMPTED!="NA"&manifest$PANEL_1_OC_GATED=="FALSE")),] 
+
+write.table(
+  manifestManaualP1,
+  file =
+  "/Volumes/Beta/data/flow/HRS_sample_list_gated.results_r25_21full_SS_SubCD8_SCD14.Manual.Panel1.txt",
   row.names = FALSE,
   quote = FALSE,
   sep = "\t"
   )
  
+manifestManaualP2=manifest[which((manifest$PANEL_2_OC_FILE_ATTEMPTED!="NA"&manifest$PANEL_2_OC_GATED=="FALSE")),] 
+
+write.table(
+  manifestManaualP2,
+  file =
+  "/Volumes/Beta/data/flow/HRS_sample_list_gated.results_r25_21full_SS_SubCD8_SCD14.Manual.Panel2.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+ 
+
  write.table(
   totals,
   file =
-  "/Volumes/Beta/data/flow/all.totalCellCounts.metrics.manifest_matched.txt",
+  "/Volumes/Beta/data/flow/all.results_r25_21full_SS_SubCD8_SCD14.totalCellCounts.metrics.manifest_matched.txt",
   row.names = FALSE,
   quote = FALSE,
   sep = "\t"
