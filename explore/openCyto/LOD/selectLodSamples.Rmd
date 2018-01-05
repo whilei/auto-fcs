@@ -1,0 +1,48 @@
+---
+title: "SelectLOD"
+author: "JL"
+date: "1/5/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+set.seed(42)
+subsR = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt", stringsAsFactors = FALSE)
+subs=subsR[which(!is.na(subsR$LAB_ID)),]
+subs$LAB_ID_MACHINE=paste0(subs$LAB_ID,"_",subs$MACHINE)
+subs=subs[which(subs$Population=="boundary"),]
+subs=subs[which(subs$ParentCount>700000),]
+
+d=as.data.frame(table(subs$LAB_ID_MACHINE))
+d=d[which(d$Freq==2),]
+subs=subs[which(subs$LAB_ID_MACHINE %in% d$Var1),]
+
+toSelectLSR=subs[which(subs$MACHINE=="LSR",subs$Panel=="panel1"),]
+
+toSelectFORTESSA=subs[which(subs$MACHINE=="FORTESSA",subs$Panel=="panel1"),]
+
+
+idsLSR=sample(toSelectLSR$LAB_ID,30,replace = FALSE)
+idsFORTESSA=sample(toSelectFORTESSA$LAB_ID,30,replace = FALSE)
+
+selection=c(idsLSR,idsFORTESSA)
+
+
+use=subs[which(subs$LAB_ID %in% selection),]
+fcsFiles= split(use$name, ceiling(seq_along(use$name) / 10))
+batch=1
+for(fcsgroup in fcsFiles ){
+ write.table(
+  fcsgroup,
+  file =
+  paste0("/Users/Kitty/git/auto-fcs/explore/openCyto/LOD/P1_P2_matched.goods.batch",batch,".txt"),
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+  batch=batch+1
+}
+
+
+
+```
