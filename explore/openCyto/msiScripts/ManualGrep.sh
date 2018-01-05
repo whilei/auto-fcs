@@ -67,6 +67,8 @@ grep -i 'bad' ./panel2/* |cut -f 2 -d "|"| sed "s/.fcs.*.png//g"|sed "s/.*\///g"
 
 
 
+grep -i "manual" * |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |wc -l
+
 
 grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/panel\ 2/r25_singlecellbranch_panel2_batch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >manualFinals.txt
 grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_panel2_CD14Branch_ec/r25_panel2_CD14Branch_ec |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >>manualFinals.txt
