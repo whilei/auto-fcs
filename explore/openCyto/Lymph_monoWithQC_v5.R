@@ -153,8 +153,8 @@ branchFilesCD14 = gsub(".*/", "", branchFilesCD14)
 
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/fcsCD14/"
-outputDir = "/Volumes/Beta/data/flow/P2_CD14/"
+inputDir = "/Volumes/Beta/data/flow/testManual/"
+outputDir = "/Volumes/Beta/data/flow/testManualGates/"
 
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph, outputDir = outputDir)
@@ -173,7 +173,7 @@ templateMonoFortessa = convertP2ToFortessa(templateFile = templateMono, outputDi
 templateMonoFortessaSS = convertP2SpecialSingletGate(templateFile = templateMonoFortessa, outputDir = outputDir)
 templateMonoFortessaCD14 = convertP2SpecialCD14Gate(templateFile = templateMonoFortessa, outputDir = outputDir)
 
-mapperFile = "/Volumes/Beta/data/flow/fcsMap.txt"
+mapperFile = "fcsMSIMap.txt"
 
 gateDir = "gates/"
 gateQCDir = "gatesQC/"
@@ -210,7 +210,7 @@ gt_monoFortessaCD14 <-
 sub = -1
 fcsFilesAll <-
   list.files(inputDir,
-             pattern = ".fcs",
+             pattern = ".fcs$",
              full = FALSE)
 
 
@@ -589,18 +589,18 @@ compFrame <-
           parseWorkspace(
             ws,
             #WSP file
-            path = inputFCSDir,
+            path = inputDir,
             #FCS file
             name = 1,
             #sample group
-            subset = eval(file),
+            # subset = eval(file),
             #load single fcs file
-            isNcdf = FALSE,
+            isNcdf = FALSE
             #not memory mapped
-            compensation = comp
+            # compensation = comp
           )
         #
-        
+        print(paste0("manually gated sample ",file))
         manCounts = getStats(gs1 = gs,
                              qcVersion = qcVersion,
                              metric = "count",
