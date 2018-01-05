@@ -1,0 +1,28 @@
+---
+title: "annoTransfer"
+author: "JL"
+date: "1/5/2018"
+output: html_document
+---
+
+```{r }
+mans =read.delim("/Volumes/Beta/data/flow/annotTransfer/manualFinals.txt", stringsAsFactors = FALSE,header = FALSE)
+mans$SANITIZE=paste0(mans$V1,".fcs")
+fcs =read.delim("/Volumes/Beta/data/flow/annotTransfer/all.fcs.txt", stringsAsFactors = FALSE,header = FALSE)
+
+fcs$FILE =gsub("/scratch.global/lanej/flow/full/fcs/","",fcs$V1)
+fcs$SANITIZE=gsub(" ","_",fcs$FILE)
+
+have = fcs$SANITIZE %in% mans$SANITIZE
+
+toTransfer =fcs[have,]
+
+write.table(
+  toTransfer$FILE,
+  file ="/Users/Kitty/git/auto-fcs/explore/openCyto/annoCounts/finaltransfers.txt",
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+  )
+
+```

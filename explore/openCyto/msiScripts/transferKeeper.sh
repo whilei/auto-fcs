@@ -51,6 +51,16 @@ done >~/missingRun.txt
 
 
 
+IFS=$'\n'
+for i in $(cat finaltransfers.txt); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/singletBranchCD14BranchNewFiles/
+   cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel*Rename.wsp /home/thyagara/shared/HRS/manualFinal/singletBranchCD14BranchNewFiles/
+done
+
+
+
+
 
 
 

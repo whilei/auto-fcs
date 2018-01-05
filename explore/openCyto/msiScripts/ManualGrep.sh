@@ -46,6 +46,8 @@ cp *F1636707_034*.fcs /home/thyagara/shared/HRS/annotation/testCD8Wsp
 
 
 
+grep -i "manual" r25_singlecellbranch_panel2_batch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |wc -l
+
 
 
 
@@ -61,4 +63,18 @@ cat ./manualPanel2.txt >>combo.txt
 sed -i '' -e 's/scp/rsync \-av/g' rsyncscpFCSCD14FCS.txt
 
 grep -i 'bad' ./panel2/* |cut -f 2 -d "|"| sed "s/.fcs.*.png//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |wc -l
+
+
+
+
+
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/panel\ 2/r25_singlecellbranch_panel2_batch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >manualFinals.txt
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_panel2_CD14Branch_ec/r25_panel2_CD14Branch_ec |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >>manualFinals.txt
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_NewImages_ec/* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >>manualFinals.txt
+
+find /scratch.global/lanej/flow/full/fcs/ -type f -name *.fcs > all.fcs.txt
+
+
+
+
 

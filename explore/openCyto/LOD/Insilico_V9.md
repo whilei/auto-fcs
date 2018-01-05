@@ -33,22 +33,10 @@ JL
 ## Warning: Using size for a discrete variable is not advised.
 ```
 
-![](Insilico_V9_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](Insilico_V9_files/figure-html/unnamed-chunk-2-8.png)<!-- -->
+![](Insilico_V9_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](Insilico_V9_files/figure-html/unnamed-chunk-2-8.png)<!-- -->![](Insilico_V9_files/figure-html/unnamed-chunk-2-9.png)<!-- -->![](Insilico_V9_files/figure-html/unnamed-chunk-2-10.png)<!-- -->
 
 ```
 ## Warning: Removed 37 rows containing non-finite values (stat_boxplot).
-```
-
-![](Insilico_V9_files/figure-html/unnamed-chunk-2-9.png)<!-- -->
-
-```
-## Warning: Removed 35 rows containing non-finite values (stat_boxplot).
-```
-
-![](Insilico_V9_files/figure-html/unnamed-chunk-2-10.png)<!-- -->
-
-```
-## Warning: Removed 35 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-11.png)<!-- -->
@@ -84,7 +72,7 @@ JL
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-16.png)<!-- -->
 
 ```
-## Warning: Removed 205 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 35 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-17.png)<!-- -->
@@ -96,19 +84,19 @@ JL
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-18.png)<!-- -->
 
 ```
-## Warning: Removed 95 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 205 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-19.png)<!-- -->
 
 ```
-## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 35 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-20.png)<!-- -->
 
 ```
-## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 95 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-21.png)<!-- -->
@@ -120,25 +108,25 @@ JL
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-22.png)<!-- -->
 
 ```
-## Warning: Removed 80 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-23.png)<!-- -->
 
 ```
-## Warning: Removed 29 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-24.png)<!-- -->
 
 ```
-## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 80 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-25.png)<!-- -->
 
 ```
-## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 29 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-26.png)<!-- -->
@@ -160,3 +148,15 @@ JL
 ```
 
 ![](Insilico_V9_files/figure-html/unnamed-chunk-2-29.png)<!-- -->
+
+```
+## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+```
+
+![](Insilico_V9_files/figure-html/unnamed-chunk-2-30.png)<!-- -->
+
+```
+## Warning: Removed 23 rows containing non-finite values (stat_boxplot).
+```
+
+![](Insilico_V9_files/figure-html/unnamed-chunk-2-31.png)<!-- -->
