@@ -44,6 +44,12 @@ for i in $(cat /scratch.global/lanej/flow/full/panel2_OC_Fails.txt); do
 done
 
 
+for i in $(cat /home/tsaim/lane0212/tmp/missingFCS.txt); do
+   val=$(find . -type f -name *$i* | wc -l)
+   echo -e "$i\t$val"
+done >~/missingRun.txt
+
+
 
 
 
