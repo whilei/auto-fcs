@@ -2,7 +2,7 @@
 
 outputDir = "/scratch.global/lanej/flow/full/insilicoLOD_GoodMatched/"
 events = c(2:10 %o% 10 ^ (3:5))
-inputFile="/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/LOD/"
+inputFile="/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/LOD/replaceWithBatch"
 
 subSample <- function(fcsFile, outputDir, events, iter) {
   require(flowCore)
@@ -29,15 +29,11 @@ subSample <- function(fcsFile, outputDir, events, iter) {
 
 inputDir = "/scratch.global/lanej/flow/full/fcs/"
 
-fcsFilesAll <-
-  list.files(inputDir,
-             pattern = ".fcs",
-             full = TRUE)
-
 
 iters = c(1:10)
 
-fcsFilesRun = c(p1Files, p2Files)
+fcsFilesRun =  read.delim(inputFile, stringsAsFactors = FALSE)
+fcsFilesRun = fcsFilesRun$x
 
 # fcsFilesRun = fcsFilesAll
 set.seed(42)
@@ -45,7 +41,7 @@ for (fcsFile in fcsFilesRun) {
   for (iter in iters) {
     print(paste0("sampling file ", fcsFile, " iteration ", iter))
     subSample(
-      fcsFile = fcsFile,
+      fcsFile = paste0(inputDir,fcsFile),
       outputDir = outputDir,
       events = events,
       iter = iter
