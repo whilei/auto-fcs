@@ -593,7 +593,7 @@ compFrame <-
             #FCS file
             name = 1,
             #sample group
-            subset = eval(fileToLoad),
+            subset = eval(file),
             #load single fcs file
             isNcdf = FALSE,
             #not memory mapped
