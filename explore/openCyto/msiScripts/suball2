@@ -5,6 +5,8 @@
  for file in *.pbs; do    qp "$file"; done
 
 
+ for file in *.qsub; do    qsub "$file"; done
+
 
 
   for file in *.pbs; do    qsub "$file"; done
