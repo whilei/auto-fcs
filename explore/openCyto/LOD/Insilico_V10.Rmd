@@ -16,7 +16,18 @@ totals = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.totalCellCounts.met
 freqs = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.freq.metrics.txt", stringsAsFactors = FALSE)
 totals$SUCCESS=totals$FILE %in% freqs$name
 totals$GROUP=gsub("_iter.*","",totals$FILE)
+lymph=freqs[which(freqs$Manual=="Lymphocytes (SSC-A v FSC-A)"),]
+lymph$LYMPH_COUNT=lymph$Count
+lymph=lymph[,c("name","LYMPH_COUNT")]
+pbmc=freqs[which(freqs$Manual=="Live Single PBMCs (SSC-A/FSC-A)"),]
+pbmc$PBMC_COUNT=pbmc$Count
+pbmc=pbmc[,c("name","PBMC_COUNT")]
+
 merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
+merge=merge(merge,lymph,by.x ="FILE",by.y = "name",all.x=TRUE )
+merge=merge(merge,pbmc,by.x ="FILE",by.y = "name",all.x=TRUE )
+
+
 save(merge,file ="/Volumes/Beta/data/flow/LODCtrlsV10/merge.RData" )
 ```
 
@@ -191,11 +202,20 @@ for(panel in unique(mergeAll$PANEL) ){
   # xlab("Total Events Sampled") +
   # ylab(paste0("Percent Parent KA"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
   # print(pb)
-  # pb=ggplot(sub,aes(x=Count,y=SAMPLE_CV,colour=MACHINE.x)) +
-  # geom_point() +
-  # xlab(" Events in Population") +
-  # ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
-  # # print(pb)
+  if(panel=="panel2"){
+  pb=ggplot(sub,aes(x=PBMC_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_point() +
+  xlab(" Events in Live Single PBMCs") +
+  ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  print(pb)
+  }
+    if(panel=="panel1"){
+  pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_point() +
+  xlab(" Events in Lymphocytes") +
+  ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  print(pb)
+  }
   # pb=ggplot(sub,aes(x=Count)) +
   # geom_histogram() +
   # xlab("Events in Population") +
