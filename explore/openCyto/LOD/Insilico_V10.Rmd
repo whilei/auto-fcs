@@ -1,0 +1,225 @@
+---
+title: "Insilco LOD"
+author: "JL"
+date: "12/11/2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
+
+
+
+```{r setup, include=FALSE,eval=FALSE}
+totals = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.freq.metrics.txt", stringsAsFactors = FALSE)
+totals$SUCCESS=totals$FILE %in% freqs$name
+totals$GROUP=gsub("_iter.*","",totals$FILE)
+merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
+save(merge,file ="/Volumes/Beta/data/flow/LODCtrlsV10/merge.RData" )
+```
+
+```{r  include=FALSE}
+
+load("/Volumes/Beta/data/flow/LODCtrlsV10/merge.RData")
+#24HRS
+#over
+#_BC-D24-S+F_72HRS
+#Ctl
+dontCare <- c("24HRS", "over","D24","SEPM","DAYS","ASMIC","bad","P1","baseline")
+nonHZ=!grepl(paste(dontCare,collapse="|"),merge$FILE)
+
+merge=merge[nonHZ,]
+mergeAll=merge
+# use=grepl("Ctl",merge$FILE)
+# merge=merge[use,]
+use=grepl("iter_1",merge$FILE)
+merge=merge[use,]
+
+
+# merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
+
+# use=grep("_F",merge$FILE)
+# merge=merge[use,]
+fail = merge[which(!merge$SUCCESS),]
+
+merge$ID=gsub(".*_F","F",merge$FILE)
+merge$ID=gsub("_.*","",merge$ID)
+
+merge$ORIGINAL_COUNT = "FALSE"
+original = grep("All",merge$FILE)
+merge$ORIGINAL_COUNT[original]=TRUE
+
+CV <- function(mean, sd){
+      (sd/mean)*100
+}
+
+cvCalc <- function(vec){
+  CV(mean = mean(vec,na.rm = TRUE),sd=sd(vec,na.rm = TRUE))
+}
+
+library(irr)
+krpAlpha <- function(vec){
+  # print(class(vec))
+  df=as.matrix(vec)
+  # print(length(vec))
+  if(length(vec)<=1){
+    return(NA)
+  }
+  t=kripp.alpha(df ,"ratio")
+  return(t$value)
+}
+mergeAll$CV_POP_KEY=paste0(mergeAll$GROUP,"_",mergeAll$Manual)
+cvResults=aggregate(mergeAll$freqParent, list(mergeAll$CV_POP_KEY), cvCalc)
+colnames(cvResults)=c("CV_POP_KEY","SAMPLE_CV")
+mergeAll=merge(mergeAll,cvResults,by.x="CV_POP_KEY",by.y="CV_POP_KEY")
+
+# kaResults=aggregate(mergeAll$freqParent, list(mergeAll$CV_POP_KEY), krpAlpha)
+# colnames(kaResults)=c("CV_POP_KEY","SAMPLE_KA")
+# mergeAll=merge(mergeAll,kaResults,by.x="CV_POP_KEY",by.y="CV_POP_KEY")
+
+mergeAll$ORIGINAL_COUNT = FALSE
+original = grep("All",mergeAll$FILE)
+mergeAll$ORIGINAL_COUNT[original]=TRUE
+mergeAll=mergeAll[which(mergeAll$ORIGINAL_COUNT=="FALSE"),]
+
+# merge[merge$ORIGINAL_COUNT,]$TOTAL_COUNTS
+# merge=merge[which(merge$COUNTS<=merge$TOTAL_COUNTS),]
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  # panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+```
+
+```{r fig.height=10,fig.width=12,echo=FALSE}
+
+failData=merge[which(!merge$SUCCESS|merge$Manual=="Tcells (CD3+ CD19-)"|merge$Manual=="MONOCYTES (CD14+)"),]
+failData=failData[which(failData$ORIGINAL_COUNT=="FALSE"),]
+
+plotFailData = data.frame(EVENT_COUNT=numeric(),FAIL=character(),NUMBER=numeric(),PANEL=character())
+for(panel in unique(failData$PANEL) ){
+  if(panel!="panel_undetermined"){
+  for(machine in unique(failData$MACHINE.x)){
+  tmp = failData[which(failData$PANEL==panel&failData$MACHINE.x==machine),]
+  t=as.data.frame(table(tmp$TOTAL_COUNTS,is.na(tmp$Manual)))
+  colnames(t)=c("EVENT_COUNT","FAIL","NUMBER");
+  t$PANEL=panel
+
+  pbf=ggplot(t,aes(x=EVENT_COUNT,y=NUMBER,colour=FAIL,size=FAIL)) +
+  geom_point() +
+  xlab("Num Events Sampled") + 
+  ylab(paste0("COUNT"))+t2+ggtitle(paste0(panel, " ", machine)) 
+  print(pbf)
+  
+  rate=data.frame(EVENT_COUNT=unique(t$EVENT_COUNT))
+  failCounts = t[which(t$FAIL==TRUE),]
+  failCounts$NUM_FAILS=failCounts$NUMBER
+  successCounts= t[which(t$FAIL==FALSE),]
+  successCounts$NUM_SUCCESS=successCounts$NUMBER
+  
+  rate=merge(rate,failCounts,by.x="EVENT_COUNT",by.y="EVENT_COUNT",all.x=TRUE)
+  rate=merge(rate,successCounts,by.x="EVENT_COUNT",by.y="EVENT_COUNT",all.x=TRUE)
+  rate$FAIL_RATE=rate$NUM_FAILS/(rate$NUM_FAILS+rate$NUM_SUCCESS)
+  rate$FAIL_RATE =rate$FAIL_RATE*100
+  pbfr=ggplot(rate,aes(x=EVENT_COUNT,y=FAIL_RATE)) +
+  geom_point() +
+  xlab("Num Events Sampled") + 
+  ylab(paste0("Percent failure"))+t2+ggtitle(paste0(panel, " ", machine)) +ylim(0,100)
+  print(pbfr)
+  }
+  }
+}
+
+
+p1Looks = c(
+"Lymphocytes (SSC-A v FSC-A)",
+"Single Cells (FSC-H v FSC-W)",
+"Live cells (PE-)",
+"Tcells (CD3+ CD19-)",
+"Helper Tcells-CD4+",
+"cytotoxic Tcells-CD8+",
+"B cells (CD3- CD19+)",
+"naive Bcells (CD27- IgD+)",
+"IgD- memory Bcells (CD27+)",
+"IgD+ memory Bcells (CD27+)"
+)
+
+p2Looks = c(
+  "Live immune cells (CD45+ PE-)",
+  "Live Single immune cells(FSC-H/FSC-W)",
+  "Live Single PBMCs (SSC-A/FSC-A)",
+  "DC NK MONOCYTES (CD3- CD19-)",
+  "MONOCYTES (CD14+)",
+  "Non classical monocytes (CD16+ CD14+)",
+  "Classical monocytes (CD16- CD14+)",
+  "DC NK (CD20- CD14-)",
+  "NK (CD16+)",
+  "NK CD56LO",
+  "NK CD56HI"
+  )
+plot(mergeAll$Count,mergeAll$SAMPLE_CV)
+plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
+looks=c(p1Looks,p2Looks)
+for(panel in unique(mergeAll$PANEL) ){
+  pops=unique(mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual%in%looks),]$Manual)
+  for(popP in pops){
+
+    sub= mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual == popP),]
+  pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab("Total Events Sampled") +
+  ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  print(pb)
+  
+  #  pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_KA,colour=MACHINE.x)) +
+  # geom_boxplot() +
+  # xlab("Total Events Sampled") +
+  # ylab(paste0("Percent Parent KA"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  # print(pb)
+  # pb=ggplot(sub,aes(x=Count,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # geom_point() +
+  # xlab(" Events in Population") +
+  # ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  # # print(pb)
+  # pb=ggplot(sub,aes(x=Count)) +
+  # geom_histogram() +
+  # xlab("Events in Population") +
+  # t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  # print(pb)
+      
+  }
+}
+
+
+#   
+# 
+# for(pop in pops){
+#  p=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID,size=ORIGINAL_COUNT)) +
+#   geom_point() +
+#   xlab("Num Events Sampled") +
+#   ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x) +ggtitle(paste0("POP=",pop))+ylim(0,1)
+# 
+#  print(p)
+#   pb=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID)) +
+#   geom_boxplot() +
+#   xlab("Num Sampled") +
+#   ylab(paste0("Percent parent",pop))+t2+facet_wrap(~MACHINE.x)+ggtitle(paste0("POP=",pop))+ylim(0,1)
+#   print(pb)
+# }
+
+```

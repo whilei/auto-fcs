@@ -60,6 +60,21 @@ done
 
 
 
+IFS=$'\n'
+for i in $(cat panel1.missing.txt); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel1/
+   cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel1Rename.wsp /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel1/
+done
+
+
+IFS=$'\n'
+for i in $(cat panel2.missing.txt); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel2/
+   cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel2Rename.wsp /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel2/
+done
+
 
 
 

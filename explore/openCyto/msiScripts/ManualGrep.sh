@@ -77,6 +77,10 @@ grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_N
 find /scratch.global/lanej/flow/full/fcs/ -type f -name *.fcs > all.fcs.txt
 
 
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/panel\ 2/r25_singlecellbranch_panel2_batch* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >singletManual.fcs.txt
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_panel2_CD14Branch_ec/r25_panel2_CD14Branch_ec |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT >CD14Manual.fcs.txt
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_NewImages_ec/* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |grep "PANEL_1" >Panel1.newManual.fcs.txt
+grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_NewImages_ec/* |cut -f 2 -d "|"| sed "s/.fcs.*//g"|sed "s/.*\///g"|sort |uniq |grep -v ANNOT |grep "PANEL_2" >Panel2.newManual.fcs.txt
 
 
 
