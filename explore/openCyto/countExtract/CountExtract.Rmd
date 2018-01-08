@@ -1,0 +1,72 @@
+---
+title: "Manual_Auto"
+author: "JL"
+date: "1/8/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE,eval=FALSE}
+
+```{r setup, include=FALSE,eval=FALSE}
+library(openxlsx)
+
+latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+
+combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE, stringsAsFactors = FALSE)
+
+use=!(latest$SANITIZE %in% combo$V1)
+
+latestUse =latest[use,]
+latestUse$LAB_ID=NA
+latestUse[which(is.na(latestUse$Manual)),]$Population
+ 
+
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+num=0
+for(id in manifest$Lab.ID){
+  match=grep(id,latestUse$name)
+  # print(match)
+  num=num+1
+  print(num)
+  if(length(match)>0){
+    # print(length(match))
+    latestUse[match,]$LAB_ID=id
+  }
+}
+
+  write.table(
+    latestUse,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt",
+    row.names = FALSE
+  ) 
+save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata" )
+
+```
+
+
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
