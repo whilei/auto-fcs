@@ -3,6 +3,16 @@ JL
 12/11/2017  
 
 
+# Notes
+
+Selected 30 LSR and 30 FORTESSA files matched for panel1 and panel2 that:
+
+- had an event count > 700000
+- had 0 "bad","abnormal", or "manual" annotatations
+
+Within this set:
+
+- randomly sub-sampled events 10 times per threshold, with requirement that number of events sampled be < %50 of total events
 
 
 
@@ -11,404 +21,387 @@ JL
 
 
 
-```
-## Warning: Using size for a discrete variable is not advised.
-```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+# Failure rate by number of events sampled
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-2.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-4.png)<!-- -->
 
-```
-## Warning: Using size for a discrete variable is not advised.
-```
+# Population specific variability
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-4.png)<!-- -->
-
-```
-## Warning: Using size for a discrete variable is not advised.
-```
-
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-5.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-6.png)<!-- -->
-
-```
-## Warning: Using size for a discrete variable is not advised.
-```
-
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-8.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-9.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-10.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-2.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-3.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-11.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-4.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-12.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-5.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-13.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-6.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-7.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-14.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-8.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-15.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-9.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-16.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-10.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-11.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-17.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-12.png)<!-- -->
 
 ```
 ## Warning: Removed 65 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-18.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-13.png)<!-- -->
 
 ```
 ## Warning: Removed 65 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-19.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-14.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-15.png)<!-- -->
 
 ```
 ## Warning: Removed 65 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-20.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-16.png)<!-- -->
 
 ```
 ## Warning: Removed 59 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-21.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-17.png)<!-- -->
 
 ```
 ## Warning: Removed 59 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-22.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-18.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-19.png)<!-- -->
 
 ```
 ## Warning: Removed 59 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-23.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-20.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-24.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-21.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-25.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-22.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-23.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-26.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-24.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-27.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-25.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-28.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-26.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-27.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-29.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-28.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-30.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-29.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-31.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-30.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-31.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-32.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-32.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-33.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-33.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-34.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-34.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-35.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-35.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-36.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-36.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-37.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-37.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-38.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-39.png)<!-- -->
 
 ```
 ## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-38.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-40.png)<!-- -->
 
 ```
 ## Warning: Removed 53 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-39.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-41.png)<!-- -->
 
 ```
 ## Warning: Removed 53 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-40.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-42.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-43.png)<!-- -->
 
 ```
 ## Warning: Removed 53 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-41.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-44.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-42.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-45.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-43.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-46.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-47.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-44.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-48.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-45.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-49.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-46.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-50.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-51.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-47.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-52.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-48.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-53.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-49.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-54.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-55.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-50.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-56.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-51.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-57.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-52.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-58.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-59.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-53.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-60.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-54.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-61.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-55.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-62.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-63.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-56.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-64.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-57.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-65.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-58.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-66.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-67.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-59.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-68.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-60.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-69.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-61.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-70.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-71.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-62.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-72.png)<!-- -->
 
 ```
 ## Warning: Removed 482 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-63.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-73.png)<!-- -->
 
 ```
 ## Warning: Removed 482 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-64.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-74.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-75.png)<!-- -->
 
 ```
 ## Warning: Removed 482 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-65.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-76.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-66.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-77.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-67.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-78.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-79.png)<!-- -->
 
 ```
 ## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-68.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-80.png)<!-- -->
 
 ```
 ## Warning: Removed 80 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-69.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-81.png)<!-- -->
 
 ```
 ## Warning: Removed 80 rows containing missing values (geom_point).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-70.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-82.png)<!-- -->![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-83.png)<!-- -->
 
 ```
 ## Warning: Removed 80 rows containing non-finite values (stat_boxplot).
 ```
 
-![](Insilico_V10_V2_files/figure-html/unnamed-chunk-2-71.png)<!-- -->
+![](Insilico_V10_V2_files/figure-html/unnamed-chunk-3-84.png)<!-- -->
