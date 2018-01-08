@@ -178,11 +178,11 @@ for(panel in unique(failData$PANEL) ){
 
 Plots below - for each population
 
-1. Boxplots of sample CVs at each event threshold
-2. Number of events in lymph/pbmc vs sample CV
-3. Histogram of number of events in lymph/pbmc
-4. Boxplots of sample CVs for binned lymph/pbmc counts
-
+1. Boxplots of sample CVs at each event threshold (the total events in the .fcs file)
+2. Number of events in lymph/pbmc populations vs sample CV
+4. Boxplots of sample CVs binned by lymph/pbmc counts - I'm kinda finding this to be the most informative. 
+5. Number of events in lymph/pbmc populations vs number of events in current population.
+6. Boxplots of sample CVs binned by number of events in current population.
 
 
 ```{r fig.height=10,fig.width=12,echo=FALSE}
@@ -217,6 +217,7 @@ p2Looks = c(
 
 p1full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE)$Manual
 p2full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE)$Manual
+# [1:2]
 # plot(mergeAll$Count,mergeAll$SAMPLE_CV)
 # plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
 panels=c("panel1","panel2")
@@ -230,63 +231,102 @@ for(panel in panels){
     }
 
   for(popP in pops){
+  plot=1  
 
     sub= mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual == popP),]
   pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_boxplot() +
-  xlab("Total Events Sampled") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  xlab("Num Events Sampled") +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-  
+  plot=plot+1  
+
   #  pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_KA,colour=MACHINE.x)) +
   # geom_boxplot() +
-  # xlab("Total Events Sampled") +
+  # xlab("Num Events Sampled") +
   # ylab(paste0("Frequency Parent KA"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
   # print(pb)
   if(panel=="panel2"){
   pb=ggplot(sub,aes(x=PBMC_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
   xlab("Events in Live Single PBMCs") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-  
-  pb=ggplot(sub,aes(x=PBMC_COUNT)) +
-  geom_histogram(bins = 50) +
-  xlab("Events in Live Single PBMCs") +
-  ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
-  print(pb)
-  
+  plot=plot+1  
+
+
+  # pb=ggplot(sub,aes(x=PBMC_COUNT)) +
+  # geom_histogram(bins = 50) +
+  # xlab("Events in Live Single PBMCs") +
+  # ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  # plot=plot+1  
+
     sub$PbmcBin <- cut(sub$PBMC_COUNT, c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+   sub$PopBin <- cut(sub$Count, seq(from=0,to=max(sub$Count),length.out = 50)) 
  pb=ggplot(sub,aes(x=PbmcBin,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab("Events in Live Single PBMCs") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
+  plot=plot+1  
+
+   pb=ggplot(sub,aes(x=PBMC_COUNT,y=Count,colour=MACHINE.x)) +
+  geom_point() +
+  xlab("Events in Live Single PBMCs") +
+  ylab(paste0("Events in ",popP))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
+  pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
   
   }
     if(panel=="panel1"){
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
   xlab(" Events in Lymphocytes") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-  
-  pb=ggplot(sub,aes(x=LYMPH_COUNT)) +
-  geom_histogram(bins = 50) +
-  xlab(" Events in Lymphocytes") +
-  ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
-  print(pb)
-  
+    plot=plot+1  
+
+  # pb=ggplot(sub,aes(x=LYMPH_COUNT)) +
+  # geom_histogram(bins = 50) +
+  # xlab(" Events in Lymphocytes") +
+  # ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  #   plot=plot+1  
+
   
   sub$LymphBin <- cut(sub$LYMPH_COUNT,  c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+  sub$PopBin <- cut(sub$Count, seq(from=0,to=max(sub$Count),length.out = 50)) 
 
   pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(" Events in Lymphocytes") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-  
-  
+    plot=plot+1  
+
+  pb=ggplot(sub,aes(x=LYMPH_COUNT,y=Count,colour=MACHINE.x)) +
+  geom_point() +
+  xlab(" Events in Lymphocytes") +
+  ylab(paste0("Events in ",popP))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+    plot=plot+1  
+
+   pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot()  +
+  xlab(paste0("Events in ",popP))+
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+    plot=plot+1  
+
   
   
   }
