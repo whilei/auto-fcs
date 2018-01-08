@@ -4,13 +4,45 @@ author: "JL"
 date: "1/8/2018"
 output: html_document
 ---
+```{r}
 
-```{r setup, include=FALSE,eval=FALSE}
+parsePanel <- function(metrics,freqMetrics, map, panel){
+  metricsPanel=metrics[which(metrics$Panel==panel&metrics$GATE=="MANUAL"),]
+  # map$ManualOriginal=map$Manual
+  map$Manual=gsub("/","_",map$Manual)
+  metricsPanel=merge(metricsPanel,map,by.x="Population",by.y="Manual")
+  # metricsPanel$nameOriginal=metricsPanel$name
+  metricsPanel$name=gsub(".fcs_.*",".fcs",metricsPanel$name)
+  freqMetricsPanel=freqMetrics[which(freqMetrics$Panel==panel&freqMetrics$GATE=="AUTOMATIC"),]
+  freqMetricsPanel$Auto=freqMetricsPanel$Population
+  freqMetricsPanel=freqMetricsPanel[,colnames(metricsPanel)]
+  
+  keepAuto=!(freqMetricsPanel$name %in% metricsPanel$name)
+  autoMetrics = freqMetricsPanel[keepAuto,]
+  
+  combo = rbind(autoMetrics,metricsPanel)
+  
+  return(combo)
+}
+
+```
+
+
 
 ```{r setup, include=FALSE,eval=FALSE}
 library(openxlsx)
 
-latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
+p1mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE, sep = "\t")
+p2mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE, sep = "\t")
+  
+
+latestAuto = read.delim("/Volumes/Beta/data/flow/testManualGates/freq.metrics.txt", stringsAsFactors = FALSE)
+
+latestManual = read.delim("/Volumes/Beta/data/flow/testManualGates/metrics.txt", stringsAsFactors = FALSE)
+
+parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p1mapD,panel = "panel1")
+parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p2mapD,panel = "panel2")
+
 latest$SANITIZE=gsub(" ","_",latest$name)
 latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
 
@@ -48,25 +80,3 @@ save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.f
 ```
 
 
-
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
