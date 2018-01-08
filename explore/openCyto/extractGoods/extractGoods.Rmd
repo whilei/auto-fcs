@@ -50,6 +50,10 @@ library(reshape2)
 
 load("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata")
 latestUse=latestUse[which(!is.na(latestUse$LAB_ID)),]
+# lymph=latestUse[which(latestUse$Manual=="Lymphocytes (SSC-A v FSC-A)"),]
+# table(lymph$Count>10000)
+# pbmc=latestUse[which(latestUse$Manual=="Live Single PBMCs (SSC-A/FSC-A)"),]
+# table(pbmc$Count>10000)
 latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel1"),]$Manual="P1Root"
 latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel2"),]$Manual="P2Root"
 

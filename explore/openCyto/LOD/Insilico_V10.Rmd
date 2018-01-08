@@ -183,8 +183,8 @@ p2Looks = c(
   "NK CD56LO",
   "NK CD56HI"
   )
-plot(mergeAll$Count,mergeAll$SAMPLE_CV)
-plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
+# plot(mergeAll$Count,mergeAll$SAMPLE_CV)
+# plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
 looks=c(p1Looks,p2Looks)
 for(panel in unique(mergeAll$PANEL) ){
   pops=unique(mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual%in%looks),]$Manual)
@@ -205,9 +205,16 @@ for(panel in unique(mergeAll$PANEL) ){
   if(panel=="panel2"){
   pb=ggplot(sub,aes(x=PBMC_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
-  xlab(" Events in Live Single PBMCs") +
+  xlab("Events in Live Single PBMCs") +
   ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
   print(pb)
+    sub$PbmcBin <- cut(sub$PBMC_COUNT, c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+ pb=ggplot(sub,aes(x=PbmcBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab("Events in Live Single PBMCs") +
+  ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  print(pb)
+  
   }
     if(panel=="panel1"){
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
@@ -215,7 +222,19 @@ for(panel in unique(mergeAll$PANEL) ){
   xlab(" Events in Lymphocytes") +
   ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
   print(pb)
+  
+  sub$LymphBin <- cut(sub$LYMPH_COUNT,  c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+
+  pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(" Events in Lymphocytes") +
+  ylab(paste0("Percent Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  print(pb)
+  
+  
   }
+  
+  
   # pb=ggplot(sub,aes(x=Count)) +
   # geom_histogram() +
   # xlab("Events in Population") +
