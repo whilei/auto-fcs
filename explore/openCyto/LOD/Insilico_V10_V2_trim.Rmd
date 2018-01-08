@@ -57,8 +57,8 @@ merge=merge[nonHZ,]
 mergeAll=merge
 # use=grepl("Ctl",merge$FILE)
 # merge=merge[use,]
-use=grepl("iter_1",merge$FILE)
-merge=merge[use,]
+# use=grepl("iter_1",merge$FILE)
+# merge=merge[use,]
 
 
 # merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
@@ -217,6 +217,7 @@ p2Looks = c(
 
 p1full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE)$Manual[1:2]
 p2full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE)$Manual[1:2]
+# [1:2]
 # plot(mergeAll$Count,mergeAll$SAMPLE_CV)
 # plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
 panels=c("panel1","panel2")

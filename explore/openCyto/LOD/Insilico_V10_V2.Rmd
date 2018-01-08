@@ -57,8 +57,8 @@ merge=merge[nonHZ,]
 mergeAll=merge
 # use=grepl("Ctl",merge$FILE)
 # merge=merge[use,]
-use=grepl("iter_1",merge$FILE)
-merge=merge[use,]
+# use=grepl("iter_1",merge$FILE)
+# merge=merge[use,]
 
 
 # merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
