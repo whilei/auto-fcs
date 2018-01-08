@@ -174,7 +174,14 @@ for(panel in unique(failData$PANEL) ){
 # Population specific variability
 
 
-- Frequency Parent CV computed within a sample for each sampling threshold
+- Frequency Parent CV computed within a sample for each event threshold (10 replicates at 2k,10 replicates at 3k, etc)
+
+Plots below - for each population
+
+1. Boxplots of sample CVs at each event threshold
+2. Number of events in lymph/pbmc vs sample CV
+3. Histogram of number of events in lymph/pbmc
+4. Boxplots of sample CVs for binned lymph/pbmc counts
 
 
 
@@ -207,11 +214,21 @@ p2Looks = c(
   "NK CD56LO",
   "NK CD56HI"
   )
+
+p1full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE)$Manual
+p2full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE)$Manual
 # plot(mergeAll$Count,mergeAll$SAMPLE_CV)
 # plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
-looks=c(p1Looks,p2Looks)
-for(panel in unique(mergeAll$PANEL) ){
-  pops=unique(mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual%in%looks),]$Manual)
+panels=c("panel1","panel2")
+for(panel in panels){
+  pops=c()
+    if(panel=="panel2"){
+      pops=p2full
+    }
+   if(panel=="panel1"){
+      pops=p1full
+    }
+
   for(popP in pops){
 
     sub= mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual == popP),]
