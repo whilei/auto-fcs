@@ -304,6 +304,13 @@ sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
   print(pb)
   plot=plot+1 
   
+  
+  pb=ggplot(sub,aes(x=Count)) +
+  geom_histogram(bins = 50) +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Sample Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1
   }
     if(panel=="panel1"){
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
@@ -356,6 +363,12 @@ sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
   print(pb)
   plot=plot+1 
   
+    pb=ggplot(sub,aes(x=Count)) +
+  geom_histogram(bins = 50) +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Sample Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1
     
   #  pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
   # geom_boxplot()  +

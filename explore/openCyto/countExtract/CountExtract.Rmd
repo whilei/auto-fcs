@@ -40,17 +40,11 @@ latestAuto = read.delim("/Volumes/Beta/data/flow/testManualGates/freq.metrics.tx
 
 latestManual = read.delim("/Volumes/Beta/data/flow/testManualGates/metrics.txt", stringsAsFactors = FALSE)
 
-parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p1mapD,panel = "panel1")
-parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p2mapD,panel = "panel2")
+panel1=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p1mapD,panel = "panel1")
+panel2=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p2mapD,panel = "panel2")
 
-latest$SANITIZE=gsub(" ","_",latest$name)
-latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+panels=rbind(panel1,panel2)
 
-combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE, stringsAsFactors = FALSE)
-
-use=!(latest$SANITIZE %in% combo$V1)
-
-latestUse =latest[use,]
 latestUse$LAB_ID=NA
 latestUse[which(is.na(latestUse$Manual)),]$Population
  

@@ -1,0 +1,1 @@
+ find . -type f -name *Rename.wsp |grep "PANEL 2" ||sed "s/.*\///g"|more 

@@ -75,6 +75,15 @@ for i in $(cat panel2.missing.txt); do
    cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel2Rename.wsp /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel2/
 done
 
+IFS=$'\n'
+for i in $(cat missing_desc.txt); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/OC_Fails/missing_desc/
+done
+
+   cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel2Rename.wsp /home/thyagara/shared/HRS/manualFinal/r25OCmanualpanel_missing/panel2/
+
+
 
 
 
