@@ -53,13 +53,13 @@ Plots below - for each population
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
 
 ```
-## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 74 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-3.png)<!-- -->![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-4.png)<!-- -->
 
 ```
-## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 71 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-5.png)<!-- -->
@@ -77,13 +77,13 @@ Plots below - for each population
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-7.png)<!-- -->
 
 ```
-## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 74 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-8.png)<!-- -->![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-9.png)<!-- -->
 
 ```
-## Warning: Removed 55 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 83 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-10.png)<!-- -->
@@ -101,13 +101,13 @@ Plots below - for each population
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-12.png)<!-- -->
 
 ```
-## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 182 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-13.png)<!-- -->![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-14.png)<!-- -->
 
 ```
-## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 91 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-15.png)<!-- -->
@@ -125,13 +125,13 @@ Plots below - for each population
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-17.png)<!-- -->
 
 ```
-## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 182 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-18.png)<!-- -->![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-19.png)<!-- -->
 
 ```
-## Warning: Removed 51 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 216 rows containing non-finite values (stat_boxplot).
 ```
 
 ![](Insilico_V10_V2_trim_files/figure-html/unnamed-chunk-3-20.png)<!-- -->

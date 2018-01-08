@@ -218,6 +218,7 @@ p2Looks = c(
 p1full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE)$Manual[1:2]
 p2full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE)$Manual[1:2]
 # [1:2]
+# [1:2]
 # plot(mergeAll$Count,mergeAll$SAMPLE_CV)
 # plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
 panels=c("panel1","panel2")
@@ -250,7 +251,7 @@ for(panel in panels){
   pb=ggplot(sub,aes(x=PBMC_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
   xlab("Events in Live Single PBMCs") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  ylab(paste0("Frequency Parent CV - events sampled method"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
   plot=plot+1  
 
@@ -263,8 +264,15 @@ for(panel in panels){
   # plot=plot+1  
 
     sub$PbmcBin <- cut(sub$PBMC_COUNT, c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
-   sub$PopBin <- cut(sub$Count, seq(from=0,to=max(sub$Count),length.out = 50)) 
- pb=ggplot(sub,aes(x=PbmcBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+   sub$PopBin <- cut(sub$Count, seq(from=-1,to=max(sub$Count),length.out = 50)) 
+ 
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PbmcBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_PBMC_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+   
+   
+  pb=ggplot(sub,aes(x=PbmcBin,y=SAMPLE_PBMC_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab("Events in Live Single PBMCs") +
   ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
@@ -278,20 +286,30 @@ for(panel in panels){
   print(pb)
   plot=plot+1  
 
-  pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # geom_boxplot() +
+  # xlab(paste0("Events in ",popP)) +
+  # ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  # plot=plot+1  
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PopBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_POP_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+  
+ pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_POP_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(paste0("Events in ",popP)) +
   ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-  plot=plot+1  
-
+  plot=plot+1 
   
   }
     if(panel=="panel1"){
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
   xlab(" Events in Lymphocytes") +
-  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  ylab(paste0("Frequency Parent CV - events sampled method"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
     plot=plot+1  
 
@@ -304,9 +322,15 @@ for(panel in panels){
 
   
   sub$LymphBin <- cut(sub$LYMPH_COUNT,  c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
-  sub$PopBin <- cut(sub$Count, seq(from=0,to=max(sub$Count),length.out = 50)) 
+  sub$PopBin <- cut(sub$Count, seq(from=-1,to=max(sub$Count),length.out = 50)) 
 
-  pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$LymphBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_LYMPH_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+   
+  
+  pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(" Events in Lymphocytes") +
   ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
@@ -320,12 +344,25 @@ for(panel in panels){
   print(pb)
     plot=plot+1  
 
-   pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
-  geom_boxplot()  +
-  xlab(paste0("Events in ",popP))+
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PopBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_POP_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+  
+ pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_POP_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(paste0("Events in ",popP)) +
   ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
-    plot=plot+1  
+  plot=plot+1 
+  
+    
+  #  pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # geom_boxplot()  +
+  # xlab(paste0("Events in ",popP))+
+  # ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  #   plot=plot+1  
 
   
   
