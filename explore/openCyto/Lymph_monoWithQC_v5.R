@@ -710,9 +710,9 @@ if (!file.exists(metricsFile)) {
                 #sample group
                 # subset = eval(file),
                 #load single fcs file
-                isNcdf = FALSE
+                isNcdf = FALSE,
                 #not memory mapped
-                # compensation = comp
+                compensation = compensation(keyword(frame)$`SPILL`)
               )
             #
             print(paste0("manually gated sample ",file))
