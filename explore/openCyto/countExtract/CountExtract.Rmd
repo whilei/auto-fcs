@@ -50,15 +50,28 @@ latestUse[which(is.na(latestUse$Manual)),]$Population
  
 
 manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+manifest$PANEL_1_OC_FILE_ATTEMPTED=NA
+manifest$PANEL_2_OC_FILE_ATTEMPTED=NA
 num=0
 for(id in manifest$Lab.ID){
-  match=grep(id,latestUse$name)
+  match=grep(paste0("_",id,"_"),latestUse$name)
   # print(match)
   num=num+1
   print(num)
   if(length(match)>0){
     # print(length(match))
     latestUse[match,]$LAB_ID=id
+    sub=latestUse[match,]
+    p1=sub[which(sub$PANEL=="panel1"),]
+    p2=sub[which(sub$PANEL=="panel2"),]
+      if (length(p1[, 1]) > 0) {
+      latestUse[which(latestUse$Lab.ID == id), ]$PANEL_1_OC_FILE_ATTEMPTED = paste(p1$FILE,collapse = ";")
+
+    }
+    if (length(p2[, 1]) > 0) {
+    latestUse[which(latestUse$Lab.ID == id), ]$PANEL_2_OC_FILE_ATTEMPTED = paste(p2$FILE,collapse = ";")
+
+    }
   }
 }
 

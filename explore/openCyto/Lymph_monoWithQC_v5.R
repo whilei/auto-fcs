@@ -539,6 +539,9 @@ plotP2 <- function(gs1) {
   #   ncol = 2
   # )
 }
+# manualGate <- function(qc) {
+#  
+# }
 
 compFrame <-
   function(frame,
@@ -581,34 +584,8 @@ compFrame <-
                           "AUTOMATIC")
     metrics = autoCounts
     
-    if (!qcVersion) {
-      wsFile = mapper[which(mapper$FCS == file),]$WSP
-      if (length(wsFile) > 0) {
-        ws <- openWorkspace(wsFile)
-        gs <-
-          parseWorkspace(
-            ws,
-            #WSP file
-            path = inputDir,
-            #FCS file
-            name = 1,
-            #sample group
-            # subset = eval(file),
-            #load single fcs file
-            isNcdf = FALSE
-            #not memory mapped
-            # compensation = comp
-          )
-        #
-        print(paste0("manually gated sample ",file))
-        manCounts = getStats(gs1 = gs,
-                             qcVersion = qcVersion,
-                             metric = "count",
-                             "MANUAL")
-        metrics = rbind(metrics, manCounts)
-      }
-      
-    }
+    
+
     try(if (plot) {
       print(paste("plotting ", panel, "....", file))
       if (panel == "panel1") {
@@ -719,6 +696,39 @@ if (!file.exists(metricsFile)) {
           MACHINE = machine
         )
         counts = rbind(counts, tmpCount)
+        
+          wsFile = mapper[which(mapper$FCS == file),]$WSP
+          if (length(wsFile) > 0) {
+            ws <- openWorkspace(wsFile)
+            gs <-
+              parseWorkspace(
+                ws,
+                #WSP file
+                path = inputDir,
+                #FCS file
+                name = 1,
+                #sample group
+                # subset = eval(file),
+                #load single fcs file
+                isNcdf = FALSE
+                #not memory mapped
+                # compensation = comp
+              )
+            #
+            print(paste0("manually gated sample ",file))
+            manCounts = getStats(gs1 = gs,
+                                 qcVersion = FALSE,
+                                 metric = "count",
+                                 "MANUAL")
+            manCounts$Panel = panel
+            manCounts$PDF = "NA"
+            manCounts$FlaggedSample = file %in% fcsFilesAllProbs
+            manCounts$MACHINE = machine
+            manCounts$TEMPLATE_FILE_USED="NA"
+            metrics = rbind(metrics, manCounts)
+          }
+
+        
         
         try(if (length(exprs(frame)[, "FSC-H"]) > 0) {
           description(frame)$FILENAME = file

@@ -32,7 +32,7 @@ manifest$PANEL_UNDETERMINED=NA
 
 num=0
 for(id in manifest$Lab.ID){
-  match=grep(id,totals$FILE)
+  match=grep(paste0("_",id,"_"),totals$FILE)
   # print(match)
   num=num+1
   print(num)
