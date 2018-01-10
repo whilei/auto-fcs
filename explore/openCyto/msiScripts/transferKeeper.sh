@@ -94,7 +94,7 @@ done
 
 
 IFS=$'\n'
-for i in $(cat /home/tsaim/lane0212/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt); do
+for i in $(cat /home/tsaim/lane0212/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt); do
    echo "$i"
    cp  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/OC_manualComparision/
    cp  /scratch.global/lanej/flow/full/results_r25_21full_SS_SubCD8_SCD14/FULL/*/gatesRename/"$i"_panel*Rename.wsp /home/thyagara/shared/HRS/OC_manualComparision/
