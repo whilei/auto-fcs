@@ -12,10 +12,10 @@ output: html_document
 library(openCyto)
 library(ggcyto)
 library(flowCore)
-# out = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/fcsMSIMap.txt"
-# wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
-out = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.txt"
-wsDir = "/Volumes/Beta/data/flow/testManualGates/"
+out = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/fcsMSIMap.txt"
+wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
+# out = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.txt"
+# wsDir = "/Volumes/Beta/data/flow/testManualGates/"
 wsps <-
   list.files(wsDir,
              pattern = "wsp$",
