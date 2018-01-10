@@ -6,11 +6,16 @@ output: html_document
 ---
 ```{r}
 
+dir="/Volumes/Beta/data/flow/testManualGates/"
+
 parsePanel <- function(metrics,freqMetrics, map, panel){
   metricsPanel=metrics[which(metrics$Panel==panel&metrics$GATE=="MANUAL"),]
   # map$ManualOriginal=map$Manual
   map$Manual=gsub("/","_",map$Manual)
+  map$Auto="NA"
+  map=unique(map)
   metricsPanel=merge(metricsPanel,map,by.x="Population",by.y="Manual")
+  metricsPanel$Manual=metricsPanel$Population
   # metricsPanel$nameOriginal=metricsPanel$name
   metricsPanel$name=gsub(".fcs_.*",".fcs",metricsPanel$name)
   freqMetricsPanel=freqMetrics[which(freqMetrics$Panel==panel&freqMetrics$GATE=="AUTOMATIC"),]
@@ -31,22 +36,21 @@ parsePanel <- function(metrics,freqMetrics, map, panel){
 
 ```{r setup, include=FALSE,eval=FALSE}
 library(openxlsx)
-
 p1mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE, sep = "\t")
 p2mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE, sep = "\t")
   
 
-latestAuto = read.delim("/Volumes/Beta/data/flow/testManualGates/freq.metrics.txt", stringsAsFactors = FALSE)
+latestAuto = read.delim(paste0(dir,"freq.metrics.txt"), stringsAsFactors = FALSE)
 
-latestManual = read.delim("/Volumes/Beta/data/flow/testManualGates/metrics.txt", stringsAsFactors = FALSE)
+latestManual = read.delim(paste0(dir,"metrics.txt"), stringsAsFactors = FALSE)
 
 panel1=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p1mapD,panel = "panel1")
 panel2=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p2mapD,panel = "panel2")
 
 panels=rbind(panel1,panel2)
 
-latestUse$LAB_ID=NA
-latestUse[which(is.na(latestUse$Manual)),]$Population
+panels$LAB_ID=NA
+panels[which(is.na(panels$Manual)),]$Population
  
 
 manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
@@ -54,36 +58,65 @@ manifest$PANEL_1_OC_FILE_ATTEMPTED=NA
 manifest$PANEL_2_OC_FILE_ATTEMPTED=NA
 num=0
 for(id in manifest$Lab.ID){
-  match=grep(paste0("_",id,"_"),latestUse$name)
+  match=grep(paste0("_",id,"_"),panels$name)
   # print(match)
   num=num+1
   print(num)
   if(length(match)>0){
     # print(length(match))
-    latestUse[match,]$LAB_ID=id
-    sub=latestUse[match,]
+    panels[match,]$LAB_ID=id
+    sub=panels[match,]
     p1=sub[which(sub$PANEL=="panel1"),]
     p2=sub[which(sub$PANEL=="panel2"),]
       if (length(p1[, 1]) > 0) {
-      latestUse[which(latestUse$Lab.ID == id), ]$PANEL_1_OC_FILE_ATTEMPTED = paste(p1$FILE,collapse = ";")
+      panels[which(panels$Lab.ID == id), ]$PANEL_1_OC_FILE_ATTEMPTED = paste(p1$FILE,collapse = ";")
 
     }
     if (length(p2[, 1]) > 0) {
-    latestUse[which(latestUse$Lab.ID == id), ]$PANEL_2_OC_FILE_ATTEMPTED = paste(p2$FILE,collapse = ";")
+    panels[which(panels$Lab.ID == id), ]$PANEL_2_OC_FILE_ATTEMPTED = paste(p2$FILE,collapse = ";")
 
     }
   }
 }
 
+panels$DATE=gsub(" .*","",panels$name)
+panels$DATE=gsub("_PANEL","",panels$DATE)
+panels$Manual=gsub("/","_",panels$Manual)
+
+regexpr("\\.[^\\.]*$", x)
   write.table(
-    latestUse,
+    panels,
     sep = "\t",
     quote = FALSE,
-    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt",
+    file = paste0(dir,"all.freq.metrics.use.txt"),
     row.names = FALSE
   ) 
-save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata" )
+save(panels,file =paste0(dir,"all.freq.metrics.use.Rdata" ))
 
 ```
+
+
+```{r}
+library(reshape2)
+
+load(paste0(dir,"all.freq.metrics.use.Rdata" ))
+
+print(panels$name[duplicated(paste0(panels$name,panels$Population))])
+
+print(panels$name[duplicated(paste0(panels$name,panels$Manual))])
+
+
+aggregatePanel <- function(panelData){
+
+panelDataCast =dcast(data = panelData,formula = name~Manual,fun.aggregate=sum,value.var = "Count")
+
+}
+
+p1Trim=panels[which(panels=="panel1"),c("name","Manual","Count")]
+p1Cast=aggregatePanel(panelData = p1Trim)
+
+
+```
+
 
 

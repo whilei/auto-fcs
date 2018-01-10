@@ -87,4 +87,4 @@ grep -i "manual" /home/thyagara/shared/HRS/annotation/r25/r25\ annotations/r25_N
 
 
 lane0212@ln0004 [/home/thyagara/shared/HRS/manualFinal] % 
-find . -type f -name *.wsp |grep -v "Rename" >~/regates.txt
+find . -type f -name *.wsp |grep -v "Rename" |grep -v "lsrpanel1\|fortessapanel1\|lsrpanel2\|fortessapanel2" >~/regates.txt

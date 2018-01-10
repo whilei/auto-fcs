@@ -85,6 +85,12 @@ done
 
 
 
+IFS=$'\n'
+for i in $(cat manualWSPs.txt); do
+   echo "$i"
+   cp  "$i" /home/thyagara/shared/HRS/manualFinal/consolidated/
+done
+
 
 
 

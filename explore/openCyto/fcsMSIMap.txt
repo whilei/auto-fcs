@@ -10,3 +10,5 @@ WSP	FCS
 /Volumes/Beta/data/flow/testManualGates///2016-09-20_PANEL 2_DHS_Group one_F1637205_011.fcs_panel2regated.wsp	2016-09-20_PANEL 2_DHS_Group one_F1637205_011.fcs
 /Volumes/Beta/data/flow/testManualGates///2016-12-21_PANEL 2_ZF_Group one_F1636223_013.fcs_panel2regated.wsp	2016-12-21_PANEL 2_ZF_Group one_F1636223_013.fcs
 /Volumes/Beta/data/flow/testManualGates///2016-12-22_PANEL 2_HB_group one_F1635972_005.fcs_panel2regated.wsp	2016-12-22_PANEL 2_HB_group one_F1635972_005.fcs
+/Volumes/Beta/data/flow/testManualGates///2017-03-13_PANEL 2_FORTESSA_DHS_group two_F1634191_032.fcs.wsp	2017-03-13_PANEL 2_FORTESSA_DHS_group two_F1634191_032.fcs
+/Volumes/Beta/data/flow/testManualGates///2017-07-21_PANEL 1_FORTESSA_RR_group two_RR_F1637650_022.fcs_panel1Regated.wsp	2017-07-21_PANEL 1_FORTESSA_RR_group two_RR_F1637650_022.fcs
