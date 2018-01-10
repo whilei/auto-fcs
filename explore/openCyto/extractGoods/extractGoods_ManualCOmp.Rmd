@@ -1,0 +1,78 @@
+---
+title: "ExtractGoods"
+author: "JL"
+date: "1/2/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE,eval=FALSE}
+library(openxlsx)
+
+latest = read.delim("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.txt", stringsAsFactors = FALSE)
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+
+combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE, stringsAsFactors = FALSE)
+
+use=!(latest$SANITIZE %in% combo$V1)
+
+latestUse =latest[use,]
+latestUse$LAB_ID=NA
+latestUse[which(is.na(latestUse$Manual)),]$Population
+ 
+
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+num=0
+for(id in manifest$Lab.ID){
+  match=grep(id,latestUse$name)
+  # print(match)
+  num=num+1
+  print(num)
+  if(length(match)>0){
+    # print(length(match))
+    latestUse[match,]$LAB_ID=id
+  }
+}
+
+  write.table(
+    latestUse,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.txt",
+    row.names = FALSE
+  ) 
+save(latestUse,file ="/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata" )
+
+```
+
+```{r}
+library(reshape2)
+
+load("/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.use.Rdata")
+latestUse=latestUse[which(!is.na(latestUse$LAB_ID)),]
+# lymph=latestUse[which(latestUse$Manual=="Lymphocytes (SSC-A v FSC-A)"),]
+# table(lymph$Count>10000)
+# pbmc=latestUse[which(latestUse$Manual=="Live Single PBMCs (SSC-A/FSC-A)"),]
+# table(pbmc$Count>10000)
+latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel1"),]$Manual="P1Root"
+latestUse[which(is.na(latestUse$Manual)&latestUse$Panel=="panel2"),]$Manual="P2Root"
+
+p1pops=unique(latestUse[which(latestUse$Panel=="panel1"),]$Manual)
+p2pops=unique(latestUse[which(latestUse$Panel=="panel2"),]$Manual)
+
+latestUseTrim=latestUse[,c("LAB_ID","Manual","Count")]
+
+latestUseTrimCast =dcast(data = latestUseTrim,formula = LAB_ID~Manual,fun.aggregate = sum,value.var = "Count")
+
+latestUseTrimCast=latestUseTrimCast[,c("LAB_ID",p1pops,p2pops)]
+
+  write.table(
+    latestUseTrimCast,
+    sep = "\t",
+    quote = FALSE,
+    file = "/Volumes/Beta/data/flow/results_r25_20full_SS_SubCD8/all.freq.metrics.cast.txt",
+    row.names = FALSE
+  )  
+
+  
+```

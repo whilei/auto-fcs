@@ -6,7 +6,7 @@ output: html_document
 ---
 ```{r}
 
-dir="/Volumes/Beta/data/flow/testManualGates/"
+dir="/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/"
 
 parsePanel <- function(metrics,freqMetrics, map, panel){
   metricsPanel=metrics[which(metrics$Panel==panel&metrics$GATE=="MANUAL"),]
@@ -40,9 +40,9 @@ p1mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", 
 p2mapD = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE, sep = "\t")
   
 
-latestAuto = read.delim(paste0(dir,"freq.metrics.txt"), stringsAsFactors = FALSE)
+latestAuto = read.delim(paste0(dir,"all.freq.metrics.txt"), stringsAsFactors = FALSE)
 
-latestManual = read.delim(paste0(dir,"metrics.txt"), stringsAsFactors = FALSE)
+latestManual = read.delim(paste0(dir,"all.metrics.txt"), stringsAsFactors = FALSE)
 
 panel1=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p1mapD,panel = "panel1")
 panel2=parsePanel(metrics = latestManual,freqMetrics = latestAuto,map = p2mapD,panel = "panel2")
@@ -83,7 +83,7 @@ panels$DATE=gsub(" .*","",panels$name)
 panels$DATE=gsub("_PANEL","",panels$DATE)
 panels$Manual=gsub("/","_",panels$Manual)
 
-regexpr("\\.[^\\.]*$", x)
+# regexpr("\\.[^\\.]*$", x)
   write.table(
     panels,
     sep = "\t",
@@ -104,6 +104,8 @@ load(paste0(dir,"all.freq.metrics.use.Rdata" ))
 print(panels$name[duplicated(paste0(panels$name,panels$Population))])
 
 print(panels$name[duplicated(paste0(panels$name,panels$Manual))])
+print(panels[which(panels=="panel1"),]$name[duplicated(paste0(panels$Lab.ID))])
+print(panels[which(panels=="panel2"),]$name[duplicated(paste0(panels$Lab.ID))])
 
 
 aggregatePanel <- function(panelData){

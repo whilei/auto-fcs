@@ -1,0 +1,90 @@
+---
+title: "ExtractManualComp"
+author: "JL"
+date: "1/10/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+orig = orig[which(orig$MONOc<1000),]
+
+metrics= "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.freq.metrics.txt"
+tc = "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.totalCellCounts.metrics.txt"
+latest = read.delim(metrics, stringsAsFactors = FALSE)
+latest$ID=gsub(".* ","",latest$name)
+latest$ID=gsub("one_","",latest$ID)
+latest$ID=gsub("two_","",latest$ID)
+latest$ID=gsub("ZF_","",latest$ID)
+latest$ID=gsub("_.*","",latest$ID)
+
+combo=read.delim("/Volumes/Beta/data/flow/annotations/combo.txt",header = FALSE, stringsAsFactors = FALSE)
+
+
+dc=read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/Completions/toDoubleCheck.txt",header = TRUE, stringsAsFactors = FALSE)
+
+
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+use=!(latest$SANITIZE %in% combo$V1)
+latestUse =latest[use,]
+
+use=!(latest$name %in% dc$name.x)
+latestUse =latest[use,]
+
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+orig = orig[which(orig$MONOc<1000),]
+
+use=(latestUse$ID %in% orig$Study.ID)
+latestUse =latestUse[use,]
+
+latestUse=latestUse[which(!is.na(latestUse$ID)),]
+latestUse$LAB_ID_MACHINE=paste0(latestUse$ID,"_",latestUse$MACHINE)
+latestUse=latestUse[which(latestUse$Population=="boundary"),]
+
+d=as.data.frame(table(latestUse$LAB_ID_MACHINE))
+d=d[which(d$Freq==2),]
+
+use=latestUse$LAB_ID_MACHINE %in% d$Var1
+latestUse =latestUse[use,]
+
+d=as.data.frame(table(latestUse$ID))
+d=d[which(d$Freq==2),]
+use=latestUse$ID %in% d$Var1
+latestUse =latestUse[use,]
+
+dir ="/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/"
+write.table(
+    latestUse$name,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"manualUse.txt"),
+    row.names = FALSE
+  ) 
+
+set.seed(42)
+p1Use =latestUse[which(latestUse$Panel=="panel1"),]
+p2Use =latestUse[which(latestUse$Panel=="panel2"),]
+
+IDs =sample(p1Use$ID,100,replace = FALSE)
+useP1=p1Use$ID %in%IDs
+useP2=p2Use$ID %in%IDs
+
+p1UseTrim =p1Use[useP1,]
+p2UseTrim =p1Use[useP2,]
+
+dir ="/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/"
+
+toDump=c(p1UseTrim$name,p2UseTrim$name)
+write.table(
+    toDump,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"manualUse.100.txt"),
+    row.names = FALSE
+) 
+
+
+
+```
+

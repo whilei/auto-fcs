@@ -1,0 +1,107 @@
+---
+title: "ManualComps"
+author: "JL"
+date: "1/10/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, echo=FALSE,warning=FALSE}
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+orig = orig[which(orig$MONOc<1000),]
+
+metrics= "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.freq.metrics.txt"
+tc = "/Volumes/Beta/data/flow/results_r25_21full_SS_SubCD8_SCD14/all.totalCellCounts.metrics.txt"
+latest = read.delim(metrics, stringsAsFactors = FALSE)
+latest$ID=gsub(".* ","",latest$name)
+latest$ID=gsub("one_","",latest$ID)
+latest$ID=gsub("two_","",latest$ID)
+latest$ID=gsub("ZF_","",latest$ID)
+latest$ID=gsub("_.*","",latest$ID)
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+
+combo=read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt",header = TRUE, stringsAsFactors = FALSE)
+
+use=(latest$name %in% combo$x)
+
+latest =latest[use,]
+
+totalCounts= read.delim(tc, stringsAsFactors = FALSE)
+
+# latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
+# latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
+
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+popMaps = list(
+c("Tcells (CD3+ CD19-)", "Tcell"),
+c("cytotoxic Tcells-CD8+", "CT"),
+c("effector cytotoxic Tcells  (CCR7-  CD45RA+)", "E.CT"),
+c("effector memory cytotoxic Tcells (CCR7- , CD45RA-)", "EM.CT"),
+c("Helper Tcells-CD4+", "HT"),
+c("effector helper Tcells (CCR7- CD45RA+)","E.HT"),
+c("effector memory helper Tcells (CCR7- CD45RA-)", "EM.HT"),
+c("central memory helper Tcells (CCR7+ CD45RA-)","CM.HT"),
+
+c("B cells (CD3- CD19+)", "Bcell"),
+c("IgD+ memory Bcells (CD27+)", "IgD.MemB"),
+c("IgD- memory Bcells (CD27+)", "IgD.MemB.1"),
+c("naive Bcells (CD27- IgD+)", "N"),
+
+
+c("DC NK MONOCYTES (CD3- CD19-)", "DC.NK.MONO"),
+c("MONOCYTES (CD14+)" ,"MONO"),
+c("Classical monocytes (CD16- CD14+)", "MONOc"),
+c("Non classical monocytes (CD16+ CD14+)", "MONOnc"),
+c("NK (CD16+)", "NK"),
+c("NK CD56HI", "NKHI"),
+c("NK CD56LO", "NKLO")
+
+
+
+
+
+)
+
+
+
+for(map in popMaps){
+latestM=latest[which(latest$Manual==map[1]),]
+table(latestM$ID %in% orig$Study.ID )
+
+merge =merge(latestM,orig,by.x ="ID",by.y = "Study.ID" )
+merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+
+print(map)
+merge = merge[which(merge[map[2]]<1000),]
+t1 =cor.test(merge$freqParent,merge[,map[2]],method = "pearson")
+print(map)
+t2=cor.test(merge$freqParent,merge[,map[2]],method = "spearman")
+
+g= ggplot(merge,aes(x=freqParent,y=merge[,map[2]])) +
+  geom_point() +
+  xlab(paste0("OC freq ",map[1])) +
+  ylab(paste0("Manual freq ",map[2]))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate ))
+
+print(g)
+}
+
+```
