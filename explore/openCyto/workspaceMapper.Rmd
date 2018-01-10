@@ -12,14 +12,16 @@ output: html_document
 library(openCyto)
 library(ggcyto)
 library(flowCore)
-# outDir = "/home/pankrat2/shared/bin/auto-fcs/explore/openCyto/"
-# wsDir = "/scratch.global/lanej/flow/wsps"
-outDir = "/Users/Kitty/git/auto-fcs/explore/openCyto/"
-wsDir = "/Volumes/Beta/data/flow/testManualGates//"
+outDir = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/"
+wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
+# outDir = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/"
+# wsDir = "/Volumes/Beta/data/flow/testManualGates//"
 wsps <-
   list.files(wsDir,
              pattern = "wsp$",
              full = TRUE,recursive = TRUE)
+
+print(paste0("Found ",length(wsps)," wsps"))
 df = data.frame(
   WSP = character(0),
   FCS = character(0)

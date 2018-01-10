@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_22full_SS_SubCD8_SCD14_Manuals
+rev=r25_22full_SS_SubCD8_SCD14_Manuals_partialTest
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
