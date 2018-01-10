@@ -71,7 +71,7 @@ useP1=p1Use$ID %in%IDs
 useP2=p2Use$ID %in%IDs
 
 p1UseTrim =p1Use[useP1,]
-p2UseTrim =p1Use[useP2,]
+p2UseTrim =p2Use[useP2,]
 
 dir ="/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/"
 
