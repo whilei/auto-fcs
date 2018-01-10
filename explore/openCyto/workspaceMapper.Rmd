@@ -12,10 +12,10 @@ output: html_document
 library(openCyto)
 library(ggcyto)
 library(flowCore)
-outDir = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/"
-wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
-# outDir = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/"
-# wsDir = "/Volumes/Beta/data/flow/testManualGates//"
+# out = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/fcsMSIMap.txt"
+# wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
+out = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.txt"
+wsDir = "/Volumes/Beta/data/flow/testManualGates/"
 wsps <-
   list.files(wsDir,
              pattern = "wsp$",
@@ -39,7 +39,7 @@ for(file in wsps){
   df = rbind(df,tmp)
 }
 
-write.table( df,file = paste(outDir,"fcsMSIMap.txt",sep = ""),sep = "\t",quote = FALSE,row.names = FALSE)
+write.table( df,file =out,sep = "\t",quote = FALSE,row.names = FALSE)
 ```
 
 

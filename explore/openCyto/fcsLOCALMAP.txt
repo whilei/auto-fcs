@@ -1,0 +1,19 @@
+WSP	FCS
+/Volumes/Beta/data/flow/testManualGates//2017-04-11_PANEL 1_LSR_RR_MULTIPLE.wsp	2017-04-11_PANEL 1_LSR_RR_Group one_F1642656_008.fcs
+/Volumes/Beta/data/flow/testManualGates//2017-04-11_PANEL 1_LSR_RR_MULTIPLE.wsp	2017-04-11_PANEL 1_LSR_RR_Group two_F1642779_040.fcs
+/Volumes/Beta/data/flow/testManualGates//2017-04-11_PANEL 1_LSR_RR_MULTIPLE.wsp	2017-04-11_PANEL 1_LSR_RR_Group two_F1642979_039.fcs
+/Volumes/Beta/data/flow/testManualGates//2017-04-11_PANEL 1_LSR_RR_MULTIPLE.wsp	2017-04-11_PANEL 1_LSR_RR_Group one_F1642909_007.fcs
+/Volumes/Beta/data/flow/testManualGates//2017-04-11_PANEL 1_LSR_RR_MULTIPLE.wsp	2017-04-11_PANEL 1_LSR_RR_Group one_F1642906_009.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-06-21_PANEL 2_DHS_Group two_F1636848_030.fcs_panel2regated.wsp	2016-06-21_PANEL 2_DHS_Group two_F1636848_030.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-07-11_PANEL 2_DHS_Group one_F1632121_008.fcs_panel2regated.wsp	2016-07-11_PANEL 2_DHS_Group one_F1632121_008.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-07-13_PANEL 2_ZF_Group two_F1632114_001.fcs_panel2regated.wsp	2016-07-13_PANEL 2_ZF_Group two_F1632114_001.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-07-14_PANEL 2_ZF_Group one_F1630932_010.fcs_panel2regated.wsp	2016-07-14_PANEL 2_ZF_Group one_F1630932_010.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-07-14_PANEL 2_ZF_Group one_F1631230_004.fcs_panel2regated.wsp	2016-07-14_PANEL 2_ZF_Group one_F1631230_004.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-08-15_PANEL 2_DHS_Group two_F1630983_031.fcs_panel2regated.wsp	2016-08-15_PANEL 2_DHS_Group two_F1630983_031.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-08-30_PANEL 2_DHS_Group one_F1630966_008.fcs_panel2regated.wsp	2016-08-30_PANEL 2_DHS_Group one_F1630966_008.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-09-14_PANEL 2_ZF_Group one_F1636662_004.fcs_panel2regated.wsp	2016-09-14_PANEL 2_ZF_Group one_F1636662_004.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-09-20_PANEL 2_DHS_Group one_F1637205_011.fcs_panel2regated.wsp	2016-09-20_PANEL 2_DHS_Group one_F1637205_011.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-12-21_PANEL 2_ZF_Group one_F1636223_013.fcs_panel2regated.wsp	2016-12-21_PANEL 2_ZF_Group one_F1636223_013.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2016-12-22_PANEL 2_HB_group one_F1635972_005.fcs_panel2regated.wsp	2016-12-22_PANEL 2_HB_group one_F1635972_005.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2017-03-13_PANEL 2_FORTESSA_DHS_group two_F1634191_032.fcs.wsp	2017-03-13_PANEL 2_FORTESSA_DHS_group two_F1634191_032.fcs
+/Volumes/Beta/data/flow/testManualGates//prevwsps/2017-07-21_PANEL 1_FORTESSA_RR_group two_RR_F1637650_022.fcs_panel1Regated.wsp	2017-07-21_PANEL 1_FORTESSA_RR_group two_RR_F1637650_022.fcs

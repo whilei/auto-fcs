@@ -173,7 +173,7 @@ templateMonoFortessa = convertP2ToFortessa(templateFile = templateMono, outputDi
 templateMonoFortessaSS = convertP2SpecialSingletGate(templateFile = templateMonoFortessa, outputDir = outputDir)
 templateMonoFortessaCD14 = convertP2SpecialCD14Gate(templateFile = templateMonoFortessa, outputDir = outputDir)
 
-mapperFile = "fcsMSIMap.txt"
+mapperFile = "fcsLOCALMAP.txt"
 
 gateDir = "gates/"
 gateQCDir = "gatesQC/"
@@ -700,6 +700,8 @@ if (!file.exists(metricsFile)) {
           wsFile = mapper[which(mapper$FCS == file),]$WSP
           if (length(wsFile) > 0) {
             ws <- openWorkspace(wsFile)
+            s= getSamples(ws)
+            id=s[which(s$name==file),]$name
             gs <-
               parseWorkspace(
                 ws,
@@ -708,14 +710,14 @@ if (!file.exists(metricsFile)) {
                 #FCS file
                 name = 1,
                 #sample group
-                # subset = eval(file),
+                subset =id[1],
                 #load single fcs file
                 isNcdf = FALSE,
                 #not memory mapped
                 compensation = compensation(keyword(frame)$`SPILL`)
               )
             #
-            print(paste0("manually gated sample ",file))
+            print(paste0("manually gated sample ",file, " using sample ID ",id))
             manCounts = getStats(gs1 = gs,
                                  qcVersion = FALSE,
                                  metric = "count",
