@@ -84,6 +84,52 @@ write.table(
     row.names = FALSE
 ) 
 
+sub = latest$name %in% toDump
+
+latestUseTrim=latest[sub,]
+
+
+library(reshape2)
+
+latestUseTrim=latestUseTrim[,c("ID","Manual","Count")]
+
+latestUseTrimCast =dcast(data = latestUseTrim,formula = ID~Manual,fun.aggregate = sum,value.var = "Count")
+
+p1pops=unique(latestUseTrim[which(latestUseTrim$Panel=="panel1"),]$Manual)
+p2pops=unique(latestUseTrim[which(latestUseTrim$Panel=="panel2"),]$Manual)
+
+
+# latestUseTrimCast=latestUseTrimCast[,c("ID",p1pops,p2pops)]
+
+  write.table(
+    latestUseTrimCast[,(1:length(colnames(latestUseTrimCast))-1)],
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"manualUse.100.counts.txt"),
+    row.names = FALSE
+  )  
+
+  latestUseTrim=latest[sub,]
+
+  latestUseTrim=latestUseTrim[,c("ID","Manual","freqParent")]
+
+
+latestUseTrimCast =dcast(data = latestUseTrim,formula = ID~Manual,fun.aggregate = sum,value.var = "freqParent")
+
+p1pops=unique(latestUseTrim[which(latestUseTrim$Panel=="panel1"),]$Manual)
+p2pops=unique(latestUseTrim[which(latestUseTrim$Panel=="panel2"),]$Manual)
+
+
+# latestUseTrimCast=latestUseTrimCast[,c("ID",p1pops,p2pops)]
+
+  write.table(
+    latestUseTrimCast[,(1:length(colnames(latestUseTrimCast))-1)],
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"manualUse.100.freq.txt"),
+    row.names = FALSE
+  )  
+
 
 
 ```

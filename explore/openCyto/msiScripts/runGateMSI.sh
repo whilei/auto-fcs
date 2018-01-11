@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_23full_SS_SubCD8_SCD14_Manuals
+rev=r25_24full_SS_SubCD8_SCD14_Manuals
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -9,7 +9,7 @@ jar=/home/pankrat2/lane0212/genvisisOC.jar
 p2=$OUTDIR"p2Trim.txt"
 p1=$OUTDIR"p1Trim.txt"
 batch=32
-threads=5
+threads=1
 mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
