@@ -23,7 +23,7 @@ Within this set:
 
 
 
-```{r setup, include=FALSE,eval=FALSE}
+```{r setup, include=FALSE,eval=TRUE}
 totals = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
 freqs = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.freq.metrics.txt", stringsAsFactors = FALSE)
 totals$SUCCESS=totals$FILE %in% freqs$name
@@ -315,14 +315,14 @@ sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
     if(panel=="panel1"){
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
   geom_point() +
-  xlab(" Events in Lymphocytes") +
+  xlab(" Events in Live, Single, Lymphocytes") +
   ylab(paste0("Frequency Parent CV - events sampled method"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
     plot=plot+1  
 
   # pb=ggplot(sub,aes(x=LYMPH_COUNT)) +
   # geom_histogram(bins = 50) +
-  # xlab(" Events in Lymphocytes") +
+  # xlab(" Events in Live, Single, Lymphocytes") +
   # ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   # print(pb)
   #   plot=plot+1  
@@ -339,14 +339,14 @@ sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
   
   pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
   geom_boxplot() +
-  xlab(" Events in Lymphocytes") +
+  xlab(" Events in Live, Single, Lymphocytes") +
   ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
     plot=plot+1  
 
   pb=ggplot(sub,aes(x=LYMPH_COUNT,y=Count,colour=MACHINE.x)) +
   geom_point() +
-  xlab(" Events in Lymphocytes") +
+  xlab(" Events in Live, Single, Lymphocytes") +
   ylab(paste0("Events in ",popP))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
   print(pb)
     plot=plot+1  

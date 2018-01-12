@@ -171,10 +171,13 @@ tmp = data.frame(
   SPEARMAN = t2$estimate,
   MEDIAN_OC_FREQ = medianOCFreq,
   MEDIAN_MANUAL_FREQ = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
   MEAN_OC_FREQ = meanOCFreq,
   MEAN_MANUAL_FREQ = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
   SD_OC_FREQ = sdOCFreq,
   SD_MANUAL_FREQ = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
   FILTER = filtFile[2],
   POP_NUMBER=popCount
   
