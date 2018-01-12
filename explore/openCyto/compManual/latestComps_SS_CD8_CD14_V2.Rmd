@@ -68,7 +68,7 @@ latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
 latest$freqParent=latest$freqParent*100
 latestTmp=latest
 
-fileDex=list(c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt","100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotatons"),c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt","All P1-P2 matched samples  without abnormal/bad/manual annotatons"),c("PBMC_LYMPH10KFilter","Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"),c("PBMC_LYMPH20KFilter","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),c("PBMC_LYMPH50KFilter","Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"),c("PBMC_LYMPH100KFilter","Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"),c("NA","All samples"))
+fileDex=list(c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt","100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"),c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt","All P1-P2 matched samples  without abnormal/bad/manual annotations"),c("PBMC_LYMPH10KFilter","Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"),c("PBMC_LYMPH20KFilter","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),c("PBMC_LYMPH50KFilter","Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"),c("PBMC_LYMPH100KFilter","Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"),c("NA","All samples"))
 
 
 # ,c("PBMC_LYMPH15KFilter_manual","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),
