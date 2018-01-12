@@ -54,7 +54,10 @@ d=d[which(d$Freq<2),]
 use=latest$PANEL_ID %in% d$Var1
 latest=latest[use,]
 
-table(latest[which(latest$Population=="boundary"),]$Panel)
+# look=latest[(latest$LAB_ID %in% orig$Study.ID),]
+# table(latest[which(latest$Population=="boundary"),]$Panel)
+# table(look[which(look$Population=="boundary"&look$Panel=="panel1"),]$Panel)
+# table(look[which(look$Population=="boundary"&look$Panel=="panel2"),]$Panel)
 
 orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
 # orig = orig[which(orig$MONOc<1000),]
@@ -65,7 +68,7 @@ latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
 latest$freqParent=latest$freqParent*100
 latestTmp=latest
 
-fileDex=list(c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt","100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotatons"),c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt","All samples  without abnormal/bad/manual annotatons"),c("PBMC_LYMPH15KFilter","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),c("NA","All samples"))
+fileDex=list(c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt","100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotatons"),c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt","All P1-P2 matched samples  without abnormal/bad/manual annotatons"),c("PBMC_LYMPH10KFilter","Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"),c("PBMC_LYMPH20KFilter","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),c("PBMC_LYMPH50KFilter","Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"),c("PBMC_LYMPH100KFilter","Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"),c("NA","All samples"))
 
 
 # ,c("PBMC_LYMPH15KFilter_manual","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),
@@ -96,12 +99,31 @@ for(filtFile in fileDex) {
   latest = latestTmp
   
   if (filtFile[1] != "NA") {
-  if (filtFile[1] == "PBMC_LYMPH15KFilter") {
-  sub = latest[which((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)" |
-  latest$Manual == "Live cells (PE-)") & latest$Count >= 20000), ]
+  if (filtFile[1] == "PBMC_LYMPH10KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 10000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+  }
+  else  if (filtFile[1] == "PBMC_LYMPH20KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 20000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+    } 
+  else  if (filtFile[1] == "PBMC_LYMPH50KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 50000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+    } 
+  else  if (filtFile[1] == "PBMC_LYMPH100KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 100000), ]
   use = (latest$name %in% sub$name)
   latest = latest[use,]
   } 
+    
     else{
   combo = read.delim(filtFile[1],
   header = TRUE,
@@ -121,10 +143,12 @@ for(map in popMaps$ABBREVIATION_SANITIZE){
 subMap=  popMaps[which(popMaps$ABBREVIATION_SANITIZE==map),]
 latestM=latest[which(latest$Manual==subMap$MapManual),]
 table(latestM$LAB_ID %in% orig$Study.ID )
-
+print(table(latestM$Panel))
 merge =merge(latestM,orig,by.x ="LAB_ID",by.y = "Study.ID" )
-merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
-
+# merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+# t = latest$LAB_ID %in% orig$Study.ID
+# t1=latest[t,]
+# t2=latest[which(latest$Population=="boundary"),]
 print(map)
 nZeror=length(merge[which(merge[subMap$ABBREVIATION_SANITIZE]>=1000),]$name)
 merge = merge[which(merge[subMap$ABBREVIATION_SANITIZE]<1000),]
@@ -153,7 +177,9 @@ tmp = data.frame(
   SD_OC_FREQ = sdOCFreq,
   SD_MANUAL_FREQ = sdManualFreq,
   FILTER = filtFile[2]
+  
   )
+print(table(is.na(merge$freqParent)))
 
 results =rbind(results,tmp)
   
