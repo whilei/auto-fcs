@@ -123,8 +123,7 @@ for(filtFile in fileDex) {
   use = (latest$name %in% sub$name)
   latest = latest[use,]
   } 
-    
-    else{
+  else{
   combo = read.delim(filtFile[1],
   header = TRUE,
   stringsAsFactors = FALSE)
@@ -199,7 +198,7 @@ write.table(
    results,
     sep = "\t",
     quote = FALSE,
-    file = paste0(dir,"correlationResults.txt"),
+    file = paste0("/Users/Kitty/git/auto-fcs/explore/openCyto/compManual/","correlationResults.txt"),
     row.names = FALSE
   )  
 
