@@ -13,9 +13,7 @@ JL
 ##    100 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-1.png)<!-- -->
@@ -26,9 +24,7 @@ JL
 ##    100 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##    86
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-2.png)<!-- -->
@@ -39,9 +35,7 @@ JL
 ##    100 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##    86
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-3.png)<!-- -->
@@ -52,9 +46,7 @@ JL
 ##    100 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-4.png)<!-- -->
@@ -65,9 +57,7 @@ JL
 ##    100 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-5.png)<!-- -->
@@ -78,9 +68,7 @@ JL
 ##    100 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-6.png)<!-- -->
@@ -91,9 +79,7 @@ JL
 ##    100 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-7.png)<!-- -->
@@ -104,9 +90,7 @@ JL
 ##    100 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-8.png)<!-- -->
@@ -117,9 +101,7 @@ JL
 ##    100 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-9.png)<!-- -->
@@ -130,9 +112,7 @@ JL
 ##    100 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-10.png)<!-- -->
@@ -143,9 +123,7 @@ JL
 ##    100 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-11.png)<!-- -->
@@ -156,9 +134,7 @@ JL
 ##    100 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-12.png)<!-- -->
@@ -169,9 +145,7 @@ JL
 ##    100 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-13.png)<!-- -->
@@ -182,9 +156,7 @@ JL
 ##    100 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-14.png)<!-- -->
@@ -195,9 +167,7 @@ JL
 ##    100 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-15.png)<!-- -->
@@ -208,9 +178,7 @@ JL
 ##    100 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-16.png)<!-- -->
@@ -221,9 +189,7 @@ JL
 ##    100 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-17.png)<!-- -->
@@ -234,9 +200,7 @@ JL
 ##    100 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-18.png)<!-- -->
@@ -247,9 +211,7 @@ JL
 ##    100 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-19.png)<!-- -->
@@ -260,9 +222,7 @@ JL
 ##    100 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-20.png)<!-- -->
@@ -273,9 +233,7 @@ JL
 ##    100 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-21.png)<!-- -->
@@ -286,9 +244,7 @@ JL
 ##    100 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-22.png)<!-- -->
@@ -299,9 +255,7 @@ JL
 ##    100 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-23.png)<!-- -->
@@ -312,9 +266,7 @@ JL
 ##    100 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-24.png)<!-- -->
@@ -325,9 +277,7 @@ JL
 ##    100 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-25.png)<!-- -->
@@ -338,9 +288,7 @@ JL
 ##    100 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-26.png)<!-- -->
@@ -351,9 +299,7 @@ JL
 ##    100 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-27.png)<!-- -->
@@ -364,9 +310,7 @@ JL
 ##    100 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-28.png)<!-- -->
@@ -377,9 +321,7 @@ JL
 ##    100 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-29.png)<!-- -->
@@ -390,9 +332,7 @@ JL
 ##    100 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-30.png)<!-- -->
@@ -403,9 +343,7 @@ JL
 ##    100 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-31.png)<!-- -->
@@ -416,9 +354,7 @@ JL
 ##    100 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-32.png)<!-- -->
@@ -429,9 +365,7 @@ JL
 ##    100 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-33.png)<!-- -->
@@ -442,9 +376,7 @@ JL
 ##    100 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-34.png)<!-- -->
@@ -455,9 +387,7 @@ JL
 ##    100 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   100
+## [1] "100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-35.png)<!-- -->
@@ -468,9 +398,7 @@ JL
 ##    770 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-36.png)<!-- -->
@@ -481,9 +409,7 @@ JL
 ##    770 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   685
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-37.png)<!-- -->
@@ -494,9 +420,7 @@ JL
 ##    770 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   685
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-38.png)<!-- -->
@@ -507,9 +431,7 @@ JL
 ##    770 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-39.png)<!-- -->
@@ -520,9 +442,7 @@ JL
 ##    770 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-40.png)<!-- -->
@@ -533,9 +453,7 @@ JL
 ##    770 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-41.png)<!-- -->
@@ -546,9 +464,7 @@ JL
 ##    770 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-42.png)<!-- -->
@@ -559,9 +475,7 @@ JL
 ##    770 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-43.png)<!-- -->
@@ -572,9 +486,7 @@ JL
 ##    770 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-44.png)<!-- -->
@@ -585,9 +497,7 @@ JL
 ##    770 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-45.png)<!-- -->
@@ -598,9 +508,7 @@ JL
 ##    770 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-46.png)<!-- -->
@@ -611,9 +519,7 @@ JL
 ##    770 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-47.png)<!-- -->
@@ -624,9 +530,7 @@ JL
 ##    770 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-48.png)<!-- -->
@@ -637,9 +541,7 @@ JL
 ##    770 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-49.png)<!-- -->
@@ -650,9 +552,7 @@ JL
 ##    770 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-50.png)<!-- -->
@@ -663,9 +563,7 @@ JL
 ##    770 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-51.png)<!-- -->
@@ -676,9 +574,7 @@ JL
 ##    770 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-52.png)<!-- -->
@@ -689,9 +585,7 @@ JL
 ##    770 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-53.png)<!-- -->
@@ -702,9 +596,7 @@ JL
 ##    770 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-54.png)<!-- -->
@@ -715,9 +607,7 @@ JL
 ##    770 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-55.png)<!-- -->
@@ -728,9 +618,7 @@ JL
 ##    770 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-56.png)<!-- -->
@@ -741,9 +629,7 @@ JL
 ##    770 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-57.png)<!-- -->
@@ -754,9 +640,7 @@ JL
 ##    770 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-58.png)<!-- -->
@@ -767,9 +651,7 @@ JL
 ##    770 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-59.png)<!-- -->
@@ -780,9 +662,7 @@ JL
 ##    770 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-60.png)<!-- -->
@@ -793,9 +673,7 @@ JL
 ##    770 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-61.png)<!-- -->
@@ -806,9 +684,7 @@ JL
 ##    770 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-62.png)<!-- -->
@@ -819,9 +695,7 @@ JL
 ##    770 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-63.png)<!-- -->
@@ -832,9 +706,7 @@ JL
 ##    770 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-64.png)<!-- -->
@@ -845,9 +717,7 @@ JL
 ##    770 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-65.png)<!-- -->
@@ -858,9 +728,7 @@ JL
 ##    770 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-66.png)<!-- -->
@@ -871,9 +739,7 @@ JL
 ##    770 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-67.png)<!-- -->
@@ -884,9 +750,7 @@ JL
 ##    770 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-68.png)<!-- -->
@@ -897,9 +761,7 @@ JL
 ##    770 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-69.png)<!-- -->
@@ -910,9 +772,7 @@ JL
 ##    770 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   770
+## [1] "All P1-P2 matched samples  without abnormal/bad/manual annotations"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-70.png)<!-- -->
@@ -923,9 +783,7 @@ JL
 ##   9340 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-71.png)<!-- -->
@@ -936,9 +794,7 @@ JL
 ##   9340 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   836
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-72.png)<!-- -->
@@ -949,9 +805,7 @@ JL
 ##   9340 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   836
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-73.png)<!-- -->
@@ -962,9 +816,7 @@ JL
 ##   9340 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-74.png)<!-- -->
@@ -975,9 +827,7 @@ JL
 ##   9340 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-75.png)<!-- -->
@@ -988,9 +838,7 @@ JL
 ##   9340 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-76.png)<!-- -->
@@ -1001,9 +849,7 @@ JL
 ##   9340 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-77.png)<!-- -->
@@ -1014,9 +860,7 @@ JL
 ##   9340 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-78.png)<!-- -->
@@ -1027,9 +871,7 @@ JL
 ##   9340 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-79.png)<!-- -->
@@ -1040,9 +882,7 @@ JL
 ##   9340 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-80.png)<!-- -->
@@ -1053,9 +893,7 @@ JL
 ##   9340 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-81.png)<!-- -->
@@ -1066,9 +904,7 @@ JL
 ##   9340 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-82.png)<!-- -->
@@ -1079,9 +915,7 @@ JL
 ##   9340 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-83.png)<!-- -->
@@ -1092,9 +926,7 @@ JL
 ##   9340 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-84.png)<!-- -->
@@ -1105,9 +937,7 @@ JL
 ##   9340 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-85.png)<!-- -->
@@ -1118,9 +948,7 @@ JL
 ##   9340 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-86.png)<!-- -->
@@ -1131,9 +959,7 @@ JL
 ##   9340 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-87.png)<!-- -->
@@ -1144,9 +970,7 @@ JL
 ##   9340 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-88.png)<!-- -->
@@ -1157,9 +981,7 @@ JL
 ##   9340 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-89.png)<!-- -->
@@ -1170,9 +992,7 @@ JL
 ##   9340 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-90.png)<!-- -->
@@ -1183,9 +1003,7 @@ JL
 ##   9340 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-91.png)<!-- -->
@@ -1196,9 +1014,7 @@ JL
 ##   9340 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-92.png)<!-- -->
@@ -1209,9 +1025,7 @@ JL
 ##   9340 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-93.png)<!-- -->
@@ -1222,9 +1036,7 @@ JL
 ##   9340 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-94.png)<!-- -->
@@ -1235,9 +1047,7 @@ JL
 ##   9330 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-95.png)<!-- -->
@@ -1248,9 +1058,7 @@ JL
 ##   9330 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-96.png)<!-- -->
@@ -1261,9 +1069,7 @@ JL
 ##   9330 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-97.png)<!-- -->
@@ -1274,9 +1080,7 @@ JL
 ##   9330 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-98.png)<!-- -->
@@ -1287,9 +1091,7 @@ JL
 ##   9330 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-99.png)<!-- -->
@@ -1300,9 +1102,7 @@ JL
 ##   9330 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-100.png)<!-- -->
@@ -1313,9 +1113,7 @@ JL
 ##   9330 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-101.png)<!-- -->
@@ -1326,9 +1124,7 @@ JL
 ##   9330 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-102.png)<!-- -->
@@ -1339,9 +1135,7 @@ JL
 ##   9330 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-103.png)<!-- -->
@@ -1352,9 +1146,7 @@ JL
 ##   9330 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-104.png)<!-- -->
@@ -1365,9 +1157,7 @@ JL
 ##   9330 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   921
+## [1] "Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-105.png)<!-- -->
@@ -1378,9 +1168,7 @@ JL
 ##   9266 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-106.png)<!-- -->
@@ -1391,9 +1179,7 @@ JL
 ##   9266 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   833
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-107.png)<!-- -->
@@ -1404,9 +1190,7 @@ JL
 ##   9266 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   833
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-108.png)<!-- -->
@@ -1417,9 +1201,7 @@ JL
 ##   9266 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-109.png)<!-- -->
@@ -1430,9 +1212,7 @@ JL
 ##   9266 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-110.png)<!-- -->
@@ -1443,9 +1223,7 @@ JL
 ##   9266 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-111.png)<!-- -->
@@ -1456,9 +1234,7 @@ JL
 ##   9266 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-112.png)<!-- -->
@@ -1469,9 +1245,7 @@ JL
 ##   9266 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-113.png)<!-- -->
@@ -1482,9 +1256,7 @@ JL
 ##   9266 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-114.png)<!-- -->
@@ -1495,9 +1267,7 @@ JL
 ##   9266 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-115.png)<!-- -->
@@ -1508,9 +1278,7 @@ JL
 ##   9266 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-116.png)<!-- -->
@@ -1521,9 +1289,7 @@ JL
 ##   9266 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-117.png)<!-- -->
@@ -1534,9 +1300,7 @@ JL
 ##   9266 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-118.png)<!-- -->
@@ -1547,9 +1311,7 @@ JL
 ##   9266 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-119.png)<!-- -->
@@ -1560,9 +1322,7 @@ JL
 ##   9266 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-120.png)<!-- -->
@@ -1573,9 +1333,7 @@ JL
 ##   9266 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-121.png)<!-- -->
@@ -1586,9 +1344,7 @@ JL
 ##   9266 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-122.png)<!-- -->
@@ -1599,9 +1355,7 @@ JL
 ##   9266 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-123.png)<!-- -->
@@ -1612,9 +1366,7 @@ JL
 ##   9266 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-124.png)<!-- -->
@@ -1625,9 +1377,7 @@ JL
 ##   9266 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-125.png)<!-- -->
@@ -1638,9 +1388,7 @@ JL
 ##   9266 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-126.png)<!-- -->
@@ -1651,9 +1399,7 @@ JL
 ##   9266 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-127.png)<!-- -->
@@ -1664,9 +1410,7 @@ JL
 ##   9266 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-128.png)<!-- -->
@@ -1677,9 +1421,7 @@ JL
 ##   9266 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-129.png)<!-- -->
@@ -1690,9 +1432,7 @@ JL
 ##   9265 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-130.png)<!-- -->
@@ -1703,9 +1443,7 @@ JL
 ##   9265 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-131.png)<!-- -->
@@ -1716,9 +1454,7 @@ JL
 ##   9265 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-132.png)<!-- -->
@@ -1729,9 +1465,7 @@ JL
 ##   9265 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-133.png)<!-- -->
@@ -1742,9 +1476,7 @@ JL
 ##   9265 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-134.png)<!-- -->
@@ -1755,9 +1487,7 @@ JL
 ##   9265 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-135.png)<!-- -->
@@ -1768,9 +1498,7 @@ JL
 ##   9265 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-136.png)<!-- -->
@@ -1781,9 +1509,7 @@ JL
 ##   9265 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-137.png)<!-- -->
@@ -1794,9 +1520,7 @@ JL
 ##   9265 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-138.png)<!-- -->
@@ -1807,9 +1531,7 @@ JL
 ##   9265 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-139.png)<!-- -->
@@ -1820,9 +1542,7 @@ JL
 ##   9265 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   918
+## [1] "Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-140.png)<!-- -->
@@ -1833,9 +1553,7 @@ JL
 ##   8880 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-141.png)<!-- -->
@@ -1846,9 +1564,7 @@ JL
 ##   8880 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   801
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-142.png)<!-- -->
@@ -1859,9 +1575,7 @@ JL
 ##   8880 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   801
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-143.png)<!-- -->
@@ -1872,9 +1586,7 @@ JL
 ##   8880 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-144.png)<!-- -->
@@ -1885,9 +1597,7 @@ JL
 ##   8880 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-145.png)<!-- -->
@@ -1898,9 +1608,7 @@ JL
 ##   8880 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-146.png)<!-- -->
@@ -1911,9 +1619,7 @@ JL
 ##   8880 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-147.png)<!-- -->
@@ -1924,9 +1630,7 @@ JL
 ##   8880 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-148.png)<!-- -->
@@ -1937,9 +1641,7 @@ JL
 ##   8880 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-149.png)<!-- -->
@@ -1950,9 +1652,7 @@ JL
 ##   8880 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-150.png)<!-- -->
@@ -1963,9 +1663,7 @@ JL
 ##   8880 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-151.png)<!-- -->
@@ -1976,9 +1674,7 @@ JL
 ##   8880 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-152.png)<!-- -->
@@ -1989,9 +1685,7 @@ JL
 ##   8880 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-153.png)<!-- -->
@@ -2002,9 +1696,7 @@ JL
 ##   8880 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-154.png)<!-- -->
@@ -2015,9 +1707,7 @@ JL
 ##   8880 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-155.png)<!-- -->
@@ -2028,9 +1718,7 @@ JL
 ##   8880 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-156.png)<!-- -->
@@ -2041,9 +1729,7 @@ JL
 ##   8880 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-157.png)<!-- -->
@@ -2054,9 +1740,7 @@ JL
 ##   8880 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-158.png)<!-- -->
@@ -2067,9 +1751,7 @@ JL
 ##   8880 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-159.png)<!-- -->
@@ -2080,9 +1762,7 @@ JL
 ##   8880 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-160.png)<!-- -->
@@ -2093,9 +1773,7 @@ JL
 ##   8880 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-161.png)<!-- -->
@@ -2106,9 +1784,7 @@ JL
 ##   8880 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-162.png)<!-- -->
@@ -2119,9 +1795,7 @@ JL
 ##   8880 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-163.png)<!-- -->
@@ -2132,9 +1806,7 @@ JL
 ##   8880 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   879
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-164.png)<!-- -->
@@ -2145,9 +1817,7 @@ JL
 ##   9126 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-165.png)<!-- -->
@@ -2158,9 +1828,7 @@ JL
 ##   9126 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-166.png)<!-- -->
@@ -2171,9 +1839,7 @@ JL
 ##   9126 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-167.png)<!-- -->
@@ -2184,9 +1850,7 @@ JL
 ##   9126 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-168.png)<!-- -->
@@ -2197,9 +1861,7 @@ JL
 ##   9126 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-169.png)<!-- -->
@@ -2210,9 +1872,7 @@ JL
 ##   9126 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-170.png)<!-- -->
@@ -2223,9 +1883,7 @@ JL
 ##   9126 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-171.png)<!-- -->
@@ -2236,9 +1894,7 @@ JL
 ##   9126 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-172.png)<!-- -->
@@ -2249,9 +1905,7 @@ JL
 ##   9126 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-173.png)<!-- -->
@@ -2262,9 +1916,7 @@ JL
 ##   9126 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-174.png)<!-- -->
@@ -2275,9 +1927,7 @@ JL
 ##   9126 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   902
+## [1] "Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-175.png)<!-- -->
@@ -2288,9 +1938,7 @@ JL
 ##   7643 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-176.png)<!-- -->
@@ -2301,9 +1949,7 @@ JL
 ##   7643 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   677
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-177.png)<!-- -->
@@ -2314,9 +1960,7 @@ JL
 ##   7643 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   677
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-178.png)<!-- -->
@@ -2327,9 +1971,7 @@ JL
 ##   7643 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-179.png)<!-- -->
@@ -2340,9 +1982,7 @@ JL
 ##   7643 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-180.png)<!-- -->
@@ -2353,9 +1993,7 @@ JL
 ##   7643 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-181.png)<!-- -->
@@ -2366,9 +2004,7 @@ JL
 ##   7643 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-182.png)<!-- -->
@@ -2379,9 +2015,7 @@ JL
 ##   7643 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-183.png)<!-- -->
@@ -2392,9 +2026,7 @@ JL
 ##   7643 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-184.png)<!-- -->
@@ -2405,9 +2037,7 @@ JL
 ##   7643 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-185.png)<!-- -->
@@ -2418,9 +2048,7 @@ JL
 ##   7643 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-186.png)<!-- -->
@@ -2431,9 +2059,7 @@ JL
 ##   7643 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-187.png)<!-- -->
@@ -2444,9 +2070,7 @@ JL
 ##   7643 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-188.png)<!-- -->
@@ -2457,9 +2081,7 @@ JL
 ##   7643 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-189.png)<!-- -->
@@ -2470,9 +2092,7 @@ JL
 ##   7643 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-190.png)<!-- -->
@@ -2483,9 +2103,7 @@ JL
 ##   7643 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-191.png)<!-- -->
@@ -2496,9 +2114,7 @@ JL
 ##   7643 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-192.png)<!-- -->
@@ -2509,9 +2125,7 @@ JL
 ##   7643 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-193.png)<!-- -->
@@ -2522,9 +2136,7 @@ JL
 ##   7643 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-194.png)<!-- -->
@@ -2535,9 +2147,7 @@ JL
 ##   7643 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-195.png)<!-- -->
@@ -2548,9 +2158,7 @@ JL
 ##   7643 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-196.png)<!-- -->
@@ -2561,9 +2169,7 @@ JL
 ##   7643 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-197.png)<!-- -->
@@ -2574,9 +2180,7 @@ JL
 ##   7643 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-198.png)<!-- -->
@@ -2587,9 +2191,7 @@ JL
 ##   7643 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   739
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-199.png)<!-- -->
@@ -2600,9 +2202,7 @@ JL
 ##   8755 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-200.png)<!-- -->
@@ -2613,9 +2213,7 @@ JL
 ##   8755 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-201.png)<!-- -->
@@ -2626,9 +2224,7 @@ JL
 ##   8755 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-202.png)<!-- -->
@@ -2639,9 +2235,7 @@ JL
 ##   8755 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-203.png)<!-- -->
@@ -2652,9 +2246,7 @@ JL
 ##   8755 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-204.png)<!-- -->
@@ -2665,9 +2257,7 @@ JL
 ##   8755 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-205.png)<!-- -->
@@ -2678,9 +2268,7 @@ JL
 ##   8755 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-206.png)<!-- -->
@@ -2691,9 +2279,7 @@ JL
 ##   8755 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-207.png)<!-- -->
@@ -2704,9 +2290,7 @@ JL
 ##   8755 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-208.png)<!-- -->
@@ -2717,9 +2301,7 @@ JL
 ##   8755 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-209.png)<!-- -->
@@ -2730,9 +2312,7 @@ JL
 ##   8755 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   871
+## [1] "Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-210.png)<!-- -->
@@ -2743,9 +2323,7 @@ JL
 ##   9440 
 ## [1] "Bcell"
 ## [1] "Bcell"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-211.png)<!-- -->
@@ -2756,9 +2334,7 @@ JL
 ##   9440 
 ## [1] "IgD.MemB"
 ## [1] "IgD.MemB"
-## 
-## FALSE 
-##   837
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-212.png)<!-- -->
@@ -2769,9 +2345,7 @@ JL
 ##   9440 
 ## [1] "IgD.MemB.1"
 ## [1] "IgD.MemB.1"
-## 
-## FALSE 
-##   837
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-213.png)<!-- -->
@@ -2782,9 +2356,7 @@ JL
 ##   9440 
 ## [1] "NaiveB"
 ## [1] "NaiveB"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-214.png)<!-- -->
@@ -2795,9 +2367,7 @@ JL
 ##   9440 
 ## [1] "Tcell"
 ## [1] "Tcell"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-215.png)<!-- -->
@@ -2808,9 +2378,7 @@ JL
 ##   9440 
 ## [1] "CT"
 ## [1] "CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-216.png)<!-- -->
@@ -2821,9 +2389,7 @@ JL
 ##   9440 
 ## [1] "ActCT"
 ## [1] "ActCT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-217.png)<!-- -->
@@ -2834,9 +2400,7 @@ JL
 ##   9440 
 ## [1] "CM.CT"
 ## [1] "CM.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-218.png)<!-- -->
@@ -2847,9 +2411,7 @@ JL
 ##   9440 
 ## [1] "E.CT"
 ## [1] "E.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-219.png)<!-- -->
@@ -2860,9 +2422,7 @@ JL
 ##   9440 
 ## [1] "pE.CT"
 ## [1] "pE.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-220.png)<!-- -->
@@ -2873,9 +2433,7 @@ JL
 ##   9440 
 ## [1] "pE1.CT"
 ## [1] "pE1.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-221.png)<!-- -->
@@ -2886,9 +2444,7 @@ JL
 ##   9440 
 ## [1] "pE2.CT"
 ## [1] "pE2.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-222.png)<!-- -->
@@ -2899,9 +2455,7 @@ JL
 ##   9440 
 ## [1] "EM.CT"
 ## [1] "EM.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-223.png)<!-- -->
@@ -2912,9 +2466,7 @@ JL
 ##   9440 
 ## [1] "EM1.C.T"
 ## [1] "EM1.C.T"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-224.png)<!-- -->
@@ -2925,9 +2477,7 @@ JL
 ##   9440 
 ## [1] "EM2.CT"
 ## [1] "EM2.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-225.png)<!-- -->
@@ -2938,9 +2488,7 @@ JL
 ##   9440 
 ## [1] "EM3.CT"
 ## [1] "EM3.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-226.png)<!-- -->
@@ -2951,9 +2499,7 @@ JL
 ##   9440 
 ## [1] "EM4.CT"
 ## [1] "EM4.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-227.png)<!-- -->
@@ -2964,9 +2510,7 @@ JL
 ##   9440 
 ## [1] "N.CT"
 ## [1] "N.CT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-228.png)<!-- -->
@@ -2977,9 +2521,7 @@ JL
 ##   9440 
 ## [1] "HT"
 ## [1] "HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-229.png)<!-- -->
@@ -2990,9 +2532,7 @@ JL
 ##   9440 
 ## [1] "Act.HT"
 ## [1] "Act.HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-230.png)<!-- -->
@@ -3003,9 +2543,7 @@ JL
 ##   9440 
 ## [1] "CM.HT"
 ## [1] "CM.HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-231.png)<!-- -->
@@ -3016,9 +2554,7 @@ JL
 ##   9440 
 ## [1] "E.HT"
 ## [1] "E.HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-232.png)<!-- -->
@@ -3029,9 +2565,7 @@ JL
 ##   9440 
 ## [1] "EM.HT"
 ## [1] "EM.HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-233.png)<!-- -->
@@ -3042,9 +2576,7 @@ JL
 ##   9440 
 ## [1] "N.HT"
 ## [1] "N.HT"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-234.png)<!-- -->
@@ -3055,9 +2587,7 @@ JL
 ##   9391 
 ## [1] "DC.NK.MONO"
 ## [1] "DC.NK.MONO"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-235.png)<!-- -->
@@ -3068,9 +2598,7 @@ JL
 ##   9391 
 ## [1] "DC.NK"
 ## [1] "DC.NK"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-236.png)<!-- -->
@@ -3081,9 +2609,7 @@ JL
 ##   9391 
 ## [1] "DC"
 ## [1] "DC"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-237.png)<!-- -->
@@ -3094,9 +2620,7 @@ JL
 ##   9387 
 ## [1] "DCm"
 ## [1] "DCm"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-238.png)<!-- -->
@@ -3107,9 +2631,7 @@ JL
 ##   9387 
 ## [1] "DCp"
 ## [1] "DCp"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-239.png)<!-- -->
@@ -3120,9 +2642,7 @@ JL
 ##   9391 
 ## [1] "NK"
 ## [1] "NK"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-240.png)<!-- -->
@@ -3133,9 +2653,7 @@ JL
 ##   9391 
 ## [1] "NKHI"
 ## [1] "NKHI"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-241.png)<!-- -->
@@ -3146,9 +2664,7 @@ JL
 ##   9391 
 ## [1] "NKLO"
 ## [1] "NKLO"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-242.png)<!-- -->
@@ -3159,9 +2675,7 @@ JL
 ##   9391 
 ## [1] "MONO"
 ## [1] "MONO"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-243.png)<!-- -->
@@ -3172,9 +2686,7 @@ JL
 ##   9391 
 ## [1] "MONOc"
 ## [1] "MONOc"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-244.png)<!-- -->
@@ -3185,9 +2697,7 @@ JL
 ##   9391 
 ## [1] "MONOnc"
 ## [1] "MONOnc"
-## 
-## FALSE 
-##   922
+## [1] "All samples"
 ```
 
 ![](latestComps_SS_CD8_CD14_V2_files/figure-html/setup-245.png)<!-- -->

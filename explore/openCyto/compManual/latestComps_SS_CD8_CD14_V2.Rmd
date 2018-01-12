@@ -175,10 +175,11 @@ tmp = data.frame(
   MEAN_MANUAL_FREQ = meanManualFreq,
   SD_OC_FREQ = sdOCFreq,
   SD_MANUAL_FREQ = sdManualFreq,
-  FILTER = filtFile[2]
+  FILTER = filtFile[2],
+  POP_NUMBER=popCount
   
   )
-print(table(is.na(merge$freqParent)))
+print(filtFile[2])
 
 results =rbind(results,tmp)
   
