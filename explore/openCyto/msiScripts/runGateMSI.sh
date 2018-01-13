@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r25_24full_SS_SubCD8_SCD14_Manuals
+rev=test_reviseTCells
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -22,6 +22,10 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/lodF
 
 # Full setup w/QC 
 java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=68
+
+# testTCellSubs
+java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.testT.txt outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=68
+
 
 
 # Insilico LOD
