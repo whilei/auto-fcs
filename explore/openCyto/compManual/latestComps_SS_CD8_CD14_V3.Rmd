@@ -1,0 +1,375 @@
+---
+title: "ManualComps"
+author: "JL"
+date: "1/10/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+```{r echo=FALSE,warning=FALSE,eval=TRUE}
+dir="/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/"
+```
+
+```{r init, echo=FALSE,warning=FALSE,eval=FALSE}
+library(openxlsx)
+metrics=paste0(dir, "all.freq.metrics.txt")
+latest = read.delim(metrics, stringsAsFactors = FALSE)
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+num=0
+latest$LAB_ID=NA
+
+for(id in manifest$Lab.ID){
+  match=grep(paste0("_",id,"_"),latest$name,fixed = TRUE)
+  # print(match)
+  num=num+1
+  print(num)
+# 
+  if(length(match)>0){
+    # print(length(match))
+    latest[match,]$LAB_ID=id
+
+  }
+}
+
+# latest=merge(latest,nameMatch,by.y="name",by.x="name")
+
+save(latest,file=paste0(dir,"all.freq.metrics.RData"))
+
+```
+
+
+```{r setup, echo=FALSE,warning=FALSE}
+load(paste0(dir,"all.freq.metrics.RData"))
+popMaps= read.delim("/Volumes/Beta/data/flow/ABSP_PopMap.txt", stringsAsFactors = FALSE)
+
+popMaps$JflowMatch=gsub(" ",".",popMaps$JflowMatch)
+popMaps$JflowMatch=gsub(")",".",popMaps$JflowMatch,fixed = TRUE)
+popMaps$JflowMatch=gsub("(",".",popMaps$JflowMatch,fixed = TRUE)
+
+p1Jflow= read.delim("/Volumes/Beta/data/flow/compManual/p1.cnts.xln", stringsAsFactors = FALSE)
+p2Jflow= read.delim("/Volumes/Beta/data/flow/compManual/p2.cnts.xln", stringsAsFactors = FALSE)
+
+tc = paste0(dir,"all.totalCellCounts.metrics.txt")
+
+latest=latest[which(!is.na(latest$LAB_ID)),]
+latest$PANEL_ID=paste0(latest$LAB_ID,latest$Panel)
+
+
+tmp=latest[which(latest$Population=="boundary"),]
+d=as.data.frame(table(tmp$PANEL_ID))
+d=d[which(d$Freq<2),]
+
+use=latest$PANEL_ID %in% d$Var1
+latest=latest[use,]
+
+# look=latest[(latest$LAB_ID %in% orig$Study.ID),]
+# table(latest[which(latest$Population=="boundary"),]$Panel)
+# table(look[which(look$Population=="boundary"&look$Panel=="panel1"),]$Panel)
+# table(look[which(look$Population=="boundary"&look$Panel=="panel2"),]$Panel)
+
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+
+origPercents = read.delim("/Volumes/Beta/data/flow/HRS_1000_percents.txt", stringsAsFactors = FALSE)
+
+# orig = orig[which(orig$MONOc<1000),]
+
+
+latest$SANITIZE=gsub(" ","_",latest$name)
+latest$SANITIZE=gsub(".fcs","",latest$SANITIZE)
+latest$freqParent=latest$freqParent*100
+latestTmp=latest
+
+fileDex=list(c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.100.txt","100 randomly selected P1-P2 matched samples without abnormal/bad/manual annotations"),c("/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt","All P1-P2 matched samples  without abnormal/bad/manual annotations"),c("PBMC_LYMPH10KFilter","Samples with less than 10K lymph or 10K PBMC (in OC) are excluded"),c("PBMC_LYMPH20KFilter","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),c("PBMC_LYMPH50KFilter","Samples with less than 50K lymph or 50K PBMC (in OC) are excluded"),c("PBMC_LYMPH100KFilter","Samples with less than 100K lymph or 100K PBMC (in OC) are excluded"),c("NA","All samples"))
+
+
+# ,c("PBMC_LYMPH15KFilter_manual","Samples with less than 20K lymph or 20K PBMC (in OC) are excluded"),
+totalCounts= read.delim(tc, stringsAsFactors = FALSE)
+
+results=data.frame()
+
+
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+for(filtFile in fileDex) {
+  latest = latestTmp
+  
+  if (filtFile[1] != "NA") {
+  if (filtFile[1] == "PBMC_LYMPH10KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 10000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+  }
+  else  if (filtFile[1] == "PBMC_LYMPH20KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 20000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+    } 
+  else  if (filtFile[1] == "PBMC_LYMPH50KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 50000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+    } 
+  else  if (filtFile[1] == "PBMC_LYMPH100KFilter") {
+  sub = latest[which(((latest$Manual == "Live Single PBMCs (SSC-A/FSC-A)"&latest$Panel=="panel2") |
+ ( latest$Manual == "Live cells (PE-)"&latest$Panel=="panel1")) & latest$Count >= 100000), ]
+  use = (latest$name %in% sub$name)
+  latest = latest[use,]
+  } 
+  else{
+  combo = read.delim(filtFile[1],
+  header = TRUE,
+  stringsAsFactors = FALSE)
+  use = (latest$name %in% combo$x)
+  latest = latest[use,]
+  }
+  }
+
+
+
+# latestM=latest[which(latest$Manual=="Classical monocytes (CD16- CD14+)"),]
+# latestM=latest[which(latest$Manual=="MONOCYTES (CD14+)"),]
+
+popCount=0
+for(map in popMaps$ABBREVIATION_SANITIZE){
+popCount=popCount+1
+
+subMap=  popMaps[which(popMaps$ABBREVIATION_SANITIZE==map),]
+latestM=latest[which(latest$Manual==subMap$MapManual),]
+table(latestM$LAB_ID %in% orig$Study.ID )
+print(table(latestM$Panel))
+merge =merge(latestM,orig,by.x ="LAB_ID",by.y = "Study.ID" )
+# merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+# t = latest$LAB_ID %in% orig$Study.ID
+# t1=latest[t,]
+# t2=latest[which(latest$Population=="boundary"),]
+print(map)
+nZeror=length(merge[which(merge[subMap$ABBREVIATION_SANITIZE]>=1000),]$name)
+merge = merge[which(merge[subMap$ABBREVIATION_SANITIZE]<1000),]
+t1 =cor.test(merge$freqParent,merge[,subMap$ABBREVIATION_SANITIZE],method = "pearson")
+print(map)
+t2=cor.test(merge$freqParent,merge[,subMap$ABBREVIATION_SANITIZE],method = "spearman")
+medianOCFreq=median(merge$freqParent)
+meanOCFreq=mean(merge$freqParent)
+sdOCFreq=sd(merge$freqParent)
+
+medianManualFreq=median(merge[,subMap$ABBREVIATION_SANITIZE])
+meanManualFreq=mean(merge[,subMap$ABBREVIATION_SANITIZE])
+sdManualFreq=sd(merge[,subMap$ABBREVIATION_SANITIZE])
+
+tmp = data.frame(
+  CELL.TYPE = subMap$CELL.TYPE,
+  OC_POP = subMap$MapManual,
+  N = length(merge$name),
+  NUM_MANUAL_POPS_ZEROED_OUT = nZeror,
+  PEARSON = t1$estimate,
+  SPEARMAN = t2$estimate,
+  MEDIAN_OC = medianOCFreq,
+  MEDIAN_MANUAL = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
+  MEAN_OC = meanOCFreq,
+  MEAN_MANUAL = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
+  SD_OC = sdOCFreq,
+  SD_MANUAL = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
+  FILTER = filtFile[2],
+  POP_NUMBER=popCount,
+  METRIC="FREQ"
+  
+  )
+print(filtFile[2])
+
+results =rbind(results,tmp)
+  
+
+ print("FREQ")
+ 
+g= ggplot(merge,aes(x=freqParent,y=merge[,subMap$ABBREVIATION_SANITIZE])) +
+  geom_point() +
+  xlab(paste0("OC freq ",subMap$MapManual)) +
+  ylab(paste0("Manual freq ",subMap$CELL.TYPE))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate, "\nn=",length(merge$name),", Population Number =",popCount ))
+
+print(g)
+
+
+
+
+subMap=  popMaps[which(popMaps$ABBREVIATION_SANITIZE==map),]
+latestM=latest[which(latest$Manual==subMap$MapManual),]
+table(latestM$LAB_ID %in% orig$Study.ID )
+print(table(latestM$Panel))
+if(latestM$Panel[1]=="panel1"){
+merge =merge(latestM,p1Jflow,by.x ="name",by.y = "FILE" )
+}
+if(latestM$Panel[1]=="panel2"){
+merge =merge(latestM,p2Jflow,by.x ="name",by.y = "FILE" )
+}
+# merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+# t = latest$LAB_ID %in% orig$Study.ID
+# t1=latest[t,]
+# t2=latest[which(latest$Population=="boundary"),]
+print(map)
+nZeror=0
+# merge = merge[which(merge[subMap$ABBREVIATION_SANITIZE]<1000),]
+if(length(merge$Count)>0&subMap$JflowMatch%in%colnames(merge)){
+t1 =cor.test(merge$Count,merge[,subMap$JflowMatch],method = "pearson")
+print(map)
+t2=cor.test(merge$Count,merge[,subMap$JflowMatch],method = "spearman")
+medianOCFreq=median(merge$Count)
+meanOCFreq=mean(merge$Count)
+sdOCFreq=sd(merge$Count)
+
+medianManualFreq=median(merge[,subMap$JflowMatch])
+meanManualFreq=mean(merge[,subMap$JflowMatch])
+sdManualFreq=sd(merge[,subMap$JflowMatch])
+
+tmp = data.frame(
+  CELL.TYPE = subMap$CELL.TYPE,
+  OC_POP = subMap$MapManual,
+  N = length(merge$name),
+  NUM_MANUAL_POPS_ZEROED_OUT = nZeror,
+  PEARSON = t1$estimate,
+  SPEARMAN = t2$estimate,
+  MEDIAN_OC = medianOCFreq,
+  MEDIAN_MANUAL = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
+  MEAN_OC = meanOCFreq,
+  MEAN_MANUAL = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
+  SD_OC = sdOCFreq,
+  SD_MANUAL = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
+  FILTER = filtFile[2],
+  POP_NUMBER=popCount,
+  METRIC="COUNT"
+  
+  )
+print(filtFile[2])
+
+results =rbind(results,tmp)
+  
+
+print("COUNT")
+g= ggplot(merge,aes(x=Count,y=merge[,subMap$JflowMatch])) +
+  geom_point() +
+  xlab(paste0("OC Count ",subMap$MapManual)) +
+  ylab(paste0("Manual Count ",subMap$CELL.TYPE))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate, "\nn=",length(merge$name),", Population Number =",popCount ))
+
+# popCount=popCount+1
+print(g)
+
+
+
+
+
+
+
+
+
+subMap=  popMaps[which(popMaps$ABBREVIATION_SANITIZE==map),]
+latestM=latest[which(latest$Manual==subMap$MapManual),]
+table(latestM$LAB_ID %in% orig$Study.ID )
+print(table(latestM$Panel))
+merge =merge(latestM,origPercents,by.x ="LAB_ID",by.y = "Study.ID" )
+
+subSetFreq="NA"
+if(latestM$Panel[1]=="panel1"){
+subSetFreq="freq_lymph"
+}
+if(latestM$Panel[1]=="panel2"){
+subSetFreq="freq_PBMC"
+} 
+if(length(merge$Count)>0&subMap$ABBREVIATION_SANITIZE%in%colnames(merge)){
+
+# merge =merge(merge,totalCounts,by.x ="name",by.y = "FILE" )
+# t = latest$LAB_ID %in% orig$Study.ID
+# t1=latest[t,]
+# t2=latest[which(latest$Population=="boundary"),]
+print(map)
+nZeror=length(merge[which(merge[subMap$ABBREVIATION_SANITIZE]>=1),]$name)
+merge = merge[which(merge[subMap$ABBREVIATION_SANITIZE]<1),]
+t1 =cor.test(merge[,subSetFreq],merge[,subMap$ABBREVIATION_SANITIZE],method = "pearson")
+print(map)
+t2=cor.test(merge[,subSetFreq],merge[,subMap$ABBREVIATION_SANITIZE],method = "spearman")
+medianOCFreq=median(merge[,subSetFreq])
+meanOCFreq=mean(merge[,subSetFreq])
+sdOCFreq=sd(merge[,subSetFreq])
+
+medianManualFreq=median(merge[,subMap$ABBREVIATION_SANITIZE])
+meanManualFreq=mean(merge[,subMap$ABBREVIATION_SANITIZE])
+sdManualFreq=sd(merge[,subMap$ABBREVIATION_SANITIZE])
+
+tmp = data.frame(
+  CELL.TYPE = subMap$CELL.TYPE,
+  OC_POP = subMap$MapManual,
+  N = length(merge$name),
+  NUM_MANUAL_POPS_ZEROED_OUT = nZeror,
+  PEARSON = t1$estimate,
+  SPEARMAN = t2$estimate,
+  MEDIAN_OC = medianOCFreq,
+  MEDIAN_MANUAL = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
+  MEAN_OC = meanOCFreq,
+  MEAN_MANUAL = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
+  SD_OC = sdOCFreq,
+  SD_MANUAL = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
+  FILTER = filtFile[2],
+  POP_NUMBER=popCount,
+  METRIC="FREQ_PBMC_LYMPH"
+  
+  )
+print(filtFile[2])
+
+results =rbind(results,tmp)
+  
+
+ print("FREQ_PBMC_LYMPH")
+ 
+g= ggplot(merge,aes(x=merge[,subSetFreq],y=merge[,subMap$ABBREVIATION_SANITIZE])) +
+  geom_point() +
+  xlab(paste0("OC freq pbmc or lymph ",subMap$MapManual)) +
+  ylab(paste0("Manual freq pbmc or lymph ",subMap$CELL.TYPE))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate, "\nn=",length(merge$name),", Population Number =",popCount ))
+
+# popCount=popCount+1
+print(g)
+}
+
+
+
+}
+
+}
+}
+
+write.table(
+   results,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0("/Users/Kitty/git/auto-fcs/explore/openCyto/compManual/","correlationResults_results_r25_23full_SS_SubCD8_SCD14_Manuals.txt"),
+    row.names = FALSE
+  )  
+
+
+
+```
