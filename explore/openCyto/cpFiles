@@ -27,3 +27,20 @@ find . -type f -name '*.fcs' -exec rsync -av {} /scratch.global/lanej/flow/full/
 
 find . -type f -name "*PANEL 1*" -exec mv {} ./panel1 \;
 find . -type f -name "*PANEL 2*" -exec mv {} ./panel2 \; 
+
+
+
+find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/TEST_TCELLS/{} \; |grep -i lymph
+
+
+find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/{} \; |grep -i lymph
+
+
+
+find . -type f -name *Rename.wsp  |wc -l
+find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/TEST_TCELLS/{} \; &> diff.txt
+grep -i lymph diff.txt
+
+
+
+

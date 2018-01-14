@@ -10,10 +10,12 @@ parseQCVars <- function(frame,nameColumn){
   frame$DATE=gsub("_PANEL.*","", frame$DATE ) 
   frame$DATE=gsub("-PANEL.*","", frame$DATE ) 
   frame$DATE=gsub("PANEL.*","", frame$DATE ) 
+  frame$DATE=gsub("_","-", frame$DATE ) 
+  
   return(frame)
 }
 
-frame=parseQCVars(frame)
+frame=parseQCVars(frame=frame,nameColumn=nameColumn)
 
 write.table(
   frame,

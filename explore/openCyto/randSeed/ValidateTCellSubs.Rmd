@@ -28,7 +28,7 @@ theme_set(theme_grey(base_size = 18))
 
 manual=read.delim("/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual", stringsAsFactors = FALSE,header = FALSE)
 
-rand = read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.txt", stringsAsFactors = FALSE)
+rand = read.delim("/Volumes/Beta/data/flow/results_test_reviseTCells/all.freq.metrics.txt", stringsAsFactors = FALSE)
 rand$KEY=paste0(rand$name,rand$Population,rand$Panel,rand$Parent,rand$MACHINE,rand$Manual)
 use=!(rand$name %in% manual$V1)
 rand=rand[use,]
