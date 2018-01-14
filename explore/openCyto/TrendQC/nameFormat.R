@@ -1,13 +1,27 @@
 
+testFrame="/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/all.totalCellCounts.metrics.txt"
+frame =read.delim(testFrame, stringsAsFactors = FALSE, sep = "\t")
+nameColumn="FILE"
+parseQCVars <- function(frame,nameColumn){
 
-
-parsePanel <- function(frame){
-
-  frame$formatName=frame$name
+  frame$formatName=frame[,c(nameColumn)]
   frame$formatName = gsub("*./","", frame$formatName )
-  
-  
-    
+  frame$DATE=gsub(" .*","", frame$formatName ) 
+  frame$DATE=gsub("_PANEL.*","", frame$DATE ) 
+  frame$DATE=gsub("-PANEL.*","", frame$DATE ) 
+  frame$DATE=gsub("PANEL.*","", frame$DATE ) 
+  return(frame)
 }
+
+frame=parseQCVars(frame)
+
+write.table(
+  frame,
+  file =
+    paste0(testFrame,".testFormat.txt"),
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+)
 
   

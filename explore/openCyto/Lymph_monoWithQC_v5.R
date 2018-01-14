@@ -557,6 +557,7 @@ compFrame <-
            plot = TRUE,
            panel,
            nodesToHide) {
+    set.seed(42)
     print(paste("compensating ....", file))
     metrics = data.frame()
     comp <- compensation(keyword(frame)$`SPILL`)
