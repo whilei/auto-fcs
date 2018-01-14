@@ -33,7 +33,22 @@ reg= read.delim("/Volumes/Beta/data/flow/randSeedTest/r25_42/all.freq.metrics.tx
 reg$KEY=paste0(reg$name,reg$Population,reg$Panel,reg$Parent,reg$MACHINE,gsub(".*FULL","",reg$PDF))
 table(rand$KEY %in% reg$KEY)
 
+
 combo=merge(rand,reg,by.x = "KEY",by.y = "KEY",all.x = TRUE)
+
+manual=read.delim("/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual", stringsAsFactors = FALSE,header = FALSE)
+
+# t=combo[which(combo$freqParent.x!=combo$freqParent.y),]
+t=combo[which(combo$Count.x!=combo$Count.y),]
+t=combo[which(combo$freqParent.x-combo$freqParent.y>.01),]
+
+use=!(t$name.x %in% manual$V1)
+t=t[use,]
+
+
+
+manual=read.delim("/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual", stringsAsFactors = FALSE,header = FALSE)
+
 
 ```
 
