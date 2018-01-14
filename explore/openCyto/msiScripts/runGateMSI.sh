@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=results_r25_25full_SS_SubCD8_SCD14_Manuals
+rev=r25_25full_SS_SubCD8_SCD14_Manuals
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -60,13 +60,13 @@ for i in `seq 0 $batchIters`;do
 
     echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP1C pipe=PCTS_CNTS panel=1" >> $sub
 
+    outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
+	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
+
     outP2C="$OUTDIR/FULL/openCytoBatch_$i/panel2Counts/"
 
     echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP2C pipe=PCTS_CNTS panel=2" >> $sub
 
-
-    outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
-	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
 
     outP2="$OUTDIR/FULL/openCytoBatch_$i/panel2Vis/"
 	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP2 pipe=VIZ panel=2 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
