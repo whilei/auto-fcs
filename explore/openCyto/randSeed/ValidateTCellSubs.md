@@ -1,209 +1,142 @@
-# Validate Seed
+# Validate TCell subset adjustments
 JL  
-12/18/2017  
+01/15/2017  
 
 
 
 
-# Correlation of all counts
-
-```
-## 
-## 	Pearson's product-moment correlation
-## 
-## data:  combo$Count.x and combo$Count.y
-## t = 59903, df = 488040, p-value < 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9999316 0.9999324
-## sample estimates:
-##      cor 
-## 0.999932
-```
-
-```
-## Warning in cor.test.default(combo$Count.x, combo$Count.y, method =
-## "spearman"): Cannot compute exact p-value with ties
-```
-
-```
-## 
-## 	Spearman's rank correlation rho
-## 
-## data:  combo$Count.x and combo$Count.y
-## S = 3.6794e+13, p-value < 2.2e-16
-## alternative hypothesis: true rho is not equal to 0
-## sample estimates:
-##       rho 
-## 0.9981008
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+<!-- # Correlation of all counts -->
+<!-- ```{r  echo=FALSE} -->
+<!-- cor.test(combo$Count.x,combo$Count.y) -->
+<!-- cor.test(combo$Count.x,combo$Count.y,method = "spearman") -->
 
 
-# Correlation of frequency of parent counts
+<!-- pbc = ggplot(combo, aes( -->
+<!--   x = Count.x, -->
+<!--   y = Count.y -->
+<!--   )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous count, n gates=",length(combo$Count.y))) + -->
+<!--   ylab(paste0("Seed 42 count, n gates=",length(combo$Count.x))) + t2 -->
+<!-- pbc -->
+<!-- ``` -->
 
 
-```
-## 
-## 	Pearson's product-moment correlation
-## 
-## data:  combo$freqParent.x and combo$freqParent.y
-## t = 10262, df = 469130, p-value < 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9977672 0.9977926
-## sample estimates:
-##       cor 
-## 0.9977799
-```
+<!-- # Correlation of frequency of parent counts -->
 
-```
-## Warning in cor.test.default(combo$freqParent.x, combo$freqParent.y, method
-## = "spearman"): Cannot compute exact p-value with ties
-```
+<!-- ```{r  echo=FALSE} -->
 
-```
-## 
-## 	Spearman's rank correlation rho
-## 
-## data:  combo$freqParent.x and combo$freqParent.y
-## S = 3.8116e+13, p-value < 2.2e-16
-## alternative hypothesis: true rho is not equal to 0
-## sample estimates:
-##      rho 
-## 0.997785
-```
+<!-- cor.test(combo$freqParent.x,combo$freqParent.y) -->
+<!-- cor.test(combo$freqParent.x,combo$freqParent.y,method = "spearman") -->
+<!-- pbf = ggplot(combo, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=Panel.x  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(combo$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(combo$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
-```
-## Warning: Removed 19315 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
-
-```
-## Warning: Removed 19315 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+<!-- pbf = ggplot(combo, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=TEMPLATE_FILE_USEDTRIM  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(combo$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(combo$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
 
-# Correlation of frequency of parent counts (panel2)
+<!-- ``` -->
 
 
-```
-## 
-## 	Pearson's product-moment correlation
-## 
-## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 4041.4, df = 116530, p-value < 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9964107 0.9964921
-## sample estimates:
-##       cor 
-## 0.9964516
-```
+<!-- # Correlation of frequency of parent counts (panel2) -->
 
-```
-## Warning in cor.test.default(comboP2$freqParent.x, comboP2$freqParent.y, :
-## Cannot compute exact p-value with ties
-```
+<!-- ```{r  echo=FALSE} -->
+<!-- comboP2=combo[which(combo$Panel.x=="panel2"),] -->
+<!-- cor.test(comboP2$freqParent.x,comboP2$freqParent.y) -->
+<!-- cor.test(comboP2$freqParent.x,comboP2$freqParent.y,method = "spearman") -->
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=Panel.x  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
-```
-## 
-## 	Spearman's rank correlation rho
-## 
-## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 9.4833e+11, p-value < 2.2e-16
-## alternative hypothesis: true rho is not equal to 0
-## sample estimates:
-##       rho 
-## 0.9964045
-```
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=TEMPLATE_FILE_USEDTRIM  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
-```
-## Warning: Removed 9089 rows containing missing values (geom_point).
-```
+<!-- comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="dc.LSR.c"|combo$TEMPLATE_FILE_USEDTRIM=="dc.FORTESSA.c"),] -->
 
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=TEMPLATE_FILE_USEDTRIM  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
-```
-## Warning: Removed 9089 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
-
-```
-## Warning: Removed 8373 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-3-3.png)<!-- -->
+<!-- ``` -->
 
 
-# Correlation of frequency of parent counts (panel1)
+<!-- # Correlation of frequency of parent counts (panel1) -->
+
+<!-- ```{r  echo=FALSE} -->
+<!-- comboP2=combo[which(combo$Panel.x=="panel1"),] -->
+<!-- cor.test(comboP2$freqParent.x,comboP2$freqParent.y) -->
+<!-- cor.test(comboP2$freqParent.x,comboP2$freqParent.y,method = "spearman") -->
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=Panel.x  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
+
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=TEMPLATE_FILE_USEDTRIM  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
 
-```
-## 
-## 	Pearson's product-moment correlation
-## 
-## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## t = 9885, df = 352600, p-value < 2.2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.9981887 0.9982125
-## sample estimates:
-##       cor 
-## 0.9982006
-```
+<!-- comboP2=combo[which(combo$TEMPLATE_FILE_USEDTRIM=="lymph.LSR.f"|combo$TEMPLATE_FILE_USEDTRIM=="lymph.FORTESSA.f"),] -->
+<!-- comboP2=comboP2[which(!is.na(comboP2$freqParent.x)&!is.na(comboP2$freqParent.y)),] -->
+<!-- probs=comboP2$freqParent.x!=comboP2$freqParent.y -->
+<!-- comboP2$DIFF=abs(comboP2$freqParent.x-comboP2$freqParent.y) -->
 
-```
-## Warning in cor.test.default(comboP2$freqParent.x, comboP2$freqParent.y, :
-## Cannot compute exact p-value with ties
-```
+<!-- comboP2Probs=comboP2[probs,] -->
+<!-- write.table( -->
+<!--   comboP2Probs, -->
+<!--   file = -->
+<!--   "/Users/Kitty/git/auto-fcs/explore/openCyto/Completions/toDoubleCheck2.txt", -->
+<!--   row.names = FALSE, -->
+<!--   quote = FALSE, -->
+<!--   sep = "\t" -->
+<!--   ) -->
 
-```
-## 
-## 	Spearman's rank correlation rho
-## 
-## data:  comboP2$freqParent.x and comboP2$freqParent.y
-## S = 1.0559e+13, p-value < 2.2e-16
-## alternative hypothesis: true rho is not equal to 0
-## sample estimates:
-##       rho 
-## 0.9985548
-```
+<!-- pbf = ggplot(comboP2, aes( -->
+<!--   x = freqParent.x, -->
+<!--   y = freqParent.y,colour=TEMPLATE_FILE_USEDTRIM  )) + -->
+<!--   geom_point() + -->
+<!--   xlab(paste0("Previous freq parent, n gates =",length(comboP2$freqParent.y))) + -->
+<!--   ylab(paste0("Seed 42 freq parent, n gates =",length(comboP2$freqParent.x))) + t2+xlim(0,1)+ylim(0,1)  -->
+<!-- pbf -->
 
-```
-## Warning: Removed 10226 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
-
-```
-## Warning: Removed 10226 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
-
-```
-## Warning: Removed 376 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-4-3.png)<!-- -->
+<!-- ``` -->
 
 
 
 
 # Frequency of parent counts (> 0% difference)
 
-
-```
-## Warning: Removed 36 rows containing missing values (geom_point).
-```
-
-![](ValidateTCellSubs_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](ValidateTCellSubs_files/figure-html/unnamed-chunk-1-1.png)<!-- -->![](ValidateTCellSubs_files/figure-html/unnamed-chunk-1-2.png)<!-- -->
 
 
 
