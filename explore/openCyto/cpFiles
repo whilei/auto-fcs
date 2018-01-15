@@ -38,7 +38,7 @@ find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full
 
 
 find . -type f -name *Rename.wsp  |wc -l
-find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/TEST_TCELLS/{} \; &> diff.txt
+find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/TEST_TCELLS/{} \; |grep -i lymph &> diff.txt
 grep -i lymph diff.txt
 
 

@@ -1,29 +1,58 @@
 
-testFrame="/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/all.totalCellCounts.metrics.txt"
-frame =read.delim(testFrame, stringsAsFactors = FALSE, sep = "\t")
-nameColumn="FILE"
-parseQCVars <- function(frame,nameColumn){
 
-  frame$formatName=frame[,c(nameColumn)]
-  frame$formatName = gsub("*./","", frame$formatName )
-  frame$DATE=gsub(" .*","", frame$formatName ) 
-  frame$DATE=gsub("_PANEL.*","", frame$DATE ) 
-  frame$DATE=gsub("-PANEL.*","", frame$DATE ) 
-  frame$DATE=gsub("PANEL.*","", frame$DATE ) 
-  frame$DATE=gsub("_","-", frame$DATE ) 
-  
+
+# testFrame="/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/all.totalCellCounts.metrics.txt"
+# frame =read.delim(testFrame, stringsAsFactors = FALSE, sep = "\t")
+# nameColumn="FILE"
+parseDate <- function(frame, nameColumn) {
+  frame$formatName = frame[, c(nameColumn)]
+  frame$formatName = gsub("*./", "", frame$formatName)
+  frame$DATE = gsub(" .*", "", frame$formatName)
+  frame$DATE = gsub("_PANEL.*", "", frame$DATE)
+  frame$DATE = gsub("-PANEL.*", "", frame$DATE)
+  frame$DATE = gsub("PANEL.*", "", frame$DATE)
+  frame$DATE = gsub("_", "-", frame$DATE)
+  frame$DATE = as.Date(frame$DATE)
+  frame$DATE_MONTH <- as.Date(cut(frame$DATE,
+                                  breaks = "month"))
+  frame$DATE_WEEK <- as.Date(cut(frame$DATE,
+                                 breaks = "week"))
   return(frame)
 }
 
-frame=parseQCVars(frame=frame,nameColumn=nameColumn)
-
-write.table(
-  frame,
-  file =
-    paste0(testFrame,".testFormat.txt"),
-  row.names = FALSE,
-  quote = FALSE,
-  sep = "\t"
-)
-
+parseExperimenter <- function(frame, nameColumn) {
+  require(stringr)
+  frame$formatExp = frame[, c(nameColumn)]
+  frame$formatExp = gsub("*./", "", frame$formatExp)
+  exps = c("HB", "ZF", "DHS", "RR", "EC")
+  frame$EXPERIMENTER = NA
+  num = 1
+  for (name in frame$formatExp) {
+    print(num)
+    num = num + 1
+    max = -1
+    experimenter = NA
+    for (exp in exps) {
+      t = as.data.frame(str_locate(name, exp))
+      if (!is.na(t$start) & t$start > max) {
+        experimenter = exp
+        max=t$start
+        print(paste0(exp,t$start,max))
+        
+      }
+    }
+    frame[which(frame$formatExp == name), ]$EXPERIMENTER = experimenter
+  }
   
+  return(frame)
+  
+  
+  
+  
+}
+
+
+
+
+# frame=parseQCVars(frame=frame,nameColumn=nameColumn)
+#
