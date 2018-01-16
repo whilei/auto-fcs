@@ -16,3 +16,11 @@ tail -n+2 ./openCytoBatch_*/metrics.totalCellCounts.txt |grep -v "==>">>all.tota
 cat ./*/fcsQC/*mini.txt >all.mini.qc.tmp.txt
 head -n 1 all.mini.qc.tmp.txt >all.mini.qc.txt
 tail -n+2 all.mini.qc.tmp.txt |grep -v "Name file">>all.mini.qc.txt
+
+
+
+find ./openCytoBatch_*/panel1Counts/p1.cnts.xln |wc -l
+head -n 1 ./openCytoBatch_0/panel1Counts/p1.cnts.xln >all.p1.cnts.txt
+tail -n+2 ./openCytoBatch_*/panel1Counts/p1.cnts.xln |grep -v "==>">>all.p1.cnts.txt
+
+

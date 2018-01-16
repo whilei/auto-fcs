@@ -156,6 +156,7 @@ probs=comboP2$freqParent.x!=comboP2$freqParent.y
 comboP2$DIFF=abs(comboP2$freqParent.x-comboP2$freqParent.y)
 
 comboP2Probs=comboP2[probs,]
+
 write.table(
   comboP2Probs,
   file =

@@ -102,5 +102,31 @@ done
 
 
 
+for i in $(cat /home/tsaim/lane0212/toSanityCheck.txt); do
+   echo $i
+   cp -ru /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/panel1Vis/*$i*/ /home/thyagara/shared/HRS/annotation/r25/sanityCheck/
+done
 
+
+
+for i in $(cat /home/tsaim/lane0212/toSanityCheck_NewManuals.txt); do
+   echo $i
+   cp -ru /home/thyagara/shared/HRS/annotation/r25/panel1/*/*$i*/ /home/thyagara/shared/HRS/annotation/r25/sanityCheckNewManuals/
+done
+
+
+
+for i in $(cat toSanityCheck_NewManuals.txt); do
+   echo $i
+   scp -r msi:/home/thyagara/shared/HRS/annotation/r25/sanityCheck/*$i*/ ./newMansNewImages
+done
+
+
+IFS=$'\n'
+for i in $(cat before_after.txt); do
+   echo $i
+   cp  ./newMansOldImages/*/$i* ./combo/$i.old.png
+   cp  ./newMansNewImages/*/$i* ./combo/$i.new.png
+
+done
 
