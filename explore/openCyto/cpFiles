@@ -43,7 +43,13 @@ grep -i lymph diff.txt
 
 
 find . -type f -name p1.pcts.xln -exec wc -l {} \;
-find . -type f -name "./*/gatesRename/*Rename.wsp"  |wc -l
+find . -type f -name p2.pcts.xln -exec wc -l {} \;
+
+find ./*/gatesRename/ -type f -name "*Rename.wsp"  |grep "panel1Rename.wsp" |wc -l
+
+wc -l ./*/panel1Counts/p1.cnts.xln
+wc -l ./*/panel2Counts/p2.cnts.xln
+
 
 
 
