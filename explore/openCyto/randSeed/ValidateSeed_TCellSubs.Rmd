@@ -160,7 +160,7 @@ comboP2Probs=comboP2[probs,]
 write.table(
   comboP2Probs,
   file =
-  "/Users/Kitty/git/auto-fcs/explore/openCyto/Completions/toDoubleCheck2.txt",
+  "/Users/Kitty/git/auto-fcs/explore/openCyto/Completions/toDoubleCheckOriginal.txt",
   row.names = FALSE,
   quote = FALSE,
   sep = "\t"

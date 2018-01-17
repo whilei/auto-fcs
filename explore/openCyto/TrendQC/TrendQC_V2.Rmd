@@ -1,0 +1,170 @@
+---
+title: "TrendQC"
+author: "JL"
+date: "1/12/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+```{r include=TRUE,fig.height=10,fig.width=12,echo=FALSE}
+
+dir = "/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/"
+
+```
+
+```{r setup, include=TRUE,fig.height=10,fig.width=12,echo=FALSE,eval=FALSE}
+
+source("/Users/Kitty/git/auto-fcs/explore/openCyto/TrendQC/nameFormat.R")
+
+tcFile=paste0(dir,"all.totalCellCounts.metrics.txt")
+tc=read.delim(tcFile, stringsAsFactors = FALSE, sep = "\t")
+tc=parseDate(frame = tc,nameColumn = "FILE")
+tc=parseExperimenter(frame = tc,nameColumn = "FILE")
+tc=tc[which(tc$PANEL!="panel_undetermined"&!is.na(tc$DATE)&!is.na(tc$EXPERIMENTER)),]
+
+tc$PANEL_MACHINE=paste0(tc$PANEL,"_",tc$MACHINE)
+tc$PANEL_T=paste0(tc$PANEL,"_")
+
+
+save(tc,file=paste0(dir,"all.totalCellCounts.metrics.txt.format.Rdata"))
+# 
+
+# pb=ggplot(tc,aes(x=as.factor(DATE_MONTH),y=TOTAL_COUNTS,colour=PANEL_MACHINE)) +
+#   geom_boxplot() +
+#   xlab("Month processed") +
+#   ylab("Total events in file")+t2
+#   print(pb)
+```
+
+
+```{r fig.height=10,fig.width=12,echo=FALSE}
+
+load(paste0(dir, "all.totalCellCounts.metrics.format.RData"))
+tc = tc[which(!is.na(tc$DATE)),]
+tc = tc[which(!is.na(tc$EXPERIMENTER)),]
+tc = tc[which(!is.na(tc$LAB_ID)),]
+tc=tc[which(tc$PANEL!="panel_undetermined"&!is.na(tc$DATE)&!is.na(tc$EXPERIMENTER)),]
+
+tc$PANEL_MACHINE=paste0(tc$PANEL,"_",tc$MACHINE)
+tc$PANEL_T=paste0(tc$PANEL,"_")
+
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  # panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x = element_text(angle = 90, hjust = 1)
+)
+theme_set(theme_grey(base_size = 18))
+
+
+
+for (panel in unique(tc$PANEL)) {
+  sub = tc[which(tc$PANEL == panel),]
+  pb = ggplot(sub,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = TOTAL_COUNTS,
+                colour = PANEL_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab("Total events in file") + t2
+  print(pb)
+}
+
+for (machine in unique(tc$MACHINE)) {
+  sub = tc[which(tc$MACHINE == machine),]
+  pb = ggplot(sub,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = TOTAL_COUNTS,
+                colour = PANEL_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab("Total events in file") + t2
+  print(pb)
+}
+
+for (exp in unique(tc$EXPERIMENTER)) {
+  sub = tc[which(tc$EXPERIMENTER == exp),]
+  pb = ggplot(sub,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = TOTAL_COUNTS,
+                colour = PANEL_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab("Total events in file") + t2 + ggtitle(paste0("EXPERIMENTER = ", exp))
+  print(pb)
+}
+
+
+for (machine in unique(tc$MACHINE)) {
+  for (panel in unique(tc$PANEL)) {
+    sub = tc[which(tc$MACHINE == machine&tc$PANEL==panel),]
+    
+    pb = ggplot(sub,
+                aes(
+                  x = reorder(EXPERIMENTER, TOTAL_COUNTS, FUN = median),
+                  y = TOTAL_COUNTS,
+                  colour = EXPERIMENTER
+                )) +
+      geom_boxplot() +
+      xlab("Month processed") +
+      ylab("Total events in file") + t2+ ggtitle(paste0("PANEL=", panel,"\nMACHINE=",machine, "\nORDER=MEDIAN"))
+    print(pb)
+    
+    pb = ggplot(sub,
+                aes(
+                  x = reorder(EXPERIMENTER, TOTAL_COUNTS, FUN = mad),
+                  y = TOTAL_COUNTS,
+                  colour = EXPERIMENTER
+                )) +
+      geom_boxplot() +
+      xlab("Month processed") +
+      ylab("Total events in file") + t2+ ggtitle(paste0("PANEL=", panel,"\nMACHINE=",machine, "\nORDER=MAD"))
+    print(pb)
+    formula <- TOTAL_COUNTS ~  EXPERIMENTER
+    lm <- lm(formula, sub)
+    print(summary(lm))
+    
+    fit <- aov(formula, data=sub)
+    print(TukeyHSD(fit))
+  }
+}
+
+
+formula <- TOTAL_COUNTS ~ DATE_MONTH + MACHINE + PANEL + EXPERIMENTER
+lm <- lm(formula, tc)
+summary(lm)
+
+
+
+library(MASS)
+fit <- lm(formula,data=tc)
+step <- stepAIC(fit, direction="both")
+step$anova
+
+write.table(
+  tc,
+  file =
+    paste0(dir,"all.totalCellCounts.metrics.txt.format.txt"),
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t"
+)
+
+
+```
+

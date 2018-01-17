@@ -8,7 +8,7 @@ output:
 ---
 ```{r include=TRUE,fig.height=10,fig.width=12,echo=FALSE}
 
-dir = "/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/"
+dir = "/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/"
 
 ```
 
