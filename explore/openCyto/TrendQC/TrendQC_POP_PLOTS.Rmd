@@ -1,7 +1,7 @@
 ---
-title: "TrendQC"
+title: "TrendQC for Populations"
 author: "JL"
-date: "1/12/2018"
+date: "1/16/2018"
 output: 
   html_document: 
     keep_md: yes
@@ -20,10 +20,11 @@ popsOfInterest$POPF=gsub(" ",".",popsOfInterest$POPF)
 ```
 
 # Trends by population
+
 - removed samples that did not match to a Lab ID from the "FLOW ONLY" tab of "HRS sample list.xlsx"
 - removed samples where date could not be parsed
 - removed samples where EXPERIMENTER could not be parsed
-
+- removed samples that were manually gated
 
 
 
@@ -54,7 +55,9 @@ for(id in manifest$Lab.ID){
   }
 }
 
-parseDF <- function(frame,popsOfInterest,tc,PopColumn) {
+manual=read.delim("/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual", stringsAsFactors = FALSE,header = FALSE)
+
+parseDF <- function(frame,popsOfInterest,tc,PopColumn,manual) {
   frame = frame[,c(colnames(frame) %in% c("Sample",popsOfInterest[,c(PopColumn)]))]
   frame=parseDate(frame = frame,nameColumn = "Sample")
   frame=parseExperimenter(frame = frame,nameColumn = "Sample")
@@ -63,6 +66,9 @@ parseDF <- function(frame,popsOfInterest,tc,PopColumn) {
   frame$EXPERIMENTER_MACHINE=paste0(frame$EXPERIMENTER,"_",frame$MACHINE)
   miss=!(popsOfInterest[,c(PopColumn)] %in% c(colnames(frame)))
   print(table(miss))
+  use=!(frame$FILE %in% manual$V1)
+  frame=frame[use,]
+
   return(frame)
 
 }
@@ -76,10 +82,10 @@ p2C= read.xlsx(finals, sheet=4)
 p1F= read.xlsx(finals, sheet=1)
 p2F= read.xlsx(finals, sheet=3)
 
-p1C=parseDF(frame=p1C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC")
-p2C=parseDF(frame=p2C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC")
-p1F=parseDF(frame=p1F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF")
-p2F=parseDF(frame=p2F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF")
+p1C=parseDF(frame=p1C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC",manual=manual)
+p2C=parseDF(frame=p2C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC",manual=manual)
+p1F=parseDF(frame=p1F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF",manual=manual)
+p2F=parseDF(frame=p2F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF",manual=manual)
 
 table(miss)
 
@@ -213,6 +219,17 @@ for (pop in unique(popsOfInterest$POPC)) {
     ylab(paste0("FreqParent  ",pop)) + t2+ggtitle(paste0("Pop=",pop))
   print(pb)
   
+  
+   pb = ggplot(subF,
+              aes(
+                x = as.factor(MACHINE),
+                y = as.numeric(subF[,colF]),
+                colour = MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Machine") +
+    ylab(paste0("FreqParent  ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
    pb = ggplot(subF,
               aes(
                 x = as.factor(DATE_MONTH),
@@ -262,12 +279,12 @@ print(paste("ANOVA of MACHINE for",pop))
     fit <- aov(formula, data=subF)
     print(summary(fit))    
   
- print(paste("Kruskal-Wallis test of MACHINE for",pop))
-
-formula <- MACHINE~TARGET_FREQ  
-  
-kw=kruskal.test(formula, data = subF)    
-print(kw)    
+# print(paste("Kruskal-Wallis test of MACHINE for",pop))
+# 
+# formula <- MACHINE~TARGET_FREQ  
+#   
+# kw=kruskal.test(formula, data = subF)    
+# print(kw)    
 
   
   }else{

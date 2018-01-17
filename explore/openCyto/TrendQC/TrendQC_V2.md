@@ -12,7 +12,27 @@ JL
 ## 2017c.1.0/zoneinfo/America/Chicago'
 ```
 
-![](TrendQC_V2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-2.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-4.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-5.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-6.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-8.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-9.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-10.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-11.png)<!-- -->
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-1.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+
+```
+##               Df    Sum Sq   Mean Sq F value   Pr(>F)    
+## MACHINE        1 2.397e+13 2.397e+13   50.07 1.59e-12 ***
+## Residuals   9479 4.538e+15 4.787e+11                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-4.png)<!-- -->
+
+```
+##               Df    Sum Sq   Mean Sq F value Pr(>F)    
+## MACHINE        1 6.467e+13 6.467e+13   72.91 <2e-16 ***
+## Residuals   9517 8.442e+15 8.871e+11                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-5.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-6.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-8.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-9.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-10.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-11.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-12.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-13.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-14.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-15.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-16.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-17.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-18.png)<!-- -->
 
 ```
 ## 
@@ -56,7 +76,7 @@ JL
 ## ZF-RR   106564.62   28857.206  184272.03 0.0017265
 ```
 
-![](TrendQC_V2_files/figure-html/unnamed-chunk-2-12.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-13.png)<!-- -->
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-19.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-20.png)<!-- -->
 
 ```
 ## 
@@ -100,7 +120,7 @@ JL
 ## ZF-RR   134390.39   26404.41  242376.37 0.0061962
 ```
 
-![](TrendQC_V2_files/figure-html/unnamed-chunk-2-14.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-15.png)<!-- -->
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-21.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-22.png)<!-- -->
 
 ```
 ## 
@@ -144,7 +164,7 @@ JL
 ## ZF-RR   116226.18   21905.93  210546.43 0.0069727
 ```
 
-![](TrendQC_V2_files/figure-html/unnamed-chunk-2-16.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-17.png)<!-- -->
+![](TrendQC_V2_files/figure-html/unnamed-chunk-2-23.png)<!-- -->![](TrendQC_V2_files/figure-html/unnamed-chunk-2-24.png)<!-- -->
 
 ```
 ## 

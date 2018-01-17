@@ -1,7 +1,7 @@
 ---
 title: "TrendQC"
 author: "JL"
-date: "1/12/2018"
+date: "1/16/2018"
 output: 
   html_document: 
     keep_md: yes
@@ -44,7 +44,13 @@ tc = tc[which(!is.na(tc$DATE)),]
 tc = tc[which(!is.na(tc$EXPERIMENTER)),]
 tc = tc[which(!is.na(tc$LAB_ID)),]
 tc=tc[which(tc$PANEL!="panel_undetermined"&!is.na(tc$DATE)&!is.na(tc$EXPERIMENTER)),]
-
+manual = read.delim(
+  "/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual",
+  stringsAsFactors = FALSE,
+  header = FALSE
+  )
+  use = !(tc$FILE %in% manual$V1)
+  tc = tc[use, ]
 tc$PANEL_MACHINE=paste0(tc$PANEL,"_",tc$MACHINE)
 tc$PANEL_T=paste0(tc$PANEL,"_")
 
@@ -79,6 +85,21 @@ for (panel in unique(tc$PANEL)) {
     xlab("Month processed") +
     ylab("Total events in file") + t2
   print(pb)
+  
+   pb = ggplot(sub,
+              aes(
+                x = as.factor(MACHINE),
+                y = TOTAL_COUNTS,
+                colour = PANEL_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Machine") +
+    ylab("Total events in file") + t2
+  print(pb)
+     formula <- TOTAL_COUNTS ~  MACHINE
+    fit <- aov(formula, data=sub)
+    print(summary(fit))    
+  
 }
 
 for (machine in unique(tc$MACHINE)) {
@@ -93,6 +114,8 @@ for (machine in unique(tc$MACHINE)) {
     xlab("Month processed") +
     ylab("Total events in file") + t2
   print(pb)
+  
+  
 }
 
 for (exp in unique(tc$EXPERIMENTER)) {
@@ -105,6 +128,17 @@ for (exp in unique(tc$EXPERIMENTER)) {
               )) +
     geom_boxplot() +
     xlab("Month processed") +
+    ylab("Total events in file") + t2 + ggtitle(paste0("EXPERIMENTER = ", exp))
+  print(pb)
+  
+   pb = ggplot(sub,
+              aes(
+                x = as.factor(MACHINE),
+                y = TOTAL_COUNTS,
+                colour = PANEL_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Machine") +
     ylab("Total events in file") + t2 + ggtitle(paste0("EXPERIMENTER = ", exp))
   print(pb)
 }

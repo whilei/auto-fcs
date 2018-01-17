@@ -1,13 +1,14 @@
-# TrendQC
+# TrendQC for Populations
 JL  
-1/12/2018  
+1/16/2018  
 
 
 # Trends by population
+
 - removed samples that did not match to a Lab ID from the "FLOW ONLY" tab of "HRS sample list.xlsx"
 - removed samples where date could not be parsed
 - removed samples where EXPERIMENTER could not be parsed
-
+- removed samples that were manually gated
 
 
 
@@ -30,7 +31,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-4.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-5.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-3.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-4.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-5.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-6.png)<!-- -->
 
 ```
 ## 
@@ -128,20 +129,13 @@ JL
 ## Residuals   9406 286.05  0.0304                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## [1] "Kruskal-Wallis test of MACHINE for naive.Bcells.(CD27-.IgD+)"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9388, df = 9390, p-value = 0.504
-## 
 ## [1] "# Start of new population results"
 ## [1] "cytotoxic.Tcells-CD8+"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-6.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-7.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-7.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-8.png)<!-- -->
 
 ```
 ## [1] "cytotoxic.Tcells-CD8+"
@@ -149,7 +143,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-8.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-9.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-10.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-9.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-10.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-11.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-12.png)<!-- -->
 
 ```
 ## 
@@ -255,20 +249,13 @@ JL
 ##               Df Sum Sq  Mean Sq F value Pr(>F)
 ## MACHINE        1    0.0 0.000528   0.038  0.846
 ## Residuals   9406  132.3 0.014062               
-## [1] "Kruskal-Wallis test of MACHINE for cytotoxic.Tcells-CD8+"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9407, df = 9407, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "Tcells.(CD3+.CD19-)"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-11.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-12.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-13.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-14.png)<!-- -->
 
 ```
 ## [1] "Tcells.(CD3+.CD19-)"
@@ -276,7 +263,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-13.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-14.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-15.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-15.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-16.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-17.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-18.png)<!-- -->
 
 ```
 ## 
@@ -374,20 +361,13 @@ JL
 ## Residuals   9406 159.92  0.0170                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## [1] "Kruskal-Wallis test of MACHINE for Tcells.(CD3+.CD19-)"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9407, df = 9407, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "Live.cells.(PE-)"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-16.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-17.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-19.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-20.png)<!-- -->
 
 ```
 ## [1] "Live.cells.(PE-)"
@@ -400,7 +380,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-18.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-19.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-21.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-22.png)<!-- -->
 
 ```
 ## [1] "IgD-.memory.Bcells.(CD27+)"
@@ -408,7 +388,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-20.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-21.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-22.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-23.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-24.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-25.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-26.png)<!-- -->
 
 ```
 ## 
@@ -496,20 +476,13 @@ JL
 ## Residuals   9406  81.90  0.0087                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## [1] "Kruskal-Wallis test of MACHINE for IgD-.memory.Bcells.(CD27+)"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9373.1, df = 9370, p-value = 0.4889
-## 
 ## [1] "# Start of new population results"
 ## [1] "IgD+.memory.Bcells.(CD27+)"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-23.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-24.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-27.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-28.png)<!-- -->
 
 ```
 ## [1] "IgD+.memory.Bcells.(CD27+)"
@@ -517,7 +490,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-25.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-26.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-27.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-29.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-30.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-31.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-32.png)<!-- -->
 
 ```
 ## 
@@ -625,20 +598,13 @@ JL
 ## Residuals   9406  96.23 0.01023                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## [1] "Kruskal-Wallis test of MACHINE for IgD+.memory.Bcells.(CD27+)"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9368.8, df = 9373, p-value = 0.5104
-## 
 ## [1] "# Start of new population results"
 ## [1] "Helper.Tcells-CD4+"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-28.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-29.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-33.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-34.png)<!-- -->
 
 ```
 ## [1] "Helper.Tcells-CD4+"
@@ -646,7 +612,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-30.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-31.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-32.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-35.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-36.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-37.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-38.png)<!-- -->
 
 ```
 ## 
@@ -742,20 +708,13 @@ JL
 ##               Df Sum Sq Mean Sq F value Pr(>F)
 ## MACHINE        1   0.04 0.03688   1.879   0.17
 ## Residuals   9406 184.63 0.01963               
-## [1] "Kruskal-Wallis test of MACHINE for Helper.Tcells-CD4+"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9407, df = 9407, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "B.cells.(CD3-.CD19+)"
 ## [1] "n=9408"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-33.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-34.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-39.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-40.png)<!-- -->
 
 ```
 ## [1] "B.cells.(CD3-.CD19+)"
@@ -763,7 +722,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-35.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-36.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-37.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-41.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-42.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-43.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-44.png)<!-- -->
 
 ```
 ## 
@@ -861,20 +820,13 @@ JL
 ## Residuals   9406 29.191 0.003103                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## [1] "Kruskal-Wallis test of MACHINE for B.cells.(CD3-.CD19+)"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9407, df = 9407, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "Non.classical.monocytes"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-38.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-39.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-45.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-46.png)<!-- -->
 
 ```
 ## [1] "Non.classical.monocytes"
@@ -882,7 +834,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-40.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-41.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-42.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-47.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-48.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-49.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-50.png)<!-- -->
 
 ```
 ## 
@@ -972,20 +924,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for Non.classical.monocytes"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9295, df = 9289, p-value = 0.4805
-## 
 ## [1] "# Start of new population results"
 ## [1] "Myeloid.DC"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-43.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-44.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-51.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-52.png)<!-- -->
 
 ```
 ## [1] "Myeloid.DC"
@@ -993,7 +938,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-45.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-46.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-47.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-53.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-54.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-55.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-56.png)<!-- -->
 
 ```
 ## 
@@ -1083,20 +1028,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 4 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for Myeloid.DC"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9312.8, df = 9306, p-value = 0.4781
-## 
 ## [1] "# Start of new population results"
 ## [1] "DC.NK"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-48.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-49.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-57.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-58.png)<!-- -->
 
 ```
 ## [1] "DC.NK"
@@ -1104,7 +1042,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-50.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-51.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-52.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-59.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-60.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-61.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-62.png)<!-- -->
 
 ```
 ## 
@@ -1194,20 +1132,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for DC.NK"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9352, df = 9351, p-value = 0.4951
-## 
 ## [1] "# Start of new population results"
 ## [1] "MONOCYTES"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-53.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-54.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-63.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-64.png)<!-- -->
 
 ```
 ## [1] "MONOCYTES"
@@ -1215,7 +1146,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-55.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-56.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-57.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-65.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-66.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-67.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-68.png)<!-- -->
 
 ```
 ## 
@@ -1315,20 +1246,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for MONOCYTES"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9352, df = 9352, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "NK"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-58.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-59.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-69.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-70.png)<!-- -->
 
 ```
 ## [1] "NK"
@@ -1336,7 +1260,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-60.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-61.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-62.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-71.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-72.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-73.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-74.png)<!-- -->
 
 ```
 ## 
@@ -1424,20 +1348,13 @@ JL
 ## MACHINE        1   0.05 0.04879   1.869  0.172
 ## Residuals   9351 244.10 0.02610               
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for NK"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9348.8, df = 9348, p-value = 0.4957
-## 
 ## [1] "# Start of new population results"
 ## [1] "DC.NK.MONOCYTES"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-63.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-64.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-75.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-76.png)<!-- -->
 
 ```
 ## [1] "DC.NK.MONOCYTES"
@@ -1445,7 +1362,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-65.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-66.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-67.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-77.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-78.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-79.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-80.png)<!-- -->
 
 ```
 ## 
@@ -1535,20 +1452,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 2 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for DC.NK.MONOCYTES"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9353, df = 9353, p-value = 0.4981
-## 
 ## [1] "# Start of new population results"
 ## [1] "NK.CD56HI"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-68.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-69.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-81.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-82.png)<!-- -->
 
 ```
 ## [1] "NK.CD56HI"
@@ -1556,7 +1466,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-70.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-71.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-72.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-83.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-84.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-85.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-86.png)<!-- -->
 
 ```
 ## 
@@ -1664,20 +1574,13 @@ JL
 ## MACHINE        1  0.000 5.040e-06    0.02  0.889
 ## Residuals   9347  2.404 2.571e-04               
 ## 7 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for NK.CD56HI"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9162.1, df = 9163, p-value = 0.5007
-## 
 ## [1] "# Start of new population results"
 ## [1] "NK.CD56LO"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-73.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-74.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-87.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-88.png)<!-- -->
 
 ```
 ## [1] "NK.CD56LO"
@@ -1685,7 +1588,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-75.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-76.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-77.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-89.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-90.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-91.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-92.png)<!-- -->
 
 ```
 ## 
@@ -1775,20 +1678,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 7 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for NK.CD56LO"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9325.3, df = 9328, p-value = 0.5058
-## 
 ## [1] "# Start of new population results"
 ## [1] "Plasmacytoid.DC"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-78.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-79.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-93.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-94.png)<!-- -->
 
 ```
 ## [1] "Plasmacytoid.DC"
@@ -1796,7 +1692,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-80.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-81.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-82.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-95.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-96.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-97.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-98.png)<!-- -->
 
 ```
 ## 
@@ -1896,20 +1792,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 4 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for Plasmacytoid.DC"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9279.8, df = 9285, p-value = 0.5133
-## 
 ## [1] "# Start of new population results"
 ## [1] "Classical.monocytes"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-83.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-84.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-99.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-100.png)<!-- -->
 
 ```
 ## [1] "Classical.monocytes"
@@ -1917,7 +1806,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-85.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-86.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-87.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-101.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-102.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-103.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-104.png)<!-- -->
 
 ```
 ## 
@@ -2007,20 +1896,13 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for Classical.monocytes"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9314.2, df = 9320, p-value = 0.5149
-## 
 ## [1] "# Start of new population results"
 ## [1] "Live.immune.cells"
 ## [1] "n=9356"
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-88.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-89.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-105.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-106.png)<!-- -->
 
 ```
 ## [1] "Live.immune.cells"
@@ -2033,7 +1915,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-90.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-91.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-107.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-108.png)<!-- -->
 
 ```
 ## [1] "Live.Single.PBMCs"
@@ -2046,7 +1928,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time COUNT"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-92.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-93.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-109.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-110.png)<!-- -->
 
 ```
 ## [1] "DC"
@@ -2054,7 +1936,7 @@ JL
 ## [1] "PLOT TYPE = Machine Time FREQ"
 ```
 
-![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-94.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-95.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-96.png)<!-- -->
+![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-111.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-112.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-113.png)<!-- -->![](TrendQC_POP_PLOTS_files/figure-html/unnamed-chunk-2-114.png)<!-- -->
 
 ```
 ## 
@@ -2144,11 +2026,5 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
-## [1] "Kruskal-Wallis test of MACHINE for DC"
-## 
-## 	Kruskal-Wallis rank sum test
-## 
-## data:  MACHINE by TARGET_FREQ
-## Kruskal-Wallis chi-squared = 9345.6, df = 9346, p-value = 0.4993
 ```
 
