@@ -278,8 +278,12 @@ print(paste("ANOVA of MACHINE for",pop))
    formula <- TARGET_FREQ ~  MACHINE
     fit <- aov(formula, data=subF)
     print(summary(fit))    
+
+    
+print(paste("T-test of MACHINE for",pop))
   
-# print(paste("Kruskal-Wallis test of MACHINE for",pop))
+t = t.test(formula,data = subF)
+print(t)
 # 
 # formula <- MACHINE~TARGET_FREQ  
 #   

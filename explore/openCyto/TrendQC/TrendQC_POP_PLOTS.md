@@ -129,6 +129,19 @@ JL
 ## Residuals   9406 286.05  0.0304                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] "T-test of MACHINE for naive.Bcells.(CD27-.IgD+)"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -6.21, df = 7501.9, p-value = 5.581e-10
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.03038188 -0.01580294
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.6240898              0.6471822 
+## 
 ## [1] "# Start of new population results"
 ## [1] "cytotoxic.Tcells-CD8+"
 ## [1] "n=9408"
@@ -249,6 +262,19 @@ JL
 ##               Df Sum Sq  Mean Sq F value Pr(>F)
 ## MACHINE        1    0.0 0.000528   0.038  0.846
 ## Residuals   9406  132.3 0.014062               
+## [1] "T-test of MACHINE for cytotoxic.Tcells-CD8+"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -0.19368, df = 7618.3, p-value = 0.8464
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.005420899  0.004446032
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.2475585              0.2480460 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Tcells.(CD3+.CD19-)"
 ## [1] "n=9408"
@@ -361,6 +387,19 @@ JL
 ## Residuals   9406 159.92  0.0170                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] "T-test of MACHINE for Tcells.(CD3+.CD19-)"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -6.0425, df = 7764.2, p-value = 1.587e-09
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.02201672 -0.01123080
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.6875695              0.7041933 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Live.cells.(PE-)"
 ## [1] "n=9408"
@@ -476,6 +515,19 @@ JL
 ## Residuals   9406  81.90  0.0087                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] "T-test of MACHINE for IgD-.memory.Bcells.(CD27+)"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 15.385, df = 7077.3, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.02717850 0.03511561
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##               0.138291               0.107144 
+## 
 ## [1] "# Start of new population results"
 ## [1] "IgD+.memory.Bcells.(CD27+)"
 ## [1] "n=9408"
@@ -598,6 +650,19 @@ JL
 ## Residuals   9406  96.23 0.01023                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] "T-test of MACHINE for IgD+.memory.Bcells.(CD27+)"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 1.7281, df = 7745.7, p-value = 0.08402
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.0004959306  0.0078772091
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.1369552              0.1332645 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Helper.Tcells-CD4+"
 ## [1] "n=9408"
@@ -708,6 +773,19 @@ JL
 ##               Df Sum Sq Mean Sq F value Pr(>F)
 ## MACHINE        1   0.04 0.03688   1.879   0.17
 ## Residuals   9406 184.63 0.01963               
+## [1] "T-test of MACHINE for Helper.Tcells-CD4+"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -1.3579, df = 7403.7, p-value = 0.1745
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.009952583  0.001806655
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.6730364              0.6771093 
+## 
 ## [1] "# Start of new population results"
 ## [1] "B.cells.(CD3-.CD19+)"
 ## [1] "n=9408"
@@ -820,6 +898,19 @@ JL
 ## Residuals   9406 29.191 0.003103                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## [1] "T-test of MACHINE for B.cells.(CD3-.CD19+)"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 2.2802, df = 7701.8, p-value = 0.02262
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.0003769664 0.0049967013
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##             0.07410532             0.07141849 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Non.classical.monocytes"
 ## [1] "n=9356"
@@ -924,6 +1015,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for Non.classical.monocytes"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -4.7197, df = 8983.7, p-value = 2.398e-06
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.007396806 -0.003055590
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##             0.03976097             0.04498717 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Myeloid.DC"
 ## [1] "n=9356"
@@ -1028,6 +1132,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 4 observations deleted due to missingness
+## [1] "T-test of MACHINE for Myeloid.DC"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 8.8435, df = 7972.8, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.02022458 0.03174397
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.6984641              0.6724798 
+## 
 ## [1] "# Start of new population results"
 ## [1] "DC.NK"
 ## [1] "n=9356"
@@ -1132,6 +1249,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for DC.NK"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 9.3112, df = 6812.9, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.02656414 0.04073215
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.5721841              0.5385359 
+## 
 ## [1] "# Start of new population results"
 ## [1] "MONOCYTES"
 ## [1] "n=9356"
@@ -1246,6 +1376,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for MONOCYTES"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -5.8533, df = 7070.9, p-value = 5.035e-09
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.02385758 -0.01188663
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.2758840              0.2937561 
+## 
 ## [1] "# Start of new population results"
 ## [1] "NK"
 ## [1] "n=9356"
@@ -1348,6 +1491,19 @@ JL
 ## MACHINE        1   0.05 0.04879   1.869  0.172
 ## Residuals   9351 244.10 0.02610               
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for NK"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 1.3569, df = 7165.5, p-value = 0.1748
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.002099658  0.011543929
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.6038887              0.5991666 
+## 
 ## [1] "# Start of new population results"
 ## [1] "DC.NK.MONOCYTES"
 ## [1] "n=9356"
@@ -1452,6 +1608,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 2 observations deleted due to missingness
+## [1] "T-test of MACHINE for DC.NK.MONOCYTES"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -4.1001, df = 6984.7, p-value = 4.176e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.016896468 -0.005965845
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.2671522              0.2785833 
+## 
 ## [1] "# Start of new population results"
 ## [1] "NK.CD56HI"
 ## [1] "n=9356"
@@ -1574,6 +1743,19 @@ JL
 ## MACHINE        1  0.000 5.040e-06    0.02  0.889
 ## Residuals   9347  2.404 2.571e-04               
 ## 7 observations deleted due to missingness
+## [1] "T-test of MACHINE for NK.CD56HI"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 0.13708, df = 6847.2, p-value = 0.891
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.0006387089  0.0007347528
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##            0.008529478            0.008481456 
+## 
 ## [1] "# Start of new population results"
 ## [1] "NK.CD56LO"
 ## [1] "n=9356"
@@ -1678,6 +1860,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 7 observations deleted due to missingness
+## [1] "T-test of MACHINE for NK.CD56LO"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -4.556, df = 6697.5, p-value = 5.307e-06
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.010981188 -0.004374172
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.9273134              0.9349911 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Plasmacytoid.DC"
 ## [1] "n=9356"
@@ -1792,6 +1987,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 4 observations deleted due to missingness
+## [1] "T-test of MACHINE for Plasmacytoid.DC"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = -4.2916, df = 7945, p-value = 1.795e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.015909055 -0.005932525
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.1786784              0.1895992 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Classical.monocytes"
 ## [1] "n=9356"
@@ -1896,6 +2104,19 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for Classical.monocytes"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 4.0791, df = 8886.9, p-value = 4.561e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.002402494 0.006847809
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.9588825              0.9542573 
+## 
 ## [1] "# Start of new population results"
 ## [1] "Live.immune.cells"
 ## [1] "n=9356"
@@ -2026,5 +2247,17 @@ JL
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 3 observations deleted due to missingness
+## [1] "T-test of MACHINE for DC"
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  TARGET_FREQ by MACHINE
+## t = 3.4628, df = 6812, p-value = 0.0005379
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.003349382 0.012089368
+## sample estimates:
+## mean in group FORTESSA      mean in group LSR 
+##              0.1614551              0.1537357
 ```
 
