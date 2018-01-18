@@ -1,0 +1,207 @@
+---
+title: "CompareRandSeedFix"
+author: "JL"
+date: "1/17/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE,eval=FALSE}
+preFix =read.delim("/Volumes/Beta/data/flow/results_r25_23full_SS_SubCD8_SCD14_Manuals/all.freq.metrics.txt", stringsAsFactors = FALSE, sep = "\t")
+
+preFix$KEY=paste0(preFix$name,preFix$Population,preFix$Panel,preFix$Parent,preFix$MACHINE,preFix$Manual)
+
+postFix =read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.freq.metrics.txt", stringsAsFactors = FALSE, sep = "\t")
+postFix$KEY=paste0(postFix$name,postFix$Population,postFix$Panel,postFix$Parent,postFix$MACHINE,postFix$Manual)
+
+merge= merge(preFix,postFix,by.x = "KEY",by.y = "KEY",all.x=TRUE,all.y=TRUE)
+
+save(merge,file="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.freq.metrics.PrePostFix.Rdata")
+
+```
+
+
+```{r echo=FALSE,warning=FALSE}
+
+
+
+
+
+
+library(ggplot2)
+library(knitr)
+library(MASS)
+
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  # panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x = element_text(angle = 90, hjust = 1)
+)
+theme_set(theme_grey(base_size = 18))
+
+
+
+load(
+  "/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.freq.metrics.PrePostFix.Rdata"
+)
+
+results = data.frame()
+methods = c("COUNT", "FREQ_PARENT", "FREQ_LYMPH_PBMC")
+
+
+for (panel in unique(merge$Panel.x)) {
+  panelsub = merge[which(merge$Panel.x == panel), ]
+  
+  for (pop in unique(panelsub$Manual.x)) {
+    if (!is.na(pop)) {
+      sub = panelsub[which(panelsub$Manual.x == pop), ]
+      print(pop)
+      for (method in methods) {
+        if (method == "COUNT") {
+          testC1 = cor.test(sub$Count.x,
+                            sub$Count.y,
+                            method = "pearson",
+                            na.action =
+                              "na.omit")
+          testC2 = cor.test(sub$Count.x,
+                            sub$Count.y,
+                            method = "spearman",
+                            na.action =
+                              "na.omit")
+          pb = ggplot(sub,
+                      aes(
+                        x = Count.x,
+                        y = Count.y,
+                        colour = MACHINE.x
+                      )) +
+            geom_point() +
+            xlab(paste0("Count pre-fix")) +
+            ylab(paste0("Count post-fix")) + t2 + ggtitle(paste0("Pop=", pop))
+          print(pb)
+          tmp = data.frame(
+            POPULATION = pop,
+            N = length(sub$name.x),
+            PEARSON = testC1$estimate,
+            SPEARMAN = testC2$estimate,
+            MEDIAN_PRE = median(sub$Count.x),
+            MEDIAN_POST = median(sub$Count.y),
+            MEAN_PRE = mean(sub$Count.x),
+            MEAN_POST =  mean(sub$Count.y),
+            SD_PRE = sd(sub$Count.x),
+            SD_POST = sd(sub$Count.y),
+            METRIC = method,
+            PANEL=panel
+          )
+          
+          results = rbind(results, tmp)
+          
+        }
+        if (method == "FREQ_PARENT") {
+          testF1 = cor.test(
+            sub$freqParent.x,
+            sub$freqParent.y,
+            method = "pearson",
+            na.action =
+              "na.omit"
+          )
+          testF2 = cor.test(
+            sub$freqParent.x,
+            sub$freqParent.y,
+            method = "spearman",
+            na.action =
+              "na.omit"
+          )
+          pb = ggplot(sub,
+                      aes(
+                        x = freqParent.x,
+                        y = freqParent.y,
+                        colour = MACHINE.x
+                      )) +
+            geom_point() +
+            xlab(paste0("freq Parent pre-fix")) +
+            ylab(paste0("freq Parent post-fix")) + t2 + ggtitle(paste0("Pop=", pop))
+          print(pb)
+          
+          tmp = data.frame(
+            POPULATION = pop,
+            N = length(sub$name.x),
+            PEARSON = testF1$estimate,
+            SPEARMAN = testF1$estimate,
+            MEDIAN_PRE = median(sub$freqParent.x,na.rm = TRUE),
+            MEDIAN_POST = median(sub$freqParent.y,na.rm = TRUE),
+            MEAN_PRE = mean(sub$freqParent.x,na.rm = TRUE),
+            MEAN_POST =  mean(sub$freqParent.y,na.rm = TRUE),
+            SD_PRE = sd(sub$freqParent.x,na.rm = TRUE),
+            SD_POST = sd(sub$freqParent.y,na.rm = TRUE),
+            METRIC = method,
+            PANEL=panel
+          )
+          
+          results = rbind(results, tmp)
+          
+        }
+        if (method == "FREQ_LYMPH_PBMC") {
+          toTestFLPX = "freq_lymph.x"
+          toTestFLPY = "freq_lymph.y"
+          if (panel == "panel2") {
+            toTestFLPX = "freq_PBMC.x"
+            toTestFLPY = "freq_PBMC.y"
+          }
+          
+          
+          testFLP1 = cor.test(sub[, c(toTestFLPX)], sub[, c(toTestFLPY)], method = "pearson", na.action =
+                                "na.omit")
+          testFLP2 = cor.test(sub[, c(toTestFLPX)], sub[, c(toTestFLPY)], method = "spearman", na.action =
+                                "na.omit")
+          
+          pb = ggplot(sub,
+                      aes(
+                        x = sub[, c(toTestFLPX)],
+                        y = sub[, c(toTestFLPY)],
+                        colour = MACHINE.x
+                      )) +
+            geom_point() +
+            xlab(paste0("freq lymph/pbmc pre-fix")) +
+            ylab(paste0("freq lymph/pbmc post-fix")) + t2 + ggtitle(paste0("Pop=", pop))
+          print(pb)
+          
+          tmp = data.frame(
+            POPULATION = pop,
+            N = length(sub$name.x),
+            PEARSON = testFLP1$estimate,
+            SPEARMAN = testFLP2$estimate,
+            MEDIAN_PRE = median(sub[, c(toTestFLPX)],na.rm = TRUE),
+            MEDIAN_POST = median(sub[, c(toTestFLPY)],na.rm = TRUE),
+            MEAN_PRE = mean(sub[, c(toTestFLPX)],na.rm = TRUE),
+            MEAN_POST =  mean(sub[, c(toTestFLPY)],na.rm = TRUE),
+            SD_PRE = sd(sub[, c(toTestFLPX)],na.rm = TRUE),
+            SD_POST = sd(sub[, c(toTestFLPY)],na.rm = TRUE),
+            METRIC = method,
+            PANEL=panel
+          )
+          
+          results = rbind(results, tmp)
+        }
+        
+      }
+    }
+  }
+}
+
+write.table(
+   results,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0("/Users/Kitty/git/auto-fcs/explore/openCyto/randSeed/compPrePostFix.txt"),
+    row.names = FALSE
+)  
+
+
+```
