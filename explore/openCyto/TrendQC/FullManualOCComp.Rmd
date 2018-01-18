@@ -1,0 +1,161 @@
+---
+title: "FullManualOCComp"
+author: "JL"
+date: "1/18/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(openxlsx)
+
+# allC = merge(p1C,p2C,by.x="Sample",by.y="Sample")
+popsOfInterestFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/popsOfInterest.txt"
+
+popsOfInterest=read.delim(popsOfInterestFile, stringsAsFactors = FALSE, sep = "\t")
+popsOfInterest$POPCOMP=gsub(" ",".",popsOfInterest$POPC)
+popsOfInterest$POPF=gsub(" ",".",popsOfInterest$POPF)
+
+
+
+popsOfInterest$POPM=gsub(" ",".",popsOfInterest$POPM)
+# popsOfInterest$POPM=gsub(")",".",popsOfInterest$POPM,fixed = TRUE)
+# popsOfInterest$POPM=gsub("(",".",popsOfInterest$POPM,fixed = TRUE)
+
+
+popsOfInterest$POPJ=gsub(" ",".",popsOfInterest$POPJ)
+popsOfInterest$POPJ=gsub(")",".",popsOfInterest$POPJ,fixed = TRUE)
+popsOfInterest$POPJ=gsub("(",".",popsOfInterest$POPJ,fixed = TRUE)
+
+
+
+dir="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCountsFreqCBC/"
+p1="p1.cnts.frqs.cbcs.xlsx"
+p2="p2.cnts.frqs.cbcs.xlsx"
+
+addCols=c("Sample",	"Manual",	"MACHINE",	"F_ID",	"DATE",	"EXPERIMENTER")
+
+sheets = list(c("COUNTS",1),c("FREQ",2),c("CBCS",3))
+
+parse <- function(dir,p,sheet,extractPop,addCols) {
+  pd= read.xlsx(paste0(dir,p), sheet=as.numeric(sheet[2]))
+  extract = c(addCols,extractPop[!is.na(extractPop)])
+  have=( extract %in% colnames(pd))
+  print(table(have))
+  print(extract[have])
+  pE = pd[,extract[have]]
+  pE$METRIC=sheet[1]
+  return(pE)
+}
+
+
+
+
+
+p1All=data.frame()
+p2All=data.frame()
+
+for(sheet in sheets){
+p1d=parse(dir=dir,p=p1,sheet=sheet,extractPop =popsOfInterest$POPM,addCols = addCols )
+p1All=rbind(p1All,p1d)
+
+p2d=parse(dir=dir,p=p2,sheet=sheet,extractPop =popsOfInterest$POPCOMP,addCols = addCols )
+print(colnames(p2d))
+print(colnames(p2All))
+
+p2All=rbind(p2All,p2d)
+}
+
+
+popsOfInterest$PANEL1= popsOfInterest$POPM %in% colnames(p1All)
+popsOfInterest$PANEL2= popsOfInterest$POPCOMP %in% colnames(p2All)
+
+
+p1JflowCounts= read.delim("/Volumes/Beta/data/flow/compManual/p1.cnts.xln", stringsAsFactors = FALSE)
+p1JflowCounts$Sample=p1JflowCounts$FILE
+
+p2JflowCounts= read.delim("/Volumes/Beta/data/flow/compManual/p2.cnts.xln", stringsAsFactors = FALSE)
+p2JflowCounts$Sample=p2JflowCounts$FILE
+
+
+
+
+summarize <- function(oc,manual,mergeOCCol,mergeManCol,ocCol,manualCol) {
+  merge=merge(oc,manual,by.x=mergeOCCol,by.y=mergeManCol)
+print(table(merge$Manual))
+numManuals=length(merge[which(merge$Manual=="1"),][,ocCol])
+merge=merge[which(merge$Manual=="0"),]                  
+t1 =cor.test(merge[,c(ocCol)],merge[,c(manualCol)],method = "pearson")
+t2=cor.test(merge[,c(ocCol)],merge[,c(manualCol)],method = "spearman")
+medianOCFreq=median(merge[,c(ocCol)])
+meanOCFreq=mean(merge[,c(ocCol)])
+sdOCFreq=sd(merge[,c(ocCol)])
+
+medianManualFreq=median(merge[,c(manualCol)])
+meanManualFreq=mean(merge[,c(manualCol)])
+sdManualFreq=sd(merge[,c(manualCol)])
+
+tmp = data.frame(
+  OC_POP = ocCol,
+  ManualPop = manualCol,
+  N = length(merge[,c(ocCol)]),
+  PEARSON = t1$estimate,
+  SPEARMAN = t2$estimate,
+  MEDIAN_OC = medianOCFreq,
+  MEDIAN_MANUAL = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
+  MEAN_OC = meanOCFreq,
+  MEAN_MANUAL = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
+  SD_OC = sdOCFreq,
+  SD_MANUAL = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
+  NUM_MANUALS=numManuals
+  )
+return(tmp)
+  
+}
+
+results=data.frame()
+
+for(pop in popsOfInterest$POPM){
+  if(!is.na(pop)){
+  for(metric in sheets){
+    jflow=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPJ
+    if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL1){
+      print(paste0(pop," panel1 ",metric[1]))
+      if(metric[1]=="COUNTS"){
+        tmp =summarize(p1All[which(p1All$METRIC==metric[1]),],p1JflowCounts,"Sample","Sample",pop,jflow)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel1"
+        results=rbind(results,tmp)
+      }
+    }else if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL2){
+      print(paste0(pop," panel2 ",metric[1]))
+      if(metric[1]=="COUNTS"){
+        tmp =summarize(p2All[which(p2All$METRIC==metric[1]),],p2JflowCounts,"Sample","Sample",popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP,jflow)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel2"
+        results=rbind(results,tmp)
+      }
+    }
+    
+  }
+  }
+  
+}
+
+
+write.table(
+   results,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"testResults.txt"),
+    row.names = FALSE
+  )  
+
+
+
+
+
+```
+

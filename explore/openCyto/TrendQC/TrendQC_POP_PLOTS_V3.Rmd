@@ -1,0 +1,400 @@
+---
+title: "TrendQC for Populations"
+author: "JL"
+date: "1/16/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+```{r include=TRUE,fig.height=10,fig.width=12,echo=FALSE}
+
+dir = "/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/"
+
+# allC = merge(p1C,p2C,by.x="Sample",by.y="Sample")
+popsOfInterestFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/popsOfInterest.txt"
+
+popsOfInterest=read.delim(popsOfInterestFile, stringsAsFactors = FALSE, sep = "\t")
+popsOfInterest$POPC=gsub(" ",".",popsOfInterest$POPC)
+popsOfInterest$POPF=gsub(" ",".",popsOfInterest$POPF)
+
+
+
+popsOfInterest$POPM=gsub(" ",".",popsOfInterest$POPM)
+popsOfInterest$POPM=gsub(")",".",popsOfInterest$POPM,fixed = TRUE)
+popsOfInterest$POPM=gsub("(",".",popsOfInterest$POPM,fixed = TRUE)
+
+
+popsOfInterest$POPJ=gsub(" ",".",popsOfInterest$POPJ)
+popsOfInterest$POPJ=gsub(")",".",popsOfInterest$POPJ,fixed = TRUE)
+popsOfInterest$POPJ=gsub("(",".",popsOfInterest$POPJ,fixed = TRUE)
+
+
+```
+
+# Trends by population
+
+- removed samples that did not match to a Lab ID from the "FLOW ONLY" tab of "HRS sample list.xlsx"
+- removed samples where date could not be parsed
+- removed samples where EXPERIMENTER could not be parsed
+- removed samples that were manually gated
+
+
+
+```{r setup, include=TRUE,fig.height=10,fig.width=12,echo=FALSE,eval=FALSE}
+library(openxlsx)
+
+source("/Users/Kitty/git/auto-fcs/explore/openCyto/TrendQC/nameFormat.R")
+
+
+tcFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.txt"
+tc=read.delim(tcFile, stringsAsFactors = FALSE, sep = "\t")
+
+
+manifest=read.xlsx("/Volumes/Beta/data/flow/HRS sample list.xlsx")
+num=0
+tc$LAB_ID=NA
+
+for(id in manifest$Lab.ID){
+  match=grep(paste0("_",id,"_"),tc$FILE,fixed = TRUE)
+  # print(match)
+  num=num+1
+  print(num)
+# 
+  if(length(match)>0){
+    # print(length(match))
+    tc[match,]$LAB_ID=id
+
+  }
+}
+
+manual=read.delim("/Volumes/Beta/data/flow/results_r25_22full_SS_SubCD8_SCD14_Manuals_partialTest/manual", stringsAsFactors = FALSE,header = FALSE)
+
+parseDF <- function(frame,popsOfInterest,tc,PopColumn,manual) {
+  frame = frame[,c(colnames(frame) %in% c("Sample",popsOfInterest[,c(PopColumn)]))]
+  frame=parseDate(frame = frame,nameColumn = "Sample")
+  frame=parseExperimenter(frame = frame,nameColumn = "Sample")
+  frame=merge(frame,tc,by.x = "FILE",by.y = "FILE",all.x = "TRUE")
+  frame = frame[which(!is.na(frame$LAB_ID)),]
+  frame$EXPERIMENTER_MACHINE=paste0(frame$EXPERIMENTER,"_",frame$MACHINE)
+  miss=!(popsOfInterest[,c(PopColumn)] %in% c(colnames(frame)))
+  print(table(miss))
+  use=!(frame$FILE %in% manual$V1)
+  frame=frame[use,]
+
+  return(frame)
+
+}
+
+finals="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/xln/finals.xlsx"
+
+p1C= read.xlsx(finals, sheet=2)
+p2C= read.xlsx(finals, sheet=4)
+
+
+p1F= read.xlsx(finals, sheet=1)
+p2F= read.xlsx(finals, sheet=3)
+
+p1C=parseDF(frame=p1C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC",manual=manual)
+p2C=parseDF(frame=p2C,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPC",manual=manual)
+p1F=parseDF(frame=p1F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF",manual=manual)
+p2F=parseDF(frame=p2F,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPF",manual=manual)
+
+
+p1Jflow= read.delim("/Volumes/Beta/data/flow/compManual/p1.cnts.xln", stringsAsFactors = FALSE)
+p1Jflow$Sample=p1Jflow$FILE
+
+p2Jflow= read.delim("/Volumes/Beta/data/flow/compManual/p2.cnts.xln", stringsAsFactors = FALSE)
+p2Jflow$Sample=p2Jflow$FILE
+
+p1Jflow=parseDF(frame=p1Jflow,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPJ",manual=manual)
+p2Jflow=parseDF(frame=p2Jflow,popsOfInterest = popsOfInterest ,tc=tc,PopColumn="POPJ",manual=manual)
+
+table(miss)
+
+
+
+save(p1Jflow,file=paste0(dir,"p1.cnts.Jflow.Rdata"))
+save(p2Jflow,file=paste0(dir,"p2.cnts.Jflow.Rdata"))
+
+save(p1C,file=paste0(dir,"all.p1.cnts_fixed.format.Rdata"))
+save(p2C,file=paste0(dir,"all.p2.cnts_fixed.format.Rdata"))
+save(p1F,file=paste0(dir,"all.p1.freqs.format.Rdata"))
+save(p2F,file=paste0(dir,"all.p2.freq.format.Rdata"))
+
+
+tc=parseDate(frame = tc,nameColumn = "FILE",removeNA=FALSE)
+tc=parseExperimenter(frame = tc,nameColumn = "FILE",removeNA=FALSE)
+
+
+
+
+# latest=merge(latest,nameMatch,by.y="name",by.x="name")
+# load("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.RData")
+save(tc,file="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.RData")
+
+
+write.table(
+   tc,
+    sep = "\t",
+    quote = FALSE,
+    file ="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+    row.names = FALSE
+  ) 
+
+
+
+# 
+
+# pb=ggplot(tc,aes(x=as.factor(DATE_MONTH),y=TOTAL_COUNTS,colour=PANEL_MACHINE)) +
+#   geom_boxplot() +
+#   xlab("Month processed") +
+#   ylab("Total events in file")+t2
+#   print(pb)
+```
+
+
+```{r fig.height=10,fig.width=12,echo=FALSE,warning=FALSE}
+load(file="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.RData")
+orig = read.delim("/Volumes/Beta/data/flow/ABSP_P.txt", stringsAsFactors = FALSE)
+# tcP1=tc[which(tc$PANEL=="panel1"),]
+
+
+
+load(file=paste0(dir,"all.p1.cnts_fixed.format.Rdata"))
+load(file=paste0(dir,"all.p2.cnts_fixed.format.Rdata"))
+load(file=paste0(dir,"all.p1.freqs.format.Rdata"))
+load(file=paste0(dir,"all.p2.freq.format.Rdata"))
+
+load(file=paste0(dir,"p1.cnts.Jflow.Rdata"))
+load(file=paste0(dir,"p2.cnts.Jflow.Rdata"))
+
+popsOfInterest$UseP1 = (popsOfInterest$POPC %in% colnames(p1C))
+
+library(ggplot2)
+library(knitr)
+library(MASS)
+
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  # panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x = element_text(angle = 90, hjust = 1)
+)
+theme_set(theme_grey(base_size = 18))
+
+
+
+for (pop in unique(popsOfInterest$POPC)) {
+  colC=popsOfInterest[which(popsOfInterest$POPC==pop),]$POPC
+  colF=popsOfInterest[which(popsOfInterest$POPC==pop),]$POPF
+  coljflowCount=popsOfInterest[which(popsOfInterest$POPC==pop),]$POPJ
+  coljflowCountPercents=popsOfInterest[which(popsOfInterest$POPC==pop),]$POPMAB
+  if(popsOfInterest[which(popsOfInterest$POPC==pop),]$UseP1){
+  subC = p1C
+  subF = p1F
+  subJF=p1Jflow
+
+  }else{
+  subC = p2C
+  subF = p2F
+  subJF=p2Jflow
+  }
+  
+  
+  print("# Start of new population results")
+  print(pop)
+  print(paste0("n=",length(subC$FILE)))
+  print(paste0("PLOT TYPE = Machine Time COUNT OC"))
+
+  pb = ggplot(subC,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = as.numeric(subC[,colC]),
+                colour = MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab(paste0("Total OC events in ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+
+   pb = ggplot(subC,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = as.numeric(subC[,colC]),
+                colour = EXPERIMENTER
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab(paste0("Total OC events in ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+  
+  if(!is.na(coljflowCount)){
+  #   pb = ggplot(subJF,
+  #             aes(
+  #               x = as.factor(DATE_MONTH),
+  #               y = as.numeric(subJF[,colJF]),
+  #               colour = MACHINE
+  #             )) +
+  #   geom_boxplot() +
+  #   xlab("Month processed") +
+  #   ylab(paste0("Total 1k manual events in ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  # print(pb)
+
+   pb = ggplot(subJF,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = as.numeric(subJF[,coljflowCount]),
+                colour = EXPERIMENTER
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab(paste0("Total 1k manual events in ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+  
+  merge=merge(subJF,subC,by.x="FILE",by.y="FILE")
+  merge[, coljflowCount]=as.numeric(merge[, coljflowCount])
+  merge[, colC]=as.numeric(merge[, colC])
+
+  print(paste("Correlations between OC and manual for",pop))
+
+  test1 = cor.test(merge[, colC], merge[, coljflowCount], method = "pearson",na.action="na.omit")
+  print(test1)
+  test2 = cor.test(merge[, colC], merge[, coljflowCount], method = "spearman",na.action="na.omit")
+  print(test2)
+  
+   pb = ggplot(merge,
+              aes(
+                x = merge[, colC],
+                y = merge[, coljflowCount],
+                colour = EXPERIMENTER.x
+              )) +
+    geom_point() +
+    xlab(paste0("Total OC events in ",pop))+
+    ylab(paste0("Total 1k manual events in ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+    
+  
+  
+  }
+  
+  
+  
+  
+  
+  
+  print(pop)
+  print(paste0("n=",length(subC$FILE)))
+  print(paste0("PLOT TYPE = Machine Time FREQ"))
+
+  if(!is.na(colF)){
+  subF[,colF]=as.numeric(subF[,colF])  
+  pb = ggplot(subF,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = as.numeric(subF[,colF]),
+                colour = MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab(paste0("FreqParent OC  ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+  
+  
+   pb = ggplot(subF,
+              aes(
+                x = as.factor(MACHINE),
+                y = as.numeric(subF[,colF]),
+                colour = MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Machine") +
+    ylab(paste0("FreqParent OC  ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+   pb = ggplot(subF,
+              aes(
+                x = as.factor(DATE_MONTH),
+                y = as.numeric(subF[,colF]),
+                colour = EXPERIMENTER
+              )) +
+    geom_boxplot() +
+    xlab("Month processed") +
+    ylab(paste0("FreqParent OC ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+  
+  #   pb = ggplot(orig,
+  #             aes(
+  #               x = as.factor(DATE_MONTH),
+  #               y = as.numeric(orig[,coljflowCountPercents]),
+  #               colour = EXPERIMENTER
+  #             )) +
+  #   geom_boxplot() +
+  #   xlab("Month processed") +
+  #   ylab(paste0("FreqParent 1k manual ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  # print(pb)
+  
+  
+   pb = ggplot(subF,
+              aes(
+                x = reorder(EXPERIMENTER_MACHINE, subF[,colF], FUN = median),
+                y = as.numeric(subF[,colF]),
+                colour = EXPERIMENTER_MACHINE
+              )) +
+    geom_boxplot() +
+    xlab("Experiment - Machine") +
+    ylab(paste0("FreqParent OC  ",pop)) + t2+ggtitle(paste0("Pop=",pop))
+  print(pb)
+
+print(kable(as.data.frame(table(subC$EXPERIMENTER,subC$MACHINE)),format="markdown"))
+  
+subF$TARGET_FREQ=subF[,colF] 
+print(paste("Linear Regression for",pop))
+formula <-TARGET_FREQ ~ DATE_MONTH + MACHINE + EXPERIMENTER
+lm <- lm(formula, subF)
+print(summary(lm))
+
+
+print(paste("Stepwise Linear Regression for",pop))
+
+fit <- lm(formula,data=subF)
+step <- stepAIC(fit, direction="both")
+print(step$anova)
+
+print(paste("ANOVA of EXPERIMENTER for",pop))
+
+ formula <- TARGET_FREQ ~  EXPERIMENTER
+    fit <- aov(formula, data=subF)
+    print(TukeyHSD(fit))
+  
+print(paste("ANOVA of MACHINE for",pop))
+      
+   formula <- TARGET_FREQ ~  MACHINE
+    fit <- aov(formula, data=subF)
+    print(summary(fit))    
+
+    
+print(paste("T-test of MACHINE for",pop))
+  
+t = t.test(formula,data = subF)
+print(t)
+# 
+# formula <- MACHINE~TARGET_FREQ  
+#   
+# kw=kruskal.test(formula, data = subF)    
+# print(kw)    
+
+  
+  }else{
+      print(paste0("NA for Freq plot"))
+  }
+}
+
+
+```
+

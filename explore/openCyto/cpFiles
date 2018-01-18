@@ -53,3 +53,36 @@ wc -l ./*/panel2Counts/p2.cnts.xln
 
 
 
+
+find . -type f -name *Rename.wsp  |wc -l
+find . -type f -name "*Rename.wsp" -exec diff {} /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/{} \; &> diff.txt
+grep -i lymph diff.txt
+
+
+ for file in *Rename*.wsp; do    diff "$file" "/scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gates/$file" ; done
+
+
+find . -type f -name  | sed -e 's,^\./,,' > deploy.txt
+
+
+find . -type f -name "*Rename.wsp" -exec diff {} "/scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gates/{}" \; &> diff.txt
+
+
+
+find . -type f -name "*Rename.wsp" -exec diff {} "/scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gates/{}" \; &> diff.txt
+
+
+/scratch.global/lanej/flow/full/results_ensure/Validate/all
+
+
+ for file in *Rename*.wsp; do    echo "$file" ; done
+
+
+  for file in ./*/gates/*Rename*.wsp; do
+      name=`basename "$file" .bar`
+
+      diff /scratch.global/lanej/flow/full/results_ensure/Validate/all/"$name" "$file" &>> ~/diffTest.txt
+      echo "$name" >> ~/diffTest.txt
+      echo "$file" ; done
+     
+
