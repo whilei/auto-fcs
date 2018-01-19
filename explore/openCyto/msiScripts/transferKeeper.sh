@@ -130,3 +130,11 @@ for i in $(cat before_after.txt); do
 
 done
 
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/wspstopull_BADpDCsamples); do
+   echo "$i"
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/tsaim/lane0212/wspstopull_BADpDCsamples_wsp_fcs/
+   rsync  /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gatesRename/"$i"_panel2Rename.wsp /home/tsaim/lane0212/wspstopull_BADpDCsamples_wsp_fcs/
+done
+

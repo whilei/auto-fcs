@@ -5,15 +5,16 @@ date: "1/18/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 library(openxlsx)
 
 # allC = merge(p1C,p2C,by.x="Sample",by.y="Sample")
 popsOfInterestFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/popsOfInterest.txt"
 
 popsOfInterest=read.delim(popsOfInterestFile, stringsAsFactors = FALSE, sep = "\t")
-popsOfInterest$POPCOMP=gsub(" ",".",popsOfInterest$POPC)
+popsOfInterest$POPCOMP=gsub(" ",".",popsOfInterest$POPCOMP)
 popsOfInterest$POPF=gsub(" ",".",popsOfInterest$POPF)
+popsOfInterest$POPHRS1000=gsub(" ",".",popsOfInterest$POPHRS1000)
 
 
 
@@ -27,16 +28,26 @@ popsOfInterest$POPJ=gsub(")",".",popsOfInterest$POPJ,fixed = TRUE)
 popsOfInterest$POPJ=gsub("(",".",popsOfInterest$POPJ,fixed = TRUE)
 
 
+releasedFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/releasedSamples.txt"
+released = read.delim(releasedFile,
+  header = TRUE,
+  stringsAsFactors = FALSE)
+noBadsFile="/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt"
+noBads = read.delim(noBadsFile,
+  header = TRUE,
+  stringsAsFactors = FALSE)
+
+
 
 dir="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCountsFreqCBC/"
 p1="p1.cnts.frqs.cbcs.xlsx"
-p2="p2.cnts.frqs.cbcs.xlsx"
+p2="p2.cnts.frqs.cbcs_update.xlsx"
 
 addCols=c("Sample",	"Manual",	"MACHINE",	"F_ID",	"DATE",	"EXPERIMENTER")
 
 sheets = list(c("COUNTS",1),c("FREQ",2),c("CBCS",3))
 
-parse <- function(dir,p,sheet,extractPop,addCols) {
+parse <- function(dir,p,sheet,extractPop,addCols,manualRms) {
   pd= read.xlsx(paste0(dir,p), sheet=as.numeric(sheet[2]))
   extract = c(addCols,extractPop[!is.na(extractPop)])
   have=( extract %in% colnames(pd))
@@ -44,6 +55,9 @@ parse <- function(dir,p,sheet,extractPop,addCols) {
   print(extract[have])
   pE = pd[,extract[have]]
   pE$METRIC=sheet[1]
+  # 
+  use = (pE$F_ID %in% manualRms$Study.ID)
+  pE = pE[use,]
   return(pE)
 }
 
@@ -54,17 +68,32 @@ parse <- function(dir,p,sheet,extractPop,addCols) {
 p1All=data.frame()
 p2All=data.frame()
 
+p1Filt = read.xlsx(paste0(dir,p1), sheet=1)
+namesP1=p1Filt[which(p1Filt$`Live.cells.(PE-)`>20000),]$Sample
+
+p2Filt = read.xlsx(paste0(dir,p2), sheet=1)
+namesP2=p2Filt[which(p2Filt$`Live.Single.PBMCs`>20000),]$Sample
+
 for(sheet in sheets){
-p1d=parse(dir=dir,p=p1,sheet=sheet,extractPop =popsOfInterest$POPM,addCols = addCols )
+p1d=parse(dir=dir,p=p1,sheet=sheet,extractPop =popsOfInterest$POPM,addCols = addCols,manualRms=released )
+usep1=p1d$Sample %in% namesP1
+# p1d=p1d[usep1,]
 p1All=rbind(p1All,p1d)
 
-p2d=parse(dir=dir,p=p2,sheet=sheet,extractPop =popsOfInterest$POPCOMP,addCols = addCols )
+
+p2d=parse(dir=dir,p=p2,sheet=sheet,extractPop =popsOfInterest$POPCOMP,addCols = addCols,manualRms=released )
+usep2=p2d$Sample %in% namesP2
+# p2d=p2d[usep2,]
+# 
+# usep2=p2d$Sample %in% noBads$x
+# p2d=p2d[usep2,]
+
 print(colnames(p2d))
 print(colnames(p2All))
 
 p2All=rbind(p2All,p2d)
 }
-
+# p2All[which(p2All$DC>60000&p2All$METRIC=="COUNTS"),]$F_ID
 
 popsOfInterest$PANEL1= popsOfInterest$POPM %in% colnames(p1All)
 popsOfInterest$PANEL2= popsOfInterest$POPCOMP %in% colnames(p2All)
@@ -78,21 +107,53 @@ p2JflowCounts$Sample=p2JflowCounts$FILE
 
 
 
+origPercents =read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet=1)
+origCBCs =read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet=3)
+origPercentP2 =read.xlsx("/Volumes/Beta/data/flow/p2.newGateTree.xlsx", sheet=2)
+origPercentP2$Sample=gsub(".*/","",origPercentP2$X1)
+
+
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
 
 summarize <- function(oc,manual,mergeOCCol,mergeManCol,ocCol,manualCol) {
   merge=merge(oc,manual,by.x=mergeOCCol,by.y=mergeManCol)
 print(table(merge$Manual))
 numManuals=length(merge[which(merge$Manual=="1"),][,ocCol])
 merge=merge[which(merge$Manual=="0"),]                  
-t1 =cor.test(merge[,c(ocCol)],merge[,c(manualCol)],method = "pearson")
-t2=cor.test(merge[,c(ocCol)],merge[,c(manualCol)],method = "spearman")
-medianOCFreq=median(merge[,c(ocCol)])
-meanOCFreq=mean(merge[,c(ocCol)])
-sdOCFreq=sd(merge[,c(ocCol)])
+t1 =cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "pearson",na.action="na.omit")
+t2=cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "spearman",na.action="na.omit")
+medianOCFreq=median(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+meanOCFreq=mean(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+sdOCFreq=sd(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+# print(plot(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)])))
+medianManualFreq=median(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
+meanManualFreq=mean(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
+sdManualFreq=sd(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
 
-medianManualFreq=median(merge[,c(manualCol)])
-meanManualFreq=mean(merge[,c(manualCol)])
-sdManualFreq=sd(merge[,c(manualCol)])
+g= ggplot(merge,aes(x=as.numeric(merge[,c(ocCol)]),y=as.numeric(merge[,c(manualCol)]))) +
+  geom_point() +
+  xlab(paste0("OC ",ocCol)) +
+  ylab(paste0("Manual ",ocCol))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate, "\nn=", length(merge[,c(ocCol)]) ))
+
+print(g)
+
+
 
 tmp = data.frame(
   OC_POP = ocCol,
@@ -109,7 +170,7 @@ tmp = data.frame(
   SD_OC = sdOCFreq,
   SD_MANUAL = sdManualFreq,
   ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
-  NUM_MANUALS=numManuals
+  NUM_MANUALS_REMOVED=numManuals
   )
 return(tmp)
   
@@ -121,30 +182,62 @@ for(pop in popsOfInterest$POPM){
   if(!is.na(pop)){
   for(metric in sheets){
     jflow=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPJ
+    origColumn=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPHRS1000
+    compLook=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPM
     if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL1){
       print(paste0(pop," panel1 ",metric[1]))
       if(metric[1]=="COUNTS"){
         tmp =summarize(p1All[which(p1All$METRIC==metric[1]),],p1JflowCounts,"Sample","Sample",pop,jflow)
         tmp$METRIC=metric[1]
         tmp$PANEL="panel1"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
+          tmp$COMP_LOOK=compLook
+        results=rbind(results,tmp)
+      } else if(metric[1]=="FREQ"){
+        useOrigPercents =origPercents[which(origPercents[,c(origColumn)]<1000),]
+        tmp =summarize(p1All[which(p1All$METRIC==metric[1]),],useOrigPercents,"F_ID","Study.ID",pop,origColumn)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel1"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercents[,c(origColumn)])-length(useOrigPercents[,c(origColumn)])
+        tmp$COMP_LOOK=compLook
         results=rbind(results,tmp)
       }
+      
     }else if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL2){
       print(paste0(pop," panel2 ",metric[1]))
       if(metric[1]=="COUNTS"){
         tmp =summarize(p2All[which(p2All$METRIC==metric[1]),],p2JflowCounts,"Sample","Sample",popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP,jflow)
         tmp$METRIC=metric[1]
         tmp$PANEL="panel2"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
+        tmp$COMP_LOOK=compLook
+
+        results=rbind(results,tmp)
+      } else if(metric[1]=="FREQ"){
+        ocColumnTmp=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP
+        useOrigPercents =origPercentP2[which(origPercentP2[,c(ocColumnTmp)]<1000),]
+
+        origTmp=ocColumnTmp
+        if(ocColumnTmp==origTmp){
+          ocColumnTmp=paste0(ocColumnTmp,".x")
+          origTmp=paste0(origTmp,".y")
+        }
+        
+        tmp =summarize(p2All[which(p2All$METRIC==metric[1]),],origPercentP2,"Sample","Sample",ocColumnTmp,origTmp)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel2"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercentP2[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])-length(useOrigPercents[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])
+                tmp$COMP_LOOK=compLook
+
         results=rbind(results,tmp)
       }
     }
-    
+   }
   }
-  }
-  
 }
 
-
+# results=results[-order(results$METRIC),]
+results$COMP_LOOK =gsub(".", " ",results$COMP_LOOK,fixed = TRUE)
 write.table(
    results,
     sep = "\t",
