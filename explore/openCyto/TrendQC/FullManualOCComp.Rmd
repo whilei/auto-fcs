@@ -41,7 +41,11 @@ noBads = read.delim(noBadsFile,
 
 dir="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCountsFreqCBC/"
 p1="p1.cnts.frqs.cbcs.xlsx"
-p2="p2.cnts.frqs.cbcs_update.xlsx"
+p2="all.p2.xlsx"
+p2Test=read.xlsx(paste0(dir,"p2.all.xlsx"), sheet=1)
+for(thing in colnames(p2Test)){
+  print(paste0(thing, "     ",max(as.numeric(p2Test[,c(thing)]),na.rm = TRUE) ))
+}
 
 addCols=c("Sample",	"Manual",	"MACHINE",	"F_ID",	"DATE",	"EXPERIMENTER")
 
@@ -49,6 +53,9 @@ sheets = list(c("COUNTS",1),c("FREQ",2),c("CBCS",3))
 
 parse <- function(dir,p,sheet,extractPop,addCols,manualRms) {
   pd= read.xlsx(paste0(dir,p), sheet=as.numeric(sheet[2]))
+  colnames(pd) =gsub("Manual.*","Manual",colnames(pd))
+  colnames(pd) =gsub(".Fixed","",colnames(pd),fixed = TRUE)
+
   extract = c(addCols,extractPop[!is.na(extractPop)])
   have=( extract %in% colnames(pd))
   print(table(have))
@@ -57,7 +64,7 @@ parse <- function(dir,p,sheet,extractPop,addCols,manualRms) {
   pE$METRIC=sheet[1]
   # 
   use = (pE$F_ID %in% manualRms$Study.ID)
-  pE = pE[use,]
+  pE$RELEASED=use
   return(pE)
 }
 
@@ -77,13 +84,13 @@ namesP2=p2Filt[which(p2Filt$`Live.Single.PBMCs`>20000),]$Sample
 for(sheet in sheets){
 p1d=parse(dir=dir,p=p1,sheet=sheet,extractPop =popsOfInterest$POPM,addCols = addCols,manualRms=released )
 usep1=p1d$Sample %in% namesP1
-# p1d=p1d[usep1,]
+p1d=p1d[usep1,]
 p1All=rbind(p1All,p1d)
 
 
 p2d=parse(dir=dir,p=p2,sheet=sheet,extractPop =popsOfInterest$POPCOMP,addCols = addCols,manualRms=released )
 usep2=p2d$Sample %in% namesP2
-# p2d=p2d[usep2,]
+p2d=p2d[usep2,]
 # 
 # usep2=p2d$Sample %in% noBads$x
 # p2d=p2d[usep2,]
@@ -93,8 +100,18 @@ print(colnames(p2All))
 
 p2All=rbind(p2All,p2d)
 }
-# p2All[which(p2All$DC>60000&p2All$METRIC=="COUNTS"),]$F_ID
+p1All$DATE=as.Date(p1All$DATE,origin='1899-12-30')
 
+p2All$DATE=as.Date(p2All$DATE, origin = '1899-12-30')
+p2All$Manual=gsub("2","0",p2All$Manua)
+p2All$Manual=gsub("1","0",p2All$Manua)
+p2All$Manual=gsub("3","0",p2All$Manua)
+
+# p2All[which(p2All$DC>60000&p2All$METRIC=="COUNTS"),]$F_ID
+# p2All$DATE_MONTH <- as.Date(cut(as.Date(p2All$DATE),
+#                                   breaks = "month"))
+# pAll$DATE_MONTH <- as.Date(cut(as.Date(pAll$DATE),
+#                                   breaks = "month"))
 popsOfInterest$PANEL1= popsOfInterest$POPM %in% colnames(p1All)
 popsOfInterest$PANEL2= popsOfInterest$POPCOMP %in% colnames(p2All)
 
@@ -135,7 +152,7 @@ summarize <- function(oc,manual,mergeOCCol,mergeManCol,ocCol,manualCol) {
   merge=merge(oc,manual,by.x=mergeOCCol,by.y=mergeManCol)
 print(table(merge$Manual))
 numManuals=length(merge[which(merge$Manual=="1"),][,ocCol])
-merge=merge[which(merge$Manual=="0"),]                  
+merge=merge[which(merge$Manual=="0"&merge$RELEASED),]                  
 t1 =cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "pearson",na.action="na.omit")
 t2=cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "spearman",na.action="na.omit")
 medianOCFreq=median(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
@@ -176,6 +193,27 @@ return(tmp)
   
 }
 
+forMerge=c("Sample","DATE" , "MACHINE" , "EXPERIMENTER")
+stats <- function(data,machine=TRUE) {
+  require(MASS)
+
+  formula <- TARGET ~ DATE + MACHINE + EXPERIMENTER
+  if(!machine){
+    formula <- TARGET ~ DATE + EXPERIMENTER
+  }
+  fit <- lm(formula, data = data)
+  step <- stepAIC(fit, direction = "both")
+  t=summary(step)
+  ps=as.data.frame(t$coefficients)
+   f=summary(eval(t$call))
+  result=paste0("MODEL=",t$call[2],";MODEL_ADJ_R_SQUARED=",f$adj.r.squared," ;pvals=",paste0(ps$`Pr(>|t|)`[2:length(ps$`Pr(>|t|)`)],collapse = ","))
+  
+  
+  return(result)
+  # print(step$anova)
+}  
+
+
 results=data.frame()
 
 for(pop in popsOfInterest$POPM){
@@ -191,7 +229,12 @@ for(pop in popsOfInterest$POPM){
         tmp$METRIC=metric[1]
         tmp$PANEL="panel1"
         tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
-          tmp$COMP_LOOK=compLook
+        tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
+
         results=rbind(results,tmp)
       } else if(metric[1]=="FREQ"){
         useOrigPercents =origPercents[which(origPercents[,c(origColumn)]<1000),]
@@ -200,6 +243,11 @@ for(pop in popsOfInterest$POPM){
         tmp$PANEL="panel1"
         tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercents[,c(origColumn)])-length(useOrigPercents[,c(origColumn)])
         tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
+
         results=rbind(results,tmp)
       }
       
@@ -211,6 +259,17 @@ for(pop in popsOfInterest$POPM){
         tmp$PANEL="panel2"
         tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
         tmp$COMP_LOOK=compLook
+        
+        subData=p2All[which(p2All$METRIC==metric[1]),]
+        subData$TARGET=as.numeric(subData[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])
+        
+        
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        r= stats(subData)
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=r
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
 
         results=rbind(results,tmp)
       } else if(metric[1]=="FREQ"){
@@ -227,8 +286,27 @@ for(pop in popsOfInterest$POPM){
         tmp$METRIC=metric[1]
         tmp$PANEL="panel2"
         tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercentP2[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])-length(useOrigPercents[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])
-                tmp$COMP_LOOK=compLook
+        tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        subDataP2=p2All[which(p2All$METRIC==metric[1]&p2All$Manual=="0"),]
+        subDataP2$TARGET=as.numeric(subDataP2[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])
+        r= stats(subDataP2)
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=r
 
+        forMergeHere =c(forMerge,popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)
+        subData=origPercentP2
+        subData =merge(subDataP2[,forMergeHere],subData,by.x = "Sample",by.y = "Sample") 
+        
+        subData$TARGET=as.numeric(subData[,ocColumnTmp])
+
+        r= stats(subData,machine = FALSE)
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=r
+        
+        subData$TARGET=as.numeric(subData[,origTmp])
+        tmp$CONFOUNDING_MODEL_MANUAL =NA
+        r= stats(subData,machine = FALSE)
+        tmp$CONFOUNDING_MODEL_MANUAL=r
+        
         results=rbind(results,tmp)
       }
     }

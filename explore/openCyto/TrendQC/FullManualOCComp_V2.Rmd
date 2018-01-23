@@ -1,0 +1,356 @@
+---
+title: "FullManualOCComp"
+author: "JL"
+date: "1/18/2018"
+output: html_document
+---
+
+```{r setup}
+library(openxlsx)
+
+# allC = merge(p1C,p2C,by.x="Sample",by.y="Sample")
+popsOfInterestFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCounts/popsOfInterest.txt"
+
+popsOfInterest=read.delim(popsOfInterestFile, stringsAsFactors = FALSE, sep = "\t")
+popsOfInterest$POPCOMP=gsub(" ",".",popsOfInterest$POPCOMP)
+popsOfInterest$POPF=gsub(" ",".",popsOfInterest$POPF)
+popsOfInterest$POPHRS1000=gsub(" ",".",popsOfInterest$POPHRS1000)
+
+
+
+popsOfInterest$POPM=gsub(" ",".",popsOfInterest$POPM)
+# popsOfInterest$POPM=gsub(")",".",popsOfInterest$POPM,fixed = TRUE)
+# popsOfInterest$POPM=gsub("(",".",popsOfInterest$POPM,fixed = TRUE)
+
+
+popsOfInterest$POPJ=gsub(" ",".",popsOfInterest$POPJ)
+popsOfInterest$POPJ=gsub(")",".",popsOfInterest$POPJ,fixed = TRUE)
+popsOfInterest$POPJ=gsub("(",".",popsOfInterest$POPJ,fixed = TRUE)
+
+
+releasedFile="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/releasedSamples.txt"
+released = read.delim(releasedFile,
+  header = TRUE,
+  stringsAsFactors = FALSE)
+noBadsFile="/Users/Kitty/git/auto-fcs/explore/openCyto/extractManualComp/manualUse.txt"
+noBads = read.delim(noBadsFile,
+  header = TRUE,
+  stringsAsFactors = FALSE)
+
+
+
+dir="/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/finalCountsFreqCBC/"
+p1="p1.cnts.frqs.cbcs.xlsx"
+p2="p2.all-01-23-17.xlsx"
+p2Test=read.xlsx(paste0(dir,"p2.all-01-23-17.xlsx"), sheet=1,check.names = TRUE)
+for(thing in colnames(p2Test)){
+  print(paste0(thing, "     ",max(as.numeric(p2Test[,c(thing)]),na.rm = TRUE) ))
+}
+
+addCols=c("Sample",	"Manual",	"MACHINE",	"F_ID",	"DATE",	"EXPERIMENTER")
+
+sheets = list(c("COUNTS",1),c("FREQ",2),c("CBCS",3))
+
+parse <- function(dir,p,sheet,extractPop,addCols,manualRms) {
+  pd= read.xlsx(paste0(dir,p), sheet=as.numeric(sheet[2]))
+  colnames(pd) =gsub("Manual.*","Manual",colnames(pd))
+  colnames(pd) =gsub(".Fixed","",colnames(pd),fixed = TRUE)
+
+  extract = c(addCols,extractPop[!is.na(extractPop)])
+  have=( extract %in% colnames(pd))
+  print(table(have))
+  print(extract[have])
+  pE = pd[,extract[have]]
+  pE$METRIC=sheet[1]
+  # 
+  use = (pE$F_ID %in% manualRms$Study.ID)
+  pE$RELEASED=use
+  return(pE)
+}
+
+
+
+
+
+p1All=data.frame()
+p2All=data.frame()
+
+p1Filt = read.xlsx(paste0(dir,p1), sheet=1)
+namesP1=p1Filt[which(p1Filt$`Live.cells.(PE-)`>20000),]$Sample
+
+
+for(sheet in sheets){
+p1d=parse(dir=dir,p=p1,sheet=sheet,extractPop =popsOfInterest$POPM,addCols = addCols,manualRms=released )
+usep1=p1d$Sample %in% namesP1
+p1d=p1d[usep1,]
+p1All=rbind(p1All,p1d)
+# 
+# 
+# p2d=parse(dir=dir,p=p2,sheet=sheet,extractPop =popsOfInterest$POPCOMP,addCols = addCols,manualRms=released )
+# usep2=p2d$Sample %in% namesP2
+# p2d=p2d[usep2,]
+# # 
+# # usep2=p2d$Sample %in% noBads$x
+# # p2d=p2d[usep2,]
+# 
+# print(colnames(p2d))
+# print(colnames(p2All))
+# 
+# p2All=rbind(p2All,p2d)
+}
+p1All$DATE=as.Date(p1All$DATE,origin='1899-12-30')
+
+p2All=read.xlsx(paste0(dir,"p2.all.xlsx"), sheet=1,check.names = TRUE)
+
+p2All=p2All[which(p2All$Live.Single.PBMCs>20000),]
+
+p2All$DATE=as.Date(p2All$DATE, origin = '1899-12-30')
+p2All$Manual=p2All$SourceCode.0.Std.1.Manual.2.DCSub.3.OCFail
+p2All$Manual=gsub("2","0",p2All$Manual)
+# p2All$Manual=gsub("1","0",p2All$Manual)
+colnames(p2All) =gsub(".Fixed","",colnames(p2All),fixed = TRUE)
+p2All=p2All[which(p2All$Dupl==1),]
+
+# table((as.numeric(p2All$Classical.monocytes))>as.numeric(p2All$MONOCYTES))
+# p2All$Manual=gsub("3","0",p2All$Manual)
+use = (p2All$F_ID %in% released$Study.ID)
+p2All$RELEASED=use
+
+releaseP2= p2All[use,]
+# p2All[which(p2All$DC>60000&p2All$METRIC=="COUNTS"),]$F_ID
+# p2All$DATE_MONTH <- as.Date(cut(as.Date(p2All$DATE),
+#                                   breaks = "month"))
+# pAll$DATE_MONTH <- as.Date(cut(as.Date(pAll$DATE),
+#                                   breaks = "month"))
+popsOfInterest$PANEL1= popsOfInterest$POPM %in% colnames(p1All)
+popsOfInterest$PANEL2= popsOfInterest$POPCOMP %in% colnames(p2All)
+
+
+p1JflowCounts= read.delim("/Volumes/Beta/data/flow/compManual/p1.cnts.xln", stringsAsFactors = FALSE)
+p1JflowCounts$Sample=p1JflowCounts$FILE
+
+p2JflowCounts= read.delim("/Volumes/Beta/data/flow/compManual/p2.cnts.xln", stringsAsFactors = FALSE)
+p2JflowCounts$Sample=p2JflowCounts$FILE
+
+
+
+origPercents =read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet=1)
+origCBCs =read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet=3)
+origPercentP2 =read.xlsx("/Volumes/Beta/data/flow/p2.newGateTree.xlsx", sheet=2)
+origPercentP2$Sample=gsub(".*/","",origPercentP2$X1)
+
+releaseP2$HAVE= (releaseP2$Sample %in% origPercentP2$Sample)
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+summarize <- function(oc,manual,mergeOCCol,mergeManCol,ocCol,manualCol) {
+  merge=merge(oc,manual,by.x=mergeOCCol,by.y=mergeManCol)
+print(table(merge$Manual))
+numManuals=length(merge[which(merge$Manual=="1"),][,ocCol])
+merge=merge[which(merge$Manual=="0"&merge$RELEASED),]                  
+t1 =cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "pearson",na.action="na.omit")
+t2=cor.test(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)]),method = "spearman",na.action="na.omit")
+medianOCFreq=median(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+meanOCFreq=mean(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+sdOCFreq=sd(as.numeric(merge[,c(ocCol)]),na.rm = TRUE)
+# print(plot(as.numeric(merge[,c(ocCol)]),as.numeric(merge[,c(manualCol)])))
+medianManualFreq=median(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
+meanManualFreq=mean(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
+sdManualFreq=sd(as.numeric(merge[,c(manualCol)]),na.rm = TRUE)
+
+g= ggplot(merge,aes(x=as.numeric(merge[,c(ocCol)]),y=as.numeric(merge[,c(manualCol)]))) +
+  geom_point() +
+  xlab(paste0("OC ",ocCol)) +
+  ylab(paste0("Manual ",ocCol))+ggtitle(paste0("pearson = ",t1$estimate, "\n spearman = ", t2$estimate, "\nn=", length(merge[,c(ocCol)]) ))
+
+print(g)
+
+
+
+tmp = data.frame(
+  OC_POP = ocCol,
+  ManualPop = manualCol,
+  N = length(merge[,c(ocCol)]),
+  PEARSON = t1$estimate,
+  SPEARMAN = t2$estimate,
+  MEDIAN_OC = medianOCFreq,
+  MEDIAN_MANUAL = medianManualFreq,
+  ABS_DIFF_MEDIAN = abs(medianOCFreq-medianManualFreq),
+  MEAN_OC = meanOCFreq,
+  MEAN_MANUAL = meanManualFreq,
+  ABS_DIFF_MEAN = abs(meanOCFreq-meanManualFreq),
+  SD_OC = sdOCFreq,
+  SD_MANUAL = sdManualFreq,
+  ABS_DIFF_SD = abs(sdOCFreq-sdManualFreq),
+  NUM_MANUALS_REMOVED=numManuals
+  )
+return(tmp)
+  
+}
+
+forMerge=c("Sample","DATE" , "MACHINE" , "EXPERIMENTER")
+stats <- function(data,machine=TRUE) {
+  require(MASS)
+
+  formula <- TARGET ~ DATE + MACHINE + EXPERIMENTER
+  if(!machine){
+    formula <- TARGET ~ DATE + EXPERIMENTER
+  }
+  fit <- lm(formula, data = data)
+  step <- stepAIC(fit, direction = "both")
+  t=summary(step)
+  ps=as.data.frame(t$coefficients)
+   f=summary(eval(t$call))
+  result=paste0("MODEL=",t$call[2],";MODEL_ADJ_R_SQUARED=",f$adj.r.squared," ;pvals=",paste0(ps$`Pr(>|t|)`[2:length(ps$`Pr(>|t|)`)],collapse = ","))
+  
+  
+  return(result)
+  # print(step$anova)
+}  
+
+
+results=data.frame()
+
+for(pop in popsOfInterest$POPM){
+  if(!is.na(pop)){
+  for(metric in sheets){
+    jflow=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPJ
+    origColumn=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPHRS1000
+    compLook=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPM
+    if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL1){
+      print(paste0(pop," panel1 ",metric[1]))
+      if(metric[1]=="COUNTS"){
+        tmp =summarize(p1All[which(p1All$METRIC==metric[1]),],p1JflowCounts,"Sample","Sample",pop,jflow)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel1"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
+        tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
+
+        results=rbind(results,tmp)
+      } else if(metric[1]=="FREQ"){
+        useOrigPercents =origPercents[which(origPercents[,c(origColumn)]<1000),]
+        tmp =summarize(p1All[which(p1All$METRIC==metric[1]),],useOrigPercents,"F_ID","Study.ID",pop,origColumn)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel1"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercents[,c(origColumn)])-length(useOrigPercents[,c(origColumn)])
+        tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
+
+        results=rbind(results,tmp)
+      }
+      
+    }else if(popsOfInterest[which(popsOfInterest$POPM==pop),]$PANEL2){
+      print(paste0(pop," panel2 ",metric[1]))
+      if(metric[1]=="COUNTS"){
+        popCompOC =paste0(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)
+        tmp =summarize(p2All,p2JflowCounts,"Sample","Sample",popCompOC,jflow)
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel2"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=NA
+        tmp$COMP_LOOK=compLook
+        
+        subData=p2All
+        subData$TARGET=as.numeric(subData[,c(popCompOC)])
+        
+        
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        r= stats(subData)
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=r
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=NA
+
+        tmp$CONFOUNDING_MODEL_MANUAL=NA
+
+        results=rbind(results,tmp)
+      } else if(metric[1]=="FREQ"){
+        
+        popCompOC =paste0(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP,".1")
+
+        ocColumnTmp=popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP
+        useOrigPercents =origPercentP2[which(origPercentP2[,c(ocColumnTmp)]<1000),]
+
+        origTmp=ocColumnTmp
+        if(ocColumnTmp==origTmp){
+          # ocColumnTmp=paste0(ocColumnTmp,".x")
+          origTmp=paste0(origTmp,".y")
+        }
+        if(popCompOC=="MONOCYTES.1"){
+          popCompOC="MonoRecomp.1"
+        }
+        
+        tmp =summarize(p2All,origPercentP2[,c("Sample",ocColumnTmp)],"Sample","Sample",popCompOC,origTmp)
+        
+        oc=p2All
+        manual=origPercentP2
+        mergeOCCol="Sample"
+        mergeManCol="Sample"
+        ocCol=popCompOC
+        manualCol=origTmp
+        tmp$METRIC=metric[1]
+        tmp$PANEL="panel2"
+        tmp$NUM_MANUAL_POPS_ZEROED_OUT=length(origPercentP2[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])-length(useOrigPercents[,c(popsOfInterest[which(popsOfInterest$POPM==pop),]$POPCOMP)])
+        tmp$COMP_LOOK=compLook
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=NA
+        subDataP2=p2All[which(p2All$Manual=="0"),]
+        subDataP2$TARGET=as.numeric(subDataP2[,c(popCompOC)])
+        r= stats(subDataP2)
+        tmp$CONFOUNDING_MODEL_OC_ALL_SAMPLES=r
+
+        forMergeHere =c(forMerge,popCompOC)
+        subData=origPercentP2
+        subData =merge(subDataP2[,forMergeHere],subData,by.x = "Sample",by.y = "Sample") 
+        
+        subData$TARGET=as.numeric(subData[,popCompOC])
+
+        r= stats(subData,machine = FALSE)
+        tmp$CONFOUNDING_MODEL_OC_MANUAL_MATCHED=r
+        
+        subData$TARGET=as.numeric(subData[,ocColumnTmp])
+        tmp$CONFOUNDING_MODEL_MANUAL =NA
+        r= stats(subData,machine = FALSE)
+        tmp$CONFOUNDING_MODEL_MANUAL=r
+        
+        results=rbind(results,tmp)
+      }
+    }
+   }
+  }
+}
+
+# results=results[-order(results$METRIC),]
+results$COMP_LOOK =gsub(".", " ",results$COMP_LOOK,fixed = TRUE)
+write.table(
+   results,
+    sep = "\t",
+    quote = FALSE,
+    file = paste0(dir,"testResults.txt"),
+    row.names = FALSE
+  )  
+
+
+
+
+
+```
+
