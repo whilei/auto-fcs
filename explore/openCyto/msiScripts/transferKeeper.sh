@@ -138,3 +138,17 @@ for i in $(cat /home/tsaim/lane0212/wspstopull_BADpDCsamples); do
    rsync  /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gatesRename/"$i"_panel2Rename.wsp /home/tsaim/lane0212/wspstopull_BADpDCsamples_wsp_fcs/
 done
 
+
+
+IFS=$'\n'
+for i in $(cat mylistOfFCSFiles.txt); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/gatesRename/"$i"_panel*Rename.wsp /scratch.global/cole0482/resultsDir/
+done
+
+
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/tsaim/lane0212/wspstopull_BADpDCsamples_wsp_fcs/
+
+
+
+
