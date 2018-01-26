@@ -150,5 +150,26 @@ done
    rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/tsaim/lane0212/wspstopull_BADpDCsamples_wsp_fcs/
 
 
+IFS=$'\n'
+for i in $(cat /Users/Kitty/Downloads/list.txt); do
+   echo "$i"
+   scp "msi:/scratch.global/lanej/flow/full/fcs/*$i" /Volumes/Beta/data/flow/zf_ec_tcellTest/
+done
+
+scp msi:/scratch.global/lanej/flow/full/fcs/*1_HB-appsettingsreset_Groupone_Ctl-B_005.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631959_005.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631956_004.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632225_001.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631922_003.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632167_012.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632245_010.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631974_008.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631995_001.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631964_005.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1631976_010.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632206_002.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632189_005.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632190_014.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
+scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1636740_021.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
 
 

@@ -1,3 +1,14 @@
+---
+title: "Test K means"
+author: "JL"
+date: "1/26/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=6,fig.width=8,message=FALSE}
+
 require(flowCore)
 require(tsne)
 require(cytofkit)
@@ -10,8 +21,8 @@ outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 
 wsFile = "/Volumes/Beta/data/flow/wsp/801_Panel 1_DHS.wsp"
 ws <- openWorkspace(wsFile)
-pdfFile = paste(outputDir, "tsnePlots", ".pdf", sep = "")
-pdf(file = pdfFile)
+# pdfFile = paste(outputDir, "tsnePlots", ".pdf", sep = "")
+# pdf(file = pdfFile)
 
 alpha = 0.25
 
@@ -44,7 +55,11 @@ tcellSubs = c(
   "naive helper Tcells (CCR7+ CD45RA+)",
   "effector memory helper Tcells (CCR7- CD45RA-)",
   "effector helper Tcells (CCR7- CD45RA+)",
-  "central memory helper Tcells (CCR7+ CD45RA-)"
+  "central memory helper Tcells (CCR7+ CD45RA-)",
+  "naive cytotoxic Tcells (CCR7+ , CD45RA+)",
+  "effector memory cytotoxic Tcells (CCR7- , CD45RA-)",
+  "effector cytotoxic Tcells  (CCR7-  CD45RA+)",
+  "central memory cytotoxic Tcells (CCR7+ , CD45RA-)"
 )
 # "Comp-APC-Cy7-A", #CD4
 # "Comp-BUV 395-A" #CD8
@@ -62,7 +77,7 @@ clustChannels = channels[1:3]
 #list samples in the workspace
 s = getSamples(ws)
 #for every sample
-for (samp in s$name[7:7]) {
+for (samp in s$name[5:5]) {
   print(samp)
   #read the fcs file
   frame = read.FCS(paste(inputDir, samp, sep = ""))
@@ -90,10 +105,11 @@ for (samp in s$name[7:7]) {
    combo =data.frame( ht=getIndiceMat(gs, nodesOfInterest[1])[,1],
     ct=getIndiceMat(gs, nodesOfInterest[2])[,1])
    combo$MDEF=combo$ct|combo$ht
+   print(table(combo$MDEF))
+   
     if (length(grep("TRUE",combo$MDEF )) < 50000) {
-      gateDef = as.data.frame(getIndiceMat(gs, node))
       gh <- gs[[1]]
-      subdata = getData(gh)[gateDef[, node], ]
+      subdata = getData(gh)[combo$MDEF, ]
       t = as.data.frame(subdata@exprs)[, channels]
       clust = scale(t[, clustChannels])
       
@@ -107,13 +123,16 @@ for (samp in s$name[7:7]) {
       results = as.data.frame(tsne)
       results$MANAUL_POP = "NA"
       for (pop in tcellSubs) {
-        sub = getIndiceMat(gs, pop)[gateDef[, node]]
+        sub = getIndiceMat(gs, pop)[combo$MDEF]
         results[sub,]$MANAUL_POP = pop
       }
       results$CD45 = t$`Comp-BV 711-A`
       results$CCR7 = t$`Comp-BV 421-A`
       results$CD95 = t$`Comp-BV 605-A`
       results$CD28 = t$`Comp-BV 510-A`
+      results$SET = "NA"
+      results$SET[combo$ht[combo$MDEF]]="Helper Ts"
+      results$SET[combo$ct[combo$MDEF]]="Cyto Ts"
       
       km_rc = KMeans_rcpp(
         clust,
@@ -128,17 +147,17 @@ for (samp in s$name[7:7]) {
       )
       
       results$CLUSTER_RAW = km_rc$clusters
-      # results$CLUSTER = results$CLUSTER_RAW
-      results$CLUSTER = gsub("4", "effector memory", results$CLUSTER)
-      results$CLUSTER = gsub("1", "central memory", results$CLUSTER)
-      results$CLUSTER = gsub("3", "naive", results$CLUSTER)
-      results$CLUSTER = gsub("2", "effector", results$CLUSTER)
-      
-      # results$CLUSTER = gsub("1","effector memory", results$CLUSTER_RAW)
-      # results$CLUSTER = gsub("2","central memory", results$CLUSTER)
-      # results$CLUSTER = gsub("3","naive", results$CLUSTER)
-      # results$CLUSTER = gsub("4","effector", results$CLUSTER)
-      
+      results$CLUSTER =as.factor(results$CLUSTER_RAW)
+      # results$CLUSTER = gsub("4", "effector memory", results$CLUSTER)
+      # results$CLUSTER = gsub("1", "central memory", results$CLUSTER)
+      # results$CLUSTER = gsub("3", "naive", results$CLUSTER)
+      # results$CLUSTER = gsub("2", "effector", results$CLUSTER)
+      # 
+      # results$CLUSTER = gsub("2","central memory", results$CLUSTER_RAW)
+      # results$CLUSTER = gsub("1","effector memory", results$CLUSTER)
+      # results$CLUSTER = gsub("4","naive", results$CLUSTER)
+      # results$CLUSTER = gsub("3","effector", results$CLUSTER)
+      # 
       library(ggplot2)
       
       t2 <- theme(
@@ -156,7 +175,9 @@ for (samp in s$name[7:7]) {
       )
       theme_set(theme_grey(base_size = 10))
       results$MANUAL_GATE = gsub("\\(.*", "", results$MANAUL_POP)
-      results$MANUAL_GATE = gsub(" helper Tcells", "", results$MANUAL_GATE)
+      results$MANUAL_GATE = gsub(" helper Tcells.*", "", results$MANUAL_GATE)
+      results$MANUAL_GATE = gsub(" cytotoxic Tcells.*", "", results$MANUAL_GATE)
+      
       
       p1c = ggplot(results,
                    aes(
@@ -167,7 +188,7 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("CCR7")) +
         ylab(paste0("CD45")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       
       p2c = ggplot(results,
                    aes(
@@ -178,7 +199,7 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("CCR7")) +
         ylab(paste0("CD45")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       
       p1d = ggplot(results,
                    aes(
@@ -189,7 +210,7 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("CD95")) +
         ylab(paste0("CD28")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       
       p2d = ggplot(results,
                    aes(
@@ -200,7 +221,7 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("CD95")) +
         ylab(paste0("CD28")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       
       pb1 = ggplot(results,
                    aes(
@@ -211,7 +232,7 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("tsne1")) +
         ylab(paste0("tsne2")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       
       # + theme(legend.position = "none")
       # print(pb)
@@ -225,19 +246,30 @@ for (samp in s$name[7:7]) {
         geom_point(alpha = alpha) +
         xlab(paste0("tsne1")) +
         ylab(paste0("tsne2")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
-        theme(legend.position = "bottom")
+        theme(legend.position = "bottom")+facet_wrap(~SET)
       # print(pb2)
       
-      grid.arrange(p1c, p2c,
-                   ncol = 2)
-      grid.arrange(p1d, p2d,
-                   ncol = 2)
-      grid.arrange(pb1,
-                   pb2,
-                   ncol = 2)
+      print(p1c)
+      print(p2c)
+
+      print(p1d)
+      print(p2d)
+      
+      print(pb1)
+      print(pb2)
+      # grid.arrange(p1c, p2c,
+      #              
+      #              ncol = 1)
+      # grid.arrange(p1d, p2d,
+      #              ncol = 1)
+      # grid.arrange(pb1,
+      #              pb2,
+      #              ncol = 1)
       
       
     }
   # }
 }
-dev.off()
+# dev.off()
+
+```
