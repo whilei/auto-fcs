@@ -10,7 +10,6 @@ output:
 ```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=6,fig.width=8,message=FALSE}
 
 require(flowCore)
-require(tsne)
 require(cytofkit)
 library(ggcyto)
 library(ClusterR)
@@ -82,7 +81,7 @@ clustChannels = channels[1:3]
 
 #list samples in the workspace
 #for every sample
-for (samp in mapper$FCS[1:10]) {
+for (samp in mapper$FCS[1:15]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   wsFile =mapper[which(mapper$FCS==samp),]$WSP
   print(wsFile)
@@ -123,7 +122,7 @@ for (samp in mapper$FCS[1:10]) {
       t = as.data.frame(subdata@exprs)[, channels]
       clust = scale(t[, clustChannels])
     
-      results = as.data.frame(tsne)
+      results = data.frame()
 
       fileSave=paste(outputDir, samp,"results.RData", sep = "")
       if(!file.exists(fileSave)){
