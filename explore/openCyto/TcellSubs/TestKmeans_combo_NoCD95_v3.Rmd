@@ -17,7 +17,7 @@ library(ClusterR)
 library(gridExtra)
 
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
 
 wsMapFileFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
 mapper = read.delim(wsMapFileFile,
@@ -82,7 +82,8 @@ clustChannels = channels[1:3]
 
 #list samples in the workspace
 #for every sample
-for (samp in mapper$FCS[1:4]) {
+for (samp in mapper$FCS[1:10]) {
+  # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   wsFile =mapper[which(mapper$FCS==samp),]$WSP
   print(wsFile)
   ws <- openWorkspace(wsFile)
@@ -121,14 +122,25 @@ for (samp in mapper$FCS[1:4]) {
       subdata = getData(gh)[combo$MDEF, ]
       t = as.data.frame(subdata@exprs)[, channels]
       clust = scale(t[, clustChannels])
-      
+    
+      results = as.data.frame(tsne)
+
+      fileSave=paste(outputDir, samp,"results.RData", sep = "")
+      if(!file.exists(fileSave)){
+          
+  
       tsne <- cytof_dimReduction(
         data = clust,
         method = "tsne",
         out_dim = 2
       )
       
+      flowSOM=cluster_FlowSOM <- cytof_cluster(xdata = clust, method = "FlowSOM", FlowSOM_k = 4)
+      clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
+      
       results = as.data.frame(tsne)
+      results$FLOW_SOM=flowSOM
+      results$PHENOGRAPH =clusterPhenograph
       results$MANAUL_POP = "NA"
       for (pop in tcellSubs) {
         sub = getIndiceMat(gs, pop)[combo$MDEF]
@@ -155,17 +167,22 @@ for (samp in mapper$FCS[1:4]) {
       )
       
       results$CLUSTER_RAW = km_rc$clusters
-      results$CLUSTER =as.factor(results$CLUSTER_RAW)
-      # results$CLUSTER = gsub("4", "effector memory", results$CLUSTER)
-      # results$CLUSTER = gsub("1", "central memory", results$CLUSTER)
-      # results$CLUSTER = gsub("3", "naive", results$CLUSTER)
-      # results$CLUSTER = gsub("2", "effector", results$CLUSTER)
+      results$KMEANS_CLUSTER =as.factor(results$CLUSTER_RAW)
+      # results$KMEANS_CLUSTER = gsub("4", "effector memory", results$KMEANS_CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("1", "central memory", results$KMEANS_CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("3", "naive", results$KMEANS_CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("2", "effector", results$KMEANS_CLUSTER)
       # 
-      # results$CLUSTER = gsub("2","central memory", results$CLUSTER_RAW)
-      # results$CLUSTER = gsub("1","effector memory", results$CLUSTER)
-      # results$CLUSTER = gsub("4","naive", results$CLUSTER)
-      # results$CLUSTER = gsub("3","effector", results$CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("2","central memory", results$CLUSTER_RAW)
+      # results$KMEANS_CLUSTER = gsub("1","effector memory", results$KMEANS_CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("4","naive", results$KMEANS_CLUSTER)
+      # results$KMEANS_CLUSTER = gsub("3","effector", results$KMEANS_CLUSTER)
       # 
+      save(results,file = fileSave)
+      }else{
+        print(paste("loading",fileSave))
+        load(fileSave)
+      }
       library(ggplot2)
       
       t2 <- theme(
@@ -185,8 +202,14 @@ for (samp in mapper$FCS[1:4]) {
       results$MANUAL_GATE = gsub("\\(.*", "", results$MANAUL_POP)
       results$MANUAL_GATE = gsub(" helper Tcells.*", "", results$MANUAL_GATE)
       results$MANUAL_GATE = gsub(" cytotoxic Tcells.*", "", results$MANUAL_GATE)
+      methodsClust=c("KMEANS_CLUSTER")
+      # PHENOGRAPH
+      #FLOW_SOM
       
       
+      for(method in methodsClust){
+      results$CURRENT_COLOR=as.factor(results[,method])
+
       p1c = ggplot(results,
                    aes(
                      x = CCR7,
@@ -202,11 +225,11 @@ for (samp in mapper$FCS[1:4]) {
                    aes(
                      x = CCR7,
                      y = CD45,
-                     colour = CLUSTER
+                     colour =CURRENT_COLOR
                    )) +
         geom_point(alpha = alpha) +
         xlab(paste0("CCR7")) +
-        ylab(paste0("CD45")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
+        ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
         theme(legend.position = "bottom")+facet_wrap(~SET)
       
       p1d = ggplot(results,
@@ -222,13 +245,13 @@ for (samp in mapper$FCS[1:4]) {
       
       p2d = ggplot(results,
                    aes(
-                     x = CD95,
+                     x =CD95,
                      y = CD28,
-                     colour = CLUSTER
+                     colour = CURRENT_COLOR
                    )) +
         geom_point(alpha = alpha) +
         xlab(paste0("CD95")) +
-        ylab(paste0("CD28")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
+        ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
         theme(legend.position = "bottom")+facet_wrap(~SET)
       
       pb1 = ggplot(results,
@@ -247,13 +270,13 @@ for (samp in mapper$FCS[1:4]) {
       
       pb2 = ggplot(results,
                    aes(
-                     x = tsne_1,
+                   x = tsne_1,
                      y = tsne_2,
-                     colour = CLUSTER
+                     colour = CURRENT_COLOR
                    )) +
         geom_point(alpha = alpha) +
         xlab(paste0("tsne1")) +
-        ylab(paste0("tsne2")) + t2 + ggtitle(paste0("AUTO_CLUST", "\n", samp)) +
+        ylab(paste0("tsne2")) + t2 + ggtitle(paste0(method, "\n", samp)) +
         theme(legend.position = "bottom")+facet_wrap(~SET)
       # print(pb2)
       
@@ -265,6 +288,7 @@ for (samp in mapper$FCS[1:4]) {
       
       print(pb1)
       print(pb2)
+      }
       # grid.arrange(p1c, p2c,
       #              
       #              ncol = 1)
@@ -274,8 +298,8 @@ for (samp in mapper$FCS[1:4]) {
       #              pb2,
       #              ncol = 1)
       
-      
     }
+    # }
   # }
 }
 # dev.off()
