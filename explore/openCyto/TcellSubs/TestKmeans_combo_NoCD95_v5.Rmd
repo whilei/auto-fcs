@@ -33,25 +33,25 @@ wsps <-
 
 print(paste0("Found ", length(wsps), " wsps"))
 
-for (file in wsps) {
-  ws <- openWorkspace(file)
-  s = getSamples(ws)
-  print(length(s$name))
-  s=s[grepl("PANEL 1",s$name),]
-    print(length(s$name))
-  
-  for (samp in s$name) {
-    if(runif(1)[1]<.1){
-    command = paste0(
-      "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
-      gsub(" ", "\\\ ", samp, fixed = TRUE),
-      "' ",
-      inputDir
-    )
-    system(command)
-    }
-  }
-}
+# for (file in wsps) {
+#   ws <- openWorkspace(file)
+#   s = getSamples(ws)
+#   print(length(s$name))
+#   s=s[grepl("PANEL 1",s$name),]
+#     print(length(s$name))
+#   
+#   for (samp in s$name) {
+#     if(runif(1)[1]<.1){
+#     command = paste0(
+#       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#       gsub(" ", "\\\ ", samp, fixed = TRUE),
+#       "' ",
+#       inputDir
+#     )
+#     system(command)
+#     }
+#   }
+# }
 
 
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
@@ -64,9 +64,16 @@ targets =
   list.files(inputDir,
              pattern = ".fcs$",
              full = FALSE)
+
+zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
+                    stringsAsFactors = FALSE,
+                    sep = "\t")
+
 use = mapper$FCS %in% targets
 
 
+zfs =  mapper$FCS %in%zfExamples$FCS
+mapper$EXAMPLES = zfs
 mapper = mapper[use,]
 
 # write.table(
@@ -172,7 +179,7 @@ mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"),
 
 
 
-mapper = mapper[order(mapper$Annotation), ]
+mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 #list samples in the workspace
 
 
@@ -281,6 +288,8 @@ for (samp in mapper$FCS) {
   }
   library(ggplot2)
   print(paste("Plotting", samp))
+  print(paste("EC_ZF example = ", mapper[which(mapper$FCS == samp),]$EXAMPLES))
+
   t2 <- theme(
     axis.line = element_line(colour = "black"),
     axis.text = element_text(colour = "black"),
@@ -412,11 +421,7 @@ for (samp in mapper$FCS) {
         fill = NA
       )
     )
-    
-    
   }
-  
-  
 }
 # }
 # }
