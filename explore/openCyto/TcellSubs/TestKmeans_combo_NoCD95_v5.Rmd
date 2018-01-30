@@ -10,6 +10,8 @@ output:
 ```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=36,fig.width=8,message=FALSE}
 
 
+
+
 require(flowCore)
 require(cytofkit)
 library(ggcyto)
@@ -17,7 +19,41 @@ library(ClusterR)
 library(gridExtra)
 library(grid)
 
+
+
+
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+
+wsDir = "/Volumes/Beta/data/flow/wsp/"
+wsps <-
+  list.files(wsDir,
+             pattern = "wsp$",
+             full = TRUE,
+             recursive = TRUE)
+
+print(paste0("Found ", length(wsps), " wsps"))
+
+for (file in wsps) {
+  ws <- openWorkspace(file)
+  s = getSamples(ws)
+  print(length(s$name))
+  s=s[grepl("PANEL 1",s$name),]
+    print(length(s$name))
+  
+  for (samp in s$name) {
+    if(runif(1)[1]<.1){
+    command = paste0(
+      "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+      gsub(" ", "\\\ ", samp, fixed = TRUE),
+      "' ",
+      inputDir
+    )
+    system(command)
+    }
+  }
+}
+
+
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
 
 wsMapFileFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
@@ -33,13 +69,13 @@ use = mapper$FCS %in% targets
 
 mapper = mapper[use,]
 
-  # write.table(
-  #   mapper,
-  #   sep = "\t",
-  #   quote = FALSE,
-  #   file = paste(outputDir, "zf_ec_examples.txt", sep = ""),
-  #   row.names = FALSE
-  # )
+# write.table(
+#   mapper,
+#   sep = "\t",
+#   quote = FALSE,
+#   file = paste(outputDir, "zf_ec_examples.txt", sep = ""),
+#   row.names = FALSE
+# )
 alpha = 0.05
 
 
