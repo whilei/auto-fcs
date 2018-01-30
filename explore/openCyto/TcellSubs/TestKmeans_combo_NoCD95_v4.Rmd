@@ -7,8 +7,7 @@ output:
     keep_md: yes
 ---
 
-```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=8,fig.width=8,message=FALSE}
-
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=36,fig.width=8,message=FALSE}
 
 
 require(flowCore)
@@ -17,7 +16,6 @@ library(ggcyto)
 library(ClusterR)
 library(gridExtra)
 library(grid)
-# library(dplyr)
 
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
@@ -33,39 +31,39 @@ targets =
 use = mapper$FCS %in% targets
 mapper = mapper[use,]
 
-alpha = 0.25
+alpha = 0.05
 
 
-assignStatus= function(results,clusterCol) {
-  summary =data.frame()
-  for(cluster in unique(results[,c(clusterCol)])){
+assignStatus = function(results, clusterCol) {
+  summary = data.frame()
+  for (cluster in unique(results[, c(clusterCol)])) {
     # print(cluster)
-    sub = results[which(results[,c(clusterCol)]==cluster),]
+    sub = results[which(results[, c(clusterCol)] == cluster),]
     tmp = data.frame(
-      CLUSTER =cluster,
+      CLUSTER = cluster,
       MEDIAN_CCR7 = median(sub$CCR7),
       MEDIAN_CD45 = median(sub$CD45)
     )
-    summary=rbind(summary,tmp)
+    summary = rbind(summary, tmp)
     # print(unique(sub[,c(clusterCol)]))
   }
   
-  summary$STATUS=""
-  summary=summary[order(summary$MEDIAN_CCR7),]
-  summary[c(1:2),]$STATUS="CCR7-"
-  summary[c(3:4),]$STATUS="CCR7+"
-  summary=summary[order(summary$MEDIAN_CD45),]
-  summary[c(1:2),]$STATUS=paste0(summary[c(1:2),]$STATUS,"CD45-")
-  summary[c(3:4),]$STATUS=paste0(summary[c(3:4),]$STATUS,"CD45+")
+  summary$STATUS = ""
+  summary = summary[order(summary$MEDIAN_CCR7),]
+  summary[c(1:2),]$STATUS = "CCR7-"
+  summary[c(3:4),]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45),]
+  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
+  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
   
-  summary$POPULATION=gsub("CCR7-CD45-","effector memory",summary$STATUS,fixed = TRUE)
-  summary$POPULATION=gsub("CCR7+CD45-","central memory",summary$POPULATION,fixed = TRUE)
-  summary$POPULATION=gsub("CCR7+CD45+","naive",summary$POPULATION,fixed = TRUE)
-  summary$POPULATION=gsub("CCR7-CD45+","effector",summary$POPULATION,fixed = TRUE)
-  results=merge(results,summary,by.x =clusterCol,by.y ="CLUSTER"  )
+  summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
+  results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
   return(results)
 }
-  
+
 # samps = getSamples(ws)$name
 # for (samp in samps) {
 #   command = paste0(
@@ -113,10 +111,28 @@ channels = c(#CCR7
   #CD95
   "Comp-BV 605-A")
 clustChannels = channels[1:3]
+mapper$Annotation = "NA"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"), ]$Annotation =
+  "A"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group two_F1636830_032.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636775_013.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631366_002.fcs"), ]$Annotation =
+  "A"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636847_014.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"), ]$Annotation =
+  "B"
 
+
+
+mapper = mapper[order(mapper$Annotation), ]
 #list samples in the workspace
+
+
 #for every sample
-for (samp in mapper$FCS[1:15]) {
+for (samp in mapper$FCS) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -219,7 +235,7 @@ for (samp in mapper$FCS[1:15]) {
     load(fileSave)
   }
   library(ggplot2)
-  print(paste("Plotting",samp))
+  print(paste("Plotting", samp))
   t2 <- theme(
     axis.line = element_line(colour = "black"),
     axis.text = element_text(colour = "black"),
@@ -243,8 +259,20 @@ for (samp in mapper$FCS[1:15]) {
   
   
   for (method in methodsClust) {
-    results=assignStatus(results = results,clusterCol = method)
+    results = assignStatus(results = results, clusterCol = method)
     results$CURRENT_COLOR = results$POPULATION
+    
+    myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+    myColor_scale_fill <- scale_fill_gradientn(colours = myColor)
+    
+    pcBase = ggplot(results,
+                    aes(x = CCR7,
+                        y = CD45)) +
+      # geom_point(alpha = alpha)
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0("Raw data", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_hex(bins = 100) + myColor_scale_fill
     
     p1c = ggplot(results,
                  aes(x = CCR7,
@@ -253,7 +281,8 @@ for (samp in mapper$FCS[1:15]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET)+xlim(0, 250)
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     p2c = ggplot(results,
                  aes(x = CCR7,
@@ -262,7 +291,19 @@ for (samp in mapper$FCS[1:15]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET)+xlim(0, 250)
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+    
+    pdBase = ggplot(results,
+                    aes(x = CD95,
+                        y = CD28)) +
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0("All data", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_hex(bins = 100) + myColor_scale_fill
+    
+    
     
     p1d = ggplot(results,
                  aes(x = CD95,
@@ -271,7 +312,8 @@ for (samp in mapper$FCS[1:15]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET)+xlim(0, 250)
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     p2d = ggplot(results,
                  aes(x = CD95,
@@ -280,25 +322,24 @@ for (samp in mapper$FCS[1:15]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET)+xlim(0, 250)
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     pb1 = ggplot(results,
                  aes(x = tsne_1,
                      y = tsne_2,
                      colour = MANUAL_GATE)) +
-      geom_point(alpha = alpha) +
+      geom_point(alpha = .3) +
       xlab(paste0("tsne1")) +
       ylab(paste0("tsne2")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET)
     
-    # + theme(legend.position = "none")
-    # print(pb)
     
     pb2 = ggplot(results,
                  aes(x = tsne_1,
                      y = tsne_2,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = alpha) +
+      geom_point(alpha = .3) +
       xlab(paste0("tsne1")) +
       ylab(paste0("tsne2")) + t2 + ggtitle(paste0(method, "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET)
@@ -306,28 +347,30 @@ for (samp in mapper$FCS[1:15]) {
     
     # print(p1c + ))
     # print(p2c + xlim(0, 250))
-    # 
+    #
     # print(p1d + xlim(0, 250))
     # print(p2d + xlim(0, 250))
-    # 
+    #
     # print(pb1)
     # print(pb2)
     
-  grid.arrange(p1c, p2c,
-
-               ncol = 1)
-  grid.rect(width = 1.0, height = 1.0, gp = gpar(lwd = 2, col = "black", fill = NA))
-  grid.arrange(p1d, p2d,
-               ncol = 1)
-  grid.rect(width = 1.0, height = 1.0, gp = gpar(lwd = 2, col = "black", fill = NA))
-
-  grid.arrange(pb1,
-               pb2,
-               ncol = 1)
-  grid.rect(width = 1.0, height = 1.0, gp = gpar(lwd = 2, col = "black", fill = NA))
-
+    grid.arrange(pcBase, p1c, p2c, pdBase, p1d, p2d, pb1,
+                 pb2,
+                 
+                 ncol = 1)
+    grid.rect(
+      width = 1.0,
+      height = 1.0,
+      gp = gpar(
+        lwd = 2,
+        col = "black",
+        fill = NA
+      )
+    )
+    
+    
   }
-
+  
   
 }
 # }
