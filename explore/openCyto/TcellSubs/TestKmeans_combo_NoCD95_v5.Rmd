@@ -8,18 +8,12 @@ output:
 ---
 
 ```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=36,fig.width=8,message=FALSE}
-
-
-
-
 require(flowCore)
 require(cytofkit)
 library(ggcyto)
 library(ClusterR)
 library(gridExtra)
 library(grid)
-
-
 
 
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
@@ -184,7 +178,7 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 
 
 #for every sample
-for (samp in mapper$FCS) {
+for (samp in mapper$FCS[1:24]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -231,9 +225,7 @@ for (samp in mapper$FCS) {
     t = as.data.frame(subdata@exprs)[, channels]
     clust = scale(t[, clustChannels])
     
-    tsne <- cytof_dimReduction(data = clust,
-                               method = "tsne",
-                               out_dim = 2)
+   
     
     flowSOM = cluster_FlowSOM <-
       cytof_cluster(xdata = clust,
@@ -241,7 +233,11 @@ for (samp in mapper$FCS) {
                     FlowSOM_k = 4)
     clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
     
+    tsne <- cytof_dimReduction(data = clust,
+                               method = "tsne",
+                               out_dim = 2)
     results = as.data.frame(tsne)
+    
     results$FLOW_SOM = flowSOM
     results$PHENOGRAPH = clusterPhenograph
     results$MANAUL_POP = "NA"
