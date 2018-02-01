@@ -16,7 +16,11 @@ library(ClusterR)
 library(gridExtra)
 library(grid)
 library(scales)
+library(cluster)
 
+alpha = 0.05
+reCluster=FALSE
+runPhenograph=FALSE
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 
 wsDir = "/Volumes/Beta/data/flow/wsp/"
@@ -78,7 +82,6 @@ mapper = mapper[use,]
 #   file = paste(outputDir, "zf_ec_examples.txt", sep = ""),
 #   row.names = FALSE
 # )
-alpha = 0.05
 
 
 assignStatus = function(results, clusterCol) {
@@ -183,14 +186,14 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 
 #for every sample
 sampleNum=0
-for (samp in mapper$FCS[1:34]) {
+for (samp in mapper$FCS[1:1]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
   results = data.frame()
   
   fileSave = paste(outputDir, samp, "results.RData", sep = "")
-  if (!file.exists(fileSave)) {
+  if (!file.exists(fileSave)||reCluster) {
     wsFile = mapper[which(mapper$FCS == samp),]$WSP
     print(wsFile)
     ws <- openWorkspace(wsFile)
@@ -236,15 +239,25 @@ for (samp in mapper$FCS[1:34]) {
       cytof_cluster(xdata = clust,
                     method = "FlowSOM",
                     FlowSOM_k = 4)
-    clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
-    
+  
+    if(!file.exists(fileSave)){
     tsne <- cytof_dimReduction(data = clust,
                                method = "tsne",
                                out_dim = 2)
     results = as.data.frame(tsne)
+    print(print(paste("re-running tsne for",fileSave)))
+
+    }else{
+      print(print(paste("loading ",fileSave,"for re-clustering")))
+      load(fileSave)
+    }
+    
+    if (runPhenograph) {
+    clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
+    results$PHENOGRAPH = clusterPhenograph
+    }
     
     results$FLOW_SOM = flowSOM
-    results$PHENOGRAPH = clusterPhenograph
     results$MANAUL_POP = "NA"
     for (pop in tcellSubs) {
       sub = getIndiceMat(gs, pop)[combo$MDEF]
@@ -265,7 +278,7 @@ for (samp in mapper$FCS[1:34]) {
       max_iters = 5000,
       
       initializer = 'optimal_init',
-      threads = 3,
+      threads = 4,
       verbose = T,
       seed = 42
     )
@@ -341,7 +354,16 @@ for (samp in mapper$FCS[1:34]) {
       ylab(paste0("CD45")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
-    
+    # 
+    # ggplot(results,
+    #              aes(x = CCR7,
+    #                  y = CD45,
+    #                  colour = MANUAL_GATE)) +geom_polygon(data = results,  
+    #                       aes(x = CCR7, y = CD45, fill = MANUAL_GATE), 
+    #                       alpha = 1/2)
+    # 
+    # ConvexHull = chull(results[which(results$CURRENT_COLOR=="effector"),c("CCR7","CD45")])
+    # poly=results[which(results$CURRENT_COLOR=="effector"),c("CCR7","CD45")][ConvexHull,]
     p2c = ggplot(results,
                  aes(x = CCR7,
                      y = CD45,
@@ -350,8 +372,7 @@ for (samp in mapper$FCS[1:34]) {
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
-      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
-    
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
     
     pdBase = ggplot(results,
                     aes(x = CD95,
