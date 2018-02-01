@@ -173,3 +173,8 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1632190_014.fcs /Volumes/Beta/
 scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1636740_021.fcs /Volumes/Beta/data/flow/zf_ec_tcellTest/
 
 
+for i in $(cat /home/tsaim/lane0212/outliers.txt); do
+   echo $i
+   cp -ru /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/panel1Vis/*$i*/ /home/thyagara/shared/HRS/annotation/r25/sanityCheck/
+done
+

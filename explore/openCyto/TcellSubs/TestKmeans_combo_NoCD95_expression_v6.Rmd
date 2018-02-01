@@ -1,0 +1,471 @@
+---
+title: "Tcell subs"
+author: "JL"
+date: "1/30/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=36,fig.width=8,message=FALSE}
+require(flowCore)
+require(cytofkit)
+library(ggcyto)
+library(ClusterR)
+library(gridExtra)
+library(grid)
+library(scales)
+
+inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+
+wsDir = "/Volumes/Beta/data/flow/wsp/"
+wsps <-
+  list.files(wsDir,
+             pattern = "wsp$",
+             full = TRUE,
+             recursive = TRUE)
+
+print(paste0("Found ", length(wsps), " wsps"))
+
+# for (file in wsps) {
+#   ws <- openWorkspace(file)
+#   s = getSamples(ws)
+#   print(length(s$name))
+#   s=s[grepl("PANEL 1",s$name),]
+#     print(length(s$name))
+#   
+#   for (samp in s$name) {
+#     if(runif(1)[1]<.1){
+#     command = paste0(
+#       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#       gsub(" ", "\\\ ", samp, fixed = TRUE),
+#       "' ",
+#       inputDir
+#     )
+#     system(command)
+#     }
+#   }
+# }
+
+
+outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
+
+wsMapFileFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
+mapper = read.delim(wsMapFileFile,
+                    stringsAsFactors = FALSE,
+                    sep = "\t")
+targets =
+  list.files(inputDir,
+             pattern = ".fcs$",
+             full = FALSE)
+
+zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
+                    stringsAsFactors = FALSE,
+                    sep = "\t")
+
+use = mapper$FCS %in% targets
+
+
+zfs =  mapper$FCS %in%zfExamples$FCS
+mapper$EXAMPLES = zfs
+mapper = mapper[use,]
+
+# write.table(
+#   mapper,
+#   sep = "\t",
+#   quote = FALSE,
+#   file = paste(outputDir, "zf_ec_examples.txt", sep = ""),
+#   row.names = FALSE
+# )
+alpha = 0.05
+
+
+assignStatus = function(results, clusterCol) {
+  summary = data.frame()
+  for (cluster in unique(results[, c(clusterCol)])) {
+    # print(cluster)
+    sub = results[which(results[, c(clusterCol)] == cluster),]
+    tmp = data.frame(
+      CLUSTER = cluster,
+      MEDIAN_CCR7 = median(sub$CCR7),
+      MEDIAN_CD45 = median(sub$CD45)
+    )
+    summary = rbind(summary, tmp)
+    # print(unique(sub[,c(clusterCol)]))
+  }
+  
+  summary$STATUS = ""
+  summary = summary[order(summary$MEDIAN_CCR7),]
+  summary[c(1:2),]$STATUS = "CCR7-"
+  summary[c(3:4),]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45),]
+  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
+  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
+  
+  summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
+  results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
+  return(results)
+}
+
+# samps = getSamples(ws)$name
+# for (samp in samps) {
+#   command = paste0(
+#     "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#     gsub(" ", "\\\ ", samp, fixed = TRUE),
+#     "' ",
+#     inputDir
+#   )
+#   system(command)
+# }
+
+biexpTrans <-
+  flowJo_biexp_trans(
+    channelRange = 256,
+    maxValue = 262144.0000291775 ,
+    pos = 4.418539922,
+    neg = 0,
+    widthBasis = -100
+  )
+
+
+
+
+
+nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+tcellSubs = c(
+  "naive helper Tcells (CCR7+ CD45RA+)",
+  "effector memory helper Tcells (CCR7- CD45RA-)",
+  "effector helper Tcells (CCR7- CD45RA+)",
+  "central memory helper Tcells (CCR7+ CD45RA-)",
+  "naive cytotoxic Tcells (CCR7+ , CD45RA+)",
+  "effector memory cytotoxic Tcells (CCR7- , CD45RA-)",
+  "effector cytotoxic Tcells  (CCR7-  CD45RA+)",
+  "central memory cytotoxic Tcells (CCR7+ , CD45RA-)"
+)
+# "Comp-APC-Cy7-A", #CD4
+# "Comp-BUV 395-A" #CD8
+
+channels = c(#CCR7
+  "Comp-BV 421-A",
+  #CD28
+  "Comp-BV 510-A",
+  #CD45RA
+  "Comp-BV 711-A",
+  #CD95
+  "Comp-BV 605-A")
+clustChannels = channels[1:3]
+mapper$Annotation = "NA"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"), ]$Annotation =
+  "A"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group two_F1636830_032.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636775_013.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631366_002.fcs"), ]$Annotation =
+  "A"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636847_014.fcs"), ]$Annotation =
+  "B"
+mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"), ]$Annotation =
+  "B"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"), ]$Annotation =
+#   "B"
+
+
+
+
+mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
+#list samples in the workspace
+
+
+#for every sample
+sampleNum=0
+for (samp in mapper$FCS[1:34]) {
+  # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
+  
+  
+  results = data.frame()
+  
+  fileSave = paste(outputDir, samp, "results.RData", sep = "")
+  if (!file.exists(fileSave)) {
+    wsFile = mapper[which(mapper$FCS == samp),]$WSP
+    print(wsFile)
+    ws <- openWorkspace(wsFile)
+    
+    print(samp)
+    #read the fcs file
+    frame = read.FCS(paste(inputDir, samp, sep = ""))
+    
+    id = samp
+    #load the workspace for this file, apply transforms, compensation, and gates
+    gs <-
+      parseWorkspace(
+        ws,
+        #WSP file
+        path = inputDir,
+        #FCS file
+        name = 1,
+        #sample group
+        subset = id[1],
+        #load single fcs file
+        isNcdf = FALSE,
+        #not memory mapped
+        compensation = compensation(keyword(frame)$`SPILL`)
+      )
+    
+    # for (node in nodesOfInterest) {
+    print(samp)
+    # print(table(getIndiceMat(gs, node)))
+    combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
+                       ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
+    combo$MDEF = combo$ct | combo$ht
+    print(table(combo$MDEF))
+    
+    # if (length(grep("TRUE", combo$MDEF)) < 500000) {
+    gh <- gs[[1]]
+    subdata = getData(gh)[combo$MDEF, ]
+    t = as.data.frame(subdata@exprs)[, channels]
+    clust = scale(t[, clustChannels])
+    
+   
+    
+    flowSOM = cluster_FlowSOM <-
+      cytof_cluster(xdata = clust,
+                    method = "FlowSOM",
+                    FlowSOM_k = 4)
+    clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
+    
+    tsne <- cytof_dimReduction(data = clust,
+                               method = "tsne",
+                               out_dim = 2)
+    results = as.data.frame(tsne)
+    
+    results$FLOW_SOM = flowSOM
+    results$PHENOGRAPH = clusterPhenograph
+    results$MANAUL_POP = "NA"
+    for (pop in tcellSubs) {
+      sub = getIndiceMat(gs, pop)[combo$MDEF]
+      results[sub,]$MANAUL_POP = pop
+    }
+    results$CD45 = t$`Comp-BV 711-A`
+    results$CCR7 = t$`Comp-BV 421-A`
+    results$CD95 = t$`Comp-BV 605-A`
+    results$CD28 = t$`Comp-BV 510-A`
+    results$SET = "NA"
+    results$SET[combo$ht[combo$MDEF]] = "Helper Ts"
+    results$SET[combo$ct[combo$MDEF]] = "Cyto Ts"
+    
+    km_rc = KMeans_rcpp(
+      clust,
+      clusters = 4,
+      num_init = 500,
+      max_iters = 5000,
+      
+      initializer = 'optimal_init',
+      threads = 3,
+      verbose = T,
+      seed = 42
+    )
+    
+    results$CLUSTER_RAW = km_rc$clusters
+    results$KMEANS_CLUSTER = as.factor(results$CLUSTER_RAW)
+    # results$KMEANS_CLUSTER = gsub("4", "effector memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("1", "central memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("3", "naive", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("2", "effector", results$KMEANS_CLUSTER)
+    #
+    # results$KMEANS_CLUSTER = gsub("2","central memory", results$CLUSTER_RAW)
+    # results$KMEANS_CLUSTER = gsub("1","effector memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("4","naive", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("3","effector", results$KMEANS_CLUSTER)
+    #
+    save(results, file = fileSave)
+  } else{
+    print(paste("loading", fileSave))
+    load(fileSave)
+  }
+  library(ggplot2)
+  print(paste("Plotting", samp))
+  print(paste("EC_ZF example = ", mapper[which(mapper$FCS == samp),]$EXAMPLES))
+  print(paste("Sample number", sampleNum))
+
+  sampleNum=sampleNum+1
+
+  t2 <- theme(
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    # panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    # panel.grid.major.y = element_blank(),
+    # panel.grid.minor.y = element_blank(),
+    panel.border = element_blank(),
+    # panel.background = element_blank(),
+    # legend.position="none",
+    axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+  theme_set(theme_grey(base_size = 10))
+  results$MANUAL_GATE = gsub("\\(.*", "", results$MANAUL_POP)
+  results$MANUAL_GATE = gsub(" helper Tcells.*", "", results$MANUAL_GATE)
+  results$MANUAL_GATE = gsub(" cytotoxic Tcells.*", "", results$MANUAL_GATE)
+  methodsClust = c("KMEANS_CLUSTER")
+  # PHENOGRAPH
+  #FLOW_SOM
+  
+  
+  for (method in methodsClust) {
+    results = assignStatus(results = results, clusterCol = method)
+    results$CURRENT_COLOR = results$POPULATION
+    
+    myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+    myColor_scale_fill <- scale_fill_gradientn(colours = myColor)
+    
+    pcBase = ggplot(results,
+                    aes(x = CCR7,
+                        y = CD45)) +
+      # geom_point(alpha = alpha)
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0("Raw data", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_hex(bins = 100) + myColor_scale_fill
+    
+    p1c = ggplot(results,
+                 aes(x = CCR7,
+                     y = CD45,
+                     colour = MANUAL_GATE)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+    p2c = ggplot(results,
+                 aes(x = CCR7,
+                     y = CD45,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+    
+    pdBase = ggplot(results,
+                    aes(x = CD95,
+                        y = CD28)) +
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0("All data", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_hex(bins = 100) + myColor_scale_fill
+    
+    
+    
+    p1d = ggplot(results,
+                 aes(x = CD95,
+                     y = CD28,
+                     colour = MANUAL_GATE)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+    p2d = ggplot(results,
+                 aes(x = CD95,
+                     y = CD28,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+    tsneOrient = data.frame()
+    markers =c("CCR7","CD45","CD95","CD28")
+    range01 <- function(x){(x-min(x))/(max(x)-min(x))}
+    for(marker in markers){
+      tmp =data.frame(
+        tsne_1=results$tsne_1,
+        tsne_2=results$tsne_2,
+        expression = results[,marker]
+         # expression = range01(scale(results[,marker]))
+        # expression = scale(results[,marker])
+        
+        
+      )
+      tmp$MARKER=marker
+      tsneOrient=rbind(tsneOrient,tmp)
+    }
+    
+    
+    myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "Spectral")))
+    sc <- scale_colour_gradientn(colours = myPalette(100),limits=c(0, 225),oob=squish)
+  #   sc <- scale_colour_gradient2( low ="blue", mid ="yellow",
+  # high = "red", midpoint = 0,  space = "Lab",
+  # na.value = "grey50", guide = "colourbar")
+    tsSize =1
+    tsalpha=.5
+    pbOrient1= ggplot(tsneOrient[which(tsneOrient$MARKER=="CCR7"|tsneOrient$MARKER=="CD45"),]) +
+     geom_point(alpha =tsalpha, aes(x = tsne_1,
+                     y = tsne_2,
+                     colour = expression),size=tsSize)+ scale_fill_gradientn(colours = myColor)+
+      xlab(paste0("tsne1")) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("All data, normalized", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ MARKER) +sc
+    pbOrient2= ggplot(tsneOrient[which(tsneOrient$MARKER=="CD28"|tsneOrient$MARKER=="CD95"),]) +
+      geom_point(alpha = tsalpha, aes(x = tsne_1,
+                     y = tsne_2,
+                     colour = expression),size=tsSize)+ scale_fill_gradientn(colours = myColor)+
+      xlab(paste0("tsne1")) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("All data, normalized", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ MARKER) +sc
+     pb1 = ggplot(results) +
+      geom_point(alpha = tsalpha, aes(x = tsne_1,
+                     y = tsne_2,
+                     colour = MANUAL_GATE),size=tsSize) +
+      xlab(paste0("tsne1")) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET)
+    
+    
+    pb2 = ggplot(results) +
+     geom_point(alpha = tsalpha, aes(x = tsne_1,
+                     y = tsne_2,
+                     colour = CURRENT_COLOR),size=tsSize) +
+      xlab(paste0("tsne1")) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET)
+    # print(pb2)
+    
+    # print(p1c + ))
+    # print(p2c + xlim(0, 250))
+    #
+    # print(p1d + xlim(0, 250))
+    # print(p2d + xlim(0, 250))
+    #
+    # print(pb1)
+    # print(pb2)
+    
+    grid.arrange(pcBase, p1c, p2c, pdBase, p1d, p2d, pbOrient1,pbOrient2,pb1,
+                 pb2,
+                 
+                 ncol = 1)
+    grid.rect(
+      width = 1.0,
+      height = 1.0,
+      gp = gpar(
+        lwd = 2,
+        col = "black",
+        fill = NA
+      )
+    )
+  }
+}
+# }
+# }
+
+# dev.off()
+
+```
