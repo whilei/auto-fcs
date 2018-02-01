@@ -412,14 +412,14 @@ for (samp in mapper$FCS[1:34]) {
                      y = tsne_2,
                      colour = expression),size=tsSize)+ scale_fill_gradientn(colours = myColor)+
       xlab(paste0("tsne1")) +
-      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("All data, normalized", "\n", samp)) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("Raw data", "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ MARKER) +sc
     pbOrient2= ggplot(tsneOrient[which(tsneOrient$MARKER=="CD28"|tsneOrient$MARKER=="CD95"),]) +
       geom_point(alpha = tsalpha, aes(x = tsne_1,
                      y = tsne_2,
                      colour = expression),size=tsSize)+ scale_fill_gradientn(colours = myColor)+
       xlab(paste0("tsne1")) +
-      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("All data, normalized", "\n", samp)) +
+      ylab(paste0("tsne2")) + t2 + ggtitle(paste0("Raw data", "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ MARKER) +sc
      pb1 = ggplot(results) +
       geom_point(alpha = tsalpha, aes(x = tsne_1,
