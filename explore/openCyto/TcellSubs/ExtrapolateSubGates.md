@@ -15,3 +15,15 @@ https://ac.els-cdn.com/0012365X9090147A/1-s2.0-0012365X9090147A-main.pdf?_tid=26
 methods into openCyto workflow (represent clusters in .wsp)
 
  partion plane into regions based on set membership
+ 
+ 
+ https://en.wikipedia.org/wiki/DBSCAN
+ 
+ http://postgis.net/docs/ST_DelaunayTriangles.html
+ 
+ https://gis.stackexchange.com/questions/114764/how-to-use-st-delaunaytriangles-to-construct-a-voronoi-diagram/115729#115729
+ 
+ 
+ https://github.com/tudelft3d/pprepair 
+ 
+ 

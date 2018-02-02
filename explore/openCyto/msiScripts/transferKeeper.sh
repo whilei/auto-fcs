@@ -175,6 +175,86 @@ scp msi:/scratch.global/lanej/flow/full/fcs/*one_F1636740_021.fcs /Volumes/Beta/
 
 for i in $(cat /home/tsaim/lane0212/outliers.txt); do
    echo $i
-   cp -ru /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/panel1Vis/*$i*/ /home/thyagara/shared/HRS/annotation/r25/sanityCheck/
+   cp -ru /scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/*/panel2Vis/*$i*/ /home/thyagara/shared/HRS/annotation/r25/sanityCheck/
 done
 
+
+for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+
+for file in ./results_r25_*[^25]full; do
+   echo "$file"
+done
+
+
+for file in ./results_r*[^25full_SS_SubCD8_SCD14_Manuals]*/; do
+   echo "$file"
+done
+
+for file in ./results_r[^25]*/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   echo "$file"
+done
+
+
+
+
+
+
+for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_24full_SS_SubCD8_SCD14_Manuals/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_20full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+
+
+for file in ./results_25_IgD_HelperT_test_79_64/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_CD8_sens_Tcells_71_72_69/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./IgD_HelperT_test_79_64/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_CD8_63_69_73_Tcells_71_Bcells_78/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_CD8_sens_81_Tcells_72/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_2/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+
+for file in ./results_r25_3/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+for file in ./results_r25_4/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+for file in ./results_r25_5/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
