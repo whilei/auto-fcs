@@ -220,6 +220,8 @@ done
 
 
 
+
+
 for file in ./results_25_IgD_HelperT_test_79_64/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
 done
@@ -258,3 +260,8 @@ done
 for file in ./results_r25_5/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
 done
+
+rm -r *Tcells* 
+rm -r results_25_IgD_HelperT_test_79_64/
+rm -r IgD_HelperT_test_79_64/
+rm -r results_r25_lymphVersion/
