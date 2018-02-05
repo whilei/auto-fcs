@@ -8,7 +8,7 @@ output:
     self_contained: no
 ---
 
-```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=36,fig.width=8,message=FALSE}
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=40,fig.width=8,message=FALSE}
 require(flowCore)
 require(cytofkit)
 library(ggcyto)
@@ -186,7 +186,7 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 
 #for every sample
 sampleNum=0
-for (samp in mapper$FCS[1:1]) {
+for (samp in mapper$FCS[1:10]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -362,8 +362,61 @@ for (samp in mapper$FCS[1:1]) {
     #                       aes(x = CCR7, y = CD45, fill = MANUAL_GATE), 
     #                       alpha = 1/2)
     # 
-    # ConvexHull = chull(results[which(results$CURRENT_COLOR=="effector"),c("CCR7","CD45")])
-    # poly=results[which(results$CURRENT_COLOR=="effector"),c("CCR7","CD45")][ConvexHull,]
+
+    
+   polyTest=  ggplot(results,
+                 aes(x = CCR7,
+                     y = CD45,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
+    
+   for (pop in unique(results$CURRENT_COLOR)) {
+       tmp = results[which(results$CURRENT_COLOR == pop), c("CCR7", "CD45")]
+       ConvexHull = chull(tmp)
+       color = pop
+       polyAdd = paste0(
+       "geom_polygon(data = results[which(results$CURRENT_COLOR ==\"",
+       pop,
+       "\"), c(\"CCR7\", \"CD45\")][ConvexHull, ], alpha =.04, aes(color = \"",
+       color,
+       "\"))"
+       )
+       polyTest = polyTest + eval(parse(text = polyAdd))
+     
+     
+   }
+   
+    polyTest2=  ggplot(results,
+                 aes(x = CD95,
+                     y = CD28,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = alpha) +
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
+    
+   for (pop in unique(results$CURRENT_COLOR)) {
+       tmp = results[which(results$CURRENT_COLOR == pop), c("CD95", "CD28")]
+       ConvexHull = chull(tmp)
+       color = pop
+       polyAdd = paste0(
+       "geom_polygon(data = results[which(results$CURRENT_COLOR ==\"",
+       pop,
+       "\"), c(\"CD95\", \"CD28\")][ConvexHull, ], alpha =.04, aes(color = \"",
+       color,
+       "\"))"
+       )
+       polyTest2 = polyTest2 + eval(parse(text = polyAdd))
+     
+     
+   }
+    
+    
     p2c = ggplot(results,
                  aes(x = CCR7,
                      y = CD45,
@@ -372,7 +425,7 @@ for (samp in mapper$FCS[1:1]) {
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
-      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     pdBase = ggplot(results,
                     aes(x = CD95,
@@ -470,8 +523,8 @@ for (samp in mapper$FCS[1:1]) {
     # print(pb1)
     # print(pb2)
     
-    grid.arrange(pcBase, p1c, p2c, pdBase, p1d, p2d, pbOrient1,pbOrient2,pb1,
-                 pb2,
+    grid.arrange(pcBase, p1c,p2c,pdBase, p1d, p2d, pbOrient1,pbOrient2,pb1,
+                 pb2,polyTest,polyTest2,
                  
                  ncol = 1)
     grid.rect(

@@ -26,4 +26,6 @@ methods into openCyto workflow (represent clusters in .wsp)
  
  https://github.com/tudelft3d/pprepair 
  
+ https://3d.bk.tudelft.nl/ken/files/10_msc_thesis.pdf
+ 
  
