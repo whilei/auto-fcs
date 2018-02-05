@@ -206,9 +206,78 @@ done
 
 
 
+
+
+
+
+
+
+
 for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
 done
+
+
+find  ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+find  ./results_r25_20full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_21full_SS_SubCD8_SCD14/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+find  ./results_r20/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r21/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r22/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r23/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r24/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r4/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r5/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r6/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r7/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r9/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r10/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r11/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r12/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r13/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r14/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+
+
+find  ./results_r25/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_2/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_3/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_4/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_5/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_6/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_7/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+find  ./results_r25_9full/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_16full/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_17full/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_18full/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+
+find  ./results_r25_19full_AllSS/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_19full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25_19full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+find  . -type f -name "gate_plots*.pdf" -exec rm {}  \;
+
+find  ./results_*/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results_r25*/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+
+
+
+
+for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+
+
+
+
 
 for file in ./results_r25_24full_SS_SubCD8_SCD14_Manuals/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
@@ -261,7 +330,29 @@ for file in ./results_r25_5/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
 done
 
+
+for file in ./results_r25_23full_SS_SubCD8_SCD14_Manuals/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
+for file in ./results_r25_21full_SS_SubCD8_SCD14/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
+   rm "$file"
+done
+
 rm -r *Tcells* 
 rm -r results_25_IgD_HelperT_test_79_64/
 rm -r IgD_HelperT_test_79_64/
 rm -r results_r25_lymphVersion/
+rm -r *LODTest*
+
+
+
+find . -type f -name "*.png" -exec rm {}  \; 
+
+find . -type f -name '*.png' -exec du -ch {} + | grep total
+
+find . -name "*.png" -print0 | du -sb --files0-from=-  | awk '{ total += $1} END { print total/1024/1024/1024 }'
+
+
+
+find . -name "*.wsp" -print0 | du -sb --files0-from=-  | awk '{ total += $1} END { print total/1024/1024/1024 }'
