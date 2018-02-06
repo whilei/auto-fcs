@@ -186,7 +186,7 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 
 #for every sample
 sampleNum=0
-for (samp in mapper$FCS[3:3]) {
+for (samp in mapper$FCS[6:6]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -421,11 +421,56 @@ for (samp in mapper$FCS[3:3]) {
                  aes(x = CCR7,
                      y = CD45,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = alpha) +
+      geom_point(alpha = alpha) +ylim(0,225)+
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
       theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+     
+    ggplot(results,
+                 aes(x = CCR7,
+                     y = CD45,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = .5) +ylim(0,225)+
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+     ggplot(results[which(results$CURRENT_COLOR=="effector"),],
+                 aes(x = CCR7,
+                     y = CD45)) +
+      geom_point(alpha = .5,color="darkgreen") +ylim(0,225)+
+      xlab(paste0("CCR7")) +
+      ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+     ggplot(results,
+                 aes(x = CD95,
+                     y = CD28,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = alpha) +ylim(0,225)+
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+    
+     ggplot(results,
+                 aes(x = CD95,
+                     y = CD28,
+                     colour = CURRENT_COLOR)) +
+      geom_point(alpha = .5) +ylim(0,225)+
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+       
+     ggplot(results[which(results$CURRENT_COLOR=="effector"),],
+                 aes(x = CD95,
+                     y = CD28 )) +
+      geom_point(alpha = .5,colour = "darkgreen") +ylim(0,225)+
+      xlab(paste0("CD95")) +
+      ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+       
+       
     
     pdBase = ggplot(results,
                     aes(x = CD95,
