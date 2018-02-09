@@ -8,7 +8,7 @@ output:
     self_contained: no
 ---
 
-```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=40,fig.width=8,message=FALSE}
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=44,fig.width=8,message=FALSE}
 require(flowCore)
 require(cytofkit)
 library(ggcyto)
@@ -17,6 +17,7 @@ library(gridExtra)
 library(grid)
 library(scales)
 library(cluster)
+library(reshape)
 
 alpha = 0.05
 reCluster=TRUE
@@ -32,25 +33,25 @@ wsps <-
 
 print(paste0("Found ", length(wsps), " wsps"))
 
-# for (file in wsps) {
-#   ws <- openWorkspace(file)
-#   s = getSamples(ws)
-#   print(length(s$name))
-#   s=s[grepl("PANEL 1",s$name),]
-#     print(length(s$name))
-#   
-#   for (samp in s$name) {
-#     if(runif(1)[1]<.1){
-#     command = paste0(
-#       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
-#       gsub(" ", "\\\ ", samp, fixed = TRUE),
-#       "' ",
-#       inputDir
-#     )
-#     system(command)
-#     }
-#   }
-# }
+for (file in wsps) {
+  ws <- openWorkspace(file)
+  s = getSamples(ws)
+  print(length(s$name))
+  s=s[grepl("PANEL 1",s$name),]
+    print(length(s$name))
+
+  for (samp in s$name) {
+    if(runif(1)[1]<.15){
+    command = paste0(
+      "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+      gsub(" ", "\\\ ", samp, fixed = TRUE),
+      "' ",
+      inputDir
+    )
+    system(command)
+    }
+  }
+}
 
 
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
@@ -186,7 +187,8 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 
 #for every sample
 sampleNum=0
-for (samp in mapper$FCS[10:10]) {
+# [c(6:7,10)]
+for (samp in mapper$FCS[1:10]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -231,8 +233,14 @@ for (samp in mapper$FCS[10:10]) {
     gh <- gs[[1]]
     subdata = getData(gh)[combo$MDEF, ]
     t = as.data.frame(subdata@exprs)[, channels]
-    clust = scale(t[, clustChannels])
-    
+    min=-20
+    max=225
+    for(channel in clustChannels){
+      t[,channel]=squish(t[,channel],range = c(min,max))
+    }
+    clust = center_scale(t[, clustChannels])
+    colnames(clust)=c(clustChannels)
+    save(clust,file =paste0(fileSave,".clust") )
    
     
     flowSOM = cluster_FlowSOM <-
@@ -270,7 +278,6 @@ for (samp in mapper$FCS[10:10]) {
     results$SET = "NA"
     results$SET[combo$ht[combo$MDEF]] = "Helper Ts"
     results$SET[combo$ct[combo$MDEF]] = "Cyto Ts"
-    
     km_rc = KMeans_rcpp(
       clust,
       clusters = 4,
@@ -278,12 +285,12 @@ for (samp in mapper$FCS[10:10]) {
       max_iters = 5000,
       
       initializer = 'optimal_init',
-      threads = 4,
-      verbose = T,
+      # threads = 4,
+      verbose = F,
       seed = 42
     )
     
-    results$CLUSTER_RAW = km_rc$clusters
+  results$CLUSTER_RAW = km_rc$clusters
     results$KMEANS_CLUSTER = as.factor(results$CLUSTER_RAW)
     # results$KMEANS_CLUSTER = gsub("4", "effector memory", results$KMEANS_CLUSTER)
     # results$KMEANS_CLUSTER = gsub("1", "central memory", results$KMEANS_CLUSTER)
@@ -299,6 +306,7 @@ for (samp in mapper$FCS[10:10]) {
   } else{
     print(paste("loading", fileSave))
     load(fileSave)
+    load(file =paste0(fileSave,".clust"))
   }
   library(ggplot2)
   print(paste("Plotting", samp))
@@ -328,6 +336,43 @@ for (samp in mapper$FCS[10:10]) {
   # PHENOGRAPH
   #FLOW_SOM
   
+    plot=F
+    k=6
+    o1=Optimal_Clusters_KMeans(clust, max_clusters = k, plot_clusters = plot)
+    o1_t=Optimal_Clusters_KMeans(clust[,c("Comp-BV 605-A","Comp-BV 510-A")], max_clusters = k, plot_clusters = plot)
+
+    o2= Optimal_Clusters_KMeans(
+      clust,
+      max_clusters = k,
+      plot_clusters = plot,
+      criterion = 'BIC'
+      )
+   o3 = Optimal_Clusters_KMeans(
+      clust,
+      max_clusters = k,
+      plot_clusters = plot,
+      criterion = 'distortion_fK'
+      )
+     o3_t = Optimal_Clusters_KMeans(
+      clust[,c("Comp-BV 605-A","Comp-BV 510-A")],
+      max_clusters = k,
+      plot_clusters = plot,
+      criterion = 'distortion_fK'
+      )
+   bScale =o2[1:k]/max(o2[1:k])
+  fkscale =o3[1:k]/max(o3[1:k])
+
+  optC = data.frame(K = c(1:k),
+                    VAR_EXP_4D = o1[1:k],
+                    DFK_4D = o3[1:k],
+                    VAR_EXP_95_28 = o1_t[1:k],
+                    DFK__95_28 = o3_t[1:k])
+  
+  optC =  melt(optC,id.vars = "K")
+ 
+
+ 
+  
   
   for (method in methodsClust) {
     results = assignStatus(results = results, clusterCol = method)
@@ -342,7 +387,7 @@ for (samp in mapper$FCS[10:10]) {
       # geom_point(alpha = alpha)
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0("Raw data", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_hex(bins = 100) + myColor_scale_fill
     
     p1c = ggplot(results,
@@ -352,7 +397,7 @@ for (samp in mapper$FCS[10:10]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     # 
     # ggplot(results,
@@ -371,7 +416,7 @@ for (samp in mapper$FCS[10:10]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + xlim(0, 225) +
+      theme(legend.position = "bottom") +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
     
    for (pop in unique(results$CURRENT_COLOR)) {
@@ -397,7 +442,7 @@ for (samp in mapper$FCS[10:10]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + xlim(0, 225) +
+      theme(legend.position = "bottom") +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1))) 
     
    for (pop in unique(results$CURRENT_COLOR)) {
@@ -421,54 +466,54 @@ for (samp in mapper$FCS[10:10]) {
                  aes(x = CCR7,
                      y = CD45,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = alpha) +ylim(0,225)+
+      geom_point(alpha = alpha) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
      
     ggplot(results,
                  aes(x = CCR7,
                      y = CD45,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = .5) +ylim(0,225)+
+      geom_point(alpha = .5) +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
      ggplot(results[which(results$CURRENT_COLOR=="effector"),],
                  aes(x = CCR7,
                      y = CD45)) +
-      geom_point(alpha = .5,color="darkgreen") +ylim(0,225)+
+      geom_point(alpha = .5,color="darkgreen") +
       xlab(paste0("CCR7")) +
       ylab(paste0("CD45")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
      ggplot(results,
                  aes(x = CD95,
                      y = CD28,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = alpha) +ylim(0,225)+
+      geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
      ggplot(results,
                  aes(x = CD95,
                      y = CD28,
                      colour = CURRENT_COLOR)) +
-      geom_point(alpha = .5) +ylim(0,225)+
+      geom_point(alpha = .5) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
        
      ggplot(results[which(results$CURRENT_COLOR=="effector"),],
                  aes(x = CD95,
                      y = CD28 )) +
-      geom_point(alpha = .5,colour = "darkgreen") +ylim(0,225)+
+      geom_point(alpha = .5,colour = "darkgreen") +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+      theme(legend.position = "bottom") + facet_wrap(~ SET) + guides(colour = guide_legend(override.aes = list(alpha = 1)))
        
        
     
@@ -477,7 +522,7 @@ for (samp in mapper$FCS[10:10]) {
                         y = CD28)) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0("All data", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_hex(bins = 100) + myColor_scale_fill
     
     
@@ -489,7 +534,7 @@ for (samp in mapper$FCS[10:10]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0("MANUAL", "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     p2d = ggplot(results,
@@ -499,7 +544,7 @@ for (samp in mapper$FCS[10:10]) {
       geom_point(alpha = alpha) +
       xlab(paste0("CD95")) +
       ylab(paste0("CD28")) + t2 + ggtitle(paste0(method, "\n", samp)) +
-      theme(legend.position = "bottom") + facet_wrap(~ SET) + xlim(0, 225) +
+      theme(legend.position = "bottom") + facet_wrap(~ SET) +
       geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
     
     tsneOrient = data.frame()
@@ -568,7 +613,15 @@ for (samp in mapper$FCS[10:10]) {
     # print(pb1)
     # print(pb2)
     
-    grid.arrange(pcBase, p1c,p2c,pdBase, p1d, p2d, pbOrient1,pbOrient2,pb1,
+     optcP = ggplot(optC) +geom_line(aes(x = K,
+                     y = value,
+                     colour = variable)) +geom_point(aes(x = K,
+                     y = value))+
+      xlab(paste0("K")) +
+      ylab(paste0("Metric Value")) + t2 + ggtitle(paste0(method, " cluster evaluation\n", samp)) +
+      theme(legend.position = "bottom") 
+    
+    grid.arrange(optcP,pcBase, p1c,p2c,pdBase, p1d, p2d, pbOrient1,pbOrient2,pb1,
                  pb2,polyTest,polyTest2,
                  
                  ncol = 1)
