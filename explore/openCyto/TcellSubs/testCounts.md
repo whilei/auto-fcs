@@ -4,7 +4,7 @@ JL
 
 NOTES;
 
-- Cyto T central memory under called relative to manual, but not Helper T central memory?
+- Cyto T central memory over called relative to manual, but not Helper T central memory?
 
 
 
