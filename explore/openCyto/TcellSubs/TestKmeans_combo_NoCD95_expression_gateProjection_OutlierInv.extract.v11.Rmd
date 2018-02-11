@@ -18,7 +18,7 @@ library(grid)
 library(scales)
 library(cluster)
 library(reshape)
-library(openCyto)
+# library(openCyto)
 
 alpha = 0.05
 reCluster=TRUE
@@ -33,29 +33,29 @@ wsps <-
              recursive = TRUE)
 
 print(paste0("Found ", length(wsps), " wsps"))
+# 
+# for (file in wsps) {
+#   ws <- openWorkspace(file)
+#   s = getSamples(ws)
+#   print(length(s$name))
+#   s=s[grepl("PANEL 1",s$name),]
+#     print(length(s$name))
+# 
+#   for (samp in s$name) {
+#     if(runif(1)[1]<.15){
+#     command = paste0(
+#       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#       gsub(" ", "\\\ ", samp, fixed = TRUE),
+#       "' ",
+#       inputDir
+#     )
+#     system(command)
+#     }
+#   }
+# }
 
-for (file in wsps) {
-  ws <- openWorkspace(file)
-  s = getSamples(ws)
-  print(length(s$name))
-  s=s[grepl("PANEL 1",s$name),]
-    print(length(s$name))
 
-  for (samp in s$name) {
-    if(runif(1)[1]<.15){
-    command = paste0(
-      "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
-      gsub(" ", "\\\ ", samp, fixed = TRUE),
-      "' ",
-      inputDir
-    )
-    system(command)
-    }
-  }
-}
-
-
-outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_Results/"
+outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
 
 wsMapFileFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
 mapper = read.delim(wsMapFileFile,
@@ -162,7 +162,7 @@ channels = c(#CCR7
   "Comp-BV 711-A",
   #CD95
   "Comp-BV 605-A")
-clustChannels = channels[1:4]
+clustChannels = channels[1:3]
 mapper$Annotation = "NA"
 mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"), ]$Annotation =
   "A"
@@ -189,7 +189,7 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 #for every sample
 sampleNum=0
 # [c(6:7,10)]
-for (samp in mapper$FCS[1:10]) {
+for (samp in mapper$FCS[1:1]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -250,7 +250,9 @@ for (samp in mapper$FCS[1:10]) {
                     FlowSOM_k = 4)
   
     if(!file.exists(fileSave)){
-    tsne <- cytof_dimReduction(data = clust,
+    tdata = center_scale(t[, channels])
+    colnames(tdata)=c(channels)
+    tsne <- cytof_dimReduction(data = tdata,
                                method = "tsne",
                                out_dim = 2)
     results = as.data.frame(tsne)
@@ -305,7 +307,12 @@ for (samp in mapper$FCS[1:10]) {
     #
     results = assignStatus(results = results, clusterCol = method)
     results$CURRENT_COLOR = results$POPULATION
-    boolMat = data.frame(results$POPULATION)
+    combo$ct | combo$ht
+    boolMat = data.frame(CYTO_T= combo$ct,HELPER_T= combo$ht )
+    
+    for(popToDump in unique(results$POPULATION)){
+      # popDef = 
+    }
     save(results, file = fileSave)
   } else{
     print(paste("loading", fileSave))
