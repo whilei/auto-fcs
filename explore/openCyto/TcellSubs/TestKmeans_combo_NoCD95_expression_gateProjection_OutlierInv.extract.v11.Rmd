@@ -189,7 +189,7 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 #for every sample
 sampleNum=0
 # [c(6:7,10)]
-for (samp in mapper$FCS[1:1]) {
+for (samp in mapper$FCS[1:12]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
@@ -305,14 +305,27 @@ for (samp in mapper$FCS[1:1]) {
     # results$KMEANS_CLUSTER = gsub("4","naive", results$KMEANS_CLUSTER)
     # results$KMEANS_CLUSTER = gsub("3","effector", results$KMEANS_CLUSTER)
     #
-    results = assignStatus(results = results, clusterCol = method)
+    rawCluster=data.frame(KMEANS_CLUSTER =results$KMEANS_CLUSTER)
+    
+    results = assignStatus(results = results, clusterCol = "KMEANS_CLUSTER")
     results$CURRENT_COLOR = results$POPULATION
-    combo$ct | combo$ht
+    # combo$ct | combo$ht
     boolMat = data.frame(CYTO_T= combo$ct,HELPER_T= combo$ht )
     
-    for(popToDump in unique(results$POPULATION)){
+    map=as.data.frame(table(results$KMEANS_CLUSTER,results$POPULATION))
+    popsToDump =unique(results$POPULATION)
+    for(popToDump in popsToDump ){
+      tmp=data.frame(combo$MDEF)
+      colnames(tmp)=popToDump
+      cluster = map[which(map$Var2==popToDump&map$Freq>0),]$Var1
+      tmp[,popToDump] =FALSE
+      # def =  results$POPULATION %in% c(popToDump)
+      def=rawCluster$KMEANS_CLUSTER==cluster
+      tmp[combo$MDEF,popToDump][def]=TRUE
+      boolMat =cbind(boolMat, tmp)
       # popDef = 
     }
+    write.table( boolMat,file =paste0(fileSave,".boolMatrix.txt") ,sep = "\t",quote = FALSE,row.names = FALSE)
     save(results, file = fileSave)
   } else{
     print(paste("loading", fileSave))
