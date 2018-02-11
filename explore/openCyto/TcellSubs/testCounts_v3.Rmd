@@ -24,6 +24,7 @@ library(grid)
 library(scales)
 library(cluster)
 library(reshape)
+library(openCyto)
 
 alpha = 0.05
 reCluster=FALSE
