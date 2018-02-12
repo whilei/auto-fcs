@@ -21,7 +21,7 @@ library(reshape)
 # library(openCyto)
 
 alpha = 0.05
-reCluster=TRUE
+reCluster=FALSE
 runPhenograph=FALSE
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 
@@ -54,6 +54,9 @@ print(paste0("Found ", length(wsps), " wsps"))
 #   }
 # }
 
+# gzip *boolMatrix.txt
+# rsync -av /Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/*txt.gz msi:/scratch.global/lanej/flow/exampleKmeansBoolMatrix
+# rsync -av /Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/*wsp msi:/scratch.global/lanej/flow/exampleKmeansBoolMatrix
 
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
 
@@ -189,13 +192,20 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 #for every sample
 sampleNum=0
 # [c(6:7,10)]
-for (samp in mapper$FCS[1:12]) {
+for (samp in mapper$FCS[1:20]) {
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
   
   results = data.frame()
   
   fileSave = paste(outputDir, samp, "results.RData", sep = "")
+  command = paste0(
+      "rsync -av \'msi:/scratch.global/lanej/flow/full/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/openCytoBatch_*/gatesRename/",
+      gsub(" ", "\\\ ", samp, fixed = TRUE),"_panel1Rename.wsp",
+      "' ",
+      outputDir
+    )
+    system(command)
   if (!file.exists(fileSave)||reCluster) {
     wsFile = mapper[which(mapper$FCS == samp),]$WSP
     print(wsFile)
