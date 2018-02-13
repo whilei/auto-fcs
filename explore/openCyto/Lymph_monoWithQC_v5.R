@@ -9,6 +9,13 @@ library(flowAI)
 
 
 
+
+
+plotData = FALSE
+
+panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
+panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
+
 setwd(dirname(panle1mapFile))
 source(file = "CombineWSP.R")
 source(file = "computeFreqs.R")
@@ -136,11 +143,6 @@ registerPlugins(fun = .flowDensity,
                 "gating")
 
 
-
-plotData = FALSE
-
-panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
-panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
 
 panel1NodesToHide = c("CD8/HLA-DR+", "CD4/HLA-DR+", "FSC-W+")
 panel2NodesToHide = c()

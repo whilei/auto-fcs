@@ -1,0 +1,548 @@
+---
+title: "Tcell subs - larger manual correl test"
+author: "JL"
+date: "2/13/2018"
+output: 
+  html_document: 
+    keep_md: yes
+    self_contained: no
+---
+
+NOTES:
+
+- Input data to k-means clustering are Helper and Cyto Ts
+  - In the results below, input data is filtered to Helper and Cyto T based on the manual .wsp
+  - "Final" version will use OC defined Helper and Cyto T (although current results should be similar since OC~Manual correlations are good for Helper and Cyto T)
+
+
+
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=4,fig.width=10,message=FALSE}
+require(flowCore)
+require(cytofkit)
+library(ggcyto)
+library(ClusterR)
+library(gridExtra)
+library(grid)
+library(scales)
+library(cluster)
+library(reshape)
+# library(openCyto)
+
+alpha = 0.05
+reCluster=FALSE
+runPhenograph=FALSE
+inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+
+wsDir = "/Volumes/Beta/data/flow/wsp/"
+wsps <-
+  list.files(wsDir,
+             pattern = "wsp$",
+             full = TRUE,
+             recursive = TRUE)
+
+print(paste0("Found ", length(wsps), " wsps"))
+# 
+# for (file in wsps) {
+#   ws <- openWorkspace(file)
+#   s = getSamples(ws)
+#   print(length(s$name))
+#   s=s[grepl("PANEL 1",s$name),]
+#     print(length(s$name))
+# 
+#   for (samp in s$name) {
+#     if(runif(1)[1]<.25){
+#     command = paste0(
+#       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#       gsub(" ", "\\\ ", samp, fixed = TRUE),
+#       "' ",
+#       inputDir
+#     )
+#     system(command)
+#     }
+#   }
+# }
+# 
+
+outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_ResultsCounts/"
+
+wsMapFileFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
+mapper = read.delim(wsMapFileFile,
+                    stringsAsFactors = FALSE,
+                    sep = "\t")
+targets =
+  list.files(inputDir,
+             pattern = ".fcs$",
+             full = FALSE)
+
+zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
+                    stringsAsFactors = FALSE,
+                    sep = "\t")
+
+use = mapper$FCS %in% targets
+
+mapper = mapper[use,]
+
+sub =  !(mapper$FCS %in%zfExamples$FCS)
+
+mapper$EXAMPLES = sub
+mapper = mapper[sub,]
+
+
+# write.table(
+#   mapper,
+#   sep = "\t",
+#   quote = FALSE,
+#   file = paste(outputDir, "zf_ec_examples.txt", sep = ""),
+#   row.names = FALSE
+# )
+
+
+assignStatus = function(results, clusterCol) {
+  summary = data.frame()
+  for (cluster in unique(results[, c(clusterCol)])) {
+    # print(cluster)
+    sub = results[which(results[, c(clusterCol)] == cluster),]
+    tmp = data.frame(
+      CLUSTER = cluster,
+      MEDIAN_CCR7 = median(sub$CCR7),
+      MEDIAN_CD45 = median(sub$CD45)
+    )
+    summary = rbind(summary, tmp)
+    # print(unique(sub[,c(clusterCol)]))
+  }
+  
+  summary$STATUS = ""
+  summary = summary[order(summary$MEDIAN_CCR7),]
+  summary[c(1:2),]$STATUS = "CCR7-"
+  summary[c(3:4),]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45),]
+  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
+  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
+  
+  summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
+  results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
+  return(results)
+}
+
+# samps = getSamples(ws)$name
+# for (samp in samps) {
+#   command = paste0(
+#     "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#     gsub(" ", "\\\ ", samp, fixed = TRUE),
+#     "' ",
+#     inputDir
+#   )
+#   system(command)
+# }
+
+biexpTrans <-
+  flowJo_biexp_trans(
+    channelRange = 256,
+    maxValue = 262144.0000291775 ,
+    pos = 4.418539922,
+    neg = 0,
+    widthBasis = -100
+  )
+
+
+
+
+
+nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+tcellSubs = c(
+  "naive helper Tcells (CCR7+ CD45RA+)",
+  "effector memory helper Tcells (CCR7- CD45RA-)",
+  "effector helper Tcells (CCR7- CD45RA+)",
+  "central memory helper Tcells (CCR7+ CD45RA-)",
+  "naive cytotoxic Tcells (CCR7+ , CD45RA+)",
+  "effector memory cytotoxic Tcells (CCR7- , CD45RA-)",
+  "effector cytotoxic Tcells  (CCR7-  CD45RA+)",
+  "central memory cytotoxic Tcells (CCR7+ , CD45RA-)"
+)
+# "Comp-APC-Cy7-A", #CD4
+# "Comp-BUV 395-A" #CD8
+
+channels = c(#CCR7
+  "Comp-BV 421-A",
+  #CD28
+  "Comp-BV 510-A",
+  #CD45RA
+  "Comp-BV 711-A",
+  #CD95
+  "Comp-BV 605-A")
+clustChannels = channels[1:3]
+mapper$Annotation = "NA"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"), ]$Annotation =
+#   "A"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group two_F1636830_032.fcs"), ]$Annotation =
+#   "B"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636775_013.fcs"), ]$Annotation =
+#   "B"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1631366_002.fcs"), ]$Annotation =
+#   "A"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636847_014.fcs"), ]$Annotation =
+#   "B"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"), ]$Annotation =
+#   "B"
+# mapper[which(mapper$FCS == "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"), ]$Annotation =
+#   "B"
+
+
+
+
+mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
+#list samples in the workspace
+
+
+#for every sample
+sampleNum=0
+# [c(6:7,10)]
+fullCounts=paste0(outputDir,"Full.counts.All.txt")
+if (!file.exists(fullCounts)){
+for (samp in mapper$FCS) {
+  # [1:1]
+  # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
+  
+  
+  results = data.frame()
+  
+  fileSave = paste(outputDir, samp, "results.RData", sep = "")
+  if (!file.exists(fileSave)||reCluster) {
+    wsFile = mapper[which(mapper$FCS == samp),]$WSP
+    # print(wsFile)
+    ws <- openWorkspace(wsFile)
+    
+    # print(samp)
+    #read the fcs file
+    frame = read.FCS(paste(inputDir, samp, sep = ""))
+    if(length(frame@exprs[,1])>10000){
+    id = samp
+    #load the workspace for this file, apply transforms, compensation, and gates
+    gs <-
+      parseWorkspace(
+        ws,
+        #WSP file
+        path = inputDir,
+        #FCS file
+        name = 1,
+        #sample group
+        subset = id[1],
+        #load single fcs file
+        isNcdf = FALSE,
+        #not memory mapped
+        compensation = compensation(keyword(frame)$`SPILL`)
+      )
+    
+    # for (node in nodesOfInterest) {
+    # print(samp)
+    # print(table(getIndiceMat(gs, node)))
+    combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
+                       ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
+    combo$MDEF = combo$ct | combo$ht
+    # print(table(combo$MDEF))
+    
+    # if (length(grep("TRUE", combo$MDEF)) < 500000) {
+    gh <- gs[[1]]
+    subdata = getData(gh)[combo$MDEF, ]
+    t = as.data.frame(subdata@exprs)[, channels]
+    min=-20
+    max=225
+    for(channel in clustChannels){
+      t[,channel]=squish(t[,channel],range = c(min,max))
+    }
+    clust = center_scale(t[, clustChannels])
+    colnames(clust)=c(clustChannels)
+    
+    clustSave = center_scale(t[, channels])
+    colnames(clustSave)=c(channels)
+
+    save(clustSave,file =paste0(fileSave,".clust") )
+    results = data.frame(RAND=t$`Comp-BV 421-A`)
+    results$MANAUL_POP = "NA"
+    for (pop in tcellSubs) {
+      sub = getIndiceMat(gs, pop)[combo$MDEF]
+      results[sub,]$MANAUL_POP = pop
+    }
+    results$CD45 = t$`Comp-BV 711-A`
+    results$CCR7 = t$`Comp-BV 421-A`
+    results$CD95 = t$`Comp-BV 605-A`
+    results$CD28 = t$`Comp-BV 510-A`
+    results$SET = "NA"
+    results$SET[combo$ht[combo$MDEF]] = "Helper Ts"
+    results$SET[combo$ct[combo$MDEF]] = "Cyto Ts"
+    km_rc = KMeans_rcpp(
+      clust,
+      clusters = 4,
+      num_init = 50,
+      max_iters = 5000,
+      
+      initializer = 'optimal_init',
+      # threads = 4,
+      verbose = F,
+      seed = 42
+    )
+    
+  results$CLUSTER_RAW = km_rc$clusters
+  results$KMEANS_CLUSTER = as.factor(results$CLUSTER_RAW)
+    # results$KMEANS_CLUSTER = gsub("4", "effector memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("1", "central memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("3", "naive", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("2", "effector", results$KMEANS_CLUSTER)
+    #
+    # results$KMEANS_CLUSTER = gsub("2","central memory", results$CLUSTER_RAW)
+    # results$KMEANS_CLUSTER = gsub("1","effector memory", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("4","naive", results$KMEANS_CLUSTER)
+    # results$KMEANS_CLUSTER = gsub("3","effector", results$KMEANS_CLUSTER)
+    #
+    save(results, file = fileSave)
+    }else{
+    results=NULL
+    save(results, file = fileSave)
+
+    }
+  } else{
+    # print(paste("loading", fileSave))
+    load(fileSave)
+  }
+  if(!is.null(results)){
+  load(file =paste0(fileSave,".clust"))
+  clust=clustSave
+  library(ggplot2)
+  # print(paste("Plotting", samp))
+  # print(paste("EC_ZF example = ", mapper[which(mapper$FCS == samp),]$EXAMPLES))
+  # print(paste("Sample number", sampleNum))
+
+  sampleNum=sampleNum+1
+
+  results$MANUAL_GATE = gsub("\\(.*", "", results$MANAUL_POP)
+  results$MANUAL_GATE = gsub(" helper Tcells.*", "", results$MANUAL_GATE)
+  results$MANUAL_GATE = gsub(" cytotoxic Tcells.*", "", results$MANUAL_GATE)
+  methodsClust = c("KMEANS_CLUSTER")
+  # PHENOGRAPH
+  #FLOW_SOM
+  print(sampleNum)
+    plot=F
+    k=6
+    tol= 1e-02
+    # o1=Optimal_Clusters_KMeans(clust, max_clusters = k, plot_clusters = plot)
+    # o1_t=Optimal_Clusters_KMeans(clust[,c("Comp-BV 605-A","Comp-BV 510-A")], max_clusters = k, plot_clusters = plot,tol=tol)
+
+   #  o2= Optimal_Clusters_KMeans(
+   #    clust,
+   #    max_clusters = k,
+   #    plot_clusters = plot,
+   #    criterion = 'BIC'
+   #    )
+   # o3 = Optimal_Clusters_KMeans(
+   #    clust,
+   #    max_clusters = k,
+   #    plot_clusters = plot,
+   #    criterion = 'distortion_fK'
+   #    )
+    # o3_t=NULL
+     o3_t = Optimal_Clusters_KMeans(
+      clust[,c("Comp-BV 605-A","Comp-BV 510-A")],
+      max_clusters = k,
+      plot_clusters = plot,
+      criterion = 'distortion_fK',tol=tol
+      )
+  #  bScale =o2[1:k]/max(o2[1:k])
+  # fkscale =o3[1:k]/max(o3[1:k])
+  # 
+  # optCBase = data.frame(K = c(1:k),
+  #                   VAR_EXP_4D = o1[1:k],
+  #                   DFK_4D = o3[1:k],
+  #                   VAR_EXP_95_28 = o1_t[1:k],
+  #                   DFK__95_28 = o3_t[1:k])
+  # 
+  # optC =  melt(optCBase,id.vars = "K")
+ 
+  results = assignStatus(results = results, clusterCol = "KMEANS_CLUSTER")
+  results$CURRENT_COLOR = results$POPULATION  
+ summary = data.frame(SAMPLE=character(),POPULATION=character(),METHOD=character(),COUNT=numeric(),OPT_K_95_28=numeric(),DIFF_K_3V2_95_28=numeric(),NUM_POPS =numeric())
+ 
+ parents =c("Helper Ts","Cyto Ts")
+ 
+ for(popula in unique(results$POPULATION)){
+   for( parent in parents){
+     # print(paste(length(results[which(results$SET == parent &
+     #                                    results$POPULATION == popula), ]$POPULATION), popula, parent))
+     optK=3
+     diffK32=0
+     if(!is.null(o3_t)){
+       optK = which.min(o3_t[1:k])
+       diffK32=o3_t[3]-o3_t[2]
+     }
+     numPop=length(unique(results$POPULATION))
+     print(paste0("numPops=",numPop))
+      tmp = data.frame(
+        SAMPLE = samp,
+        POPULATION = paste0(parent, "_", popula),
+        METHOD =
+        "KMEANS",
+        COUNT = length(results[which(results$SET == parent &
+        results$POPULATION == popula), ]$POPULATION),
+        OPT_K_95_28 = optK,
+        DIFF_K_3V2_95_28 = diffK32,
+        NUM_POPS=numPop
+        )
+      summary = rbind(summary, tmp)
+      
+       tmp2 = data.frame(
+        SAMPLE = samp,
+        POPULATION = paste0(parent, "_", popula),
+        METHOD =
+        "MANUAL",
+        COUNT = length(results[which(results$SET == parent &
+        results$MANUAL_GATE == popula), ]$MANUAL_GATE),
+        OPT_K_95_28 = -1,
+        DIFF_K_3V2_95_28 = diffK32,
+        NUM_POPS=numPop
+        )
+        # print(paste(length(results[which(results$SET == parent &
+        #                                 results$POPULATION == popula), ]$POPULATION), popula, parent))
+        #                                 optK = which.min(o3_t[1:k])
+      summary = rbind(summary, tmp2)
+   }
+ }
+ 
+ save(summary ,file =paste0(fileSave,".counts") )
+ write.table( summary,file =paste0(fileSave,".counts.txt") ,sep = "\t",quote = FALSE,row.names = FALSE)
+ 
+  
+  
+  for (method in methodsClust) {
+  
+    
+    myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+    myColor_scale_fill <- scale_fill_gradientn(colours = myColor)
+    
+   
+  }
+  }
+}
+
+}
+summFiles <-
+  list.files(outputDir,
+             pattern = "counts.txt$",
+             full = TRUE,
+             recursive = FALSE)
+
+summaries <- do.call(rbind,lapply(summFiles,read.delim))
+write.table( summaries,file = fullCounts,sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+summaries$KEY =paste0(summaries$SAMPLE,summaries$POPULATION)
+summariesK = summaries[which(summaries$METHOD=="KMEANS"),]
+summariesM = summaries[which(summaries$METHOD=="MANUAL"),]
+summariesMerge = merge(summariesK,summariesM,by.x = "KEY",by.y = "KEY")
+summariesMerge$SET="NA"
+
+ht=grepl("Helper Ts",summariesMerge$POPULATION.x)
+summariesMerge[ht,]$SET = "Helper Ts"
+
+ct=grepl("Cyto Ts",summariesMerge$POPULATION.x)
+summariesMerge[ct,]$SET = "Cyto Ts"
+
+summariesMerge$ParentCount=-1
+for(sample in unique(summariesMerge$SAMPLE.x)){
+  for(set in unique(summariesMerge$SET)){
+    tmp=summariesMerge[which(summariesMerge$SAMPLE.x==sample&summariesMerge$SET==set),]
+    pc = sum(tmp$COUNT.x)
+    summariesMerge[which(summariesMerge$SAMPLE.x==sample&summariesMerge$SET==set),]$ParentCount =pc
+  }
+}
+
+t2 <- theme(
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    # panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    # panel.grid.major.y = element_blank(),
+    # panel.grid.minor.y = element_blank(),
+    panel.border = element_blank(),
+    # panel.background = element_blank(),
+    # legend.position="none",
+    axis.text.x = element_text(angle = 90, hjust = 1)
+  )
+  theme_set(theme_grey(base_size = 10))
+
+
+summariesMerge$KMEANS_PF = summariesMerge$COUNT.x/summariesMerge$ParentCount
+summariesMerge$MANUAL_PF = summariesMerge$COUNT.y/summariesMerge$ParentCount
+summariesMerge$OPT_K_95_28.x=as.factor(summariesMerge$OPT_K_95_28.x)
+
+corSummary = data.frame()
+for(pop in unique(summariesMerge$POPULATION.x)){
+  plotData =summariesMerge[which(summariesMerge$POPULATION.x==pop&summariesMerge$NUM_POPS.x==4),]
+  cor1 =cor.test(as.numeric(plotData$COUNT.x),as.numeric(plotData$COUNT.y),method = "pearson",na.action="na.omit")
+  cor2=cor.test(as.numeric(plotData$COUNT.x),as.numeric(plotData$COUNT.y),method = "spearman",na.action="na.omit")
+  
+  tmpCor = data.frame(
+    POPULATION = pop,
+    PEARSON = cor1$estimate,
+    SPEARMAN = cor2$estimate,
+    N = length(plotData$KEY),
+    METRIC = "COUNT"
+    
+    )
+  corSummary=rbind(corSummary,tmpCor)
+  colorVar = plotData$OPT_K_95_28.x
+  pg1= ggplot(plotData,
+                 aes(x = COUNT.x,
+                     y = COUNT.y,
+                     colour = colorVar)) +
+      geom_point() +
+      xlab(paste0("KMEANS count")) +
+      ylab(paste0("Manual Count")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate))  +
+      theme(legend.position = "bottom")
+  
+    # theme(legend.position = "bottom") + facet_wrap(~ SET) +
+    #   geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+  # print(pg1)
+  
+   cor1 =cor.test(as.numeric(plotData$KMEANS_PF),as.numeric(plotData$MANUAL_PF),method = "pearson",na.action="na.omit")
+   cor2=cor.test(as.numeric(plotData$KMEANS_PF),as.numeric(plotData$MANUAL_PF),method = "spearman",na.action="na.omit")
+   tmpCor = data.frame(
+     POPULATION = pop,
+     PEARSON = cor1$estimate,
+     SPEARMAN = cor2$estimate,
+     N = length(plotData$KEY),
+     METRIC = "FREQ_PARENT"
+     
+     )
+  corSummary=rbind(corSummary,tmpCor)
+
+    
+    pg2= ggplot(plotData,
+                 aes(x = KMEANS_PF,
+                     y = MANUAL_PF,
+                     colour = colorVar)) +
+      geom_point() +
+      xlab(paste0("KMEANS freq parent")) +
+      ylab(paste0("Manual freq parent")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate))  +
+      theme(legend.position = "bottom")
+  
+        grid.arrange(pg1,pg2,ncol = 2)
+    # theme(legend.position = "bottom") + facet_wrap(~ SET) +
+    #   geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
+  # print(pg2)
+}
+  
+write.table( corSummary,file = paste0(fullCounts,".cor.txt"),sep = "\t",quote = FALSE,row.names = FALSE)
+  
+library(knitr)
+
+kable(corSummary,format="markdown")
+
+# }
+# }
+
+# dev.off()
+
+```

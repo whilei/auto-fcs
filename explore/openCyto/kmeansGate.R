@@ -50,6 +50,7 @@
       seed = 42
     )
     
+    print(channels)
     # s1 map channels to desc
     # s2 func assignStatus
     # s3 dump bool mat, and counts for quick correls

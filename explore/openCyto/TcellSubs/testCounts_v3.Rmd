@@ -14,7 +14,7 @@ NOTES;
 
 
 
-```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=4,fig.width=6,message=FALSE}
+```{r func, eval=TRUE ,echo=FALSE,warning=FALSE,fig.height=4,fig.width=10,message=FALSE}
 require(flowCore)
 require(cytofkit)
 library(ggcyto)
@@ -24,7 +24,7 @@ library(grid)
 library(scales)
 library(cluster)
 library(reshape)
-library(openCyto)
+# library(openCyto)
 
 alpha = 0.05
 reCluster=FALSE
@@ -48,7 +48,7 @@ print(paste0("Found ", length(wsps), " wsps"))
 #     print(length(s$name))
 # 
 #   for (samp in s$name) {
-#     if(runif(1)[1]<.15){
+#     if(runif(1)[1]<.25){
 #     command = paste0(
 #       "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
 #       gsub(" ", "\\\ ", samp, fixed = TRUE),
@@ -59,7 +59,7 @@ print(paste0("Found ", length(wsps), " wsps"))
 #     }
 #   }
 # }
-
+# 
 
 outputDir = "/Volumes/Beta/data/flow/testTcellSubFCS_ResultsCounts/"
 
@@ -78,13 +78,13 @@ zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
 
 use = mapper$FCS %in% targets
 
+mapper = mapper[use,]
 
 sub =  !(mapper$FCS %in%zfExamples$FCS)
 
 mapper$EXAMPLES = sub
 mapper = mapper[sub,]
 
-mapper = mapper[use,]
 
 # write.table(
 #   mapper,
@@ -198,8 +198,9 @@ mapper = mapper[order(-mapper$EXAMPLES,mapper$Annotation), ]
 #for every sample
 sampleNum=0
 # [c(6:7,10)]
-
-for (samp in mapper$FCS[1:35]) {
+fullCounts=paste0(outputDir,"Full.counts.All.txt")
+if (!file.exists(fullCounts)){
+for (samp in mapper$FCS) {
   # [1:1]
   # if(samp=="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"|samp=="2016-08-01_PANEL 1_DHS_Group one_F1631377_003.fcs"){
   
@@ -273,7 +274,7 @@ for (samp in mapper$FCS[1:35]) {
     km_rc = KMeans_rcpp(
       clust,
       clusters = 4,
-      num_init = 500,
+      num_init = 50,
       max_iters = 5000,
       
       initializer = 'optimal_init',
@@ -320,10 +321,10 @@ for (samp in mapper$FCS[1:35]) {
   methodsClust = c("KMEANS_CLUSTER")
   # PHENOGRAPH
   #FLOW_SOM
-  
+  print(sampleNum)
     plot=F
     k=6
-    tol= 1e-03
+    tol= 1e-02
     # o1=Optimal_Clusters_KMeans(clust, max_clusters = k, plot_clusters = plot)
     # o1_t=Optimal_Clusters_KMeans(clust[,c("Comp-BV 605-A","Comp-BV 510-A")], max_clusters = k, plot_clusters = plot,tol=tol)
 
@@ -339,6 +340,7 @@ for (samp in mapper$FCS[1:35]) {
    #    plot_clusters = plot,
    #    criterion = 'distortion_fK'
    #    )
+    # o3_t=NULL
      o3_t = Optimal_Clusters_KMeans(
       clust[,c("Comp-BV 605-A","Comp-BV 510-A")],
       max_clusters = k,
@@ -358,7 +360,7 @@ for (samp in mapper$FCS[1:35]) {
  
   results = assignStatus(results = results, clusterCol = "KMEANS_CLUSTER")
   results$CURRENT_COLOR = results$POPULATION  
- summary = data.frame(SAMPLE=character(),POPULATION=character(),METHOD=character(),COUNT=numeric(),OPT_K_95_28=numeric(),DIFF_K_3V2_95_28=numeric())
+ summary = data.frame(SAMPLE=character(),POPULATION=character(),METHOD=character(),COUNT=numeric(),OPT_K_95_28=numeric(),DIFF_K_3V2_95_28=numeric(),NUM_POPS =numeric())
  
  parents =c("Helper Ts","Cyto Ts")
  
@@ -366,8 +368,14 @@ for (samp in mapper$FCS[1:35]) {
    for( parent in parents){
      # print(paste(length(results[which(results$SET == parent &
      #                                    results$POPULATION == popula), ]$POPULATION), popula, parent))
-     optK = which.min(o3_t[1:k])
-     diffK32=o3_t[3]-o3_t[2]
+     optK=3
+     diffK32=0
+     if(!is.null(o3_t)){
+       optK = which.min(o3_t[1:k])
+       diffK32=o3_t[3]-o3_t[2]
+     }
+     numPop=length(unique(results$POPULATION))
+     print(paste0("numPops=",numPop))
       tmp = data.frame(
         SAMPLE = samp,
         POPULATION = paste0(parent, "_", popula),
@@ -376,7 +384,8 @@ for (samp in mapper$FCS[1:35]) {
         COUNT = length(results[which(results$SET == parent &
         results$POPULATION == popula), ]$POPULATION),
         OPT_K_95_28 = optK,
-        DIFF_K_3V2_95_28 = diffK32
+        DIFF_K_3V2_95_28 = diffK32,
+        NUM_POPS=numPop
         )
       summary = rbind(summary, tmp)
       
@@ -388,7 +397,8 @@ for (samp in mapper$FCS[1:35]) {
         COUNT = length(results[which(results$SET == parent &
         results$MANUAL_GATE == popula), ]$MANUAL_GATE),
         OPT_K_95_28 = -1,
-        DIFF_K_3V2_95_28 = diffK32
+        DIFF_K_3V2_95_28 = diffK32,
+        NUM_POPS=numPop
         )
         # print(paste(length(results[which(results$SET == parent &
         #                                 results$POPULATION == popula), ]$POPULATION), popula, parent))
@@ -413,14 +423,15 @@ for (samp in mapper$FCS[1:35]) {
   }
 }
 
-
+}
 summFiles <-
   list.files(outputDir,
              pattern = "counts.txt$",
              full = TRUE,
-             recursive = TRUE)
+             recursive = FALSE)
 
 summaries <- do.call(rbind,lapply(summFiles,read.delim))
+write.table( summaries,file = fullCounts,sep = "\t",quote = FALSE,row.names = FALSE)
 
 
 summaries$KEY =paste0(summaries$SAMPLE,summaries$POPULATION)
@@ -463,39 +474,65 @@ t2 <- theme(
 summariesMerge$KMEANS_PF = summariesMerge$COUNT.x/summariesMerge$ParentCount
 summariesMerge$MANUAL_PF = summariesMerge$COUNT.y/summariesMerge$ParentCount
 summariesMerge$OPT_K_95_28.x=as.factor(summariesMerge$OPT_K_95_28.x)
+
+corSummary = data.frame()
 for(pop in unique(summariesMerge$POPULATION.x)){
-  plotData =summariesMerge[which(summariesMerge$POPULATION.x==pop),]
+  plotData =summariesMerge[which(summariesMerge$POPULATION.x==pop&summariesMerge$NUM_POPS.x==4),]
   cor1 =cor.test(as.numeric(plotData$COUNT.x),as.numeric(plotData$COUNT.y),method = "pearson",na.action="na.omit")
   cor2=cor.test(as.numeric(plotData$COUNT.x),as.numeric(plotData$COUNT.y),method = "spearman",na.action="na.omit")
   
-  pg= ggplot(plotData,
+  tmpCor = data.frame(
+    POPULATION = pop,
+    PEARSON = cor1$estimate,
+    SPEARMAN = cor2$estimate,
+    N = length(plotData$KEY),
+    METRIC = "COUNT"
+    
+    )
+  corSummary=rbind(corSummary,tmpCor)
+  colorVar = plotData$OPT_K_95_28.x
+  pg1= ggplot(plotData,
                  aes(x = COUNT.x,
                      y = COUNT.y,
-                     colour = DIFF_K_3V2_95_28.x)) +
+                     colour = colorVar)) +
       geom_point() +
       xlab(paste0("KMEANS count")) +
-      ylab(paste0("Manual Count")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate)) 
+      ylab(paste0("Manual Count")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate))  +
+      theme(legend.position = "bottom")
   
     # theme(legend.position = "bottom") + facet_wrap(~ SET) +
     #   geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
-  print(pg)
+  # print(pg1)
   
    cor1 =cor.test(as.numeric(plotData$KMEANS_PF),as.numeric(plotData$MANUAL_PF),method = "pearson",na.action="na.omit")
    cor2=cor.test(as.numeric(plotData$KMEANS_PF),as.numeric(plotData$MANUAL_PF),method = "spearman",na.action="na.omit")
-  
-    pg= ggplot(plotData,
+   tmpCor = data.frame(
+     POPULATION = pop,
+     PEARSON = cor1$estimate,
+     SPEARMAN = cor2$estimate,
+     N = length(plotData$KEY),
+     METRIC = "FREQ_PARENT"
+     
+     )
+  corSummary=rbind(corSummary,tmpCor)
+
+    
+    pg2= ggplot(plotData,
                  aes(x = KMEANS_PF,
                      y = MANUAL_PF,
-                     colour = DIFF_K_3V2_95_28.x)) +
+                     colour = colorVar)) +
       geom_point() +
       xlab(paste0("KMEANS freq parent")) +
-      ylab(paste0("Manual freq parent")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate)) 
+      ylab(paste0("Manual freq parent")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate))  +
+      theme(legend.position = "bottom")
   
+        grid.arrange(pg1,pg2,ncol = 2)
     # theme(legend.position = "bottom") + facet_wrap(~ SET) +
     #   geom_density2d() + guides(colour = guide_legend(override.aes = list(alpha = 1)))
-  print(pg)
+  # print(pg2)
 }
   
+write.table( corSummary,file = paste0(fullCounts,".cor.txt"),sep = "\t",quote = FALSE,row.names = FALSE)
   
 
 # }

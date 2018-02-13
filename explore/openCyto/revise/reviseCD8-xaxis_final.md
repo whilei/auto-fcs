@@ -1,53 +1,15 @@
 
-file="2017-01-26_PANEL 1_DHS_Group two_F1638623_035.fcs"
-file="2016-11-29_PANEL 1_HB_group one_F1631006_025.fcs"
-file="2016-05-13_PANEL 1_ZF_panel one_F1631922_003.fcs"
-file="2016-12-27_PANEL 1_ZF_Group two_F1637410_033.fcs"
-file="2016-05-23_PANEL 1_DHS_panel one_F1636715_011.fcs"
-file="2016-11-28_PANEL 1_DHS_Group two_F1636573_039.fcs"
-file="2016-11-29_PANEL 1_HB_group one_F1652719_016.fcs"
 
-oldgate
-file="2017-01-10_PANEL 1_HB_Group one_F1636024_006.fcs"
-file="2017-01-25_PANEL 1_ZF_Group one_F1637114_013.fcs"
-file="2017-01-10_PANEL 1_HB_Group three_ZF_F1638575_039.fcs"
-file="2016-12-08_PANEL 1_ZF_Group one_F1652445_005.fcs"
-file="2016-12-09_PANEL 1_ZF_Group two_F1636107_027.fcs"
-halfway
-F1638687_004
-F1638593_032
-file="2016-11-07_PANEL 1_ZF_Group one_F1636999_009.fcs"
+panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
+panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
 
-news
+setwd(dirname(panle1mapFile))
+source(file = "CombineWSP.R")
+source(file = "computeFreqs.R")
+source(file = "machineType.R")
+source(file = "generateFortessa.R")
+source(file="kmeansGate.R")
 
-file="2016-06-07_PANEL 1_DHS_Group one_F1631352_005.fcs"
-file="2016-06-09_PANEL 1_ZF_Group one_F1632288_005.fcs"
-file="2017-06-02_PANEL 1_LSR_HB_Group one-ZF_F1635125_029.fcs"
-file="2017-08-16_PANEL 1_LSR_EC_Group one_EC_F1640263_006.fcs"
-
-file="2016-05-16_PANEL 1_DHS_panel one_F1632231_009.fcs"
-file="2017-06-02_PANEL 1_LSR_HB_Group one-ZF_F1635259_036.fcs"
-
-file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
-
-file="2017-02-27_PANEL 1_DHS_group one_F1653150_021.fcs"
-
-file="2016-11-18_PANEL 1_HB_HRS-P1-GROUP1_F1635598_022.fcs"
-
-file="2017-04-07_PANEL 1_FORTESSA_RR_group two_F1640505_027.fcs"
-file="2017-01-30_PANEL 1_DHS_Group one_F1652689_006.fcs"
-file="2017-07-24_PANEL 1_LSR_DHS_Group one_ZF_F1637634_027.fcs"
-
-
-file="2016-06-27_PANEL 1_DHS_Group one_F1631267_006.fcs"
-file="2017-09-07_PANEL 1_LSR_ZF_Group one_EC_F1642139_026.fcs"
-
-file="2016-06-28_PANEL 1_DHS_Group one_F1632109_002.fcs"
-
-file="2016-10-17_PANEL 1_DHS_Group two_F1636707_034.fcs"
-file="2016-08-04_PANEL 1_ZF_Group two_F1631370_027.fcs"
-
-file="2016-07-11_PANEL 1_DHS_Group one_F1632119_012.fcs"
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
