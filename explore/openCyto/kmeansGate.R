@@ -1,3 +1,8 @@
+require(flowCore)
+require(ClusterR)
+require(scales)
+
+
 #
 # fr=frame
 # min = -20
@@ -21,6 +26,8 @@ fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
 nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+markersToCluster = c("CCR7", "CD45RA", "CD28")
+
 gateKmeansWsp = function(wspFile,
                          fcsFile,
                          inputDir,
@@ -30,7 +37,10 @@ gateKmeansWsp = function(wspFile,
                          k = 4,
                          num_init = 500,
                          max_iters = 5000,
-                         nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")) {
+                         nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+"),
+                         markersToCluster = c("CCR7", "CD45RA", "CD28")) {
+  outputRoot = paste0(outputDir, fcsFile)
+  
   ws <- openWorkspace(wspFile)
   frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
   gs <-
@@ -55,9 +65,35 @@ gateKmeansWsp = function(wspFile,
   
   gh <- gs[[1]]
   subdata = getData(gh)[combo$MDEF, ]
-  t = as.data.frame(subdata@exprs)[, c("CCR7")]
   
+  channels = character()
+  for (marker in markersToCluster) {
+    channels = c(channels, c(paste0(
+      "Comp-", getChannelMarker(frame, marker)$name
+    )))
+  }
   t = as.data.frame(subdata@exprs)[, channels]
+  min = -20
+  max = 225
+  for (channel in channels) {
+    t[, channel] = squish(t[, channel], range = c(min, max))
+  }
+  clust = center_scale(t[, channels])
+  colnames(clust) = c(channels)
+  save(clust, file = paste0(outputRoot, ".clusterData"))
+  km_rc = KMeans_rcpp(
+    clust,
+    clusters = k,
+    num_init = num_init,
+    max_iters = max_iters,
+    
+    initializer = 'optimal_init',
+    # threads = 4,
+    verbose = F,
+    seed = 42
+  )
+  
+  
   
   
   
@@ -66,7 +102,7 @@ gateKmeansWsp = function(wspFile,
 
 
 
-# 
+#
 # .kmeansGate <-
 #   function(fr,
 #            pp_res,
@@ -81,12 +117,12 @@ gateKmeansWsp = function(wspFile,
 #     args = list(...)
 #     data <-
 #       as.data.frame(exprs(fr[, c(channels)])) # extract just the parameter values being inspected
-#     
+#
 #     # squish outliers to range max/min
 #     for (channel in channels) {
 #       data[, channel] = squish(data[, channel], range = c(min, max))
 #     }
-#     
+#
 #     clust = center_scale(data[, clustChannels])
 #     colnames(clust) = c(clustChannels)
 #     km_rc = KMeans_rcpp(
@@ -94,24 +130,24 @@ gateKmeansWsp = function(wspFile,
 #       clusters = k,
 #       num_init = num_init,
 #       max_iters = max_iters,
-#       
+#
 #       initializer = 'optimal_init',
 #       # threads = 4,
 #       verbose = F,
 #       seed = 42
 #     )
-#     
+#
 #     print(channels)
 #     # s1 map channels to desc
 #     # s2 func assignStatus
 #     # s3 dump bool mat, and counts for quick correls
 #     # s4 return dummy gate
-#     
+#
 #   }
-# 
-# 
+#
+#
 # # Use median cluster values on dimensions of interest to determine population status
-# 
+#
 # assignStatus = function(results, clusterCol) {
 #   summary = data.frame()
 #   for (cluster in unique(results[, c(clusterCol)])) {
@@ -125,7 +161,7 @@ gateKmeansWsp = function(wspFile,
 #     summary = rbind(summary, tmp)
 #     # print(unique(sub[,c(clusterCol)]))
 #   }
-#   
+#
 #   summary$STATUS = ""
 #   summary = summary[order(summary$MEDIAN_CCR7), ]
 #   summary[c(1:2), ]$STATUS = "CCR7-"
@@ -133,12 +169,12 @@ gateKmeansWsp = function(wspFile,
 #   summary = summary[order(summary$MEDIAN_CD45), ]
 #   summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
 #   summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
-#   
+#
 #   summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
 #   summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
 #   summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
 #   summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
-#   
+#
 #   # TODO error check for <4 pops
 #   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
 #   return(results)
