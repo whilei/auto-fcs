@@ -8,6 +8,15 @@ library(CytoML)
 library(flowAI)
 
 
+
+setwd(dirname(panle1mapFile))
+source(file = "CombineWSP.R")
+source(file = "computeFreqs.R")
+source(file = "machineType.R")
+source(file = "generateFortessa.R")
+source(file="kmeansGate.R")
+
+
 .flowDensity <- function(fr, pp_res, channels = NA, ...) {
   if (length(channels) == 2)
     flowDensity:::.flowDensity.2d(fr, channels = channels, ...)
@@ -103,6 +112,10 @@ library(flowAI)
 
 
 
+registerPlugins(fun = .kmeansGate,
+                methodName = "kmeansGate",
+                dep = c('ClusterR','scales'),
+                "gating")
 
 registerPlugins(fun = .intersectGate,
                 methodName = "intersectGate",
@@ -122,6 +135,8 @@ registerPlugins(fun = .flowDensity,
                 dep = "flowDensity",
                 "gating")
 
+
+
 plotData = FALSE
 
 panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
@@ -130,11 +145,6 @@ panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
 panel1NodesToHide = c("CD8/HLA-DR+", "CD4/HLA-DR+", "FSC-W+")
 panel2NodesToHide = c()
 
-setwd(dirname(panle1mapFile))
-source(file = "CombineWSP.R")
-source(file = "computeFreqs.R")
-source(file = "machineType.R")
-source(file = "generateFortessa.R")
 spliceFile = "TBSpliceFortessa.txt"
 
 specialSinglet = "specialSingletGate.txt"
