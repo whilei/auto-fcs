@@ -8,6 +8,7 @@ NOTES:
   - In the results below, input data is filtered to Helper and Cyto T based on the manual .wsp
   - "Final" version will use OC defined Helper and Cyto T (although current results should be similar since OC~Manual correlations are good for Helper and Cyto T)
 
+Summary table of correlations at bottom
 
 
 
