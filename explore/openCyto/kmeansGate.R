@@ -27,6 +27,11 @@ inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
 outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
 nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
 markersToCluster = c("CCR7", "CD45RA", "CD28")
+k = 4
+min = -20
+max = 225
+num_init = 50
+max_iters = 5000
 
 gateKmeansWsp = function(wspFile,
                          fcsFile,
@@ -79,8 +84,7 @@ gateKmeansWsp = function(wspFile,
     t[, channel] = squish(t[, channel], range = c(min, max))
   }
   clust = center_scale(t[, channels])
-  colnames(clust) = c(channels)
-  save(clust, file = paste0(outputRoot, ".clusterData"))
+  colnames(clust) = markersToCluster
   km_rc = KMeans_rcpp(
     clust,
     clusters = k,
@@ -93,10 +97,57 @@ gateKmeansWsp = function(wspFile,
     seed = 42
   )
   
+  clust=as.data.frame(clust)
+  clust$KMEANS_CLUSTER=km_rc$clusters
+  save(clust, file = paste0(outputRoot, ".clusterData"))
+  
+  clustAssigned=assignStatus(results = clust,clusterCol = "KMEANS_CLUSTER")
   
   
   
   
+  
+}
+
+
+
+# Use median cluster values on dimensions of interest to determine population status
+
+assignStatus = function(results, clusterCol) {
+  summary = data.frame()
+  for (cluster in unique(results[, c(clusterCol)])) {
+    # print(cluster)
+    sub = results[which(results[, c(clusterCol)] == cluster), ]
+    tmp = data.frame(
+      CLUSTER = cluster,
+      MEDIAN_CCR7 = median(sub$CCR7),
+      MEDIAN_CD45 = median(sub$CD45),
+      MEDIAN_CD28 = median(sub$CD28)
+      
+    )
+    summary = rbind(summary, tmp)
+    # print(unique(sub[,c(clusterCol)]))
+  }
+
+  summary$STATUS = ""
+  summary = summary[order(summary$MEDIAN_CCR7), ]
+  summary[c(1:2), ]$STATUS = "CCR7-"
+  summary[c(3:4), ]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45), ]
+  summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
+  summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
+  summary = summary[order(summary$MEDIAN_CD28), ]
+  summary[c(1), ]$STATUS = paste0(summary[c(1), ]$STATUS, "CD28-")
+  
+  
+  summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
+  summary$POPULATION = gsub("CCR7-CD45+CD28-", "effector", summary$POPULATION, fixed = TRUE)
+
+  # TODO error check for <4 pops
+  results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
+  return(results)
 }
 
 
@@ -146,36 +197,3 @@ gateKmeansWsp = function(wspFile,
 #   }
 #
 #
-# # Use median cluster values on dimensions of interest to determine population status
-#
-# assignStatus = function(results, clusterCol) {
-#   summary = data.frame()
-#   for (cluster in unique(results[, c(clusterCol)])) {
-#     # print(cluster)
-#     sub = results[which(results[, c(clusterCol)] == cluster), ]
-#     tmp = data.frame(
-#       CLUSTER = cluster,
-#       MEDIAN_CCR7 = median(sub$CCR7),
-#       MEDIAN_CD45 = median(sub$CD45)
-#     )
-#     summary = rbind(summary, tmp)
-#     # print(unique(sub[,c(clusterCol)]))
-#   }
-#
-#   summary$STATUS = ""
-#   summary = summary[order(summary$MEDIAN_CCR7), ]
-#   summary[c(1:2), ]$STATUS = "CCR7-"
-#   summary[c(3:4), ]$STATUS = "CCR7+"
-#   summary = summary[order(summary$MEDIAN_CD45), ]
-#   summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
-#   summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
-#
-#   summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
-#   summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
-#   summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
-#   summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
-#
-#   # TODO error check for <4 pops
-#   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
-#   return(results)
-# }
