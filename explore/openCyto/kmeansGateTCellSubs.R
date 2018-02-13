@@ -2,7 +2,6 @@ require(flowCore)
 require(ClusterR)
 require(scales)
 
-popsOfInterest = c("effector memory","central memory", "naive","effector")
 
 wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
 fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
@@ -16,6 +15,21 @@ max = 225
 num_init = 50
 max_iters = 5000
 
+gateKmeansWsp(wspFile=wspFile,
+              fcsFile=fcsFile,
+              inputDir=inputDir,
+              outputDir=outputDir,
+              min = min,
+              max = max,
+              k = k,
+              num_init = num_init,
+              max_iters = max_iters,
+              nodesOfInterest =nodesOfInterest,
+              markersToCluster = markersToCluster)
+
+popsOfInterest = c("effector memory", "central memory", "naive", "effector")
+
+
 gateKmeansWsp = function(wspFile,
                          fcsFile,
                          inputDir,
@@ -27,6 +41,7 @@ gateKmeansWsp = function(wspFile,
                          max_iters = 5000,
                          nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+"),
                          markersToCluster = c("CCR7", "CD45RA", "CD28")) {
+  dir.create(outputDir)
   outputRoot = paste0(outputDir, fcsFile)
   
   ws <- openWorkspace(wspFile)
@@ -80,29 +95,78 @@ gateKmeansWsp = function(wspFile,
     seed = 42
   )
   
-  clust=as.data.frame(clust)
-  clust$KMEANS_CLUSTER=km_rc$clusters
+  clust = as.data.frame(clust)
+  clust$KMEANS_CLUSTER = km_rc$clusters
   save(clust, file = paste0(outputRoot, ".clusterData"))
   
-  clustAssigned=assignStatus(results = clust,clusterCol = "KMEANS_CLUSTER")
+  clustAssigned = assignStatus(results = clust, clusterCol = "KMEANS_CLUSTER")
   
   
-  boolMat = data.frame(CYTO_T= combo$ct,HELPER_T= combo$ht )
+  boolMat = data.frame(CYTO_T = combo$ct, HELPER_T = combo$ht)
   
-  map=as.data.frame(table(clustAssigned$KMEANS_CLUSTER,clustAssigned$POPULATION))
-  for(popToDump in popsOfInterest ){
-    tmp=data.frame(combo$MDEF)
-    colnames(tmp)=popToDump
-    cluster = map[which(map$Var2==popToDump&map$Freq>0),]$Var1
-    tmp[,popToDump] =FALSE
-    def=clust$KMEANS_CLUSTER==cluster
-    tmp[combo$MDEF,popToDump][def]=TRUE
-    boolMat =cbind(boolMat, tmp)
+  map = as.data.frame(table(clustAssigned$KMEANS_CLUSTER, clustAssigned$POPULATION))
+  o3_t = Optimal_Clusters_KMeans(
+    clust[, markersToCluster],
+    max_clusters = 6,
+    plot_clusters = FALSE,
+    criterion = 'distortion_fK',
+    tol = 1e-03
+  )
+  
+  summaryCounts = data.frame()
+  
+  for (popToDump in popsOfInterest) {
+    tmp = data.frame(combo$MDEF)
+    colnames(tmp) = popToDump
+    cluster = map[which(map$Var2 == popToDump &
+                          map$Freq > 0),]$Var1
+    tmp[, popToDump] = FALSE
+    def = clust$KMEANS_CLUSTER == cluster
+    tmp[combo$MDEF, popToDump][def] = TRUE
+    boolMat = cbind(boolMat, tmp)
+    
+    popSub = boolMat[which(boolMat[, popToDump] == TRUE), ]
+    countTmpHT = data.frame(
+      POPULATION = paste0("HELPER_", popToDump),
+      COUNT = length(popSub[which(popSub$HELPER_T ==
+                                    TRUE), ][, popToDump]),
+      PARENT_COUNT = length(boolMat[which(boolMat$HELPER_T ==
+                                            TRUE), ][, popToDump]),
+      OPTIMAL_K = which.min(o3_t[1:k])
+    )
+    summaryCounts = rbind(summaryCounts, countTmpHT)
+    countTmpCT = data.frame(
+      POPULATION = paste0("CYTO_", popToDump),
+      COUNT = length(popSub[which(popSub$CYTO_T ==
+                                    TRUE), ][, popToDump]),
+      PARENT_COUNT = length(boolMat[which(boolMat$CYTO_T ==
+                                            TRUE), ][, popToDump]),
+      OPTIMAL_K = which.min(o3_t[1:k])
+    )
+    summaryCounts = rbind(summaryCounts, countTmpCT)
+    
   }
-
-    gz1 <- gzfile(paste0(outputRoot,".boolMatrix.txt.gz"), "w")
-  write.table( boolMat,file =gz1 ,sep = "\t",quote = FALSE,row.names = FALSE)
+  
+  write.table(
+    summaryCounts,
+    file = paste0(outputRoot, ".counts.txt") ,
+    sep = "\t",
+    quote = FALSE,
+    row.names = FALSE
+  )
+  
+  
+  
+  gz1 <- gzfile(paste0(outputRoot, ".boolMatrix.txt.gz"), "w")
+  write.table(
+    boolMat,
+    file = gz1 ,
+    sep = "\t",
+    quote = FALSE,
+    row.names = FALSE
+  )
   close(gz1)
+  
   
   
 }
@@ -114,19 +178,16 @@ gateKmeansWsp = function(wspFile,
 assignStatus = function(results, clusterCol) {
   summary = data.frame()
   for (cluster in unique(results[, c(clusterCol)])) {
-    # print(cluster)
     sub = results[which(results[, c(clusterCol)] == cluster), ]
     tmp = data.frame(
       CLUSTER = cluster,
       MEDIAN_CCR7 = median(sub$CCR7),
       MEDIAN_CD45 = median(sub$CD45),
       MEDIAN_CD28 = median(sub$CD28)
-      
     )
     summary = rbind(summary, tmp)
-    # print(unique(sub[,c(clusterCol)]))
   }
-
+  
   summary$STATUS = ""
   summary = summary[order(summary$MEDIAN_CCR7), ]
   summary[c(1:2), ]$STATUS = "CCR7-"
@@ -142,56 +203,6 @@ assignStatus = function(results, clusterCol) {
   summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
   summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
   summary$POPULATION = gsub("CCR7-CD45+CD28-", "effector", summary$POPULATION, fixed = TRUE)
-
-  # TODO error check for <4 pops
   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
   return(results)
 }
-
-
-
-
-#
-# .kmeansGate <-
-#   function(fr,
-#            pp_res,
-#            channels = NA,
-#            filterId = "",
-#            min = -20,
-#            max = 225,
-#            k = 4,
-#            num_init = 500,
-#            max_iters = 5000,
-#            ...) {
-#     args = list(...)
-#     data <-
-#       as.data.frame(exprs(fr[, c(channels)])) # extract just the parameter values being inspected
-#
-#     # squish outliers to range max/min
-#     for (channel in channels) {
-#       data[, channel] = squish(data[, channel], range = c(min, max))
-#     }
-#
-#     clust = center_scale(data[, clustChannels])
-#     colnames(clust) = c(clustChannels)
-#     km_rc = KMeans_rcpp(
-#       clust,
-#       clusters = k,
-#       num_init = num_init,
-#       max_iters = max_iters,
-#
-#       initializer = 'optimal_init',
-#       # threads = 4,
-#       verbose = F,
-#       seed = 42
-#     )
-#
-#     print(channels)
-#     # s1 map channels to desc
-#     # s2 func assignStatus
-#     # s3 dump bool mat, and counts for quick correls
-#     # s4 return dummy gate
-#
-#   }
-#
-#
