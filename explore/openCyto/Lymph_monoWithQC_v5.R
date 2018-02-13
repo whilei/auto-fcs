@@ -157,8 +157,8 @@ branchFilesCD14 = gsub(".*/", "", branchFilesCD14)
 
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/testManual/"
-outputDir = "/Volumes/Beta/data/flow/testManualGates/"
+inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
 
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph, outputDir = outputDir)
@@ -628,6 +628,12 @@ compFrame <-
     GatingSet2flowJo(gs1, outFileRename)
     if (panel == "panel1") {
       sed1(outFileRename)
+      gateKmeansWsp(
+        wspFile = outFileRename,
+        fcsFile = file[1],
+        inputDir = inputFCSDir,
+        outputDir = paste0(outputDir, "kmeans/")
+      )
     } else if (panel == "panel2") {
       sed2(outFileRename)
     }

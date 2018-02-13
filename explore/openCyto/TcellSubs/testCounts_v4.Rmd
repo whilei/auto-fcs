@@ -494,10 +494,10 @@ for(pop in unique(summariesMerge$POPULATION.x)){
     )
   corSummary=rbind(corSummary,tmpCor)
   colorVar = plotData$OPT_K_95_28.x
+  # ,colour = colorVar
   pg1= ggplot(plotData,
                  aes(x = COUNT.x,
-                     y = COUNT.y,
-                     colour = colorVar)) +
+                     y = COUNT.y)) +
       geom_point() +
       xlab(paste0("KMEANS count")) +
       ylab(paste0("Manual Count")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate,"\nN=",length(plotData$KEY)))  +
@@ -522,8 +522,7 @@ for(pop in unique(summariesMerge$POPULATION.x)){
     
     pg2= ggplot(plotData,
                  aes(x = KMEANS_PF,
-                     y = MANUAL_PF,
-                     colour = colorVar)) +
+                     y = MANUAL_PF)) +
       geom_point() +
       xlab(paste0("KMEANS freq parent")) +
       ylab(paste0("Manual freq parent")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate,"\nN=",length(plotData$KEY)))  +

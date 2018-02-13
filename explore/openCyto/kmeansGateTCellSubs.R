@@ -2,30 +2,30 @@ require(flowCore)
 require(ClusterR)
 require(scales)
 
-
-wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
-fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
-inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
-nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
-markersToCluster = c("CCR7", "CD45RA", "CD28")
-k = 4
-min = -20
-max = 225
-num_init = 50
-max_iters = 5000
-
-gateKmeansWsp(wspFile=wspFile,
-              fcsFile=fcsFile,
-              inputDir=inputDir,
-              outputDir=outputDir,
-              min = min,
-              max = max,
-              k = k,
-              num_init = num_init,
-              max_iters = max_iters,
-              nodesOfInterest =nodesOfInterest,
-              markersToCluster = markersToCluster)
+# 
+# wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
+# fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
+# inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+# outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
+# nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+# markersToCluster = c("CCR7", "CD45RA", "CD28")
+# k = 4
+# min = -20
+# max = 225
+# num_init = 50
+# max_iters = 5000
+# 
+# gateKmeansWsp(wspFile=wspFile,
+#               fcsFile=fcsFile,
+#               inputDir=inputDir,
+#               outputDir=outputDir,
+#               min = min,
+#               max = max,
+#               k = k,
+#               num_init = num_init,
+#               max_iters = max_iters,
+#               nodesOfInterest =nodesOfInterest,
+#               markersToCluster = markersToCluster)
 
 popsOfInterest = c("effector memory", "central memory", "naive", "effector")
 
@@ -41,11 +41,13 @@ gateKmeansWsp = function(wspFile,
                          max_iters = 5000,
                          nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+"),
                          markersToCluster = c("CCR7", "CD45RA", "CD28")) {
+  
   dir.create(outputDir)
   outputRoot = paste0(outputDir, fcsFile)
   
   ws <- openWorkspace(wspFile)
   frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
+  print(frame)
   gs <-
     parseWorkspace(
       ws,
@@ -154,7 +156,6 @@ gateKmeansWsp = function(wspFile,
     quote = FALSE,
     row.names = FALSE
   )
-  
   
   
   gz1 <- gzfile(paste0(outputRoot, ".boolMatrix.txt.gz"), "w")
