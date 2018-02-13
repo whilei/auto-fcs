@@ -6,6 +6,8 @@ library(ggcyto)
 library(gridExtra)
 library(CytoML)
 library(flowAI)
+library(ClusterR)
+library(scales)
 
 
 
@@ -630,7 +632,7 @@ compFrame <-
       sed1(outFileRename)
       gateKmeansWsp(
         wspFile = outFileRename,
-        fcsFile = file[1],
+        fcsFile = file,
         inputDir = inputFCSDir,
         outputDir = paste0(outputDir, "kmeans/")
       )
@@ -739,6 +741,7 @@ if (!file.exists(metricsFile)) {
             manCounts$MACHINE = machine
             manCounts$TEMPLATE_FILE_USED="NA"
             metrics = rbind(metrics, manCounts)
+            closeWorkspace(ws)
           }
 
         

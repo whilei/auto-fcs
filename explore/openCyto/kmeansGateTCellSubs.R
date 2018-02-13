@@ -1,6 +1,5 @@
-require(flowCore)
-require(ClusterR)
-require(scales)
+# require(flowCore)
+
 
 # 
 # wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
@@ -45,18 +44,21 @@ gateKmeansWsp = function(wspFile,
   dir.create(outputDir)
   outputRoot = paste0(outputDir, fcsFile)
   
-  ws <- openWorkspace(wspFile)
+  ws2 <- openWorkspace(wspFile)
   frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
-  print(frame)
-  gs <-
+  s= getSamples(ws2)
+  print(s)
+  
+  id=s[which(s$name==fcsFile),]$name
+  gsK <-
     parseWorkspace(
-      ws,
+      ws2,
       #WSP file
       path = inputDir,
       #FCS file
       name = 1,
       #sample group
-      subset = fcsFile,
+      subset =id[1],
       #load single fcs file
       isNcdf = FALSE,
       #not memory mapped
@@ -64,11 +66,11 @@ gateKmeansWsp = function(wspFile,
     )
   
   
-  combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
-                     ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
+  combo = data.frame(ht = getIndiceMat(gsK, nodesOfInterest[1])[, 1],
+                     ct = getIndiceMat(gsK, nodesOfInterest[2])[, 1])
   combo$MDEF = combo$ct | combo$ht
   
-  gh <- gs[[1]]
+  gh <- gsK[[1]]
   subdata = getData(gh)[combo$MDEF, ]
   
   channels = character()
@@ -167,7 +169,7 @@ gateKmeansWsp = function(wspFile,
     row.names = FALSE
   )
   close(gz1)
-  
+  closeWorkspace(ws)
   
   
 }
