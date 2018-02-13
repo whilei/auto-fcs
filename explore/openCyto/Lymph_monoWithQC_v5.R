@@ -21,7 +21,7 @@ source(file = "CombineWSP.R")
 source(file = "computeFreqs.R")
 source(file = "machineType.R")
 source(file = "generateFortessa.R")
-source(file="kmeansGate.R")
+source(file="kmeansGateTCellSubs.R")
 
 
 .flowDensity <- function(fr, pp_res, channels = NA, ...) {

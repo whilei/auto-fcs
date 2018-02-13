@@ -2,25 +2,8 @@ require(flowCore)
 require(ClusterR)
 require(scales)
 
+popsOfInterest = c("effector memory","central memory", "naive","effector")
 
-#
-# fr=frame
-# min = -20
-# max = 225
-# k = 4
-# num_init = 500
-# max_iters = 5000
-# channels=c("CD45RA","CCR7","CD28")
-
-# channels = c(#CCR7
-#   "Comp-BV 421-A",
-#   #CD28
-#   "Comp-BV 510-A",
-#   #CD45RA
-#   "Comp-BV 711-A",
-#   #CD95
-#   "Comp-BV 605-A")
-# channels = channels[1:3]
 wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
 fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
 inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
@@ -106,19 +89,20 @@ gateKmeansWsp = function(wspFile,
   
   boolMat = data.frame(CYTO_T= combo$ct,HELPER_T= combo$ht )
   
-  map=as.data.frame(table(resultsTmp$KMEANS_CLUSTER,resultsTmp$POPULATION))
-  popsToDump =unique(resultsTmp$POPULATION)
-  for(popToDump in popsToDump ){
+  map=as.data.frame(table(clustAssigned$KMEANS_CLUSTER,clustAssigned$POPULATION))
+  for(popToDump in popsOfInterest ){
     tmp=data.frame(combo$MDEF)
     colnames(tmp)=popToDump
     cluster = map[which(map$Var2==popToDump&map$Freq>0),]$Var1
     tmp[,popToDump] =FALSE
-    def=rawCluster$KMEANS_CLUSTER==cluster
+    def=clust$KMEANS_CLUSTER==cluster
     tmp[combo$MDEF,popToDump][def]=TRUE
     boolMat =cbind(boolMat, tmp)
-    # popDef = 
   }
-  write.table( boolMat,file =paste0(fileSave,".boolMatrix.txt") ,sep = "\t",quote = FALSE,row.names = FALSE)
+
+    gz1 <- gzfile(paste0(outputRoot,".boolMatrix.txt.gz"), "w")
+  write.table( boolMat,file =gz1 ,sep = "\t",quote = FALSE,row.names = FALSE)
+  close(gz1)
   
   
 }
