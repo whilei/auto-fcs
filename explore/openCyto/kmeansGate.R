@@ -49,6 +49,11 @@
       verbose = F,
       seed = 42
     )
+    
+    # s1 map channels to desc
+    # s2 func assignStatus
+    # s3 dump bool mat, and counts for quick correls
+    # s4 return dummy gate
   
   }
 
@@ -81,6 +86,8 @@ assignStatus = function(results, clusterCol) {
   summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
   summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
   summary$POPULATION = gsub("CCR7-CD45+", "effector", summary$POPULATION, fixed = TRUE)
+  
+  # TODO error check for <4 pops
   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
   return(results)
 }
