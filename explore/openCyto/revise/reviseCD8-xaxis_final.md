@@ -10,6 +10,13 @@ source(file = "machineType.R")
 source(file = "generateFortessa.R")
 source(file="kmeansGate.R")
 
+registerPlugins(fun = .kmeansGate(),
+                methodName = "kmeansGate",
+                dep = c('ClusterR','scales'),
+                "gating")
+
+
+file="2016-05-09_PANEL 1_DHS_panel one_F1631953_006.fcs"
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
 

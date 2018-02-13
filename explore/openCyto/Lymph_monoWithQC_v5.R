@@ -116,14 +116,6 @@ source(file="kmeansGate.R")
   }
 
 
-
-
-
-registerPlugins(fun = .kmeansGate,
-                methodName = "kmeansGate",
-                dep = c('ClusterR','scales'),
-                "gating")
-
 registerPlugins(fun = .intersectGate,
                 methodName = "intersectGate",
                 dep = 'mvtnorm',
@@ -747,6 +739,7 @@ if (!file.exists(metricsFile)) {
         
         try(if (length(exprs(frame)[, "FSC-H"]) > 0) {
           description(frame)$FILENAME = file
+          
           #
           
           metricBase = data.frame()
