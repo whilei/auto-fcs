@@ -44,6 +44,13 @@ summFiles <-
              recursive = FALSE)
 
 summaries <- do.call(rbind,lapply(summFiles,read.delim))
+
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+map =map[which(map$PANEL=="panel1"),]
+summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+
 write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FALSE)
 
 ```
@@ -52,9 +59,11 @@ write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FA
 summaries=read.delim(summaryFile,
                          stringsAsFactors = FALSE,
                          header = TRUE)
+summaries =summaries[which(!is.na(summaries$LAB_ID)),]
 summaries$POPULATION=as.factor(summaries$POPULATION)
 summaries$PARENT_FREQ = (summaries$COUNT*100)/summaries$PARENT_COUNT
 summaries=summaries[which(!is.na(summaries$PARENT_FREQ)),]
+summaries$KEY = paste0(summaries$LAB_ID,"_",summaries$POPULATION)
 
 ggplot(summaries,aes(x = reorder(summaries$POPULATION,PARENT_FREQ, FUN = median),y=PARENT_FREQ,colour=POPULATION)) +
       xlab(paste0("Population")) +
@@ -88,11 +97,33 @@ colnames(interestPercents) = c(
   )
 
 interestPercentsM =  melt(interestPercents,id.vars = "Study.ID")
-       
+interestPercentsM$KEY=paste0(interestPercentsM$Study.ID,"_",interestPercentsM$variable)       
 ggplot(interestPercentsM,aes(x = reorder(interestPercentsM$variable,value, FUN = median),y=value,colour=variable)) +
       xlab(paste0("Population")) +
-      ylab(paste0("Percent Parent Parent")) + t2 +
+      ylab(paste0("Percent Parent")) + t2 +
       geom_boxplot() +ggtitle("Manual gating")+ylim(0,100) 
+
+
+combo = merge(summaries,interestPercentsM,by.x = "KEY",by.y = "KEY")
+
+pops=unique(combo$POPULATION)
+
+for(pop in pops){
+  plotData=combo[which(combo$POPULATION==pop),]
+  cor1 =cor.test(as.numeric(plotData$PARENT_FREQ),as.numeric(plotData$value),method = "pearson",na.action="na.omit")
+  cor2=cor.test(as.numeric(plotData$PARENT_FREQ),as.numeric(plotData$value),method = "spearman",na.action="na.omit")
+  
+  g1 =ggplot(plotData,
+                 aes(x = PARENT_FREQ,
+                     y = value)) +
+      geom_point() +
+      xlab(paste0("KMEANS percent parent")) +
+      ylab(paste0("Manual percent parent")) + t2 + ggtitle(paste0( pop,"\npearson=",cor1$estimate,"\nspearman=",cor2$estimate,"\nN=",length(plotData$KEY)))  +
+      theme(legend.position = "bottom")
+  
+  print(g1)
+  
+}
 
 
 ```
