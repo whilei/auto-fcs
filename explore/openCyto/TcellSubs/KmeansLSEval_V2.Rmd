@@ -28,11 +28,11 @@ t2 <- theme(
     panel.background = element_blank(),
     axis.text.x=element_text(angle=90,hjust=1)
 )
-inDir ="/Volumes/Beta/data/flow/kmeansValidate/"
+inDir ="/Volumes/Beta/data/flow/kmeansValidate/r26_TcellSubs"
 outDir="/Volumes/Beta/data/flow/kmeansValidateResults/"
 dir.create(outDir)
-summaryFile=paste0(outDir,"summmary.counts.txt")
-corSummaryFile=paste0(outDir,"summmary.cor.txt")
+summaryFile=paste0(outDir,"summmary.counts.r26_TcellSubs.txt")
+corSummaryFile=paste0(outDir,"summmary.cor.r26_TcellSubs.txt")
 
 ```
 
