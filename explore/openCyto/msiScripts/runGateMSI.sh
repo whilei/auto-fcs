@@ -37,6 +37,7 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/insi
 cd "$OUTDIR"
 sed -i "s/gate_tail/tailgate/g" $OUTDIR/FULL/*.RScript
 sed -i "s/gate_tail/tailgate/g" $OUTDIR/IS_LOD/*.RScript
+sed -i "s/intel/intel\nmodule load libtiff/g" $OUTDIR/FULL/*.pbs
 
 #set up viz
 
