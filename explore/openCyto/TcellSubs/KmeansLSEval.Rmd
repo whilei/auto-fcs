@@ -2,10 +2,98 @@
 title: "KmeansEval - full panel1"
 author: "JL"
 date: "2/14/2018"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
-```{r setup, include=FALSE}
+Comparing global metrics (population median etc) between kmeans and manual
+
+```{r include=FALSE,echo=FALSE}
+library(openxlsx)
+library(ggplot2)
+library(reshape)
+
+
+theme_set(theme_bw(10))
+t2 <- theme(
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.text.x=element_text(angle=90,hjust=1)
+)
+inDir ="/Volumes/Beta/data/flow/kmeansValidate/"
+outDir="/Volumes/Beta/data/flow/kmeansValidateResults/"
+dir.create(outDir)
+summaryFile=paste0(outDir,"summmary.counts.txt")
+```
+
+
+```{r setup, include=FALSE,eval=FALSE}
+
+summFiles <-
+  list.files(inDir,
+             pattern = "counts.txt$",
+             full = TRUE,
+             recursive = FALSE)
+
+summaries <- do.call(rbind,lapply(summFiles,read.delim))
+write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FALSE)
+
+```
+
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10}
+summaries=read.delim(summaryFile,
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+summaries$POPULATION=as.factor(summaries$POPULATION)
+summaries$PARENT_FREQ = (summaries$COUNT*100)/summaries$PARENT_COUNT
+summaries=summaries[which(!is.na(summaries$PARENT_FREQ)),]
+
+ggplot(summaries,aes(x = reorder(summaries$POPULATION,PARENT_FREQ, FUN = median),y=PARENT_FREQ,colour=POPULATION)) +
+      xlab(paste0("Population")) +
+      ylab(paste0("Percent Parent")) + t2 +
+      geom_boxplot() +ggtitle("Kmeans clustering")+ylim(0,100)
+
+
+origPercents =read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet=1)
+interest = c("Study.ID",
+             "CM.CT" ,
+             "E.CT" ,
+             "EM.CT",
+             "N.CT",
+             "CM.HT" ,
+             "E.HT",
+             "EM.HT" ,
+             "N.HT")
+
+
+interestPercents =origPercents[,interest]
+colnames(interestPercents) = c(
+  "Study.ID",
+  "CYTO_central memory" ,
+  "CYTO_effector" ,
+  "CYTO_effector memory",
+  "CYTO_naive",
+  "HELPER_central memory" ,
+  "HELPER_effector",
+  "HELPER_effector memory" ,
+  "HELPER_naive"
+  )
+
+interestPercentsM =  melt(interestPercents,id.vars = "Study.ID")
+       
+ggplot(interestPercentsM,aes(x = reorder(interestPercentsM$variable,value, FUN = median),y=value,colour=variable)) +
+      xlab(paste0("Population")) +
+      ylab(paste0("Percent Parent Parent")) + t2 +
+      geom_boxplot() +ggtitle("Manual gating")+ylim(0,100) 
 
 
 ```
+
