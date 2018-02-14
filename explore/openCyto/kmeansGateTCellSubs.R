@@ -6,6 +6,7 @@
 
 
 
+
 popsOfInterest = c("effector memory", "central memory", "naive", "effector")
 
 
@@ -28,7 +29,7 @@ gateKmeansWsp = function(gs,
   combo$MDEF = combo$ct | combo$ht
   
   gh <- gs[[1]]
-  subdata = getData(gh)[combo$MDEF, ]
+  subdata = getData(gh)[combo$MDEF,]
   
   channels = character()
   for (marker in markersToCluster) {
@@ -84,21 +85,22 @@ gateKmeansWsp = function(gs,
     tmp = data.frame(combo$MDEF)
     colnames(tmp) = popToDump
     cluster = map[which(map$Var2 == popToDump &
-                          map$Freq > 0),]$Var1
+                          map$Freq > 0), ]$Var1
     tmp[, popToDump] = FALSE
     def = clust$KMEANS_CLUSTER == cluster
     tmp[combo$MDEF, popToDump][def] = TRUE
     boolMat = cbind(boolMat, tmp)
     
-    popSub = boolMat[which(boolMat[, popToDump] == TRUE), ]
+    popSub = boolMat[which(boolMat[, popToDump] == TRUE),]
     countTmpHT = data.frame(
       SAMPLE = fcsFile,
       POPULATION = paste0("HELPER_", popToDump),
       COUNT = length(popSub[which(popSub$HELPER_T ==
-                                    TRUE), ][, popToDump]),
+                                    TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$HELPER_T ==
-                                            TRUE), ][, popToDump]),
+                                            TRUE),][, popToDump]),
       OPTIMAL_K = which.min(o3_t[1:k]),
+      DFK_ALL = paste0(o3_t[1:k], collapse = ","),
       NUM_POPS_ASSIGNED = popsAssigned
     )
     summaryCounts = rbind(summaryCounts, countTmpHT)
@@ -106,10 +108,11 @@ gateKmeansWsp = function(gs,
       SAMPLE = fcsFile,
       POPULATION = paste0("CYTO_", popToDump),
       COUNT = length(popSub[which(popSub$CYTO_T ==
-                                    TRUE), ][, popToDump]),
+                                    TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$CYTO_T ==
-                                            TRUE), ][, popToDump]),
+                                            TRUE),][, popToDump]),
       OPTIMAL_K = which.min(o3_t[1:k]),
+      DFK_ALL = paste0(o3_t[1:k], collapse = ","),
       NUM_POPS_ASSIGNED = popsAssigned
     )
     summaryCounts = rbind(summaryCounts, countTmpCT)
@@ -144,7 +147,7 @@ gateKmeansWsp = function(gs,
 assignStatus = function(results, clusterCol) {
   summary = data.frame()
   for (cluster in unique(results[, c(clusterCol)])) {
-    sub = results[which(results[, c(clusterCol)] == cluster), ]
+    sub = results[which(results[, c(clusterCol)] == cluster),]
     tmp = data.frame(
       CLUSTER = cluster,
       MEDIAN_CCR7 = median(sub$CCR7),
@@ -155,14 +158,14 @@ assignStatus = function(results, clusterCol) {
   }
   
   summary$STATUS = ""
-  summary = summary[order(summary$MEDIAN_CCR7), ]
-  summary[c(1:2), ]$STATUS = "CCR7-"
-  summary[c(3:4), ]$STATUS = "CCR7+"
-  summary = summary[order(summary$MEDIAN_CD45), ]
-  summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
-  summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
-  summary = summary[order(summary$MEDIAN_CD28), ]
-  summary[c(1), ]$STATUS = paste0(summary[c(1), ]$STATUS, "CD28-")
+  summary = summary[order(summary$MEDIAN_CCR7),]
+  summary[c(1:2),]$STATUS = "CCR7-"
+  summary[c(3:4),]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45),]
+  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
+  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
+  summary = summary[order(summary$MEDIAN_CD28),]
+  summary[c(1),]$STATUS = paste0(summary[c(1),]$STATUS, "CD28-")
   
   
   summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
