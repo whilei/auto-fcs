@@ -232,6 +232,9 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
+fcsFilesAll =fcsFilesAll[grepl("PANEL 1",fcsFilesAll)]
+
+
 if (sub > 0) {
   fcsFilesAll = sample(fcsFilesAll, sub, replace = FALSE)
   fcsFilesAll = c(fcsFilesAll, filesToDefInclude)
@@ -630,11 +633,11 @@ compFrame <-
     GatingSet2flowJo(gs1, outFileRename)
     if (panel == "panel1") {
       sed1(outFileRename)
-      system.time(gateKmeansWsp(
+      gateKmeansWsp(
         gs = gs1,
         fcsFile = file,
         outputDir = paste0(outputDir, "kmeans/")
-      ))
+      )
     } else
       if (panel == "panel2") {
         sed2(outFileRename)
