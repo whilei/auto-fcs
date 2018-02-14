@@ -57,7 +57,7 @@ gateKmeansWsp = function(gs,
     tol = 1e-06,
     initializer = 'optimal_init',
     # threads = 4,
-    verbose = T,
+    verbose = F,
     seed = 42
   )
   
