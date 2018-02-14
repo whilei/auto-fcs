@@ -630,14 +630,15 @@ compFrame <-
     GatingSet2flowJo(gs1, outFileRename)
     if (panel == "panel1") {
       sed1(outFileRename)
-      gateKmeansWsp(
+      system.time(gateKmeansWsp(
         gs = gs1,
         fcsFile = file,
         outputDir = paste0(outputDir, "kmeans/")
-      )
-    } else if (panel == "panel2") {
-      sed2(outFileRename)
-    }
+      ))
+    } else
+      if (panel == "panel2") {
+        sed2(outFileRename)
+      }
     return(metrics)
     
   }
