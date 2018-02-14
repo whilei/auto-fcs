@@ -78,6 +78,7 @@ gateKmeansWsp = function(gs,
   
   summaryCounts = data.frame()
   
+  popsAssigned =length(unique(clustAssigned$POPULATION))
   for (popToDump in popsOfInterest) {
     tmp = data.frame(combo$MDEF)
     colnames(tmp) = popToDump
@@ -96,7 +97,8 @@ gateKmeansWsp = function(gs,
                                     TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$HELPER_T ==
                                             TRUE),][, popToDump]),
-      OPTIMAL_K = which.min(o3_t[1:k])
+      OPTIMAL_K = which.min(o3_t[1:k]),
+      NUM_POPS_ASSIGNED=popsAssigned
     )
     summaryCounts = rbind(summaryCounts, countTmpHT)
     countTmpCT = data.frame(
@@ -106,7 +108,8 @@ gateKmeansWsp = function(gs,
                                     TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$CYTO_T ==
                                             TRUE),][, popToDump]),
-      OPTIMAL_K = which.min(o3_t[1:k])
+      OPTIMAL_K = which.min(o3_t[1:k]),
+      NUM_POPS_ASSIGNED=popsAssigned
     )
     summaryCounts = rbind(summaryCounts, countTmpCT)
     
