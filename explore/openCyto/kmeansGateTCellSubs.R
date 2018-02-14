@@ -1,37 +1,14 @@
-# require(flowCore)
 
 
-# 
-# wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
-# fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
-# inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-# outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
-# nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
-# markersToCluster = c("CCR7", "CD45RA", "CD28")
-# k = 4
-# min = -20
-# max = 225
-# num_init = 50
-# max_iters = 5000
-# 
-# gateKmeansWsp(wspFile=wspFile,
-#               fcsFile=fcsFile,
-#               inputDir=inputDir,
-#               outputDir=outputDir,
-#               min = min,
-#               max = max,
-#               k = k,
-#               num_init = num_init,
-#               max_iters = max_iters,
-#               nodesOfInterest =nodesOfInterest,
-#               markersToCluster = markersToCluster)
+
+
+
 
 popsOfInterest = c("effector memory", "central memory", "naive", "effector")
 
 
-gateKmeansWsp = function(wspFile,
+gateKmeansWsp = function(gs,
                          fcsFile,
-                         inputDir,
                          outputDir,
                          min = -20,
                          max = 225,
@@ -40,43 +17,21 @@ gateKmeansWsp = function(wspFile,
                          max_iters = 5000,
                          nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+"),
                          markersToCluster = c("CCR7", "CD45RA", "CD28")) {
-  
   dir.create(outputDir)
   outputRoot = paste0(outputDir, fcsFile)
   
-  ws2 <- openWorkspace(wspFile)
-  frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
-  s= getSamples(ws2)
-  print(s)
   
-  id=s[which(s$name==fcsFile),]$name
-  gsK <-
-    parseWorkspace(
-      ws2,
-      #WSP file
-      path = inputDir,
-      #FCS file
-      name = 1,
-      #sample group
-      subset =id[1],
-      #load single fcs file
-      isNcdf = FALSE,
-      #not memory mapped
-      compensation = compensation(keyword(frame)$`SPILL`)
-    )
-  
-  
-  combo = data.frame(ht = getIndiceMat(gsK, nodesOfInterest[1])[, 1],
-                     ct = getIndiceMat(gsK, nodesOfInterest[2])[, 1])
+  combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
+                     ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
   combo$MDEF = combo$ct | combo$ht
   
-  gh <- gsK[[1]]
+  gh <- gs[[1]]
   subdata = getData(gh)[combo$MDEF, ]
   
   channels = character()
   for (marker in markersToCluster) {
     channels = c(channels, c(paste0(
-      "Comp-", getChannelMarker(frame, marker)$name
+      getChannelMarker(frame, marker)$name
     )))
   }
   t = as.data.frame(subdata@exprs)[, channels]
@@ -87,6 +42,7 @@ gateKmeansWsp = function(wspFile,
   }
   clust = center_scale(t[, channels])
   colnames(clust) = markersToCluster
+  print(paste0("cluster sample ", fcsFile))
   km_rc = KMeans_rcpp(
     clust,
     clusters = k,
@@ -102,6 +58,8 @@ gateKmeansWsp = function(wspFile,
   clust = as.data.frame(clust)
   clust$KMEANS_CLUSTER = km_rc$clusters
   save(clust, file = paste0(outputRoot, ".clusterData"))
+  
+  print(paste0("assigning population status for ", fcsFile))
   
   clustAssigned = assignStatus(results = clust, clusterCol = "KMEANS_CLUSTER")
   
@@ -169,9 +127,7 @@ gateKmeansWsp = function(wspFile,
     row.names = FALSE
   )
   close(gz1)
-  closeWorkspace(ws)
-  
-  
+  print(paste0("finished TCell subset clustering for  ", fcsFile))
 }
 
 
@@ -209,3 +165,55 @@ assignStatus = function(results, clusterCol) {
   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
   return(results)
 }
+
+
+# require(flowCore)
+
+
+#
+# wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
+# fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
+# inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+# outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
+# nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+# markersToCluster = c("CCR7", "CD45RA", "CD28")
+# k = 4
+# min = -20
+# max = 225
+# num_init = 50
+# max_iters = 5000
+#
+# gateKmeansWsp(wspFile=wspFile,
+#               fcsFile=fcsFile,
+#               inputDir=inputDir,
+#               outputDir=outputDir,
+#               min = min,
+#               max = max,
+#               k = k,
+#               num_init = num_init,
+#               max_iters = max_iters,
+#               nodesOfInterest =nodesOfInterest,
+#               markersToCluster = markersToCluster)
+
+
+# ws <- openWorkspace(wspFile)
+# frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
+# s= getSamples(ws)
+# print(s)
+#
+# id=s[which(s$name==fcsFile),]$name
+# gs <-
+#   parseWorkspace(
+#     ws,
+#     #WSP file
+#     path = inputDir,
+#     #FCS file
+#     name = 1,
+#     #sample group
+#     subset =id[1],
+#     #load single fcs file
+#     isNcdf = FALSE,
+#     #not memory mapped
+#     compensation = compensation(keyword(frame)$`SPILL`)
+#   )
+# closeWorkspace(ws)

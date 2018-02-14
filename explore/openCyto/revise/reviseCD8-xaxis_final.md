@@ -8,7 +8,7 @@ source(file = "CombineWSP.R")
 source(file = "computeFreqs.R")
 source(file = "machineType.R")
 source(file = "generateFortessa.R")
-source(file="kmeansGate.R")
+source(file="kmeansGateTCellSubs.R")
 
 registerPlugins(fun = .kmeansGate(),
                 methodName = "kmeansGate",
@@ -16,7 +16,7 @@ registerPlugins(fun = .kmeansGate(),
                 "gating")
 
 
-file="2016-05-09_PANEL 1_DHS_panel one_F1631953_006.fcs"
+file="2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
@@ -51,6 +51,10 @@ gs1 <- transform(gs1, tf)
 
 gh <- gs1[[1]]
 gating(gateTemplate, gs1)
+
+renameNodes(gs1,
+                read.delim(panle1mapFile, stringsAsFactors = FALSE, sep = "\t"))
+
 
    ggcyto(gs1,
               mapping = aes(x = "CD4", y = "CD8"),

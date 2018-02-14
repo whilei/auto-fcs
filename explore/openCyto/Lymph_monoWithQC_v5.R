@@ -631,9 +631,8 @@ compFrame <-
     if (panel == "panel1") {
       sed1(outFileRename)
       gateKmeansWsp(
-        wspFile = outFileRename,
+        gs = gs1,
         fcsFile = file,
-        inputDir = inputFCSDir,
         outputDir = paste0(outputDir, "kmeans/")
       )
     } else if (panel == "panel2") {
