@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=ensure
+rev=r26_TcellSubs
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt

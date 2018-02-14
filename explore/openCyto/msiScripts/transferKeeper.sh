@@ -261,14 +261,18 @@ find  ./results_r25_19full_AllSS/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name
 find  ./results_r25_19full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
 find  ./results_r25_19full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
 
+find  ./results_r25_19full_SS_SubCD8/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+
+
 find  . -type f -name "gate_plots*.pdf" -exec rm {}  \;
 
-find  ./results_*/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
+find  ./results*/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
 find  ./results_r25*/FULL/openCytoBatch_*/panel*Vis/*/ -type f -name "*.png" -exec rm {}  \;
 
 
 
-
+find  ./results* -type f -name "*.png" -exec rm {}  \;
+find  ./results* -type f -name "*.png" |wc -l
 
 for file in ./results_r25_1*full/FULL/openCytoBatch_*/panel*Vis/*/*.png; do
    rm "$file"
