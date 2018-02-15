@@ -232,7 +232,7 @@ filesToDefInclude = c()
 
 REPLACE_FOR_NEW_FILES = ""
 
-fcsFilesAll =fcsFilesAll[grepl("PANEL 1",fcsFilesAll)]
+# fcsFilesAll =fcsFilesAll[grepl("PANEL 1",fcsFilesAll)]
 
 
 if (sub > 0) {
