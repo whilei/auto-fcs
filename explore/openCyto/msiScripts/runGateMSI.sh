@@ -13,6 +13,7 @@ threads=5
 mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
+wallTimeInHour=30
 
 fcsDir=/scratch.global/lanej/flow/full/fcs/
 # LOD setup
@@ -21,7 +22,7 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/lodF
 
 
 # Full setup w/QC 
-java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=68
+java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=$wallTimeInHour
 
 # testTCellSubs
 java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.testT.txt outDir="$OUTDIR/TEST_TCELLS/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=1 wallTimeInHour=68
@@ -61,20 +62,20 @@ for i in `seq 0 $batchIters`;do
     echo "cp $wsp/*Rename.wsp $wspRename" >> $sub
     auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/
     
-    outP1C="$OUTDIR/FULL/openCytoBatch_$i/panel1Counts/"
+ #    outP1C="$OUTDIR/FULL/openCytoBatch_$i/panel1Counts/"
 
-    echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP1C pipe=PCTS_CNTS panel=1" >> $sub
+ #    echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP1C pipe=PCTS_CNTS panel=1" >> $sub
 
-    outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
-	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
+ #    outP1="$OUTDIR/FULL/openCytoBatch_$i/panel1Vis/"
+	# echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP1 pipe=VIZ panel=1 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
 
-    outP2C="$OUTDIR/FULL/openCytoBatch_$i/panel2Counts/"
+ #    outP2C="$OUTDIR/FULL/openCytoBatch_$i/panel2Counts/"
 
-    echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP2C pipe=PCTS_CNTS panel=2" >> $sub
+ #    echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP2C pipe=PCTS_CNTS panel=2" >> $sub
 
 
-    outP2="$OUTDIR/FULL/openCytoBatch_$i/panel2Vis/"
-	echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP2 pipe=VIZ panel=2 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
+ #    outP2="$OUTDIR/FULL/openCytoBatch_$i/panel2Vis/"
+	# echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar $jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline wsp=$wspRename fcs=$fcsDir out=$outP2 pipe=VIZ panel=2 priority=$priorityFile lowPriority=$lowPriorityFile" >> $sub
 
 	
 
