@@ -11,7 +11,10 @@ num_init = 50
 max_iters = 5000
 
 
-fcsFile="2016-05-10_PANEL 1_HB_panel one_F1631916_003.fcs "
+fcsFile="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"
+file="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"
+fcsFile="2016-05-10_PANEL 1_HB_panel one_F1631916_003.fcs"
+file="2016-05-10_PANEL 1_HB_panel one_F1631916_003.fcs"
 
 frame = read.FCS(paste(inputDir, file, sep = ""))
 
