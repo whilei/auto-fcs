@@ -1,4 +1,4 @@
-
+**
 
 panle1mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
 panle2mapFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt"
@@ -124,4 +124,4 @@ grid.arrange(as.ggplot(hist_top), empty, as.ggplot(scatter) + theme(legend.posit
               subset = "PE-A-") +
     geom_hex(bins = 200) + ggcyto_par_set(limits = "data") + geom_gate() +geom_stats()
     
-     
+     **
