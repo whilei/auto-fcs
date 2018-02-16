@@ -86,14 +86,14 @@ summaries$PARENT_PERCENT = (summaries$COUNT * 100) / summaries$PARENT_COUNT
 
 summaries = summaries[which(!is.na(summaries$PARENT_FREQ)), ]
 
-# summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27M","pE cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
-# summaries$POPULATION=gsub("CYTO_effector memory_CD28P_CD27P","pE1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
-# summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27P","pE2 cytotoxic Tcells (CD27+ , CD28-)",summaries$POPULATION)
-# 
-# summaries$POPULATION=gsub("CYTO_effector_CD28P_CD27P","EM1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
-# summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27P","EM2 cytotoxic Tcells (CD27+  CD28-)",summaries$POPULATION)
-# summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27M","EM3 cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
-# summaries$POPULATION=gsub("CYTO_effector_CD28P_CD27M","EM4 cytotoxic Tcells (CD27-  CD28+)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27M","pE cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector_CD28P_CD27P","pE1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27P","pE2 cytotoxic Tcells (CD27+ , CD28-)",summaries$POPULATION)
+
+summaries$POPULATION=gsub("CYTO_effector memory_CD28P_CD27P","EM1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27P","EM2 cytotoxic Tcells (CD27+  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27M","EM3 cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28P_CD27M","EM4 cytotoxic Tcells (CD27-  CD28+)",summaries$POPULATION)
 
 summaries$KEY = paste0(summaries$LAB_ID, "_", summaries$POPULATION)
 summaries$KEYFCS = paste0(summaries$SAMPLE, "_", summaries$POPULATION)
@@ -167,11 +167,22 @@ interestCtlsCols = c(
   "EFF.MEM.CT",
   "NAÏVE.CT",
   "CM.HT" ,
-   "EFF.HT",
-   "EFF.MEM.HT" ,
-  "NAÏVE.HT" 
-
+  "EFF.HT",
+  "EFF.MEM.HT" ,
+  "NAÏVE.HT",
+  "PE",
+  "PE1",
+  "PE2",
+  "EM1",
+  "EM2",
+  "EM3",
+  "EM4"
+  
+  
   )
+
+
+
 interestCtls = ctlCounts[, interestCtlsCols]
 colnames(interestCtls) = c(
   "Study.ID",
@@ -182,7 +193,15 @@ colnames(interestCtls) = c(
   "HELPER_central memory" ,
   "HELPER_effector",
   "HELPER_effector memory" ,
-  "HELPER_naive"
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
+
 )
 
 
@@ -213,12 +232,32 @@ interestCtlsHT = c("CM.HT" ,
                    "EFF.MEM.HT" ,
                    "NAÏVE.HT")
 
+interestEff = c(
+    "PE",
+  "PE1",
+  "PE2"
+  )
+
+interestEffMem = c(
+ "EM1",
+  "EM2",
+  "EM3",
+  "EM4"
+  )
+
+for(e in interestEff){
+  ctlCounts[, e] = ctlCounts[, e]/ctlCounts$EFF.CT
+}
+for(e in interestEffMem){
+  ctlCounts[, e] = ctlCounts[, e]/ctlCounts$EFF.MEM.CT
+}
 for(cts in interestCtlsCT){
   ctlCounts[, cts] = ctlCounts[, cts]/ctlCounts$CT
 }
 for(hts in interestCtlsHT){
   ctlCounts[, hts] = ctlCounts[, hts]/ctlCounts$HT
 }
+
 
 interestCtlsFreq = ctlCounts[, interestCtlsCols]
 colnames(interestCtlsFreq) = c(
@@ -230,7 +269,14 @@ colnames(interestCtlsFreq) = c(
   "HELPER_central memory" ,
   "HELPER_effector",
   "HELPER_effector memory" ,
-  "HELPER_naive"
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
 )
 
 
