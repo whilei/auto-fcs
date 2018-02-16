@@ -17,6 +17,7 @@ output:
 
 - OC controls were filtered for likely failures (lose ~%10 of the samples with this filter)
 
+
 ```{r include=FALSE,echo=FALSE}
 library(openxlsx)
 library(ggplot2)
@@ -371,7 +372,7 @@ corSummaryCtl$COMPARISON="CTLS_COMP"
 ```
 
 
-# Comparison to manual 1st 1k
+# Correlations to manual 1st 1k
 
 
 ```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}

@@ -1,4 +1,4 @@
-# K-means Evaluation - manual correlations and control comparisons 
+# K-means Evaluation - control comparisons and manual 1st 1K correlations  
 JL  
 2/16/2018  
 
@@ -11,6 +11,7 @@ JL
 # Control gating "consistency"
 
 - OC controls were filtered for likely failures (lose ~%10 of the samples with this filter)
+
 
 
 
@@ -36,7 +37,7 @@ Control summary for results
 ![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-1.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-2.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-3.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-4.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-5.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-6.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-7.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-4-8.png)<!-- -->
 
 
-# Comparison to manual 1st 1k
+# Correlations to manual 1st 1k
 
 
 ![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-1.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-2.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-3.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-4.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-5.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-6.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-7.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-8.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-9.png)<!-- -->![](KmeansLSEval_CVs_V6_files/figure-html/unnamed-chunk-5-10.png)<!-- -->
