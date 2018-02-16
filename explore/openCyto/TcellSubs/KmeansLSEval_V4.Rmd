@@ -95,7 +95,10 @@ summaries=summaries[keep,]
 
 
 ```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=FALSE}
-ctlCounts = read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet =
+ctlCounts1 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/manulacontrolcounts.xlsx", sheet =1)
+ctlCounts2 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/remainingcontrolsforOCcomp.xlsx", sheet =1)
+colnames(ctlCounts2)[1]=colnames(ctlCounts1)[1]
+ctlCounts=rbind(ctlCounts1,ctlCounts2)
 
 
 ```
