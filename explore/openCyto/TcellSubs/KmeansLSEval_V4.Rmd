@@ -66,7 +66,6 @@ summaries=summaries[which(summaries$NUM_POPS_ASSIGNED==4),]
 # summaries[which(summaries$SAMPLE=="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"),]
 
 summaries$OPTIMAL_K = as.factor(summaries$OPTIMAL_K)
-summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
 summaries$POPULATION = as.factor(summaries$POPULATION)
 summaries$PARENT_FREQ = (summaries$COUNT * 100) / summaries$PARENT_COUNT
 summaries = summaries[which(!is.na(summaries$PARENT_FREQ)), ]
@@ -89,6 +88,18 @@ counts =as.data.frame(table(summariesTrimC0$SAMPLE,summariesTrimC0$COUNT))
 sub= counts[which(counts$Var2==0),]
 keep =!(summaries$SAMPLE %in% sub$Var1)
 summaries=summaries[keep,]
+
+
+
+```
+
+
+
+
+
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=FALSE}
+
+summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
 
 ggplot(summariesTrim, aes(
   x = reorder(summariesTrim$POPULATION, PARENT_FREQ, FUN = median),
