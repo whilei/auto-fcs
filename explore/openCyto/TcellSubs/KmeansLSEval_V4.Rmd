@@ -61,7 +61,9 @@ write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FA
 summaries = read.delim(summaryFile,
                        stringsAsFactors = FALSE,
                        header = TRUE)
+excludes = unique(summaries[which(summaries$NUM_POPS_ASSIGNED!=4),]$SAMPLE)
 summaries=summaries[which(summaries$NUM_POPS_ASSIGNED==4),]
+
 # l = summaries[which(summaries$POPULATION=="CYTO_effector"&&summaries$COUNT<1000),]
 # summaries[which(summaries$SAMPLE=="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"),]
 
@@ -88,7 +90,23 @@ summariesTrimC0=summariesTrim[which(summariesTrim$COUNT==0),]
 counts =as.data.frame(table(summariesTrimC0$SAMPLE,summariesTrimC0$COUNT))
 sub= counts[which(counts$Var2==0),]
 keep =!(summaries$SAMPLE %in% sub$Var1)
-summaries=summaries[keep,]
+rid =(summaries$SAMPLE %in% sub$Var1)
+
+
+excludes = unique(c(excludes, summaries[rid, ]$SAMPLE))
+write.table(
+  data.frame(
+    EXCLUDE_SAMPLE = excludes,
+    EXCLUDE_SAMPLE_SANITIZE = gsub(" ", "_", excludes)
+  ),
+  file = paste0(summaryFile, ".exclude.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+# summaries=summaries[keep,]
 
 
 
