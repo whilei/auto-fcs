@@ -1,5 +1,5 @@
 ---
-title: "KmeansEval - manual correlations and control comparisons "
+title: "K-means Evaluation - control comparisons and manual 1st 1K correlations  "
 author: "JL"
 date: "2/16/2018"
 output: 
@@ -7,7 +7,15 @@ output:
     keep_md: yes
 ---
 
-Comparing global metrics (population median etc) between kmeans and manual
+#K-Means notes
+- K-means is currently trying to identify 4 clusters using 3 dimensions (CCR7, CD45R4, and CD28)
+- The input to k-means is currently the union of Helper and Cytotoxic T cells
+  - For current results below, only OpenCyto was used to determine input for kmeans clustering (i.e did not start with Helper/Cyto T defined by manual .wsps)
+
+
+# Control gating "consistency"
+
+- OC controls were filtered for likely failures (lose ~%10 of the samples with this filter)
 
 ```{r include=FALSE,echo=FALSE}
 library(openxlsx)
@@ -15,6 +23,7 @@ library(ggplot2)
 library(reshape)
 library(gridExtra)
 library(grid)
+library(knitr)
 
 theme_set(theme_bw(10))
 t2 <- theme(
@@ -34,6 +43,7 @@ outDir="/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_v4/"
 dir.create(outDir)
 summaryFile=paste0(outDir,"summmary.counts.results_r26_TcellSubs_v4.txt")
 corSummaryFile=paste0(outDir,"summmary.cor.results_r26_TcellSubs_v4.txt")
+cvSummaryFile=paste0(outDir,"summmary.cv.results_r26_TcellSubs_v4.txt")
 
 ```
 
@@ -70,7 +80,9 @@ summaries=summaries[which(summaries$NUM_POPS_ASSIGNED==4),]
 
 summaries$OPTIMAL_K = as.factor(summaries$OPTIMAL_K)
 summaries$POPULATION = as.factor(summaries$POPULATION)
-summaries$PARENT_FREQ = (summaries$COUNT * 100) / summaries$PARENT_COUNT
+summaries$PARENT_FREQ = (summaries$COUNT) / summaries$PARENT_COUNT
+summaries$PARENT_PERCENT = (summaries$COUNT * 100) / summaries$PARENT_COUNT
+
 summaries = summaries[which(!is.na(summaries$PARENT_FREQ)), ]
 
 # summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27M","pE cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
@@ -107,14 +119,15 @@ write.table(
 )
 
 
-# summaries=summaries[keep,]
+summaries=summaries[keep,]
 
 
 
 ```
 
+Control summary for results
 
-```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
+```{r echo=FALSE,warning=FALSE,eval=TRUE}
 
 CV <- function(mean, sd){
       (sd/mean)*100
@@ -136,6 +149,16 @@ ctlCounts$CTL = gsub("_.*","",ctlCounts$CTL)
 ctlCounts$CTL = gsub(" .*","",ctlCounts$CTL)
 mapCTL =data.frame(FCS=ctlCounts$FCS.ID,CTL=ctlCounts$CTL)
 summaries=merge(summaries,mapCTL,by.x = "SAMPLE",by.y = "FCS",all.x = TRUE)
+
+sC = unique(summaries[,c("SAMPLE","CTL")])
+cCounts = as.data.frame(table(sC$CTL))
+colnames(cCounts) =c("CONTROL","N_FCS")
+kable(cCounts,format = "markdown")
+
+```
+
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
+
 interestCtlsCols = c(
   "FCS.ID",
   "CM.CT" ,
@@ -235,7 +258,7 @@ pops = unique(comboCtls$POPULATION)
                     y = value, color = plotData[,color])) +
       geom_point() +
       xlab(paste0("KMEANS ",compVar)) +
-      ylab(paste0("Manual ",compVar)) + t2 + ggtitle(
+      ylab(paste0("MANUAL ",compVar)) + t2 + ggtitle(
         paste0(
           pop,
           "\npearson=",
@@ -245,8 +268,7 @@ pops = unique(comboCtls$POPULATION)
           "\nN=",
           length(plotData$KEY)
         )
-      )  +
-      theme(legend.position = "bottom")
+      )  +theme(legend.position = "bottom")+ scale_colour_discrete(name = "Control")
     
     # print(g1)
     
@@ -262,6 +284,8 @@ pops = unique(comboCtls$POPULATION)
   }
 
 corSummaryCtl = data.frame()
+
+cvSummary = data.frame()
 
 for (pop in pops) {
   plotDataC = comboCtls[which(comboCtls$POPULATION == pop), ]
@@ -287,13 +311,54 @@ for (pop in pops) {
   manualStats = paste0("Manual median CV = ",median(cvResultsManual$SAMPLE_CV))
   kmeansStats = paste0("Kmeans median CV = ",median(cvResultsKMeans$SAMPLE_CV))
 
+  tmpCvSummary = data.frame(
+    POPULATION = pop,
+    METHOD = "KMEANS",
+    METRIC = "PARENT_FREQ",
+    MEDIAN_CV = median(cvResultsKMeans$SAMPLE_CV),
+    MEAN_CV = mean(cvResultsKMeans$SAMPLE_CV),
+    SD_CV = sd(cvResultsKMeans$SAMPLE_CV)
+    )
+  cvSummary=rbind(cvSummary,tmpCvSummary)
+   tmpCvSummary = data.frame(
+    POPULATION = pop,
+    METHOD = "MANUAL",
+    METRIC = "PARENT_FREQ",
+    MEDIAN_CV = median(cvResultsManual$SAMPLE_CV),
+    MEAN_CV = mean(cvResultsManual$SAMPLE_CV),
+    SD_CV = sd(cvResultsManual$SAMPLE_CV)
+    )
+  cvSummary=rbind(cvSummary,tmpCvSummary)
+  
+  
+  kmData = data.frame(CTL=plotDataF$CTL,PARENT_FREQ=plotDataF$PARENT_FREQ)
+  kmData$METHOD="KMEANS"
+  manualData = data.frame(CTL=plotDataF$CTL,PARENT_FREQ=plotDataF$value)
+  manualData$METHOD ="MANUAL"
+  
+  comboForBox = rbind(kmData,manualData)
+  
+  bp =ggplot(comboForBox,aes(x=as.factor(CTL),y=PARENT_FREQ,colour=METHOD)) +
+  geom_boxplot() +
+  xlab("Control") +
+  ylab(paste0("Freq Parent"))+t2+ggtitle(paste0("Freq parent by controls"))
+  
+  # "\n",manualStats,"\n",kmeansStats
   cvP= ggplot(cvResults,aes(x=as.factor(METHOD),y=SAMPLE_CV,colour=METHOD)) +
   geom_boxplot() +
-  xlab("GATING METHOD") +
-  ylab(paste0("CV of Control"))+t2+ggtitle(paste0("Pop=",pop,"\n",manualStats,"\n",kmeansStats))
+  xlab("METHOD") +
+  ylab(paste0("CV of Controls"))+t2+ggtitle(paste0("Freq parent CVs"))
 
-  grid.arrange(rC[[2]],rF[[2]],cvP,ncol=2)
-
+  grid.arrange(rC[[2]],rF[[2]],bp,cvP,ncol=2)
+ grid.rect(
+      width = 1.0,
+      height = 1.0,
+      gp = gpar(
+        lwd = 2,
+        col = "black",
+        fill = NA
+      )
+    )
 
 }
 
@@ -306,12 +371,13 @@ corSummaryCtl$COMPARISON="CTLS_COMP"
 ```
 
 
+# Comparison to manual 1st 1k
 
 
-```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=FALSE}
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
 
 summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
-
+summaries$PARENT_FREQ=summaries$PARENT_FREQ*100
 ggplot(summariesTrim, aes(
   x = reorder(summariesTrim$POPULATION, PARENT_FREQ, FUN = median),
   y = PARENT_FREQ,
@@ -441,6 +507,13 @@ write.table(
   row.names = FALSE
 )
 
+write.table(
+  cvSummary,
+  file = cvSummaryFile,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
 
 
 ```
