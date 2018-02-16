@@ -1,7 +1,7 @@
 ---
-title: "KmeansEval - full panel1"
+title: "KmeansEval - manual correlations and control comparisons "
 author: "JL"
-date: "2/14/2018"
+date: "2/16/2018"
 output: 
   html_document: 
     keep_md: yes
@@ -28,11 +28,11 @@ t2 <- theme(
     panel.background = element_blank(),
     axis.text.x=element_text(angle=90,hjust=1)
 )
-inDir ="/Volumes/Beta/data/flow/kmeansValidate/results_r26_TcellSubs_v3"
-outDir="/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_v3/"
+inDir ="/Volumes/Beta/data/flow/kmeansValidate/results_r26_TcellSubs_v4"
+outDir="/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_v4/"
 dir.create(outDir)
-summaryFile=paste0(outDir,"summmary.counts.results_r26_TcellSubs_v3.txt")
-corSummaryFile=paste0(outDir,"summmary.cor.results_r26_TcellSubs_v3.txt")
+summaryFile=paste0(outDir,"summmary.counts.results_r26_TcellSubs_v4.txt")
+corSummaryFile=paste0(outDir,"summmary.cor.results_r26_TcellSubs_v4.txt")
 
 ```
 
@@ -80,6 +80,7 @@ summaries = summaries[which(!is.na(summaries$PARENT_FREQ)), ]
 # summaries$POPULATION=gsub("CYTO_effector_CD28P_CD27M","EM4 cytotoxic Tcells (CD27-  CD28+)",summaries$POPULATION)
 
 summaries$KEY = paste0(summaries$LAB_ID, "_", summaries$POPULATION)
+summaries$KEYFCS = paste0(summaries$SAMPLE, "_", summaries$POPULATION)
 
 trim = !grepl("CD28",summaries$POPULATION)
 summariesTrim=summaries[trim,]
@@ -94,12 +95,93 @@ summaries=summaries[keep,]
 ```
 
 
-```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=FALSE}
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
 ctlCounts1 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/manulacontrolcounts.xlsx", sheet =1)
 ctlCounts2 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/remainingcontrolsforOCcomp.xlsx", sheet =1)
 colnames(ctlCounts2)[1]=colnames(ctlCounts1)[1]
 ctlCounts=rbind(ctlCounts1,ctlCounts2)
 
+interestCtls = c(
+  "FCS.ID",
+  "CM.CT" ,
+  "EFF.CT" ,
+  "EFF.MEM.CT",
+  "NAÏVE.CT",
+  "CM.HT" ,
+   "EFF.HT",
+   "EFF.MEM.HT" ,
+  "NAÏVE.HT" 
+
+  )
+interestCtls = ctlCounts[, interestCtls]
+colnames(interestCtls) = c(
+  "Study.ID",
+  "CYTO_central memory" ,
+  "CYTO_effector" ,
+  "CYTO_effector memory",
+  "CYTO_naive",
+  "HELPER_central memory" ,
+  "HELPER_effector",
+  "HELPER_effector memory" ,
+  "HELPER_naive"
+)
+
+
+interestCtlsM =  melt(interestCtls, id.vars = "Study.ID")
+interestCtlsM$KEY = paste0(interestCtlsM$Study.ID, "_", interestCtlsM$variable)
+comboCtls = merge(summaries,
+              interestCtlsM,
+              by.x = "KEYFCS",
+              by.y = "KEY")
+pops = unique(comboCtls$POPULATION)
+
+
+corSummary = data.frame()
+
+compVar="COUNT"
+for (pop in pops) {
+  plotData = comboCtls[which(comboCtls$POPULATION == pop), ]
+  cor1 = cor.test(
+    as.numeric(plotData[,compVar]),
+    as.numeric(plotData$value),
+    method = "pearson",
+    na.action = "na.omit"
+  )
+  cor2 = cor.test(
+    as.numeric(plotData[,compVar]),
+    as.numeric(plotData$value),
+    method = "spearman",
+    na.action = "na.omit"
+  )
+  
+  g1 = ggplot(plotData,
+              aes(x = plotData[,compVar],
+                  y = value, color = OPTIMAL_K)) +
+    geom_point() +
+    xlab(paste0("KMEANS percent parent")) +
+    ylab(paste0("Manual percent parent")) + t2 + ggtitle(
+      paste0(
+        pop,
+        "\npearson=",
+        cor1$estimate,
+        "\nspearman=",
+        cor2$estimate,
+        "\nN=",
+        length(plotData$KEY)
+      )
+    )  +
+    theme(legend.position = "bottom")
+  
+  print(g1)
+  
+  tmp = data.frame(
+    POPULATION = pop,
+    METRIC = "PARENT_FREQ",
+    PEARSON = cor1$estimate,
+    SPEARMAN = cor2$estimate
+  )
+  corSummary = rbind(corSummary, tmp)
+}
 
 ```
 
