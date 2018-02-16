@@ -13,7 +13,8 @@ Comparing global metrics (population median etc) between kmeans and manual
 library(openxlsx)
 library(ggplot2)
 library(reshape)
-
+library(gridExtra)
+library(grid)
 
 theme_set(theme_bw(10))
 t2 <- theme(
@@ -57,7 +58,7 @@ write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FA
 
 ```
 
-```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10}
+```{r echo=FALSE,warning=FALSE,fig.height=4,fig.width=10}
 summaries = read.delim(summaryFile,
                        stringsAsFactors = FALSE,
                        header = TRUE)
@@ -113,12 +114,21 @@ write.table(
 ```
 
 
-```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
+```{r echo=FALSE,warning=FALSE,fig.height=4,fig.width=10,eval=TRUE}
+
+
+
 ctlCounts1 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/manulacontrolcounts.xlsx", sheet =1)
 ctlCounts2 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/remainingcontrolsforOCcomp.xlsx", sheet =1)
 colnames(ctlCounts2)[1]=colnames(ctlCounts1)[1]
 ctlCounts=rbind(ctlCounts1,ctlCounts2)
-
+rm =!(grepl("PBMC",ctlCounts$FCS.ID))
+ctlCounts =ctlCounts[rm,]
+ctlCounts$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl","",ctlCounts$FCS.ID)
+ctlCounts$CTL = gsub("_.*","",ctlCounts$CTL)
+ctlCounts$CTL = gsub(" .*","",ctlCounts$CTL)
+mapCTL =data.frame(FCS=ctlCounts$FCS.ID,CTL=ctlCounts$CTL)
+summaries=merge(summaries,mapCTL,by.x = "SAMPLE",by.y = "FCS",all.x = TRUE)
 interestCtlsCols = c(
   "FCS.ID",
   "CM.CT" ,
@@ -154,7 +164,6 @@ comboCtls = merge(summaries,
 pops = unique(comboCtls$POPULATION)
 
 
-corSummary = data.frame()
 
 
 
@@ -199,7 +208,7 @@ comboCtlsFreq = merge(summaries,
 pops = unique(comboCtls$POPULATION)
 
 
-  plotIt <- function(plotData,compVar,corSummary) {
+  plotIt <- function(plotData,compVar,color) {
   
     cor1 = cor.test(
       as.numeric(plotData[,compVar]),
@@ -216,7 +225,7 @@ pops = unique(comboCtls$POPULATION)
     
     g1 = ggplot(plotData,
                 aes(x = plotData[,compVar],
-                    y = value, color = OPTIMAL_K)) +
+                    y = value, color = plotData[,color])) +
       geom_point() +
       xlab(paste0("KMEANS ",compVar)) +
       ylab(paste0("Manual ",compVar)) + t2 + ggtitle(
@@ -232,7 +241,7 @@ pops = unique(comboCtls$POPULATION)
       )  +
       theme(legend.position = "bottom")
     
-    print(g1)
+    # print(g1)
     
     tmp = data.frame(
       POPULATION = pop,
@@ -240,22 +249,30 @@ pops = unique(comboCtls$POPULATION)
       PEARSON = cor1$estimate,
       SPEARMAN = cor2$estimate
     )
-    corSummary = rbind(corSummary, tmp)
-    
-    
+    return(list(tmp,g1))
+  
 
   }
+
+corSummaryCtl = data.frame()
 
 for (pop in pops) {
   plotDataC = comboCtls[which(comboCtls$POPULATION == pop), ]
   plotDataF = comboCtlsFreq[which(comboCtlsFreq$POPULATION == pop), ]
 
-  plotIt(plotData =plotDataC,compVar = "COUNT" )
-  plotIt(plotData =plotDataF,compVar = "PARENT_FREQ" )
-
+  rC = plotIt(plotData =plotDataC,compVar = "COUNT",color="CTL" )
+  
+  corSummaryCtl=rbind(corSummaryCtl,rC[[1]])
+  
+  rF=plotIt(plotData =plotDataF,compVar = "PARENT_FREQ" ,color="CTL" )
+  corSummaryCtl=rbind(corSummaryCtl,rF[[1]])
+  grid.arrange(rC[[2]],rF[[2]],ncol=2)
+  
 }
 
-print(corSummary)
+corSummaryCtl$COMPARISON="CTLS_COMP"
+
+# print(corSummary)
   
 
 
@@ -385,8 +402,12 @@ for (pop in pops) {
   corSummary = rbind(corSummary, tmp)
 }
 
+
+corSummary$COMPARISON="MANAUAL_1K_COMP"
+corSummaryAll = rbind(corSummary,corSummaryCtl)
+
 write.table(
-  corSummary,
+  corSummaryAll,
   file = corSummaryFile,
   sep = "\t",
   quote = FALSE,
