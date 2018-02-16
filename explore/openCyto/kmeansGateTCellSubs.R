@@ -284,7 +284,7 @@ assignStatus = function(results, clusterCol) {
                      population = "central memory")
   summary = populate(summary = summary ,
                      markerDef = "CCR7+CD45+",
-                     population = "naive memory")
+                     population = "naive")
   summary = populate(summary = summary ,
                      markerDef = "CCR7-CD45+CD28-",
                      population = "effector")
@@ -298,7 +298,7 @@ assignStatus = function(results, clusterCol) {
   # summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
   # summary$POPULATION = gsub("CCR7-CD45+CD28-", "effector", summary$POPULATION, fixed = TRUE)
   
-  if (length(unique(summary$POPULATION) != unique(summary$STATUS))) {
+  if (length(unique(summary$POPULATION)) != length(unique(summary$STATUS))) {
     summary$POPULATION = "MIS_ASSIGNED_CLUSTERS"
   }
   results = merge(results, summary, by.x = clusterCol, by.y = "CLUSTER")
