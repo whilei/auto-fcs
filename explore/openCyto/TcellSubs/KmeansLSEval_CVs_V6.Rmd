@@ -379,6 +379,7 @@ corSummaryCtl$COMPARISON="CTLS_COMP"
 
 summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
 summaries$PARENT_FREQ=summaries$PARENT_FREQ*100
+summariesTrim$PARENT_FREQ=summariesTrim$PARENT_FREQ*100
 ggplot(summariesTrim, aes(
   x = reorder(summariesTrim$POPULATION, PARENT_FREQ, FUN = median),
   y = PARENT_FREQ,
