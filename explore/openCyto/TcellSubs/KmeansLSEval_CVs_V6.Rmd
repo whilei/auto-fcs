@@ -7,7 +7,7 @@ output:
     keep_md: yes
 ---
 
-#K-Means notes
+# K-Means notes
 - K-means is currently trying to identify 4 clusters using 3 dimensions (CCR7, CD45R4, and CD28)
 - The input to k-means is currently the union of Helper and Cytotoxic T cells
   - For current results below, only OpenCyto was used to determine input for kmeans clustering (i.e did not start with Helper/Cyto T defined by manual .wsps)
