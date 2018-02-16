@@ -94,6 +94,12 @@ summaries=summaries[keep,]
 ```
 
 
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=FALSE}
+ctlCounts = read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet =
+
+
+```
+
 
 
 
