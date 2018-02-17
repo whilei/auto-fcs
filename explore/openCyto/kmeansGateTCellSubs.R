@@ -165,7 +165,10 @@ gateKmeansWsp = function(gs,
     gating_method = "refGate",
     gating_args = "CD28Gate:CD27Gate"
   )
+
   
+    # Extract CD28/27 gating to func
+    # getIndiceMat(effector, "CD28-CD27-")|getIndiceMat(effector memory, "CD28-CD27-") etc for boolmat
   
   boolMat$CD28M_CD27M = FALSE
   boolMat[cytoE_EM, "CD28M_CD27M"][getIndiceMat(gsKmeans, "CD28-CD27-")] =
