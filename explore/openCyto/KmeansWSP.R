@@ -25,10 +25,10 @@ option_list = list(
   )
   ,
   make_option(
-    c("-k", "--kmeansSourceFile"),
-    default = "kmeansGateTCellSubs.R",
+    c("-r", "--repoDir"),
+    default = "~/git/auto-fcs/explore/openCyto/",
     type = "character",
-    help = "full path to kmeansGateTCellSubs.R",
+    help = "full path to repo directory with (includes kmeansGateTCellSubs.R)",
     metavar = "character"
   )
 )
@@ -37,14 +37,29 @@ option_list = list(
 opt_parser = OptionParser(option_list = option_list)
 
 opt = parse_args(opt_parser)
-opt$workspaceDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
-opt$fcsDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-opt$outputDir = "/Volumes/Beta/data/flow/testTcellSubWSP_Start/"
-opt$kmeansSourceFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/kmeansGateTCellSubs.R"
-source(opt$kmeansSourceFile)
+print(opt)
+# opt$workspaceDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
+# opt$fcsDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+# opt$outputDir = "/Volumes/Beta/data/flow/testTcellSubWSP_Start/"
+# opt$kmeansSourceFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/kmeansGateTCellSubs.R"
+source(paste0(opt$repoDir,"kmeansGateTCellSubs.R"))
+source(paste0(opt$repoDir,"CombineWSP.R"))
 
+getPanel <-
+  function(frame) {
+    t = pData(parameters(frame))
+    p1Key = "CCR7"
+    p2Key = "CD45"
+    if (p1Key %in% t$desc) {
+      return("panel1")
+    } else if (p2Key %in% t$desc) {
+      return("panel2")
+    } else{
+      return("panel_undetermined")
+    }
+  }
 dir.create(opt$outputDir)
-
+print(paste("sending results to", opt$outputDir))
 wsps <-
   list.files(
     opt$workspaceDir,
@@ -69,30 +84,53 @@ for (file in wsps) {
 
 df$WSP = as.character(df$WSP)
 for (file in df$FCS) {
-  wspFile = df[which(df$FCS == file), ]$WSP
+  wspFile = df[which(df$FCS == file),]$WSP
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
-  ws <- openWorkspace(wspFile)
-  s = getSamples(ws)
-  print(s)
   
-  id = s[which(s$name == file), ]$name
-  gs <-
-    parseWorkspace(
-      ws,
-      #WSP file
-      path = opt$fcsDir,
-      #FCS file
-      name = 1,
-      #sample group
-      subset = id[1],
-      #load single fcs file
-      isNcdf = FALSE,
-      #not memory mapped
-      compensation = compensation(keyword(frame)$`SPILL`)
+  if (getPanel(frame) == "panel1") {
+    ws <- openWorkspace(wspFile)
+    s = getSamples(ws)
+    print(paste("processing ", file, "starting from", wspFile))
+    
+    
+    id = s[which(s$name == file),]$name
+    gs <-
+      parseWorkspace(
+        ws,
+        #WSP file
+        path = opt$fcsDir,
+        #FCS file
+        name = 1,
+        #sample group
+        subset = id[1],
+        #load single fcs file
+        isNcdf = FALSE,
+        #not memory mapped
+        compensation = compensation(keyword(frame)$`SPILL`)
+      )
+    # gs@compensation=
+    # gs <- compensate(gs, compensation(keyword(frame)$`SPILL`))
+    names(gs@compensation)=file
+    sampleNames(gs) = file
+    gateKmeansWsp(
+      gs = gs,
+      fcsFile = file,
+      outputDir = opt$outputDir,
+      addComp = TRUE
     )
-  
-  closeWorkspace(ws)
+    print(paste("completed processing ", file, "starting from", wspFile))
+    
+    
+    closeWorkspace(ws)
+  } else{
+    print(paste(
+      "skipping  processing for a non-panel1 file ",
+      file,
+      "starting from",
+      wspFile
+    ))
+  }
   
   
 }

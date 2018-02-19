@@ -8,18 +8,18 @@ library(gridExtra)
 library(CytoML)
 library(flowAI)
 library(optparse)
-option_list = list(
-  make_option(c("-g", "--gatingDirectory"), type="character", default=NULL, 
-              help="directory, containing subdirectories with wsp files", metavar="character"),
-  make_option(c("-i", "--inputFCSDir"), type="character", default="~/fcs/", 
-              help="directroy with fcs files", metavar="character"),
-  make_option(c("-p1", "--panle1map"), type="character", default="autoManMap.txt", 
-              help="map of openCyto gate names to manual gate names", metavar="character")
-  
-); 
-
-opt_parser = OptionParser(option_list=option_list);
-opt = parse_args(opt_parser);
+# option_list = list(
+#   make_option(c("-g", "--gatingDirectory"), type="character", default=NULL, 
+#               help="directory, containing subdirectories with wsp files", metavar="character"),
+#   make_option(c("-i", "--inputFCSDir"), type="character", default="~/fcs/", 
+#               help="directroy with fcs files", metavar="character"),
+#   make_option(c("-p1", "--panle1map"), type="character", default="autoManMap.txt", 
+#               help="map of openCyto gate names to manual gate names", metavar="character")
+#   
+# ); 
+# 
+# opt_parser = OptionParser(option_list=option_list);
+# opt = parse_args(opt_parser);
 
 
 
