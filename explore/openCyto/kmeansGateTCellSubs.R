@@ -265,19 +265,24 @@ gateKmeansWsp = function(gs,
   
 }
 
-renameKmeansNodes <- function(gs,gsKmeans) {
-  
-  nodeMap =list(c())
-  
-  nodes = rev(getNodes(gs,path="auto")) 
-  num =0
-  for(node in nodes){
-    if(node %in% map$Auto){
-      sub =map[which(map$Auto==node),]
-      num =num+1
-      print(paste(node,"->",sub$Manual," num=",num))
-      setNode(gs, node, gsub("/","_",sub$Manual))
-    }
+renameKmeansNodes <- function(gs, gsKmeans) {
+  # gsBak=gs
+  nodesToUpdate = list(
+    c("EM3 cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","EM3 cytotoxic Tcells (CD27-  CD28-)"),
+    c("EM4 cytotoxic Tcells (CD27-  CD28+)","CD28+CD27-","EM4 cytotoxic Tcells (CD27-  CD28+)"),
+    c("EM2 cytotoxic Tcells (CD27+  CD28-)","CD28-CD27+","EM2 cytotoxic Tcells (CD27+  CD28-)"),
+    c("EM1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","EM1 cytotoxic Tcells (CD27+  CD28+)"),
+    c("pE cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","pE cytotoxic Tcells (CD27-  CD28-)"),
+    c("pE2 cytotoxic Tcells (CD27+ , CD28-)","CD28-CD27+","pE2 cytotoxic Tcells (CD27+ , CD28-)"),
+    c("pE1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","pE1 cytotoxic Tcells (CD27+  CD28+)")
+  )
+  for (node in nodesToUpdate) {
+    # sub = map[which(map$Auto == node), ]
+    # num = num + 1
+    # print(paste(node, "->", sub$Manual, " num=", num))
+    setNode(gs, node, paste0(node,"_OriginalOC_Version"))
+    
+    
   }
 }
 
