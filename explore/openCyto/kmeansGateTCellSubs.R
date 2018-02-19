@@ -1,4 +1,5 @@
 
+
 require(ClusterR)
 require(scales)
 require(CytoML)
@@ -21,7 +22,8 @@ gateKmeansWsp = function(gs,
                          num_init = 150,
                          max_iters = 5000,
                          nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+"),
-                         markersToCluster = c("CCR7", "CD45RA", "CD28")) {
+                         markersToCluster = c("CCR7", "CD45RA", "CD28"),
+                         addComp = FALSE) {
   dir.create(outputDir)
   outputRoot = paste0(outputDir, fcsFile)
   
@@ -31,14 +33,22 @@ gateKmeansWsp = function(gs,
   combo$MDEF = combo$ct | combo$ht
   
   gh <- gs[[1]]
-  subdata = getData(gh)[combo$MDEF, ]
+  subdata = getData(gh)[combo$MDEF,]
   
   channels = character()
   for (marker in markersToCluster) {
-    channels = c(channels, c(paste0(
-      getChannelMarker(frame, marker)$name
-    )))
+    if (addComp) {
+      channels = c(channels, c(paste0(
+        "Comp-",
+        getChannelMarker(frame, marker)$name
+      )))
+    } else{
+      channels = c(channels, c(paste0(
+        getChannelMarker(frame, marker)$name
+      )))
+    }
   }
+  # print(getData(gh))
   t = as.data.frame(subdata@exprs)[, channels]
   min = -20
   max = 225
@@ -90,13 +100,13 @@ gateKmeansWsp = function(gs,
     tmp = data.frame(combo$MDEF)
     colnames(tmp) = popToDump
     cluster = map[which(map$Var2 == popToDump &
-                          map$Freq > 0),]$Var1
+                          map$Freq > 0), ]$Var1
     tmp[, popToDump] = FALSE
     def = clust$KMEANS_CLUSTER == cluster
     tmp[combo$MDEF, popToDump][def] = TRUE
     boolMat = cbind(boolMat, tmp)
     
-    popSub = boolMat[which(boolMat[, popToDump] == TRUE), ]
+    popSub = boolMat[which(boolMat[, popToDump] == TRUE),]
     
     optK = which.min(o3_t[1:optKN])
     dfKAll = paste0(o3_t[1:optKN], collapse = ",")
@@ -104,9 +114,9 @@ gateKmeansWsp = function(gs,
       SAMPLE = fcsFile,
       POPULATION = paste0("HELPER_", popToDump),
       COUNT = length(popSub[which(popSub$HELPER_T ==
-                                    TRUE), ][, popToDump]),
+                                    TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$HELPER_T ==
-                                            TRUE), ][, popToDump]),
+                                            TRUE),][, popToDump]),
       OPTIMAL_K = optK ,
       DFK_ALL = dfKAll ,
       NUM_POPS_ASSIGNED = popsAssigned
@@ -116,9 +126,9 @@ gateKmeansWsp = function(gs,
       SAMPLE = fcsFile,
       POPULATION = paste0("CYTO_", popToDump),
       COUNT = length(popSub[which(popSub$CYTO_T ==
-                                    TRUE), ][, popToDump]),
+                                    TRUE),][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$CYTO_T ==
-                                            TRUE), ][, popToDump]),
+                                            TRUE),][, popToDump]),
       OPTIMAL_K = optK,
       DFK_ALL = dfKAll,
       NUM_POPS_ASSIGNED = popsAssigned
@@ -131,7 +141,7 @@ gateKmeansWsp = function(gs,
   
   cytoE_EM = (boolMat$`effector memory` |
                 boolMat$effector) & boolMat$CYTO_T
-  subFrame = getData(gh)[cytoE_EM, ]
+  subFrame = getData(gh)[cytoE_EM,]
   subframes = c(subFrame)
   names(subframes) = c(basename(fcsFile))
   
@@ -167,10 +177,10 @@ gateKmeansWsp = function(gs,
     gating_method = "refGate",
     gating_args = "CD28Gate:CD27Gate"
   )
-
   
-    # Extract CD28/27 gating to func
-    # getIndiceMat(effector, "CD28-CD27-")|getIndiceMat(effector memory, "CD28-CD27-") etc for boolmat
+  
+  # Extract CD28/27 gating to func
+  # getIndiceMat(effector, "CD28-CD27-")|getIndiceMat(effector memory, "CD28-CD27-") etc for boolmat
   
   boolMat$CD28M_CD27M = FALSE
   boolMat[cytoE_EM, "CD28M_CD27M"][getIndiceMat(gsKmeans, "CD28-CD27-")] =
@@ -191,11 +201,11 @@ gateKmeansWsp = function(gs,
   subSetPops = c("CD28M_CD27M", "CD28P_CD27M", "CD28M_CD27P", "CD28P_CD27P")
   limitPops = c("effector memory", "effector")
   cytoLim = boolMat[which(boolMat$CYTO_T ==
-                            TRUE),]
+                            TRUE), ]
   for (limit in limitPops) {
-    limitSub = cytoLim[which(cytoLim[, limit] == TRUE), ]
+    limitSub = cytoLim[which(cytoLim[, limit] == TRUE),]
     for (subSet in subSetPops) {
-      limitSubSup = limitSub[which(limitSub[, subSet] == TRUE), ]
+      limitSubSup = limitSub[which(limitSub[, subSet] == TRUE),]
       countTmpSS = data.frame(
         SAMPLE = fcsFile,
         POPULATION = paste0("CYTO_", limit, "_", subSet),
@@ -211,6 +221,7 @@ gateKmeansWsp = function(gs,
   
   
   
+  print("adding nodes")
   nodeID <-
     add(gs,  getGate(gsKmeans, "CD28-CD27-"), parent = "cytotoxic Tcells-CD8+")
   nodeID <-
@@ -221,6 +232,7 @@ gateKmeansWsp = function(gs,
     add(gs,  getGate(gsKmeans, "CD28+CD27+"), parent = "cytotoxic Tcells-CD8+")
   
   
+  print("writing new .wsp")
   
   addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
   GatingSet2flowJo(gs, addedWSP)
@@ -260,7 +272,7 @@ gateKmeansWsp = function(gs,
 assignStatus = function(results, clusterCol) {
   summary = data.frame()
   for (cluster in unique(results[, c(clusterCol)])) {
-    sub = results[which(results[, c(clusterCol)] == cluster), ]
+    sub = results[which(results[, c(clusterCol)] == cluster),]
     tmp = data.frame(
       CLUSTER = cluster,
       MEDIAN_CCR7 = median(sub$CCR7),
@@ -271,14 +283,14 @@ assignStatus = function(results, clusterCol) {
   }
   
   summary$STATUS = ""
-  summary = summary[order(summary$MEDIAN_CCR7), ]
-  summary[c(1:2), ]$STATUS = "CCR7-"
-  summary[c(3:4), ]$STATUS = "CCR7+"
-  summary = summary[order(summary$MEDIAN_CD45), ]
-  summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
-  summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
-  summary = summary[order(summary$MEDIAN_CD28), ]
-  summary[c(1), ]$STATUS = paste0(summary[c(1), ]$STATUS, "CD28-")
+  summary = summary[order(summary$MEDIAN_CCR7),]
+  summary[c(1:2),]$STATUS = "CCR7-"
+  summary[c(3:4),]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45),]
+  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
+  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
+  summary = summary[order(summary$MEDIAN_CD28),]
+  summary[c(1),]$STATUS = paste0(summary[c(1),]$STATUS, "CD28-")
   
   summary$POPULATION = summary$STATUS
   summary = populate(summary = summary ,
@@ -311,8 +323,8 @@ assignStatus = function(results, clusterCol) {
 }
 
 populate = function(summary, markerDef, population) {
-  if (length(summary[which(summary$STATUS == markerDef), ]$POPULATION) > 0) {
-    summary[which(summary$STATUS == markerDef), ]$POPULATION = population
+  if (length(summary[which(summary$STATUS == markerDef),]$POPULATION) > 0) {
+    summary[which(summary$STATUS == markerDef),]$POPULATION = population
   }
   return(summary)
 }

@@ -38,12 +38,9 @@ opt_parser = OptionParser(option_list = option_list)
 
 opt = parse_args(opt_parser)
 print(opt)
-# opt$workspaceDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
-# opt$fcsDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-# opt$outputDir = "/Volumes/Beta/data/flow/testTcellSubWSP_Start/"
-# opt$kmeansSourceFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/kmeansGateTCellSubs.R"
-source(paste0(opt$repoDir,"kmeansGateTCellSubs.R"))
-source(paste0(opt$repoDir,"CombineWSP.R"))
+
+source(paste0(opt$repoDir, "kmeansGateTCellSubs.R"))
+source(paste0(opt$repoDir, "CombineWSP.R"))
 
 getPanel <-
   function(frame) {
@@ -84,7 +81,7 @@ for (file in wsps) {
 
 df$WSP = as.character(df$WSP)
 for (file in df$FCS) {
-  wspFile = df[which(df$FCS == file),]$WSP
+  wspFile = df[which(df$FCS == file), ]$WSP
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
@@ -94,7 +91,7 @@ for (file in df$FCS) {
     print(paste("processing ", file, "starting from", wspFile))
     
     
-    id = s[which(s$name == file),]$name
+    id = s[which(s$name == file), ]$name
     gs <-
       parseWorkspace(
         ws,
@@ -111,7 +108,7 @@ for (file in df$FCS) {
       )
     # gs@compensation=
     # gs <- compensate(gs, compensation(keyword(frame)$`SPILL`))
-    names(gs@compensation)=file
+    names(gs@compensation) = file
     sampleNames(gs) = file
     gateKmeansWsp(
       gs = gs,
@@ -131,6 +128,9 @@ for (file in df$FCS) {
       wspFile
     ))
   }
-  
-  
 }
+
+# opt$workspaceDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
+# opt$fcsDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+# opt$outputDir = "/Volumes/Beta/data/flow/testTcellSubWSP_Start/"
+# opt$kmeansSourceFile = "/Users/Kitty/git/auto-fcs/explore/openCyto/kmeansGateTCellSubs.R"
