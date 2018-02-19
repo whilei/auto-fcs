@@ -1,5 +1,7 @@
 
-
+require(ClusterR)
+require(scales)
+require(CytoML)
 
 
 # https://github.com/RGLab/flowWorkspace/issues/231

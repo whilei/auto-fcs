@@ -29,7 +29,7 @@ Control summary for results
 |B       |    17|
 |C       |    37|
 |D       |    30|
-|E       |    36|
+|E       |    37|
 |F       |    27|
 |G       |    28|
 |H       |    30|
