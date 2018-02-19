@@ -221,16 +221,19 @@ gateKmeansWsp = function(gs,
   
   
   
-  print("adding nodes")
-  nodeID <-
-    add(gs,  getGate(gsKmeans, "CD28-CD27-"), parent = "cytotoxic Tcells-CD8+")
-  nodeID <-
-    add(gs,  getGate(gsKmeans, "CD28+CD27-"), parent = "cytotoxic Tcells-CD8+")
-  nodeID <-
-    add(gs,  getGate(gsKmeans, "CD28-CD27+"), parent = "cytotoxic Tcells-CD8+")
-  nodeID <-
-    add(gs,  getGate(gsKmeans, "CD28+CD27+"), parent = "cytotoxic Tcells-CD8+")
+  print("adding and renaming nodes")
   
+  gs=renameKmeansNodes(gs=gs,gsKmeans = gsKmeans)
+  # 
+  # nodeID <-
+  #   add(gs,  getGate(gsKmeans, "CD28-CD27-"), parent = "cytotoxic Tcells-CD8+")
+  # nodeID <-
+  #   add(gs,  getGate(gsKmeans, "CD28+CD27-"), parent = "cytotoxic Tcells-CD8+")
+  # nodeID <-
+  #   add(gs,  getGate(gsKmeans, "CD28-CD27+"), parent = "cytotoxic Tcells-CD8+")
+  # nodeID <-
+  #   add(gs,  getGate(gsKmeans, "CD28+CD27+"), parent = "cytotoxic Tcells-CD8+")
+  # 
 
   print("writing new .wsp")
   
@@ -267,23 +270,24 @@ gateKmeansWsp = function(gs,
 
 renameKmeansNodes <- function(gs, gsKmeans) {
   # gsBak=gs
+  # gs=gsBak
   nodesToUpdate = list(
-    c("EM3 cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","EM3 cytotoxic Tcells (CD27-  CD28-)"),
-    c("EM4 cytotoxic Tcells (CD27-  CD28+)","CD28+CD27-","EM4 cytotoxic Tcells (CD27-  CD28+)"),
-    c("EM2 cytotoxic Tcells (CD27+  CD28-)","CD28-CD27+","EM2 cytotoxic Tcells (CD27+  CD28-)"),
-    c("EM1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","EM1 cytotoxic Tcells (CD27+  CD28+)"),
-    c("pE cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","pE cytotoxic Tcells (CD27-  CD28-)"),
-    c("pE2 cytotoxic Tcells (CD27+ , CD28-)","CD28-CD27+","pE2 cytotoxic Tcells (CD27+ , CD28-)"),
-    c("pE1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","pE1 cytotoxic Tcells (CD27+  CD28+)")
+    c("EM3 cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
+    c("EM4 cytotoxic Tcells (CD27-  CD28+)","CD28+CD27-","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
+    c("EM2 cytotoxic Tcells (CD27+  CD28-)","CD28-CD27+","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
+    c("EM1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
+    c("pE cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","effector cytotoxic Tcells  (CCR7-  CD45RA+)"),
+    c("pE2 cytotoxic Tcells (CD27+ , CD28-)","CD28-CD27+","effector cytotoxic Tcells  (CCR7-  CD45RA+)"),
+    c("pE1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","effector cytotoxic Tcells  (CCR7-  CD45RA+)")
   )
   for (node in nodesToUpdate) {
-    # sub = map[which(map$Auto == node), ]
-    # num = num + 1
-    # print(paste(node, "->", sub$Manual, " num=", num))
-    setNode(gs, node, paste0(node,"_OriginalOC_Version"))
-    
-    
+    print(node[1])
+    print(node[2])
+    setNode(gs, node[1], paste0(node[1],"_OriginalOC_Version"))
+    add(gs,  getGate(gsKmeans, node[2]), parent = node[3])
+    setNode(gs, node[2], node[1])
   }
+  return(gs)
 }
 
 # Use median cluster values on dimensions of interest to determine population status
