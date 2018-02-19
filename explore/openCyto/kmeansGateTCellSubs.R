@@ -231,7 +231,7 @@ gateKmeansWsp = function(gs,
   nodeID <-
     add(gs,  getGate(gsKmeans, "CD28+CD27+"), parent = "cytotoxic Tcells-CD8+")
   
-  
+
   print("writing new .wsp")
   
   addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
@@ -265,7 +265,21 @@ gateKmeansWsp = function(gs,
   
 }
 
-
+renameKmeansNodes <- function(gs,gsKmeans) {
+  
+  nodeMap =list(c())
+  
+  nodes = rev(getNodes(gs,path="auto")) 
+  num =0
+  for(node in nodes){
+    if(node %in% map$Auto){
+      sub =map[which(map$Auto==node),]
+      num =num+1
+      print(paste(node,"->",sub$Manual," num=",num))
+      setNode(gs, node, gsub("/","_",sub$Manual))
+    }
+  }
+}
 
 # Use median cluster values on dimensions of interest to determine population status
 
