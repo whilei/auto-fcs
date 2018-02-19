@@ -432,8 +432,8 @@ summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
 summaries$PARENT_FREQ=summaries$PARENT_FREQ*100
 summariesTrim$PARENT_FREQ=summariesTrim$PARENT_FREQ*100
 
-ggplot(summariesTrim, aes(
-  x = reorder(summariesTrim$POPULATION, PARENT_FREQ, FUN = median),
+ggplot(summaries, aes(
+  x = reorder(summaries$POPULATION, PARENT_FREQ, FUN = median),
   y = PARENT_FREQ,
   colour = POPULATION
 )) +
@@ -452,17 +452,18 @@ interest = c(
   "CM.HT" ,
   "E.HT",
   "EM.HT" ,
-  "N.HT"
+  "N.HT",
+  "pE.CT",
+  "pE1.CT",
+  "pE2.CT",
+  "EM1.C.T",
+  "EM2.CT",
+  "EM3.CT",
+  "EM4.CT"
 
   )
  
-  # "pE.CT",
-  # "pE1.CT",
-  # "pE2.CT",
-  # "EM1.C.T",
-  # "EM2.CT",
-  # "EM3.CT",
-  # "EM4.CT"
+
 
 interestPercents = origPercents[, interest]
 colnames(interestPercents) = c(
@@ -474,15 +475,16 @@ colnames(interestPercents) = c(
   "HELPER_central memory" ,
   "HELPER_effector",
   "HELPER_effector memory" ,
-  "HELPER_naive"
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
 )
-  # "pE cytotoxic Tcells (CD27-  CD28-)",
-  # "pE1 cytotoxic Tcells (CD27+  CD28+)",
-  # "pE2 cytotoxic Tcells (CD27+ , CD28-)",
-  # "EM1 cytotoxic Tcells (CD27+  CD28+)",
-  # "EM2 cytotoxic Tcells (CD27+  CD28-)",
-  # "EM3 cytotoxic Tcells (CD27-  CD28-)",
-  # "EM4 cytotoxic Tcells (CD27-  CD28+)"
+
 
 interestPercentsM =  melt(interestPercents, id.vars = "Study.ID")
 interestPercentsM$KEY = paste0(interestPercentsM$Study.ID, "_", interestPercentsM$variable)
