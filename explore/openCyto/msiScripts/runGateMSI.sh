@@ -10,7 +10,8 @@ p2=$OUTDIR"p2Trim.txt"
 p1=$OUTDIR"p1Trim.txt"
 batch=32
 threads=5
-mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
+# mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
+mapFile=$REPO_DIR/explore/openCyto/fcsLOCALMAP.manual.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
 wallTimeInHour=30
