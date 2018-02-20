@@ -298,6 +298,7 @@ renameKmeansNodes <- function(gs, gsKmeans) {
   for (node in nodesToUpdate) {
     print(paste0("updating ", node[1], " to kmeans version"))
     setNode(gs, node[1], paste0(node[1], "_OriginalOC_Version"))
+    setNode(gs, paste0(node[1], "_OriginalOC_Version"), FALSE)
     print(getGate(gsKmeans, node[2]))
     add(gs,
         getGate(gsKmeans, node[2]),
