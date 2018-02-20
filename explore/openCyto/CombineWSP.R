@@ -135,13 +135,13 @@ combineWSP <- function(outputDir, gateDir,inputFCSDir,panle1map,optWisp=NULL) {
 }
 
 
-if (!is.null(opt$gatingDirectory)) {
-  combineWSP(
-    outputDir = "",
-    gateDir = opt$gatingDirectory,
-    inputFCSDir = opt$inputFCSDir,
-    panle1map = opt$panle1map
-  )
-}
+# if (!is.null(opt$gatingDirectory)) {
+#   combineWSP(
+#     outputDir = "",
+#     gateDir = opt$gatingDirectory,
+#     inputFCSDir = opt$inputFCSDir,
+#     panle1map = opt$panle1map
+#   )
+# }
 
 
