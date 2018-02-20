@@ -1,5 +1,8 @@
 
 
+
+
+
 require(ClusterR)
 require(scales)
 require(CytoML)
@@ -33,7 +36,7 @@ gateKmeansWsp = function(gs,
   combo$MDEF = combo$ct | combo$ht
   
   gh <- gs[[1]]
-  subdata = getData(gh)[combo$MDEF,]
+  subdata = getData(gh)[combo$MDEF, ]
   
   channels = character()
   for (marker in markersToCluster) {
@@ -100,13 +103,13 @@ gateKmeansWsp = function(gs,
     tmp = data.frame(combo$MDEF)
     colnames(tmp) = popToDump
     cluster = map[which(map$Var2 == popToDump &
-                          map$Freq > 0), ]$Var1
+                          map$Freq > 0),]$Var1
     tmp[, popToDump] = FALSE
     def = clust$KMEANS_CLUSTER == cluster
     tmp[combo$MDEF, popToDump][def] = TRUE
     boolMat = cbind(boolMat, tmp)
     
-    popSub = boolMat[which(boolMat[, popToDump] == TRUE),]
+    popSub = boolMat[which(boolMat[, popToDump] == TRUE), ]
     
     optK = which.min(o3_t[1:optKN])
     dfKAll = paste0(o3_t[1:optKN], collapse = ",")
@@ -114,9 +117,9 @@ gateKmeansWsp = function(gs,
       SAMPLE = fcsFile,
       POPULATION = paste0("HELPER_", popToDump),
       COUNT = length(popSub[which(popSub$HELPER_T ==
-                                    TRUE),][, popToDump]),
+                                    TRUE), ][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$HELPER_T ==
-                                            TRUE),][, popToDump]),
+                                            TRUE), ][, popToDump]),
       OPTIMAL_K = optK ,
       DFK_ALL = dfKAll ,
       NUM_POPS_ASSIGNED = popsAssigned
@@ -126,9 +129,9 @@ gateKmeansWsp = function(gs,
       SAMPLE = fcsFile,
       POPULATION = paste0("CYTO_", popToDump),
       COUNT = length(popSub[which(popSub$CYTO_T ==
-                                    TRUE),][, popToDump]),
+                                    TRUE), ][, popToDump]),
       PARENT_COUNT = length(boolMat[which(boolMat$CYTO_T ==
-                                            TRUE),][, popToDump]),
+                                            TRUE), ][, popToDump]),
       OPTIMAL_K = optK,
       DFK_ALL = dfKAll,
       NUM_POPS_ASSIGNED = popsAssigned
@@ -141,7 +144,7 @@ gateKmeansWsp = function(gs,
   
   cytoE_EM = (boolMat$`effector memory` |
                 boolMat$effector) & boolMat$CYTO_T
-  subFrame = getData(gh)[cytoE_EM,]
+  subFrame = getData(gh)[cytoE_EM, ]
   subframes = c(subFrame)
   names(subframes) = c(basename(fcsFile))
   
@@ -201,11 +204,11 @@ gateKmeansWsp = function(gs,
   subSetPops = c("CD28M_CD27M", "CD28P_CD27M", "CD28M_CD27P", "CD28P_CD27P")
   limitPops = c("effector memory", "effector")
   cytoLim = boolMat[which(boolMat$CYTO_T ==
-                            TRUE), ]
+                            TRUE),]
   for (limit in limitPops) {
-    limitSub = cytoLim[which(cytoLim[, limit] == TRUE),]
+    limitSub = cytoLim[which(cytoLim[, limit] == TRUE), ]
     for (subSet in subSetPops) {
-      limitSubSup = limitSub[which(limitSub[, subSet] == TRUE),]
+      limitSubSup = limitSub[which(limitSub[, subSet] == TRUE), ]
       countTmpSS = data.frame(
         SAMPLE = fcsFile,
         POPULATION = paste0("CYTO_", limit, "_", subSet),
@@ -220,30 +223,16 @@ gateKmeansWsp = function(gs,
   }
   
   
+  addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
   
-  print("adding and renaming nodes")
+  print(paste0("adding and renaming nodes and writing to ", addedWSP))
+  gs = renameKmeansNodes(gs = gs, gsKmeans = gsKmeans)
   
-  gs=renameKmeansNodes(gs=gs,gsKmeans = gsKmeans)
-  # 
-  # nodeID <-
-  #   add(gs,  getGate(gsKmeans, "CD28-CD27-"), parent = "cytotoxic Tcells-CD8+")
-  # nodeID <-
-  #   add(gs,  getGate(gsKmeans, "CD28+CD27-"), parent = "cytotoxic Tcells-CD8+")
-  # nodeID <-
-  #   add(gs,  getGate(gsKmeans, "CD28-CD27+"), parent = "cytotoxic Tcells-CD8+")
-  # nodeID <-
-  #   add(gs,  getGate(gsKmeans, "CD28+CD27+"), parent = "cytotoxic Tcells-CD8+")
-  # 
-
+  
   print("writing new .wsp")
   
-  addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
   GatingSet2flowJo(gs, addedWSP)
   sed1(addedWSP)
-  # s1 subset frame to cyto E and EM
-  # s2 gate on CD28/CD27
-  # s3 add gates to appropriate nodes.
-  
   
   write.table(
     summaryCounts,
@@ -269,23 +258,51 @@ gateKmeansWsp = function(gs,
 }
 
 renameKmeansNodes <- function(gs, gsKmeans) {
-  # gsBak=gs
-  # gs=gsBak
   nodesToUpdate = list(
-    c("EM3 cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
-    c("EM4 cytotoxic Tcells (CD27-  CD28+)","CD28+CD27-","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
-    c("EM2 cytotoxic Tcells (CD27+  CD28-)","CD28-CD27+","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
-    c("EM1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","effector memory cytotoxic Tcells (CCR7- , CD45RA-)"),
-    c("pE cytotoxic Tcells (CD27-  CD28-)","CD28-CD27-","effector cytotoxic Tcells  (CCR7-  CD45RA+)"),
-    c("pE2 cytotoxic Tcells (CD27+ , CD28-)","CD28-CD27+","effector cytotoxic Tcells  (CCR7-  CD45RA+)"),
-    c("pE1 cytotoxic Tcells (CD27+  CD28+)","CD28+CD27+","effector cytotoxic Tcells  (CCR7-  CD45RA+)")
+    c(
+      "EM3 cytotoxic Tcells (CD27-  CD28-)",
+      "CD28-CD27-",
+      "effector memory cytotoxic Tcells (CCR7- , CD45RA-)"
+    ),
+    c(
+      "EM4 cytotoxic Tcells (CD27-  CD28+)",
+      "CD28+CD27-",
+      "effector memory cytotoxic Tcells (CCR7- , CD45RA-)"
+    ),
+    c(
+      "EM2 cytotoxic Tcells (CD27+  CD28-)",
+      "CD28-CD27+",
+      "effector memory cytotoxic Tcells (CCR7- , CD45RA-)"
+    ),
+    c(
+      "EM1 cytotoxic Tcells (CD27+  CD28+)",
+      "CD28+CD27+",
+      "effector memory cytotoxic Tcells (CCR7- , CD45RA-)"
+    ),
+    c(
+      "pE cytotoxic Tcells (CD27-  CD28-)",
+      "CD28-CD27-",
+      "effector cytotoxic Tcells  (CCR7-  CD45RA+)"
+    ),
+    c(
+      "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+      "CD28-CD27+",
+      "effector cytotoxic Tcells  (CCR7-  CD45RA+)"
+    ),
+    c(
+      "pE1 cytotoxic Tcells (CD27+  CD28+)",
+      "CD28+CD27+",
+      "effector cytotoxic Tcells  (CCR7-  CD45RA+)"
+    )
   )
   for (node in nodesToUpdate) {
-    print(node[1])
-    print(node[2])
-    setNode(gs, node[1], paste0(node[1],"_OriginalOC_Version"))
-    add(gs,  getGate(gsKmeans, node[2]), parent = node[3])
-    setNode(gs, node[2], node[1])
+    print(paste0("updating ", node[1], " to kmeans version"))
+    setNode(gs, node[1], paste0(node[1], "_OriginalOC_Version"))
+    print(getGate(gsKmeans, node[2]))
+    add(gs,
+        getGate(gsKmeans, node[2]),
+        parent = node[3],
+        name = node[1])
   }
   return(gs)
 }
@@ -295,7 +312,7 @@ renameKmeansNodes <- function(gs, gsKmeans) {
 assignStatus = function(results, clusterCol) {
   summary = data.frame()
   for (cluster in unique(results[, c(clusterCol)])) {
-    sub = results[which(results[, c(clusterCol)] == cluster),]
+    sub = results[which(results[, c(clusterCol)] == cluster), ]
     tmp = data.frame(
       CLUSTER = cluster,
       MEDIAN_CCR7 = median(sub$CCR7),
@@ -306,14 +323,14 @@ assignStatus = function(results, clusterCol) {
   }
   
   summary$STATUS = ""
-  summary = summary[order(summary$MEDIAN_CCR7),]
-  summary[c(1:2),]$STATUS = "CCR7-"
-  summary[c(3:4),]$STATUS = "CCR7+"
-  summary = summary[order(summary$MEDIAN_CD45),]
-  summary[c(1:2),]$STATUS = paste0(summary[c(1:2),]$STATUS, "CD45-")
-  summary[c(3:4),]$STATUS = paste0(summary[c(3:4),]$STATUS, "CD45+")
-  summary = summary[order(summary$MEDIAN_CD28),]
-  summary[c(1),]$STATUS = paste0(summary[c(1),]$STATUS, "CD28-")
+  summary = summary[order(summary$MEDIAN_CCR7), ]
+  summary[c(1:2), ]$STATUS = "CCR7-"
+  summary[c(3:4), ]$STATUS = "CCR7+"
+  summary = summary[order(summary$MEDIAN_CD45), ]
+  summary[c(1:2), ]$STATUS = paste0(summary[c(1:2), ]$STATUS, "CD45-")
+  summary[c(3:4), ]$STATUS = paste0(summary[c(3:4), ]$STATUS, "CD45+")
+  summary = summary[order(summary$MEDIAN_CD28), ]
+  summary[c(1), ]$STATUS = paste0(summary[c(1), ]$STATUS, "CD28-")
   
   summary$POPULATION = summary$STATUS
   summary = populate(summary = summary ,
@@ -329,15 +346,6 @@ assignStatus = function(results, clusterCol) {
                      markerDef = "CCR7-CD45+CD28-",
                      population = "effector")
   
-  # summary[which(summary$STATUS == "CCR7-CD45-"), ]$POPULATION = "effector memory"
-  # summary[which(summary$STATUS == "CCR7+CD45-"), ]$POPULATION = "central memory"
-  # summary[which(summary$STATUS == "CCR7+CD45+"), ]$POPULATION = "naive memory"
-  # summary[which(summary$STATUS == "CCR7-CD45+CD28-"), ]$POPULATION = "effector"
-  # summary$POPULATION = gsub("CCR7-CD45-", "effector memory", summary$STATUS, fixed = TRUE)
-  # summary$POPULATION = gsub("CCR7+CD45-", "central memory", summary$POPULATION, fixed = TRUE)
-  # summary$POPULATION = gsub("CCR7+CD45+", "naive", summary$POPULATION, fixed = TRUE)
-  # summary$POPULATION = gsub("CCR7-CD45+CD28-", "effector", summary$POPULATION, fixed = TRUE)
-  
   if (length(unique(summary$POPULATION)) != length(unique(summary$STATUS))) {
     summary$POPULATION = "MIS_ASSIGNED_CLUSTERS"
   }
@@ -346,60 +354,8 @@ assignStatus = function(results, clusterCol) {
 }
 
 populate = function(summary, markerDef, population) {
-  if (length(summary[which(summary$STATUS == markerDef),]$POPULATION) > 0) {
-    summary[which(summary$STATUS == markerDef),]$POPULATION = population
+  if (length(summary[which(summary$STATUS == markerDef), ]$POPULATION) > 0) {
+    summary[which(summary$STATUS == markerDef), ]$POPULATION = population
   }
   return(summary)
 }
-
-
-# require(flowCore)
-
-
-#
-# wspFile = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs_panel1Rename.wsp"
-# fcsFile = "2016-08-01_PANEL 1_DHS_Group one_F1636851_001.fcs"
-# inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-# outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
-# nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
-# markersToCluster = c("CCR7", "CD45RA", "CD28")
-# k = 4
-# min = -20
-# max = 225
-# num_init = 50
-# max_iters = 5000
-#
-# gateKmeansWsp(wspFile=wspFile,
-#               fcsFile=fcsFile,
-#               inputDir=inputDir,
-#               outputDir=outputDir,
-#               min = min,
-#               max = max,
-#               k = k,
-#               num_init = num_init,
-#               max_iters = max_iters,
-#               nodesOfInterest =nodesOfInterest,
-#               markersToCluster = markersToCluster)
-
-
-# ws <- openWorkspace(wspFile)
-# frame = read.FCS(paste(inputDir, fcsFile, sep = ""))
-# s= getSamples(ws)
-# print(s)
-#
-# id=s[which(s$name==fcsFile),]$name
-# gs <-
-#   parseWorkspace(
-#     ws,
-#     #WSP file
-#     path = inputDir,
-#     #FCS file
-#     name = 1,
-#     #sample group
-#     subset =id[1],
-#     #load single fcs file
-#     isNcdf = FALSE,
-#     #not memory mapped
-#     compensation = compensation(keyword(frame)$`SPILL`)
-#   )
-# closeWorkspace(ws)
