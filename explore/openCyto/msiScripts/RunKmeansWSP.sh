@@ -13,13 +13,7 @@ repoDir="/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/"
 workspaceDir="/scratch.global/lanej/flow/manual/allManuals/"
 
 # fcsDir="/Volumes/Beta/data/flow/testTcellSubFCS/"
-fcsDir="/Volumes/Beta/data/flow/full/fcs/"
-
-# outputDir="/Volumes/Beta/data/flow/testTcellSubWSP_Start/"
-workspaceDir="/scratch.global/lanej/flow/manual/allManuals/"
-outputDir="/scratch.global/lanej/flow/manual/kmeans/"
-
-Rscript $repoDir"KmeansWSP.R" --workspaceDir $workspaceDir --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir
+fcsDir="/scratch.global/lanej/flow/full/fcs/"
 
 
 workspaceDir="/scratch.global/lanej/flow/manual/consolidated/"
