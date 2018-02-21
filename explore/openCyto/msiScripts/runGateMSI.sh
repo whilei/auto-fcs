@@ -11,7 +11,7 @@ p1=$OUTDIR"p1Trim.txt"
 batch=32
 threads=2
 # mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
-mapFile=$REPO_DIR/explore/openCyto/fcsLOCALMAP.manual.txt
+mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
 wallTimeInHour=30
@@ -23,7 +23,7 @@ java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/lodF
 
 
 # Full setup w/QC 
-java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=$wallTimeInHour
+java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/FULL/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=$threads wallTimeInHour=$wallTimeInHour
 
 # testTCellSubs
 java -jar $jar one.JL.fcs.OpenCyto inputFCS=$fcsDir panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.testT.txt outDir="$OUTDIR/TEST_TCELLS/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$mapFile genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=$batch memoryInMb=62000 threads=1 wallTimeInHour=68
