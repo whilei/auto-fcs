@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r26_TcellSubs_Kmeans_wsp_v8
+rev=r26_TcellSubs_Kmeans_wsp_v9
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
