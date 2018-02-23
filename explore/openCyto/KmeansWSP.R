@@ -85,7 +85,7 @@ for (file in df$FCS) {
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
-  if (getPanel(frame) == "panel1") {
+  try(if (getPanel(frame) == "panel1") {
     ws <- openWorkspace(wspFile)
     s = getSamples(ws)
     print(paste("processing ", file, "starting from", wspFile))
@@ -120,14 +120,7 @@ for (file in df$FCS) {
     
     
     closeWorkspace(ws)
-  } else{
-    print(paste(
-      "skipping  processing for a non-panel1 file ",
-      file,
-      "starting from",
-      wspFile
-    ))
-  }
+  })
 }
 
 # opt$workspaceDir = "/Volumes/Beta/data/flow/testTcellSubFCS_BoolResults/"
