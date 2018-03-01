@@ -159,8 +159,8 @@ branchFilesCD14 = gsub(".*/", "", branchFilesCD14)
 
 
 runFlowAI = FALSE
-inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
-outputDir = "/Volumes/Beta/data/flow/testPipeKmeans/"
+inputDir = "/Volumes/Beta/data/flow/probSampls/fcs/"
+outputDir = "/Volumes/Beta/data/flow/probSampls/results/"
 
 templateLymph = "~/git/auto-fcs/explore/openCyto/lymph.dev.LSR.f.txt"
 templateLymphCD8S = convertP1SpecialCD8Gate(templateFile = templateLymph, outputDir = outputDir)

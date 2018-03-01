@@ -360,3 +360,14 @@ find . -name "*.png" -print0 | du -sb --files0-from=-  | awk '{ total += $1} END
 
 
 find . -name "*.wsp" -print0 | du -sb --files0-from=-  | awk '{ total += $1} END { print total/1024/1024/1024 }'
+
+
+
+
+IFS=$'\n'
+for i in $(cat /Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/excludes.txt); do
+   echo $i
+   /usr/local/Cellar/rsync/3.1.3_1/bin/rsync  -s msi:/scratch.global/lanej/flow/full/fcs/"$i" /Volumes/Beta/data/flow/probSampls/fcs/
+   /usr/local/Cellar/rsync/3.1.3_1/bin/rsync  -s msi:/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*"$i"*.wsp /Volumes/Beta/data/flow/probSampls/wsp/
+
+done

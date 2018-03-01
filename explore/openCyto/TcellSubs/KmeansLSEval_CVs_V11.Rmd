@@ -84,6 +84,15 @@ summaries$MANUAL_ANNOTATION= summaries$SANITIZE_NAME %in% manuals$V1
 excludes = unique(summaries[which(summaries$NUM_POPS_ASSIGNED!=4),]$SAMPLE)
 summaries=summaries[which(summaries$NUM_POPS_ASSIGNED==4),]
 
+write.table(
+  excludes,
+  file = paste0(outDir,"excludes.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
 # l = summaries[which(summaries$POPULATION=="CYTO_effector"&&summaries$COUNT<1000),]
 # summaries[which(summaries$SAMPLE=="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"),]
 
