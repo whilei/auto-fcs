@@ -125,12 +125,30 @@ rid =(summaries$SAMPLE %in% sub$Var1)
 
 
 excludes = unique(c(excludes, summaries[rid, ]$SAMPLE))
-write.table(
-  data.frame(
+excludesDF =data.frame(
     EXCLUDE_SAMPLE = excludes,
     EXCLUDE_SAMPLE_SANITIZE = gsub(" ", "_", excludes)
-  ),
+  )
+# excludesDF =m
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+map =map[which(map$PANEL=="panel1"),]
+excludesDF =merge(excludesDF,map,by.x ="EXCLUDE_SAMPLE",by.y = "FILE",all.x=TRUE )
+
+write.table(
+  excludesDF,
   file = paste0(summaryFile, ".exclude.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+hist(excludesDF$TOTAL_COUNTS)
+write.table(
+  data.frame(
+    EXCLUDE_SAMPLE = excludes  ),
+  file = paste0(summaryFile, ".excludeTransfer.txt"),
   sep = "\t",
   quote = FALSE,
   row.names = FALSE

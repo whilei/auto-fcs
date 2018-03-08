@@ -23,7 +23,7 @@ output:
 
 
 
-
+![](KmeansLSEval_CVs_V11_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 Control summary for results
 

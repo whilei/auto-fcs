@@ -371,3 +371,20 @@ for i in $(cat /Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSu
    /usr/local/Cellar/rsync/3.1.3_1/bin/rsync  -s msi:/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*"$i"*.wsp /Volumes/Beta/data/flow/probSampls/wsp/
 
 done
+
+
+
+
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/summmary.counts.results_r26_TcellSubs_Kmeans_wsp_v8.txt.excludeTransfer.txt); do
+   echo $i
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/kmeansFailures/
+   rsync  /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/gatesRename/*"$i"*.wsp /home/thyagara/shared/HRS/manualFinal/kmeansFailures/
+
+done
+
+
+
+
+
