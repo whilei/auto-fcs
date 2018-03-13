@@ -385,6 +385,15 @@ for i in $(cat /home/tsaim/lane0212/summmary.counts.results_r26_TcellSubs_Kmeans
 done
 
 
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/mvKmeansTechFails.txt); do
+   echo $i
+   mv  /home/thyagara/shared/HRS/manualFinal/kmeansFailures/"$i" /home/thyagara/shared/HRS/manualFinal/kmeansFailures_skips/
+   mv  /home/thyagara/shared/HRS/manualFinal/kmeansFailures/*"$i"*.wsp /home/thyagara/shared/HRS/manualFinal/kmeansFailures_skips/
+
+done
+
+
 
 
 
