@@ -9,12 +9,12 @@ jar=/home/pankrat2/lane0212/genvisisOC.jar
 p2=$OUTDIR"p2Trim.txt"
 p1=$OUTDIR"p1Trim.txt"
 batch=32
-threads=2
+threads=5
 # mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
 mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
-wallTimeInHour=30
+wallTimeInHour=60
 
 fcsDir=/scratch.global/lanej/flow/full/fcs/
 # LOD setup
