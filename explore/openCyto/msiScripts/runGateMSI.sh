@@ -58,12 +58,12 @@ batchIters=$(($batch-1))
 for i in `seq 0 $batchIters`;do
 	sub="$OUTDIR/FULL/openCytoBatch_$i.pbs"
 	wsp="$OUTDIR/FULL/openCytoBatch_$i/gates/"
-	wspRename="$OUTDIR/FULL/openCytoBatch_$i/gatesRename/"
+	wspRename="$OUTDIR/FULL/openCytoBatch_$i/kmeans/"
     echo "mkdir -p $wspRename" >> $sub
     echo "cp $wsp/*Rename.wsp $wspRename" >> $sub
     auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/
     
-    outP1C="$OUTDIR/FULL/openCytoBatch_$i/panel1Counts/"
+    outP1C="$OUTDIR/FULL/openCytoBatch_$i/panel1CountsKmeans/"
 
     echo "java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=$auto wsp=$wspRename fcs=$fcsDir out=$outP1C pipe=PCTS_CNTS panel=1" >> $sub
 
