@@ -21,7 +21,7 @@ module load gcc/6.1.0
 module load hdf5/hdf5-1.8.9-intel
 module load libtiff
 
-java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/tsaim/lane0212/tempGenv1.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/ wsp=/scratch.global/lanej/flow/manual/panel1_v3/ fcs=/scratch.global/lanej/flow/full/fcs/ out=/scratch.global/lanej/flow/manual/panel1_v3_counts/ pipe=PCTS_CNTS panel=1
+java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/pankrat2/lane0212/genvisis.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/ wsp=/scratch.global/lanej/flow/manual/panel1_v3/ fcs=/scratch.global/lanej/flow/full/fcs/ out=/scratch.global/lanej/flow/manual/panel1_v3_counts/ pipe=PCTS_CNTS panel=1
 
 
 
