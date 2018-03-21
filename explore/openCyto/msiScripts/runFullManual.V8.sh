@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=62000mb,walltime=60:00:00,nodes=1:ppn=5
+#PBS -l mem=252000mb,walltime=60:00:00,nodes=1:ppn=5
 
 module load java
 module load perl
@@ -21,7 +21,7 @@ module load gcc/6.1.0
 module load hdf5/hdf5-1.8.9-intel
 module load libtiff
 
-java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx60G -jar /home/pankrat2/lane0212/genvisisFlow.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/ wsp=/scratch.global/lanej/flow/manual/panel1_v8/ fcs=/scratch.global/lanej/flow/full/fcs/ out=/scratch.global/lanej/flow/manual/panel1_v8_counts/ pipe=PCTS_CNTS panel=1
+java -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -Xmx250G -jar /home/pankrat2/lane0212/genvisisFlow.jar org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline auto=/scratch.global/lanej/flow/wsp_gates_151_openCyto/ wsp=/scratch.global/lanej/flow/manual/panel1_v8/ fcs=/scratch.global/lanej/flow/full/fcs/ out=/scratch.global/lanej/flow/manual/panel1_v8_counts/ pipe=PCTS_CNTS panel=1
 
 
 
