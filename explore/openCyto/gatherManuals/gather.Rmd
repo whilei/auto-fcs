@@ -1,0 +1,62 @@
+---
+title: "GatherManuals"
+author: "JL"
+date: "3/21/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+#
+
+
+have=read.delim("/Volumes/Beta/data/flow/p1Manuals/manuals.txt",
+                         stringsAsFactors = FALSE,
+                         header = FALSE)
+
+have$Name=gsub(".*/","",have$V1)
+have$Name=gsub(".fcs.*","",have$Name)
+have$Name=gsub(".wsp.*","",have$Name)
+have$Name=gsub("PANEL_1","PANEL 1",have$Name)
+have$Name=gsub("Group_","Group ",have$Name)
+have$Name=gsub("group_","group ",have$Name)
+have$Name=gsub("panel_","panel ",have$Name)
+
+
+
+have$FCS=paste0(have$Name,".fcs")
+
+write.table(
+  have,
+  file ="/Volumes/Beta/data/flow/p1Manuals/manuals.format.txt" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+add =c("2017-04-11_PANEL 1_LSR_RR_Group one_F1642656_008.fcs",
+"2017-04-11_PANEL 1_LSR_RR_Group two_F1642779_040.fcs",
+"2017-04-11_PANEL 1_LSR_RR_Group two_F1642979_039.fcs",
+"2017-04-11_PANEL 1_LSR_RR_Group one_F1642909_007.fcs",
+"2017-04-11_PANEL 1_LSR_RR_Group one_F1642906_009.fcs")
+
+manualList =c(have$FCS,add)
+
+map$HAS_MANUAL_WSP =map$FILE %in% manualList
+
+map =map[which(map$PANEL=="panel1"),]
+
+write.table(
+  map,
+  file ="/Volumes/Beta/data/flow/p1Manuals/map.manualWSPFlagged.txt" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+
+```
+

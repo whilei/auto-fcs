@@ -9,6 +9,7 @@
 
  for file in *.qsub; do    qsub "$file"; done
 
+ for file in *gz.tbi.qsub; do    qsub "$file"; done
 
 
   for file in *.pbs; do    qsub "$file"; done

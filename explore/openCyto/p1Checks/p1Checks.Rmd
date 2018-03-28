@@ -122,6 +122,23 @@ summhelperAll=merge(summaries,counts,by.y="Sample",all.y=TRUE,by.x="SAMPLE")
                 aes(x =effector.memory.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
                     y = COUNT,color=HAS_MANUAL_WSP)) +
       geom_point()
+    
+    interest=c("central.memory.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"naive.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"effector.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"effector.memory.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"central.memory.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"naive.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"effector.cytotoxic.Tcells...CCR7...CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..",
+"effector.memory.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..")
+    
+    for(inter in interest){
+      print(paste(inter," HELPER"))
+      print(table(counts[,inter]<counts$Helper.Tcells.CD4...Comp.APC.Cy7.A..CD4..v.Comp.BUV396.A..CD8..,counts$HAS_MANUAL_WSP))
+    print(paste(inter," Cyto"))
+     print(table(counts[,inter]<counts$cytotoxic.Tcells.CD8...Comp.APC.Cy7.A..CD4..v.Comp.BUV396.A..CD8..,counts$HAS_MANUAL_WSP))
+
+    }
 
 ```
 
