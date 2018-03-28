@@ -1,0 +1,127 @@
+---
+title: "checkKmeans"
+author: "JL"
+date: "3/28/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
+
+
+```{r include=FALSE,echo=FALSE}
+library(openxlsx)
+library(ggplot2)
+library(reshape)
+library(gridExtra)
+library(grid)
+library(knitr)
+
+theme_set(theme_bw(10))
+t2 <- theme(
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.text.x=element_text(angle=90,hjust=1)
+)
+inDir ="/Volumes/Beta/data/flow/kmeansValidate/results_r26_TcellSubs_Kmeans_wsp_v8/"
+outDir="/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/"
+dir.create(outDir)
+summaryFile=paste0(outDir,"summmary.counts.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+corSummaryFile=paste0(outDir,"summmary.cor.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+cvSummaryFile=paste0(outDir,"summmary.cv.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+
+```
+
+
+```{r setup, include=FALSE,eval=FALSE}
+
+summFiles <-
+  list.files(inDir,
+             pattern = "counts.txt$",
+             full = TRUE,
+             recursive = FALSE)
+
+summaries <- do.call(rbind,lapply(summFiles,read.delim))
+
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+map =map[which(map$PANEL=="panel1"),]
+summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+
+write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FALSE)
+
+```
+
+```{r echo=FALSE,warning=FALSE}
+summaries = read.delim(summaryFile,
+                       stringsAsFactors = FALSE,
+                       header = TRUE)
+summaries$SANITIZE_NAME = gsub(" ","_",summaries$SAMPLE)
+
+counts= read.delim("/Volumes/Beta/data/flow/p1CheckCounts/allCounts.xln",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+
+
+summhelperAll=merge(summaries,counts,by.y="Sample",all.y=TRUE,by.x="SAMPLE")
+
+# helperCM =summaries[which(summaries$POPULATION=="HELPER_central memory"),]
+
+# plot(summhelperCM$,summhelperCM$COUNT)
+
+ ggplot(summhelperAll[which(summhelperAll$POPULATION=="HELPER_central memory"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x = central.memory.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+ 
+  ggplot(summhelperAll[which(summhelperAll$POPULATION=="HELPER_naive"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =naive.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+ 
+  
+  ggplot(summhelperAll[which(summhelperAll$POPULATION=="HELPER_effector"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =effector.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+  
+    ggplot(summhelperAll[which(summhelperAll$POPULATION=="HELPER_effector memory"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =effector.memory.helper.Tcells..CCR7..CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+  
+    
+    
+    
+    ggplot(summhelperAll[which(summhelperAll$POPULATION=="CYTO_central memory"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x = central.memory.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA..,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+ 
+  ggplot(summhelperAll[which(summhelperAll$POPULATION=="CYTO_naive"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =naive.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+ 
+  
+  ggplot(summhelperAll[which(summhelperAll$POPULATION=="CYTO_effector"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =effector.cytotoxic.Tcells...CCR7...CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+  
+    ggplot(summhelperAll[which(summhelperAll$POPULATION=="CYTO_effector memory"&summhelperAll$HAS_MANUAL_WSP==FALSE),],
+                aes(x =effector.memory.cytotoxic.Tcells..CCR7....CD45RA....Comp.BV421.A..CCR7..v.Comp.BV711.A..CD45RA.. ,
+                    y = COUNT,color=HAS_MANUAL_WSP)) +
+      geom_point()
+
+```
+
