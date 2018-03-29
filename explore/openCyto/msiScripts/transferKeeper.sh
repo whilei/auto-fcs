@@ -398,8 +398,15 @@ done
 IFS=$'\n'
 for i in $(cat /home/tsaim/lane0212/cleanupFCS); do
    echo "$i"
-   cp  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/cleanupFCS/
+   rsync -av  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/cleanupFCS/
 done
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/cleanupFCS); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/results_r26_TcellSubs_v3/FULL/*/kmeans/*"$i"*kmeans_panel1Rename.wsp /home/tsaim/lane0212/cleanWSP/
+done
+
 
 
 

@@ -143,7 +143,7 @@ gateKmeansWsp = function(gs,
   
   addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
   
-  print(paste0("adding and renaming nodes and writing to ", addedWSP))
+  print(paste0("writing backup results pre pE/EM gating ", addedWSP))
   # gs = renameKmeansNodes(gs = gs, gsKmeans = gsKmeans)
   
   
