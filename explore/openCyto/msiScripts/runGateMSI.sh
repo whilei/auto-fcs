@@ -14,7 +14,7 @@ threads=1
 mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt
 head -n9 $p2Full > $p2
 head -n8 $p1Full > $p1
-wallTimeInHour=10
+wallTimeInHour=60
 
 fcsDir=/scratch.global/lanej/flow/full/fcs/
 fcsDir=/scratch.global/lanej/flow/cleanupFCS/
