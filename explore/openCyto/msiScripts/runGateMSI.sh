@@ -1,6 +1,6 @@
 #!/usr/bin/env bash 
 module load java
-rev=r26_TcellSubs_Kmeans_wsp_v8
+rev=r26_TcellSubs_Kmeans_wsp_v8_cleanup
 OUTDIR="/scratch.global/lanej/flow/full/results_"$rev"/"
 REPO_DIR="/home/tsaim/lane0212/git/auto-fcs/"
 p1Full=$REPO_DIR/explore/openCyto/lymph.dev.LSR.f.txt
@@ -8,7 +8,7 @@ p2Full=$REPO_DIR/explore/openCyto/dc.dev.LSR.c.txt
 jar=/home/pankrat2/lane0212/genvisisOC.jar
 p2=$OUTDIR"p2Trim.txt"
 p1=$OUTDIR"p1Trim.txt"
-batch=32
+batch=3
 threads=5
 # mapFile=$REPO_DIR/explore/openCyto/fcsMSIMap.txt
 mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt
@@ -17,6 +17,7 @@ head -n8 $p1Full > $p1
 wallTimeInHour=60
 
 fcsDir=/scratch.global/lanej/flow/full/fcs/
+fcsDir=/scratch.global/lanej/flow/cleanupFCS/
 # LOD setup
 java -jar $jar one.JL.fcs.OpenCyto inputFCS=/scratch.global/lanej/flow/full/lodFCS/ panel1Map=$REPO_DIR/explore/openCyto/panel1Map.txt panel2Map=$REPO_DIR/explore/openCyto/panel2Map.txt templateLymph=$p1Full outDir="$OUTDIR/LOD/" rSource=$REPO_DIR/explore/openCyto/Lymph_monoWithQC_v5.R templateMonocyte=$p2Full mapFile=$REPO_DIR/explore/openCyto/fcsMapBlankMap.txt genvisis=/home/pankrat2/lane0212/genvisisOC.jar batch=1 memoryInMb=100000 threads=$threads wallTimeInHour=12
 

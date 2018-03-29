@@ -153,7 +153,7 @@ for(col in colnames(sub)){
   print(max(na.omit(as.numeric(sub[,col]))))
 }
 
-latest$KEY=latest$FNUM
+latest$KEY=latest$LAB_ID
 hrs$KEY=hrs$Study.ID
 merge=merge(latest,hrs,by.x = "KEY",by.y ="KEY" )
 
@@ -225,7 +225,7 @@ for(pop in map){
   
   t = ggplot(merge,
              aes(x = merge[, pop[2]] ,
-             y = merge[, pop[1]], color = HAS_MANUAL_WSP)) +
+             y = merge[, pop[1]], color = Source)) +
              geom_point() + xlab(paste0("1st 1K ", pop[2])) + facet_wrap(~ HAS_MANUAL_WSP) +
              ggtitle(
              paste0(

@@ -141,6 +141,36 @@ gateKmeansWsp = function(gs,
   }
   
   
+  addedWSP = paste0(outputRoot, "kmeans_panel1Rename.wsp")
+  
+  print(paste0("adding and renaming nodes and writing to ", addedWSP))
+  # gs = renameKmeansNodes(gs = gs, gsKmeans = gsKmeans)
+  
+  
+  print("writing new .wsp")
+  
+  GatingSet2flowJo(gs, addedWSP)
+  sed1(addedWSP)
+  
+  write.table(
+    summaryCounts,
+    file = paste0(outputRoot, ".counts.txt") ,
+    sep = "\t",
+    quote = FALSE,
+    row.names = FALSE
+  )
+  
+  
+  gz1 <- gzfile(paste0(outputRoot, ".boolMatrix.txt.gz"), "w")
+  write.table(
+    boolMat,
+    file = gz1 ,
+    sep = "\t",
+    quote = FALSE,
+    row.names = FALSE
+  )
+  close(gz1)
+  
   
   cytoE_EM = (boolMat$`effector memory` |
                 boolMat$effector) & boolMat$CYTO_T

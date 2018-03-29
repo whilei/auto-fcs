@@ -395,5 +395,13 @@ done
 
 
 
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/cleanupFCS); do
+   echo "$i"
+   cp  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/cleanupFCS/
+done
+
+
+
 
 
