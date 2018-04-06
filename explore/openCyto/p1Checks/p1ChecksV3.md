@@ -36,108 +36,112 @@ output:
 <!--     } -->
 
 
+```
+## NULL
+```
 
-<!-- latest=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/p1CheckCounts/allCounts.xlsx",sheet = 1) -->
+```
+## [1] "B.cells.(CD3-.CD19+).(Comp-APC-A.(CD3).v.Comp-PE-Cy7-A.(CD19))"
+## [2] "Bcell"
+```
 
-<!-- hrs=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx",sheet = 1) -->
+![](p1ChecksV3_files/figure-html/sesstup-1.png)<!-- -->
 
-<!-- latest=latest[,c(1:17,57:79)] -->
-<!-- colnames(sub) -->
+```
+## [1] "Tcells.(CD3+.CD19-).(Comp-APC-A.(CD3).v.Comp-PE-Cy7-A.(CD19))"
+## [2] "Tcell"
+```
 
-<!-- for(col in colnames(sub)){ -->
-<!--   print(max(na.omit(as.numeric(sub[,col])))) -->
-<!-- } -->
+![](p1ChecksV3_files/figure-html/sesstup-2.png)<!-- -->
 
-<!-- latest$KEY=latest$LAB_ID -->
-<!-- hrs$KEY=hrs$Study.ID -->
-<!-- merge=merge(latest,hrs,by.x = "KEY",by.y ="KEY" ) -->
+```
+## [1] "Helper.Tcells-CD4+.(Comp-APC-Cy7-A.(CD4).v.Comp-BUV396-A.(CD8))"
+## [2] "HT"
+```
 
-<!-- merge=merge[which(merge$`IgD+MemB`<=100&merge$`IgD-MemB`<=100),] -->
+![](p1ChecksV3_files/figure-html/sesstup-3.png)<!-- -->
 
-<!-- # colnames(hrs) %in% colnames(latest) -->
-<!-- mergeNoMan=merge[which(merge$HAS_MANUAL_WSP==FALSE),] -->
+```
+## [1] "cytotoxic.Tcells-CD8+.(Comp-APC-Cy7-A.(CD4).v.Comp-BUV396-A.(CD8))"
+## [2] "CT"
+```
 
-<!-- map = list(c( -->
-<!--   "B.cells.(CD3-.CD19+).(Comp-APC-A.(CD3).v.Comp-PE-Cy7-A.(CD19))", -->
-<!--   "Bcell" -->
-<!--   ),c( -->
-<!--   "Tcells.(CD3+.CD19-).(Comp-APC-A.(CD3).v.Comp-PE-Cy7-A.(CD19))", -->
-<!--   "Tcell" -->
-<!--   ),c( -->
-<!--   "Helper.Tcells-CD4+.(Comp-APC-Cy7-A.(CD4).v.Comp-BUV396-A.(CD8))", -->
-<!--   "HT" -->
-<!--   ),c( -->
-<!--   "cytotoxic.Tcells-CD8+.(Comp-APC-Cy7-A.(CD4).v.Comp-BUV396-A.(CD8))", -->
-<!--   "CT" -->
-<!--   ),c( -->
-<!--   "IgD+.memory.Bcells.(CD27+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))", -->
-<!--   "IgD+MemB" -->
-<!--   ),c( -->
-<!--   "IgD-.memory.Bcells.(CD27+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))", -->
-<!--   "IgD-MemB" -->
-<!--   ),c( -->
-<!--   "naive.Bcells.(CD27-.IgD+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))", -->
-<!--   "NaiveB" -->
-<!--   ),c( -->
-<!--   "effector.helper.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "E.HT" -->
-<!--   ) -->
-<!--   ,c( -->
-<!--   "effector.memory.helper.Tcells.(CCR7-.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "EM.HT" -->
-<!--   ),c( -->
-<!--   "central.memory.helper.Tcells.(CCR7+.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "CM.HT" -->
-<!--   ),c( -->
-<!--   "naive.helper.Tcells.(CCR7+.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "N.HT" -->
-<!--   ),c( -->
-<!--   "effector.cytotoxic.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "E.CT" -->
-<!--   ) -->
-<!--   ,c( -->
-<!--   "effector.memory.cytotoxic.Tcells.(CCR7-.,.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "EM.CT" -->
-<!--   ),c( -->
-<!--   "central.memory.cytotoxic.Tcells.(CCR7+.,.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "CM.CT" -->
-<!--   ),c( -->
-<!--   "naive.cytotoxic.Tcells.(CCR7+.,.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))", -->
-<!--   "N.CT" -->
-<!--   ) -->
+![](p1ChecksV3_files/figure-html/sesstup-4.png)<!-- -->
 
+```
+## [1] "IgD+.memory.Bcells.(CD27+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))"
+## [2] "IgD+MemB"
+```
 
-<!--   ) -->
+![](p1ChecksV3_files/figure-html/sesstup-5.png)<!-- -->
 
-<!-- for(pop in map){ -->
-<!--   print(pop) -->
-<!--   co =cor.test(merge[,pop[2]] ,merge[,pop[1]] ) -->
-<!--   mergeMan=merge[which(merge$HAS_MANUAL_WSP==TRUE),] -->
-<!--   coMan =cor.test(mergeMan[,pop[2]] ,mergeMan[,pop[1]] ) -->
+```
+## [1] "IgD-.memory.Bcells.(CD27+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))"
+## [2] "IgD-MemB"
+```
 
-<!--   mergeOC=merge[which(merge$HAS_MANUAL_WSP==FALSE),] -->
-<!--   coOC =cor.test(mergeOC[,pop[2]] ,mergeOC[,pop[1]] ) -->
+![](p1ChecksV3_files/figure-html/sesstup-6.png)<!-- -->
 
-<!--   t = ggplot(merge, -->
-<!--              aes(x = merge[, pop[2]] , -->
-<!--              y = merge[, pop[1]], color = Source)) + -->
-<!--              geom_point() + xlab(paste0("1st 1K ", pop[2])) + facet_wrap(~ HAS_MANUAL_WSP) + -->
-<!--              ggtitle( -->
-<!--              paste0( -->
-<!--              "cor All=", -->
-<!--              co$estimate, -->
-<!--              "\ncor manaul v 1k manual=", -->
-<!--              coMan$estimate, -->
-<!--              "\ncor OC v 1k manual=", -->
-<!--              coOC$estimate -->
-<!--              ) -->
-<!--              ) -->
-<!--              print(t) -->
-<!-- } -->
+```
+## [1] "naive.Bcells.(CD27-.IgD+).(Comp-BUV737-A.(IgD).v.Comp-FITC-A.(CD27))"
+## [2] "NaiveB"
+```
 
+![](p1ChecksV3_files/figure-html/sesstup-7.png)<!-- -->
 
+```
+## [1] "effector.helper.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "E.HT"
+```
 
+![](p1ChecksV3_files/figure-html/sesstup-8.png)<!-- -->
 
+```
+## [1] "effector.memory.helper.Tcells.(CCR7-.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "EM.HT"
+```
 
-<!-- ``` -->
+![](p1ChecksV3_files/figure-html/sesstup-9.png)<!-- -->
+
+```
+## [1] "central.memory.helper.Tcells.(CCR7+.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "CM.HT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-10.png)<!-- -->
+
+```
+## [1] "naive.helper.Tcells.(CCR7+.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "N.HT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-11.png)<!-- -->
+
+```
+## [1] "effector.cytotoxic.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "E.CT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-12.png)<!-- -->
+
+```
+## [1] "effector.memory.cytotoxic.Tcells.(CCR7-.,.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "EM.CT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-13.png)<!-- -->
+
+```
+## [1] "central.memory.cytotoxic.Tcells.(CCR7+.,.CD45RA-).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "CM.CT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-14.png)<!-- -->
+
+```
+## [1] "naive.cytotoxic.Tcells.(CCR7+.,.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))"
+## [2] "N.CT"
+```
+
+![](p1ChecksV3_files/figure-html/sesstup-15.png)<!-- -->
 
