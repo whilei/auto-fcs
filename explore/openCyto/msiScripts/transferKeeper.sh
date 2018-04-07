@@ -409,6 +409,23 @@ done
 
 
 
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/allCounts.potential.fails.txt); do
+   echo "$i"
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/full/kmeansPotentialFails/
+   rsync  /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8_cleanup/FULL/*/kmeans/*"$i"*kmeans_panel1Rename.wsp /scratch.global/lanej/flow/full/kmeansPotentialFails/
+
+done
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/cleanup3); do
+   echo "$i"
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/cleanup3FCS/
+done
+
+
+
+
 
 
 

@@ -74,6 +74,7 @@ counts= read.delim("/Volumes/Beta/data/flow/p1CheckCounts/allCounts.xln",
 counts=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/p1CheckCounts/p1.second.data.xlsx",sheet = 1)
 counts=counts[,c(1:55)]
 
+write.table(counts[which(counts$`effector.helper.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))`<1),]$Sample,file = "/Volumes/Beta/data/flow/p1CheckCounts/allCounts.potential.fails.txt")
 
 
 
@@ -210,8 +211,9 @@ hrs=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx",sheet
 latest=latest[,c(1:17,57:79)]
 colnames(sub)
 
-for(col in colnames(sub)){
-  print(max(na.omit(as.numeric(sub[,col]))))
+for(col in colnames(latest)){
+  print(col)
+  print(max(na.omit(as.numeric(latest[,col]))))
 }
 
 latest$KEY=latest$LAB_ID
@@ -222,7 +224,7 @@ merge=merge[which(merge$`IgD+MemB`<=100&merge$`IgD-MemB`<=100),]
 
 # colnames(hrs) %in% colnames(latest)
 mergeNoMan=merge[which(merge$HAS_MANUAL_WSP==FALSE),]
-
+write.table(counts[which(counts$`effector.helper.Tcells.(CCR7-.CD45RA+).(Comp-BV421-A.(CCR7).v.Comp-BV711-A.(CD45RA))`<1),]$Sample,file = "/Volumes/Beta/data/flow/p1CheckCounts/allCounts.potential.fails.txt",quote = FALSE,row.names = FALSE)
 map = list(c(
   "B.cells.(CD3-.CD19+).(Comp-APC-A.(CD3).v.Comp-PE-Cy7-A.(CD19))",
   "Bcell"
