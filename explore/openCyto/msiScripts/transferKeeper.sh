@@ -413,9 +413,26 @@ IFS=$'\n'
 for i in $(cat /home/tsaim/lane0212/allCounts.potential.fails.txt); do
    echo "$i"
    rsync  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/full/kmeansPotentialFails/
-   rsync  /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8_cleanup/FULL/*/kmeans/*"$i"*kmeans_panel1Rename.wsp /scratch.global/lanej/flow/full/kmeansPotentialFails/
+   rsync  /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8_cleanup/FULL/*/kmeans/*"$i"*panel1Rename.wsp /scratch.global/lanej/flow/full/kmeansPotentialFails/
 
 done
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/kmeansCracks.txt); do
+   echo "$i"
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/kmeansCrackFails/
+   rsync  /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8_cleanup3/FULL/*/kmeans/skip/*"$i"*panel1Rename.wsp /home/thyagara/shared/HRS/manualFinal/kmeansCrackFails/
+done
+
+
+
+IFS=$'\n'
+for i in $(cat /home/tsaim/lane0212/OCFailCracks.txt); do
+   echo "$i"
+   rsync  /scratch.global/lanej/flow/full/fcs/"$i" /home/thyagara/shared/HRS/manualFinal/OCFailCracks/
+done
+
+
 
 IFS=$'\n'
 for i in $(cat /home/tsaim/lane0212/cleanup3); do
@@ -423,6 +440,16 @@ for i in $(cat /home/tsaim/lane0212/cleanup3); do
    rsync  /scratch.global/lanej/flow/full/fcs/"$i" /scratch.global/lanej/flow/cleanup3FCS/
 done
 
+
+#!/usr/bin/env bash 
+IFS=$'\n'
+for i in $(cat /scratch.global/kelle881/back/toCP); do
+   echo "$i"
+   directory=$(dirname "$i")
+   mkdir -p $directory
+   rsync -avr /scratch.global/kelle881/"$i" /scratch.global/kelle881/back/"$i"
+done
+touchEverything
 
 
 

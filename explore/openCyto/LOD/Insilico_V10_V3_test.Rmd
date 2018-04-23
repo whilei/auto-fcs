@@ -1,0 +1,411 @@
+---
+title: "Insilco LOD"
+author: "JL"
+date: "01/12/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
+# Notes
+
+Selected 30 LSR and 30 FORTESSA files matched for panel1 and panel2 that:
+
+- had an event count > 700000
+- had 0 "bad","abnormal", or "manual" annotatations
+
+Within this set:
+
+- randomly sub-sampled events 10 times per threshold, with requirement that number of events sampled be < %50 of total events
+
+
+
+
+
+```{r setup, include=FALSE,eval=TRUE}
+totals = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.totalCellCounts.metrics.txt", stringsAsFactors = FALSE)
+freqs = read.delim("/Volumes/Beta/data/flow/LODCtrlsV10/all.freq.metrics.txt", stringsAsFactors = FALSE)
+totals$SUCCESS=totals$FILE %in% freqs$name
+totals$GROUP=gsub("_iter.*","",totals$FILE)
+lymph=freqs[which(freqs$Manual=="Live cells (PE-)"),]
+lymph$LYMPH_COUNT=lymph$Count
+lymph=lymph[,c("name","LYMPH_COUNT")]
+pbmc=freqs[which(freqs$Manual=="Live Single PBMCs (SSC-A/FSC-A)"),]
+pbmc$PBMC_COUNT=pbmc$Count
+pbmc=pbmc[,c("name","PBMC_COUNT")]
+
+merge=merge(totals,freqs,by.x ="FILE",by.y = "name",all.x=TRUE )
+merge=merge(merge,lymph,by.x ="FILE",by.y = "name",all.x=TRUE )
+merge=merge(merge,pbmc,by.x ="FILE",by.y = "name",all.x=TRUE )
+
+
+save(merge,file ="/Volumes/Beta/data/flow/LODCtrlsV10/merge.RData" )
+```
+
+```{r  include=FALSE}
+
+load("/Volumes/Beta/data/flow/LODCtrlsV10/merge.RData")
+#24HRS
+#over
+#_BC-D24-S+F_72HRS
+#Ctl
+dontCare <- c("24HRS", "over","D24","SEPM","DAYS","ASMIC","bad","P1","baseline")
+nonHZ=!grepl(paste(dontCare,collapse="|"),merge$FILE)
+
+merge=merge[nonHZ,]
+mergeAll=merge
+# use=grepl("Ctl",merge$FILE)
+# merge=merge[use,]
+# use=grepl("iter_1",merge$FILE)
+# merge=merge[use,]
+
+
+# merge[which(merge$SUCCESS==FALSE&merge$TOTAL_COUNTS>100000),]$FILE
+
+# use=grep("_F",merge$FILE)
+# merge=merge[use,]
+fail = merge[which(!merge$SUCCESS),]
+
+merge$ID=gsub(".*_F","F",merge$FILE)
+merge$ID=gsub("_.*","",merge$ID)
+
+merge$ORIGINAL_COUNT = "FALSE"
+original = grep("All",merge$FILE)
+merge$ORIGINAL_COUNT[original]=TRUE
+
+CV <- function(mean, sd){
+      (sd/mean)*100
+}
+
+cvCalc <- function(vec){
+  CV(mean = mean(vec,na.rm = TRUE),sd=sd(vec,na.rm = TRUE))
+}
+
+library(irr)
+krpAlpha <- function(vec){
+  # print(class(vec))
+  df=as.matrix(vec)
+  # print(length(vec))
+  if(length(vec)<=1){
+    return(NA)
+  }
+  t=kripp.alpha(df ,"ratio")
+  return(t$value)
+}
+mergeAll$CV_POP_KEY=paste0(mergeAll$GROUP,"_",mergeAll$Manual)
+cvResults=aggregate(mergeAll$freqParent, list(mergeAll$CV_POP_KEY), cvCalc)
+colnames(cvResults)=c("CV_POP_KEY","SAMPLE_CV")
+mergeAll=merge(mergeAll,cvResults,by.x="CV_POP_KEY",by.y="CV_POP_KEY")
+
+# kaResults=aggregate(mergeAll$freqParent, list(mergeAll$CV_POP_KEY), krpAlpha)
+# colnames(kaResults)=c("CV_POP_KEY","SAMPLE_KA")
+# mergeAll=merge(mergeAll,kaResults,by.x="CV_POP_KEY",by.y="CV_POP_KEY")
+
+mergeAll$ORIGINAL_COUNT = FALSE
+original = grep("All",mergeAll$FILE)
+mergeAll$ORIGINAL_COUNT[original]=TRUE
+mergeAll=mergeAll[which(mergeAll$ORIGINAL_COUNT=="FALSE"),]
+
+# merge[merge$ORIGINAL_COUNT,]$TOTAL_COUNTS
+# merge=merge[which(merge$COUNTS<=merge$TOTAL_COUNTS),]
+
+library(ggplot2)
+t2 <- theme(
+  axis.line = element_line(colour = "black"),
+  axis.text = element_text(colour = "black"),
+  axis.ticks = element_line(colour = "black"),
+  # panel.grid.major.x = element_blank(),
+  panel.grid.minor.x = element_blank(),
+  # panel.grid.major.y = element_blank(),
+  # panel.grid.minor.y = element_blank(),
+  panel.border = element_blank(),
+  # panel.background = element_blank(),
+  # legend.position="none",
+  axis.text.x=element_text(angle=90,hjust=1)
+)
+theme_set(theme_grey(base_size = 18)) 
+
+
+```
+
+# Failure rate by number of events sampled
+```{r fig.height=10,fig.width=12,echo=FALSE}
+
+failData=merge[which(!merge$SUCCESS|merge$Manual=="Tcells (CD3+ CD19-)"|merge$Manual=="MONOCYTES (CD14+)"),]
+failData=failData[which(failData$ORIGINAL_COUNT=="FALSE"),]
+
+plotFailData = data.frame(EVENT_COUNT=numeric(),FAIL=character(),NUMBER=numeric(),PANEL=character())
+for(panel in unique(failData$PANEL) ){
+  if(panel!="panel_undetermined"){
+  for(machine in unique(failData$MACHINE.x)){
+  tmp = failData[which(failData$PANEL==panel&failData$MACHINE.x==machine),]
+  t=as.data.frame(table(tmp$TOTAL_COUNTS,is.na(tmp$Manual)))
+  colnames(t)=c("EVENT_COUNT","FAIL","NUMBER");
+  t$PANEL=panel
+
+  pbf=ggplot(t,aes(x=EVENT_COUNT,y=NUMBER,colour=FAIL,size=FAIL)) +
+  geom_point() +
+  xlab("Num Events Sampled") + 
+  ylab(paste0("COUNT"))+t2+ggtitle(paste0(panel, " ", machine)) 
+  # print(pbf)
+  
+  rate=data.frame(EVENT_COUNT=unique(t$EVENT_COUNT))
+  failCounts = t[which(t$FAIL==TRUE),]
+  failCounts$NUM_FAILS=failCounts$NUMBER
+  successCounts= t[which(t$FAIL==FALSE),]
+  successCounts$NUM_SUCCESS=successCounts$NUMBER
+  
+  rate=merge(rate,failCounts,by.x="EVENT_COUNT",by.y="EVENT_COUNT",all.x=TRUE)
+  rate=merge(rate,successCounts,by.x="EVENT_COUNT",by.y="EVENT_COUNT",all.x=TRUE)
+  rate$FAIL_RATE=rate$NUM_FAILS/(rate$NUM_FAILS+rate$NUM_SUCCESS)
+  rate$FAIL_RATE =rate$FAIL_RATE*100
+  pbfr=ggplot(rate,aes(x=EVENT_COUNT,y=FAIL_RATE)) +
+  geom_point() +
+  xlab("Num Events Sampled") + 
+  ylab(paste0("Percent failure"))+t2+ggtitle(paste0(panel, " ", machine)) +ylim(0,100)
+  print(pbfr)
+  }
+  }
+}
+
+```
+
+# Population specific variability
+
+
+- Frequency Parent CV computed within a sample for each event threshold (10 replicates at 2k,10 replicates at 3k, etc)
+
+Plots below - for each population
+
+1. Boxplots of sample CVs at each event threshold (the total events in the .fcs file)
+2. Number of events in lymph/pbmc populations vs sample CV
+4. Boxplots of sample CVs binned by lymph/pbmc counts - I'm kinda finding this to be the most informative. 
+5. Number of events in lymph/pbmc populations vs number of events in current population.
+6. Boxplots of sample CVs binned by number of events in current population.
+
+
+```{r fig.height=10,fig.width=12,echo=FALSE}
+
+
+p1Looks = c(
+"Lymphocytes (SSC-A v FSC-A)",
+"Single Cells (FSC-H v FSC-W)",
+"Live cells (PE-)",
+"Tcells (CD3+ CD19-)",
+"Helper Tcells-CD4+",
+"cytotoxic Tcells-CD8+",
+"B cells (CD3- CD19+)",
+"naive Bcells (CD27- IgD+)",
+"IgD- memory Bcells (CD27+)",
+"IgD+ memory Bcells (CD27+)"
+)
+
+p2Looks = c(
+  "Live immune cells (CD45+ PE-)",
+  "Live Single immune cells(FSC-H/FSC-W)",
+  "Live Single PBMCs (SSC-A/FSC-A)",
+  "DC NK MONOCYTES (CD3- CD19-)",
+  "MONOCYTES (CD14+)",
+  "Non classical monocytes (CD16+ CD14+)",
+  "Classical monocytes (CD16- CD14+)",
+  "DC NK (CD20- CD14-)",
+  "NK (CD16+)",
+  "NK CD56LO",
+  "NK CD56HI"
+  )
+
+p1full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt", stringsAsFactors = FALSE)$Manual
+p2full=freqs = read.delim("/Users/Kitty/git/auto-fcs/explore/openCyto/panel2Map.txt", stringsAsFactors = FALSE)$Manual
+# [1:2]
+# [1:2]
+# plot(mergeAll$Count,mergeAll$SAMPLE_CV)
+# plot(mergeAll$freqParent,mergeAll$SAMPLE_CV)
+panels=c("panel1","panel2")
+for(panel in panels){
+  pops=c()
+    if(panel=="panel2"){
+      pops=p2full
+    }
+   if(panel=="panel1"){
+      pops=p1full
+    }
+
+  for(popP in pops){
+  plot=1  
+
+    sub= mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual == popP),]
+  pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab("Num Events Sampled") +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
+  #  pb=ggplot(sub,aes(x=as.factor(TOTAL_COUNTS),y=SAMPLE_KA,colour=MACHINE.x)) +
+  # geom_boxplot() +
+  # xlab("Num Events Sampled") +
+  # ylab(paste0("Frequency Parent KA"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  # print(pb)
+  if(panel=="panel2"){
+  pb=ggplot(sub,aes(x=PBMC_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_point() +
+  xlab("Events in Live Single PBMCs") +
+  ylab(paste0("Frequency Parent CV - events sampled method"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
+
+  # pb=ggplot(sub,aes(x=PBMC_COUNT)) +
+  # geom_histogram(bins = 50) +
+  # xlab("Events in Live Single PBMCs") +
+  # ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  # plot=plot+1  
+
+    sub$PbmcBin <- cut(sub$PBMC_COUNT, c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+   sub$PopBin <- cut(sub$Count, seq(from=-1,to=max(sub$Count),length.out = 50)) 
+ 
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PbmcBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_PBMC_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+   
+   
+  pb=ggplot(sub,aes(x=PbmcBin,y=SAMPLE_PBMC_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab("Events in Live Single PBMCs") +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
+   pb=ggplot(sub,aes(x=PBMC_COUNT,y=Count,colour=MACHINE.x)) +
+  geom_point() +
+  xlab("Events in Live Single PBMCs") +
+  ylab(paste0("Events in ",popP))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1  
+
+  # pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # geom_boxplot() +
+  # xlab(paste0("Events in ",popP)) +
+  # ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  # plot=plot+1  
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PopBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_POP_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+  
+ pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_POP_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1 
+  
+  
+  pb=ggplot(sub,aes(x=Count)) +
+  geom_histogram(bins = 50) +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Sample Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1
+  }
+    if(panel=="panel1"){
+  pb=ggplot(sub,aes(x=LYMPH_COUNT,y=SAMPLE_CV,colour=MACHINE.x)) +
+  geom_point() +
+  xlab(" Events in Live, Single, Lymphocytes") +
+  ylab(paste0("Frequency Parent CV - events sampled method"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+    plot=plot+1  
+
+  # pb=ggplot(sub,aes(x=LYMPH_COUNT)) +
+  # geom_histogram(bins = 50) +
+  # xlab(" Events in Live, Single, Lymphocytes") +
+  # ylab(paste0("Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  #   plot=plot+1  
+
+  
+  sub$LymphBin <- cut(sub$LYMPH_COUNT,  c(0,5000,10000,15000,seq(from=20000,to=200000,by = 10000),600000))
+  sub$PopBin <- cut(sub$Count, seq(from=-1,to=max(sub$Count),length.out = 50)) 
+
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$LymphBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_LYMPH_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+   
+  
+  pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(" Events in Live, Single, Lymphocytes") +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+    plot=plot+1  
+
+  pb=ggplot(sub,aes(x=LYMPH_COUNT,y=Count,colour=MACHINE.x)) +
+  geom_point() +
+  xlab(" Events in Live, Single, Lymphocytes") +
+  ylab(paste0("Events in ",popP))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+    plot=plot+1  
+
+sub$CV_POP_KEY2=paste0(sub$CV_POP_KEY,sub$PopBin)
+cvResults2=aggregate(sub$freqParent, list(sub$CV_POP_KEY2), cvCalc)
+colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_POP_CV")
+sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
+  
+ pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_POP_CV,colour=MACHINE.x)) +
+  geom_boxplot() +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1 
+  
+    pb=ggplot(sub,aes(x=Count)) +
+  geom_histogram(bins = 50) +
+  xlab(paste0("Events in ",popP)) +
+  ylab(paste0("Sample Count"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  print(pb)
+  plot=plot+1
+    
+  #  pb=ggplot(sub,aes(x=PopBin,y=SAMPLE_CV,colour=MACHINE.x)) +
+  # geom_boxplot()  +
+  # xlab(paste0("Events in ",popP))+
+  # ylab(paste0("Frequency Parent CV"))+t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP," plot # = ",plot))
+  # print(pb)
+  #   plot=plot+1  
+
+  
+  
+  }
+  
+  
+  # pb=ggplot(sub,aes(x=Count)) +
+  # geom_histogram() +
+  # xlab("Events in Population") +
+  # t2+ggtitle(paste0("Panel=",panel,"\nPop=",popP))
+  # print(pb)
+      
+  }
+}
+
+
+#   
+# 
+# for(pop in pops){
+#  p=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID,size=ORIGINAL_COUNT)) +
+#   geom_point() +
+#   xlab("Num Events Sampled") +
+#   ylab(paste0("Frequency Parent",pop))+t2+facet_wrap(~MACHINE.x) +ggtitle(paste0("POP=",pop))+ylim(0,1)
+# 
+#  print(p)
+#   pb=ggplot(merge[which(merge$Manual==pop),],aes(x=as.factor(TOTAL_COUNTS),y=freqParent,colour=ID)) +
+#   geom_boxplot() +
+#   xlab("Num Sampled") +
+#   ylab(paste0("Frequency Parent",pop))+t2+facet_wrap(~MACHINE.x)+ggtitle(paste0("POP=",pop))+ylim(0,1)
+#   print(pb)
+# }
+
+```

@@ -71,7 +71,7 @@ counts= read.delim("/Volumes/Beta/data/flow/p1CheckCounts/allCounts.xln",
                          stringsAsFactors = FALSE,
                          header = TRUE)
 
-counts=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/p1CheckCounts/p1.second.data.xlsx",sheet = 1)
+counts= read.xlsx(xlsxFile = "/Users/Kitty/Downloads/p1.final.data (1).xlsx",sheet = 1)
 counts=counts[,c(1:55)]
 
 map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
@@ -224,7 +224,7 @@ summhelperAll=merge(summaries,counts,by.y="Sample",all.y=TRUE,by.x="SAMPLE")
 
 ```{r sesstup, echo=FALSE,eval=TRUE}
 
-latest=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/p1CheckCounts/p1.second.data.xlsx",sheet = 1)
+latest=    read.xlsx(xlsxFile = "/Users/Kitty/Downloads/p1.final.data (1).xlsx",sheet = 1)
 
 hrs=    read.xlsx(xlsxFile = "/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx",sheet = 1)
 
