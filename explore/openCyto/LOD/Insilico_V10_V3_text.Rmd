@@ -74,6 +74,30 @@ merge$ORIGINAL_COUNT = "FALSE"
 original = grep("All",merge$FILE)
 merge$ORIGINAL_COUNT[original]=TRUE
 
+nonOrig=merge[merge$ORIGINAL_COUNT=="FALSE",]
+
+```
+
+
+
+
+# Notes2
+
+Sample selection
+
+From the full study, sa
+
+Randomly selected 60 samples (30 LSR,30 FORTESSA) matched for panel1 and panel2 that had a starting event count of at least 700000 and we
+
+- had an event count > 700000
+- had 0 "bad","abnormal", or "manual" annotatations
+
+Within this set:
+
+- randomly sub-sampled events 10 times per threshold, with requirement that number of events sampled be < %50 of total events
+
+
+```{r  include=FALSE}
 CV <- function(mean, sd){
       (sd/mean)*100
 }
