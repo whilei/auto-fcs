@@ -14,8 +14,8 @@ library(ggcyto)
 library(flowCore)
 # out = "/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/fcsMSIMap.txt"
 # wsDir = "/home/thyagara/shared/HRS/manualFinal/consolidated/"
-out = "/Users/Kitty/git/auto-fcs/explore/openCyto/fcsLOCALMAP.manual.txt"
-wsDir = "/Volumes/Beta/data/flow/wsp/"
+out = "/Volumes/Beta2/flow/novelResults/fcsLOCALMAP.manual.txt"
+wsDir = "/Volumes/Beta2/flow/wsp/"
 wsps <-
   list.files(wsDir,
              pattern = "wsp$",

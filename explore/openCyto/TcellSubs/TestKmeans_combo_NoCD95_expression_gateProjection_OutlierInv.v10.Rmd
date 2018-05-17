@@ -23,7 +23,7 @@ library(openCyto)
 alpha = 0.05
 reCluster=TRUE
 runPhenograph=FALSE
-inputDir = "/Volumes/Beta/data/flow/testTcellSubFCS/"
+inputDir = "/Volumes/Beta2/flow/testNovels/"
 
 wsDir = "/Volumes/Beta/data/flow/wsp/"
 wsps <-
