@@ -39,7 +39,7 @@ gateKmeansWsp = function(gs,
   clustFile = paste0(outputRoot, ".clusterData")
   
    combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
-                       ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
+                       ct = getIndiceMat(gs, nodesOfInterest[1])[, 1])
     combo$MDEF = combo$ct | combo$ht
     gh <- gs[[1]]
     subdata = getData(gh)[combo$MDEF, ]
@@ -82,13 +82,16 @@ gateKmeansWsp = function(gs,
     
     clust = as.data.frame(clust)
     clust$KMEANS_CLUSTER = km_rc$clusters
-    
+        print(paste0("running phenograph for sample ", fcsFile))
+
     clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
     clust$PHENOGRAPH = clusterPhenograph
     
+            print(paste0("running tsne for sample ", fcsFile))
+
     tsne <- cytof_dimReduction(data = clust,
                                method = "tsne",
-                               out_dim = 3)
+                               out_dim = 2)
     
     clust = cbind(tsne)
     
