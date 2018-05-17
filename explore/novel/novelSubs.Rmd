@@ -43,27 +43,27 @@ gateKmeansWsp = function(gs,
   combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
                      ct = getIndiceMat(gs, nodesOfInterest[2])[, 1])
   combo$MDEF = combo$ct | combo$ht
-  
+  use=grep("Comp",colnames(subdata))
   gh <- gs[[1]]
   subdata = getData(gh)[combo$MDEF, ]
   
-  channels = character()
-  for (marker in markersToCluster) {
-    if (addComp) {
-      channels = c(channels, c(paste0(
-        "Comp-",
-        getChannelMarker(frame, marker)$name
-      )))
-    } else{
-      channels = c(channels, c(paste0(
-        getChannelMarker(frame, marker)$name
-      )))
-    }
-  }
+  channels =colnames(subdata)[grep("Comp",colnames(subdata))]
+  # for (marker in markersToCluster) {
+  #   if (addComp) {
+  #     channels = c(channels, c(paste0(
+  #       "Comp-",
+  #       getChannelMarker(frame, marker)$name
+  #     )))
+  #   } else{
+  #     channels = c(channels, c(paste0(
+  #       getChannelMarker(frame, marker)$name
+  #     )))
+  #   }
+  # }
   # print(getData(gh))
   t = as.data.frame(subdata@exprs)[, channels]
-  min = -20
-  max = 225
+  min = -200
+  max = 250
   for (channel in channels) {
     t[, channel] = squish(t[, channel], range = c(min, max))
   }
@@ -425,27 +425,27 @@ wsps <-
              recursive = TRUE)
 
 print(paste0("Found ", length(wsps), " wsps"))
-
-for (file in wsps) {
-  ws <- openWorkspace(file)
-  s = getSamples(ws)
-  print(length(s$name))
-  s=s[grepl("PANEL 1",s$name),]
-  print(length(s$name))
-
-  for (samp in s$name) {
-    if(runif(1)[1]<.15){
-      command = paste0(
-        "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
-        gsub(" ", "\\\ ", samp, fixed = TRUE),
-        "' ",
-        inputDir
-      )
-      system(command)
-    }
-  }
-}
-
+# 
+# for (file in wsps) {
+#   ws <- openWorkspace(file)
+#   s = getSamples(ws)
+#   print(length(s$name))
+#   s=s[grepl("PANEL 1",s$name),]
+#   print(length(s$name))
+# 
+#   for (samp in s$name) {
+#     if(runif(1)[1]<.15){
+#       command = paste0(
+#         "rsync -av \'msi:/scratch.global/lanej/flow/full/fcs/",
+#         gsub(" ", "\\\ ", samp, fixed = TRUE),
+#         "' ",
+#         inputDir
+#       )
+#       system(command)
+#     }
+#   }
+# }
+ markersToCluster = c("CCR7", "CD45RA", "CD28")
 
 outputDir = "/Volumes/Beta2/flow/novelResults/"
 
@@ -457,20 +457,21 @@ targets =
   list.files(inputDir,
              pattern = ".fcs$",
              full = FALSE)
+# 
+# zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
+#                        stringsAsFactors = FALSE,
+#                        sep = "\t")
+# 
+# use = mapper$FCS %in% targets
+# 
+# 
+# zfs =  mapper$FCS %in%zfExamples$FCS
+# mapper$EXAMPLES = zfs
+# mapper = mapper[use,]
 
-zfExamples =read.delim(paste(outputDir, "zf_ec_examples.txt", sep = ""),
-                       stringsAsFactors = FALSE,
-                       sep = "\t")
 
-use = mapper$FCS %in% targets
-
-
-zfs =  mapper$FCS %in%zfExamples$FCS
-mapper$EXAMPLES = zfs
-mapper = mapper[use,]
-
-
-for (samp in mapper$FCS[1:2]) {
+for (samp in mapper$FCS) {
+  if(file.exists(paste(inputDir, samp, sep = ""))){
   wsFile = mapper[which(mapper$FCS == samp),]$WSP
   print(wsFile)
   ws <- openWorkspace(wsFile)
@@ -496,11 +497,21 @@ for (samp in mapper$FCS[1:2]) {
       compensation = compensation(keyword(frame)$`SPILL`)
     )
   
+
+                         min = -20
+                         max = 250
+                         k = 4
+                         num_init = 150
+                         max_iters = 5000
+                         nodesOfInterest = c("Helper Tcells-CD4+", "cytotoxic Tcells-CD8+")
+                         markersToCluster = c("CCR7", "CD45RA", "CD28")
+                         addComp = FALSE
   # for (node in nodesOfInterest) {
   print(samp)
+  fcsFile=samp
+  outputDir = "/Volumes/Beta2/flow/novelResults/"
+  gateKmeansWsp(gs = gs,fcsFile =samp,outputDir = "/Volumes/Beta2/flow/novelResults/",addComp = TRUE )
   
-  gateKmeansWsp(gs = gs,fcsFile =samp,outputDir = "/Volumes/Beta2/flow/novelResults/" )
-  
- 
+  }
 }
 ```
