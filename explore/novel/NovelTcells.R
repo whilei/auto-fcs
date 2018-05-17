@@ -75,6 +75,10 @@ gateKmeansWsp = function(gs,
   
   clust = as.data.frame(clust)
   clust$KMEANS_CLUSTER = km_rc$clusters
+  
+  clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
+  clust$PHENOGRAPH = clusterPhenograph
+  
   save(clust, file = paste0(outputRoot, ".clusterData"))
   
   print(paste0("assigning population status for ", fcsFile))
