@@ -66,6 +66,8 @@ gateKmeansWsp = function(gs,
       t[, channel] = squish(t[, channel], range = c(min, max))
     }
     clust = center_scale(t[, channels])
+     clust =clust[1:1000,]
+
     # colnames(clust) = markersToCluster
     print(paste0("clustering sample ", fcsFile))
     km_rc = KMeans_rcpp(
@@ -89,10 +91,13 @@ gateKmeansWsp = function(gs,
     
             print(paste0("running tsne for sample ", fcsFile))
 
+            
     tsne <- cytof_dimReduction(data = clust,
                                method = "tsne",
                                out_dim = 2)
     
+ cluster_DensVM <- cytof_cluster(xdata = clust,
+                                 ydata = tsne, method = "DensVM")
     clust = cbind(tsne)
     
     save(clust, file = clustFile)
