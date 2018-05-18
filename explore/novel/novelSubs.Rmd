@@ -64,22 +64,26 @@ gateKmeansWsp = function(gs,
     fullDef=fullDef[1:min(subto,length(fullDef[,1])),]
 
     channels = colnames(subdata)[grep("Comp", colnames(subdata))]
+    
+    channelsPlot = c()
+
+      markersToCluster = c("CCR7", "CD45RA", "CD28")
+    for (marker in markersToCluster) {
+      if (addComp) {
+        channelsPlot = c(channelsPlot, c(paste0(
+          "Comp-",
+          getChannelMarker(frame, marker)$name
+        )))
+      } else{
+        channelsPlot = c(channelsPlot, c(paste0(
+          getChannelMarker(frame, marker)$name
+        )))
+      }
+    }
     # markersToCluster= markernames(subdata)[grep("Comp", colnames(subdata))]
   if (!file.exists(clustFile)) {
    
-    # getMar
-    # for (marker in markersToCluster) {
-    #   if (addComp) {
-    #     channels = c(channels, c(paste0(
-    #       "Comp-",
-    #       getChannelMarker(frame, marker)$name
-    #     )))
-    #   } else{
-    #     channels = c(channels, c(paste0(
-    #       getChannelMarker(frame, marker)$name
-    #     )))
-    #   }
-    # }
+  
     # print(getData(gh))
     
     t = as.data.frame(subdata@exprs)[, channels]
@@ -130,6 +134,8 @@ gateKmeansWsp = function(gs,
    load(clustFile) 
   }
     
+    myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+
     clust=cbind(clust,fullDef)
     optKN = 16
     o3_t = Optimal_Clusters_KMeans(
@@ -154,6 +160,12 @@ gateKmeansWsp = function(gs,
       tmpT=as.data.frame.matrix(tmpT)
       kable(tmpT)
       
+      # for 
+      # # for(channel in )
+      #   # pbOrient2= ggplot(clust)+ geom_point(alpha = tsalpha, aes(x = tsne_1,
+      #   #              y = tsne_2,
+      #   #              colour = expression),size=tsSize)+ scale_fill_gradientn(colours = myColor)
+      # 
       pb2 = ggplot(clust) +
         geom_point(
           alpha = tsalpha,

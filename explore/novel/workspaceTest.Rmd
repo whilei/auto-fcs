@@ -1,0 +1,64 @@
+---
+title: "Test"
+author: "JL"
+date: "5/18/2018"
+output: html_document
+---
+
+```{r message=FALSE}
+
+require(flowCore)
+require(ggcyto())
+
+# fcs file located here
+inputDir = "/Volumes/Beta2/flow/testNovels/"
+sample = "2016-10-31_PANEL 1_DHS_Group two_F1637276_038.fcs"
+
+wsFile = "/Volumes/Beta2/flow/wsp/2016-10-31_PANEL 1_DHS_Group two_F1637276_038.fcs_panel1Rename.wsp"
+print(wsFile)
+# open workspace file
+ws <- openWorkspace(wsFile)
+
+# read fcs file to flow frame
+frame = read.FCS(paste(inputDir, sample, sep = ""))
+frame
+comp <- compensation(keyword(frame)$`SPILL`)
+
+s= getSamples(ws)
+id=s[which(s$name==sample),]$name
+
+ gs <-
+      parseWorkspace(
+        ws,
+        #WSP file
+        path = inputDir,
+        #FCS file
+        name = 1,
+        #sample group
+        subset = id[1],
+        #load single fcs file
+        isNcdf = FALSE,
+        #not memory mapped
+        compensation = comp
+      )
+
+gs
+
+# boolean matrix of cytoT definition
+cytoTs = data.frame(DEFINITION = getIndiceMat(gs, "cytotoxic Tcells-CD8+")[, 1])
+
+gh <- gs[[1]]
+gh
+
+# subset the flow frame to just cyto ts
+subdata = getData(gh)[cytoTs$DEFINITION, ]
+subdata
+
+
+channels = colnames(subdata)[grep("Comp", colnames(subdata))]
+# markerNames=markerNames
+
+
+
+
+```
