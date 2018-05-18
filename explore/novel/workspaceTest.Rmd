@@ -2,7 +2,9 @@
 title: "Test"
 author: "JL"
 date: "5/18/2018"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r message=FALSE}
