@@ -8,7 +8,9 @@ output: html_document
 ![](./f.png)
 ![](./t.png)
 
-```{r }
+- cytofkit , kinda cool https://bioconductor.org/packages/devel/bioc/vignettes/cytofkit/inst/doc/cytofkit_workflow.html
+
+```{r echo=FALSE,warning=FALSE,message=FALSE }
 
 
 
@@ -17,6 +19,7 @@ require(ClusterR)
 require(scales)
 require(CytoML)
 library(reshape2)
+library(knitr)
 
 
 # https://github.com/RGLab/flowWorkspace/issues/231
@@ -47,7 +50,7 @@ gateKmeansWsp = function(gs,
     combo$MDEF = combo$ct | combo$ht
     
     fullDef=data.frame(MDEF=combo$MDEF)
-    allNodes=getNodes(gs)
+    allNodes=getNodes(gs,path="auto")
     for(node in allNodes){
       tmp = getIndiceMat(gs, node)[, 1]
       fullDef=cbind(fullDef,tmp)
@@ -55,10 +58,11 @@ gateKmeansWsp = function(gs,
     }
     colnames(fullDef)=allNodes
     subto=5000
-    fullDef=fullDef[1:min(subto,length(fullDef[,1])),]
     gh <- gs[[1]]
     subdata = getData(gh)[combo$MDEF, ]
-    
+    fullDef = fullDef[combo$MDEF, ]
+    fullDef=fullDef[1:min(subto,length(fullDef[,1])),]
+
     channels = colnames(subdata)[grep("Comp", colnames(subdata))]
     # markersToCluster= markernames(subdata)[grep("Comp", colnames(subdata))]
   if (!file.exists(clustFile)) {
@@ -141,7 +145,15 @@ gateKmeansWsp = function(gs,
     tsSize =1
     methods = c("KMEANS_CLUSTER", "PHENOGRAPH","CLUSTER_DENSVM")
     for (method in methods) {
-      clust$CURRENT_COLOR=clust[,method]
+      clust$CURRENT_COLOR=as.factor(clust[,method])
+      
+      tmp=clust[,c(method,allNodes)]
+      tmpM=melt(data = tmp,id.vars=method)
+      tmpM=tmpM[which(tmpM$value=="TRUE"),]
+      tmpT=table(tmpM[,method],paste0(tmpM$variable,tmpM$value))
+      tmpT=as.data.frame.matrix(tmpT)
+      kable(tmpT)
+      
       pb2 = ggplot(clust) +
         geom_point(
           alpha = tsalpha,
