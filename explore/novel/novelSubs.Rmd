@@ -5,6 +5,9 @@ date: "5/17/2018"
 output: html_document
 ---
 
+![](./f.png)
+![](./t.png)
+
 ```{r }
 
 
@@ -13,6 +16,7 @@ output: html_document
 require(ClusterR)
 require(scales)
 require(CytoML)
+library(reshape2)
 
 
 # https://github.com/RGLab/flowWorkspace/issues/231
@@ -41,10 +45,22 @@ gateKmeansWsp = function(gs,
    combo = data.frame(ht = getIndiceMat(gs, nodesOfInterest[1])[, 1],
                        ct = getIndiceMat(gs, nodesOfInterest[1])[, 1])
     combo$MDEF = combo$ct | combo$ht
+    
+    fullDef=data.frame(MDEF=combo$MDEF)
+    allNodes=getNodes(gs)
+    for(node in allNodes){
+      tmp = getIndiceMat(gs, node)[, 1]
+      fullDef=cbind(fullDef,tmp)
+      
+    }
+    colnames(fullDef)=allNodes
+    subto=5000
+    fullDef=fullDef[1:min(subto,length(fullDef[,1])),]
     gh <- gs[[1]]
     subdata = getData(gh)[combo$MDEF, ]
     
     channels = colnames(subdata)[grep("Comp", colnames(subdata))]
+    # markersToCluster= markernames(subdata)[grep("Comp", colnames(subdata))]
   if (!file.exists(clustFile)) {
    
     # getMar
@@ -61,12 +77,13 @@ gateKmeansWsp = function(gs,
     #   }
     # }
     # print(getData(gh))
+    
     t = as.data.frame(subdata@exprs)[, channels]
     for (channel in channels) {
       t[, channel] = squish(t[, channel], range = c(min, max))
     }
     clust = center_scale(t[, channels])
-     clust =clust[1:1000,]
+    clust =clust[1:min(subto,length(clust[,1])),]
 
     # colnames(clust) = markersToCluster
     print(paste0("clustering sample ", fcsFile))
@@ -83,6 +100,8 @@ gateKmeansWsp = function(gs,
     )
     
     clust = as.data.frame(clust)
+    colnames(clust)=channels
+
     clust$KMEANS_CLUSTER = km_rc$clusters
         print(paste0("running phenograph for sample ", fcsFile))
 
@@ -98,15 +117,16 @@ gateKmeansWsp = function(gs,
     
  cluster_DensVM <- cytof_cluster(xdata = clust,
                                  ydata = tsne, method = "DensVM")
-    clust = cbind(tsne)
+    clust = cbind(clust,tsne)
     
+    clust$CLUSTER_DENSVM=cluster_DensVM
     save(clust, file = clustFile)
     
   }else{
    load(clustFile) 
   }
     
-    
+    clust=cbind(clust,fullDef)
     optKN = 16
     o3_t = Optimal_Clusters_KMeans(
       clust[,channels],
@@ -119,8 +139,7 @@ gateKmeansWsp = function(gs,
     
     tsalpha = .5
     tsSize =1
-
-    methods = c("KMEANS_CLUSTER", "PHENOGRAPH")
+    methods = c("KMEANS_CLUSTER", "PHENOGRAPH","CLUSTER_DENSVM")
     for (method in methods) {
       clust$CURRENT_COLOR=clust[,method]
       pb2 = ggplot(clust) +
@@ -134,8 +153,11 @@ gateKmeansWsp = function(gs,
           size = tsSize
         ) +
         xlab(paste0("tsne1")) +
-        ylab(paste0("tsne2")) + t2 + ggtitle(paste0(method, "\n", samp)) +
+        ylab(paste0("tsne2"))  + ggtitle(paste0(method, "\n", samp)) +
         theme(legend.position = "bottom")
+      print(pb2)
+      
+      # + t2
   
   }
 }
