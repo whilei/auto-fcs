@@ -10,7 +10,8 @@ output:
 ```{r message=FALSE}
 
 require(flowCore)
-require(ggcyto())
+require(cytofkit)
+
 
 # fcs file located here
 inputDir = "/Volumes/Beta2/flow/testNovels/"
@@ -60,7 +61,37 @@ subdata
 channels = colnames(subdata)[grep("Comp", colnames(subdata))]
 # markerNames=markerNames
 
+ 
+    t = as.data.frame(subdata@exprs)[, channels]
+    for (channel in channels) {
+      t[, channel] = squish(t[, channel], range = c(min, max))
+    }
+    clust = center_scale(t[, channels])
+    clust =clust[1:min(subto,length(clust[,1])),]
 
+    # colnames(clust) = markersToCluster
+    print(paste0("clustering sample ", fcsFile))
+    km_rc = KMeans_rcpp(
+      clust,
+      clusters = k,
+      num_init = num_init,
+      max_iters = max_iters,
+      tol = 1e-06,
+      initializer = 'optimal_init',
+      # threads = 4,
+      verbose = F,
+      seed = 42
+    )
+    
+    clust = as.data.frame(clust)
+    colnames(clust)=channels
+
+    clust$KMEANS_CLUSTER = km_rc$clusters
+        print(paste0("running phenograph for sample ", fcsFile))
+
+    clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
+    clust$PHENOGRAPH = clusterPhenograph
+    
 
 
 ```
