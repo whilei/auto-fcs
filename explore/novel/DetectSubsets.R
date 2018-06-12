@@ -78,23 +78,26 @@ for (marker in markersToCluster) {
 # markerNames=markerNames
 
 
-t = as.data.frame(subdata@exprs)[, channels]
+inputData=as.data.frame(subdata@exprs)[, channels]
+t = inputData
 for (channel in channels) {
   t[, channel] = squish(t[, channel], range = c(min, max))
 }
 clust = center_scale(t[, channels])
-clust =clust[1:min(subto,length(clust[,1])),]
 
-# colnames(clust) = markersToCluster
+# 
 
 
 clust = as.data.frame(clust)
-colnames(clust)=channels
+colnames(clust) = markersToCluster
+colnames(inputData) = markersToCluster
 
 print(paste0("running phenograph for sample ", sample))
 
 clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
 clust$PHENOGRAPH = clusterPhenograph
 
+centroidsScale=aggregate(clust[,markersToCluster], list(clust$PHENOGRAPH ), median)
+centroidsInput=aggregate(inputData, list(clust$PHENOGRAPH ), median)
 
 
