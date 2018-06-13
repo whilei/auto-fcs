@@ -1,5 +1,6 @@
 
 
+
 require(flowCore)
 require(cytofkit)
 require(scales)
@@ -9,14 +10,27 @@ require(ClusterR)
 # fcs file located here
 inputDir = "/Volumes/Beta2/flow/testNovels/"
 sample = "2016-10-31_PANEL 1_DHS_Group two_F1637276_038.fcs"
-outPutDir= "/Volumes/Beta2/flow/testNovelsOut/"
+outPutDir = "/Volumes/Beta2/flow/testNovelsOut/"
 wsFile = "/Volumes/Beta2/flow/wsp/2016-10-31_PANEL 1_DHS_Group two_F1637276_038.fcs_panel1Rename.wsp"
 
 
+dir.create(outPutDir)
+outRoot = paste0(outPutDir, sample)
+print(paste0("writing output to root ", outRoot))
 
-markersToCluster=c("CD27","HLA-DR","CD19","CD8","IgD","CD3","CCR7","CD28","CD95","CD45RA","CD4")
-subsetGate="cytotoxic Tcells-CD8+"
-addComp=TRUE
+markersToCluster = c("CD27",
+                     "HLA-DR",
+                     "CD19",
+                     "CD8",
+                     "IgD",
+                     "CD3",
+                     "CCR7",
+                     "CD28",
+                     "CD95",
+                     "CD45RA",
+                     "CD4")
+subsetGate = "cytotoxic Tcells-CD8+"
+addComp = TRUE
 min = -20
 max = 250
 
@@ -24,15 +38,15 @@ print(wsFile)
 # open workspace file
 
 
-dir.create(outPutDir)
 ws <- openWorkspace(wsFile)
+
 
 # read fcs file to flow frame
 frame = read.FCS(paste(inputDir, sample, sep = ""))
 comp <- compensation(keyword(frame)$`SPILL`)
 
-s= getSamples(ws)
-id=s[which(s$name==sample),]$name
+s = getSamples(ws)
+id = s[which(s$name == sample), ]$name
 
 gs <-
   parseWorkspace(
@@ -57,7 +71,7 @@ gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
 gh <- gs[[1]]
 
 # subset the flow frame to just cyto ts
-subdata = getData(gh)[gatedData$DEFINITION, ]
+subdata = getData(gh)[gatedData$DEFINITION,]
 
 channels = character()
 for (marker in markersToCluster) {
@@ -74,19 +88,16 @@ for (marker in markersToCluster) {
 }
 # channels = colnames(subdata)[grep("Comp", colnames(subdata))]
 
-  
+
 # markerNames=markerNames
 
 
-inputData=as.data.frame(subdata@exprs)[, channels]
+inputData = as.data.frame(subdata@exprs)[, channels]
 t = inputData
 for (channel in channels) {
   t[, channel] = squish(t[, channel], range = c(min, max))
 }
 clust = center_scale(t[, channels])
-
-# 
-
 
 clust = as.data.frame(clust)
 colnames(clust) = markersToCluster
@@ -97,7 +108,24 @@ print(paste0("running phenograph for sample ", sample))
 clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
 clust$PHENOGRAPH = clusterPhenograph
 
-centroidsScale=aggregate(clust[,markersToCluster], list(clust$PHENOGRAPH ), median)
-centroidsInput=aggregate(inputData, list(clust$PHENOGRAPH ), median)
+centroidsScale = aggregate(clust[, markersToCluster], list(clust$PHENOGRAPH), median)
 
+write.table(
+  centroidsScale,
+  file = paste0(outRoot, ".cents.scale"),
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t",
+  col.names = TRUE
+)
 
+centroidsInput = aggregate(inputData, list(clust$PHENOGRAPH), median)
+
+write.table(
+  centroidsInput,
+  file = paste0(outRoot, ".cents.inputData"),
+  row.names = FALSE,
+  quote = FALSE,
+  sep = "\t",
+  col.names = TRUE
+)
