@@ -1,6 +1,6 @@
 
 
-inDir="fillin"
+inDir="/Volumes/Beta2/flow/detect_v1/"
 
 centFiles <-
   list.files(inDir,
