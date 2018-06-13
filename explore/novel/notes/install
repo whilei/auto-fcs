@@ -1,0 +1,46 @@
+conda install -c anaconda libxml2
+
+conda install icu 56.*
+
+R
+install.packages("igraph")
+
+
+https://github.com/conda-forge/cdo-feedstock/issues/27
+
+
+biocLite("cytofkit")
+
+
+
+module load R/3.5.0
+module load gcc/6.1.0
+module load hdf5/hdf5-1.8.9-intel
+
+rm conda on path
+
+module load R/3.3.3
+
+
+R
+
+library(openCyto)
+
+
+R
+
+
+module load R/3.5.0
+module load gcc/6.1.0
+module load hdf5/hdf5-1.8.9-intel
+module load libtiff
+
+install.packages("optparse")
+install.packages("scales")
+install.packages("ClusterR")
+
+
+source("https://bioconductor.org/biocLite.R")
+biocLite("flowCore")
+biocLite("flowWorkspace")
+biocLite("cytofkit")

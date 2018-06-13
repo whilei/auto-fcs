@@ -1,10 +1,6 @@
 
 
 
-require(flowCore)
-require(cytofkit)
-require(scales)
-require(ClusterR)
 
 cluster <-
   function(fcsFile,

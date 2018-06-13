@@ -1,6 +1,9 @@
 library(optparse)
 library(flowCore)
 library(flowWorkspace)
+library(cytofkit)
+library(scales)
+library(ClusterR)
 
 option_list = list(
   make_option(
@@ -85,9 +88,9 @@ for (file in df$FCS) {
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
   try(if (getPanel(frame) == "panel1") {
+    print(paste("processing ", file, "starting from", wspFile))
     ws <- openWorkspace(wspFile)
     s = getSamples(ws)
-    print(paste("processing ", file, "starting from", wspFile))
     
     
     id = s[which(s$name == file),]$name

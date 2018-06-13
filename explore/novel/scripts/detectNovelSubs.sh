@@ -6,16 +6,13 @@
 #PBS -m ae
 #PBS -l mem=252gb,walltime=96:00:00,nodes=1:ppn=24
 
-module load java
-module load perl
-module load R
-module load riss_util
-module load samtools
-module load python
+
+# module load python
 module load parallel
-module load R/3.3.3
+module load R/3.5.0
 module load gcc/6.1.0
 module load hdf5/hdf5-1.8.9-intel
+module load libtiff
 
 profile.pl -o detectNovelSubs.profile &
 
