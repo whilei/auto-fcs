@@ -7,13 +7,14 @@
 #PBS -l mem=252gb,walltime=96:00:00,nodes=1:ppn=24
 
 
+profile.pl -o detectNovelSubs.profile &
+
 module load parallel
 module load R/3.5.0
 module load hdf5/hdf5-1.8.9-intel
 module load libtiff
 module load gcc/8.1.0
 
-profile.pl -o detectNovelSubs.profile &
 
 echo "start detectNovelSubs at: " `date`
 /bin/hostname
