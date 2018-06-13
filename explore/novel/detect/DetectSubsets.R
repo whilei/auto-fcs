@@ -65,7 +65,7 @@ cluster <-
     clust$PHENOGRAPH = clusterPhenograph
     
     centroidsScale = aggregate(clust[, markersToCluster], list(clust$PHENOGRAPH), median)
-    
+    centroidsScale$SAMPLE=fcsFile
     write.table(
       centroidsScale,
       file = paste0(outRoot, ".cents.scale"),
@@ -76,6 +76,7 @@ cluster <-
     )
     
     centroidsInput = aggregate(inputData, list(clust$PHENOGRAPH), median)
+    centroidsInput$SAMPLE=fcsFile
     
     write.table(
       centroidsInput,
@@ -86,6 +87,7 @@ cluster <-
       col.names = TRUE
     )
     
+    clust$SAMPLE=fcsFile
     save(clust, file = paste0(outRoot, ".clust.Rdata"))
     
   }
