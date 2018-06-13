@@ -64,11 +64,6 @@ wsps = read.delim(opt$workspaceFiles,
                   stringsAsFactors = FALSE,
                   header = FALSE)
 
-wsps = read.delim(
-  "/Users/Kitty/git/auto-fcs/explore/novel/testInput.txt",
-  stringsAsFactors = FALSE,
-  header = FALSE
-)
 print(paste0("Found ", length(wsps), " wsps", "in file ", opt$workspaceFiles))
 df = data.frame(WSP = character(0),
                 FCS = character(0))

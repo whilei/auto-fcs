@@ -13,6 +13,9 @@ module load riss_util
 module load samtools
 module load python
 module load parallel
+module load R/3.3.3
+module load gcc/6.1.0
+module load hdf5/hdf5-1.8.9-intel
 
 profile.pl -o detectNovelSubs.profile &
 
