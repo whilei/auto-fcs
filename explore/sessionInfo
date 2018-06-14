@@ -1,0 +1,62 @@
+R version 3.3.3 (2017-03-06)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS release 6.9 (Final)
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] methods   stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+ [1] plyr_1.8.4                optparse_1.3.2           
+ [3] scales_0.5.0              ClusterR_1.1.0           
+ [5] gtools_3.5.0              flowAI_1.2.10            
+ [7] CytoML_1.0.1              gridExtra_2.2.1          
+ [9] ggcyto_1.2.3              ggplot2_2.2.1            
+[11] data.table_1.10.4         openCyto_1.12.1          
+[13] flowWorkspace_3.20.5      ncdfFlow_2.22.0          
+[15] BH_1.62.0-1               RcppArmadillo_0.7.900.2.0
+[17] flowCore_1.40.6          
+
+loaded via a namespace (and not attached):
+ [1] colorspace_1.3-2    corpcor_1.6.9       base64enc_0.1-3    
+ [4] clue_0.3-53         hexbin_1.27.1       IDPmisc_1.1.17     
+ [7] MatrixModels_0.4-1  getopt_1.20.0       mvtnorm_1.0-6      
+[10] codetools_0.2-15    splines_3.3.3       R.methodsS3_1.7.1  
+[13] mnormt_1.5-5        robustbase_0.92-7   knitr_1.16         
+[16] ade4_1.7-10         jsonlite_1.5        mcmc_0.9-5         
+[19] cluster_2.0.5       png_0.1-7           R.oo_1.21.0        
+[22] FD_1.0-12           graph_1.52.0        shiny_1.0.3        
+[25] rrcov_1.4-3         compiler_3.3.3      assertthat_0.2.0   
+[28] Matrix_1.2-8        lazyeval_0.2.0      htmltools_0.3.6    
+[31] quantreg_5.33       tools_3.3.3         gmp_0.5-13.1       
+[34] bindrcpp_0.2        misc3d_0.8-4        coda_0.19-1        
+[37] gtable_0.2.0        glue_1.1.1          reshape2_1.4.2     
+[40] dplyr_0.7.1         Rcpp_0.12.11        Biobase_2.34.0     
+[43] flowUtils_1.38.0    ape_5.0             nlme_3.1-131       
+[46] changepoint_2.2.2   stringr_1.2.0       mime_0.5           
+[49] XML_3.98-1.9        DEoptimR_1.0-8      zlibbioc_1.20.0    
+[52] MASS_7.3-45         zoo_1.8-0           parallel_3.3.3     
+[55] RBGL_1.50.0         SparseM_1.77        RColorBrewer_1.1-2 
+[58] latticeExtra_0.6-28 stringi_1.1.5       pcaPP_1.9-70       
+[61] flowClust_3.12.2    permute_0.9-4       tiff_0.1-5         
+[64] BiocGenerics_0.20.0 geometry_0.3-6      flowViz_1.38.0     
+[67] rlang_0.1.1         pkgconfig_2.0.1     matrixStats_0.52.2 
+[70] fda_2.4.4           lattice_0.20-34     bindr_0.1          
+[73] OpenImageR_1.0.8    ks_1.10.6           htmlwidgets_0.8    
+[76] magrittr_1.5        R6_2.2.2            RUnit_0.4.31       
+[79] mgcv_1.8-17         abind_1.4-5         tibble_1.3.3       
+[82] KernSmooth_2.23-15  jpeg_0.1-8          grid_3.3.3         
+[85] multicool_0.1-10    FNN_1.1             vegan_2.4-6        
+[88] Rgraphviz_2.18.0    digest_0.6.12       xtable_1.8-2       
+[91] httpuv_1.3.3        MCMCpack_1.4-0      R.utils_2.5.0      
+[94] flowStats_3.32.0    stats4_3.3.3        munsell_0.4.3      
+[97] magic_1.5-8        
+02:27:36PM Info - finished running command Rscript /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8//FULL/openCytoBatch_9.RScript
+end openCytoBatch_9 at:  Tue Mar 20 14:27:36 CDT 2018
