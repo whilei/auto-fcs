@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 library(superheat)
 library(scales)
+library(plotly)
 
 ```
 
@@ -21,88 +22,103 @@ library(scales)
 
 ```{r fig.width=10,fig.height=9}
 
-inDir="/Volumes/Beta2/flow/detect_NewNorms_v2/"
+
+inDir = "/Volumes/Beta2/flow/detect_NewNorms_v2/"
 
 
-types = c(
-  "subFirst_FALSE_normalize_TRUE.cents.scale",
-  "subFirst_TRUE_normalize_FALSE.cents.scale"
-  )
+# ,
+types = c("subFirst_TRUE_normalize_FALSE.cents.scale","subFirst_FALSE_normalize_TRUE.cents.scale")
 
-manuals=read.delim("/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
-                       stringsAsFactors = FALSE,
-                       header = FALSE)
-for(type in types){
-centFiles <-
-  list.files(inDir,
-             pattern = paste0(type,"$"),
-             full = TRUE,
-             recursive = FALSE)
+manuals = read.delim(
+  "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
+  stringsAsFactors = FALSE,
+  header = FALSE
+)
 
-cents <- do.call(rbind,lapply(centFiles,read.delim))
-markersToCluster = c("CD27",
-                     "HLA.DR",
-                     "CD19",
-                     "CD8",
-                     "IgD",
-                     "CD3",
-                     "CCR7",
-                     "CD28",
-                     "CD95",
-                     "CD45RA",
-                     "CD4")
-# map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
-#                stringsAsFactors = FALSE,
-#                header = TRUE)
-# map =map[which(map$PANEL=="panel1"),]
-# summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
-
-cents$SANITIZE_NAME = gsub(" ","_",cents$SAMPLE)
-
-
-cents$MANUAL_ANNOTATION= cents$SANITIZE_NAME %in% manuals$V1
-
-cents=cents[which(cents$MANUAL_ANNOTATION==FALSE),]
-
-
-
-superheat(as.matrix(t(cents[,markersToCluster])), 
-          
-          # place dendrograms on columns and rows 
-          row.dendrogram = T, 
-          col.dendrogram = T,
-          
-          # make gridlines white for enhanced prettiness
-          grid.hline.col = "white",
-          grid.vline.col = "white",
-          
-          # rotate bottom label text
-          bottom.label.text.angle = 90)
-
-
-# 
-if(type=="subFirst_TRUE_normalize_FALSE.cents.scale"){
-for(mark in markersToCluster){
-    cents[, mark] = squish(cents[, mark], range = c(0, 250))
-}
-
+supeHe <- function(cents) {
   superheat(
     as.matrix(t(cents[, markersToCluster])),
-
+    
     # place dendrograms on columns and rows
-    row.dendrogram = T,
+    row.dendrogram = F,
     col.dendrogram = T,
-
+    
     # make gridlines white for enhanced prettiness
     grid.hline.col = "white",
     grid.vline.col = "white",
-
+    
     # rotate bottom label text
     bottom.label.text.angle = 90
-    )
-}
+  )
 }
 
+for (type in types) {
+  centFiles <-
+    list.files(
+      inDir,
+      pattern = paste0(type, "$"),
+      full = TRUE,
+      recursive = FALSE
+    )
+  
+  cents <- do.call(rbind, lapply(centFiles, read.delim))
+  cents = cents[c(1:2000), ]
+  markersToCluster = c("CD27",
+                       "HLA.DR",
+                       "CD19",
+                       "CD8",
+                       "IgD",
+                       "CD3",
+                       "CCR7",
+                       "CD28",
+                       "CD95",
+                       "CD45RA",
+                       "CD4")
+  
+  markersToCluster = c("CD27",
+                       "CD28",
+                       "CD95",
+                       "CCR7",
+                       "CD45RA",
+                       "CD8",
+                       "CD4",
+                       "CD3",
+                       "CD19",
+                       "IgD",
+                       "HLA.DR")
+  
+  markersToCluster = rev(markersToCluster)
+  # map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+  #                stringsAsFactors = FALSE,
+  #                header = TRUE)
+  # map =map[which(map$PANEL=="panel1"),]
+  # summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+  
+  cents$SANITIZE_NAME = gsub(" ", "_", cents$SAMPLE)
+  
+  
+  cents$MANUAL_ANNOTATION = cents$SANITIZE_NAME %in% manuals$V1
+  
+  cents = cents[which(cents$MANUAL_ANNOTATION == FALSE), ]
+  
+  
+  
+  
+  
+  #
+  if (type == "subFirst_TRUE_normalize_FALSE.cents.scale") {
+    for (mark in markersToCluster) {
+      cents[, mark] = squish(cents[, mark], range = c(-20, 250))
+    }
+    supeHe(cents = cents)
+  }else{
+    for (mark in markersToCluster) {
+      # cents[, mark] = squish(cents[, mark], range = c(0, 250))
+    }
+     supeHe(cents = cents)
+
+  }
+}
 # superheat(as.matrix(cents[,markersToCluster]), 
 #           
 #           # place dendrograms on columns and rows 

@@ -83,7 +83,7 @@ for (file in wsps) {
 
 df$WSP = as.character(df$WSP)
 for (file in df$FCS) {
-  wspFile = df[which(df$FCS == file), ]$WSP
+  wspFile = df[which(df$FCS == file),]$WSP
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
@@ -93,7 +93,7 @@ for (file in df$FCS) {
     s = getSamples(ws)
     
     
-    id = s[which(s$name == file), ]$name
+    id = s[which(s$name == file),]$name
     gs <-
       parseWorkspace(
         ws,
@@ -146,3 +146,4 @@ for (file in df$FCS) {
 }
 
 sessionInfo()
+
