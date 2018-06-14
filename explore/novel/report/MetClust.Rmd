@@ -1,4 +1,19 @@
+---
+title: "MetaClusters"
+author: "JL"
+date: "6/13/2018"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r cars}
 
 inDir="/Volumes/Beta2/flow/detect_v1/"
 
@@ -20,11 +35,11 @@ markersToCluster = c("CD27",
                      "CD95",
                      "CD45RA",
                      "CD4")
-map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
-               stringsAsFactors = FALSE,
-               header = TRUE)
-map =map[which(map$PANEL=="panel1"),]
-summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+# map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+#                stringsAsFactors = FALSE,
+#                header = TRUE)
+# map =map[which(map$PANEL=="panel1"),]
+# summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
 
 library(superheat)
 
@@ -54,4 +69,6 @@ superheat(as.matrix(cents[,markersToCluster]),
           
           # rotate bottom label text
           bottom.label.text.angle = 90)
+
+```
 

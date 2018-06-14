@@ -2,6 +2,9 @@
 
 
 
+
+
+
 cluster <-
   function(fcsFile,
            gs,
@@ -21,8 +24,9 @@ cluster <-
            subsetGate = "cytotoxic Tcells-CD8+",
            addComp = TRUE,
            min = -20,
-           max = 250) {
-    outRoot = paste0(outputDir, fcsFile)
+           max = 250,
+           normBeforeSubset = FALSE) {
+    outRoot = paste0(outputDir, fcsFile, "normFirst_", normBeforeSubset)
     print(paste0("writing output to root ", outRoot))
     set.seed(42)
     
@@ -32,7 +36,6 @@ cluster <-
     gh <- gs[[1]]
     
     # subset the flow frame to just cyto ts
-    subdata = getData(gh)[gatedData$DEFINITION, ]
     
     channels = character()
     for (marker in markersToCluster) {
@@ -47,6 +50,11 @@ cluster <-
         )))
       }
     }
+    if (normBeforeSubset) {
+      subdata = getData(gh)[gatedData$DEFINITION,]
+    } else{
+      subdata = getData(gh)
+    }
     
     inputData = as.data.frame(subdata@exprs)[, channels]
     t = inputData
@@ -59,13 +67,25 @@ cluster <-
     colnames(clust) = markersToCluster
     colnames(inputData) = markersToCluster
     
-    print(paste0("running phenograph for sample ", fcsFile))
+    if (!normBeforeSubset) {
+      # now need to subset to proper event
+      inputData = inputData[gatedData$DEFINITION,]
+      clust = clust[gatedData$DEFINITION,]
+    }
+    
+    print(paste0(
+      "running phenograph for sample ",
+      fcsFile,
+      " using ",
+      length(rownames(clust)),
+      " events"
+    ))
     
     clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
     clust$PHENOGRAPH = clusterPhenograph
     
     centroidsScale = aggregate(clust[, markersToCluster], list(clust$PHENOGRAPH), median)
-    centroidsScale$SAMPLE=fcsFile
+    centroidsScale$SAMPLE = fcsFile
     write.table(
       centroidsScale,
       file = paste0(outRoot, ".cents.scale"),
@@ -76,7 +96,7 @@ cluster <-
     )
     
     centroidsInput = aggregate(inputData, list(clust$PHENOGRAPH), median)
-    centroidsInput$SAMPLE=fcsFile
+    centroidsInput$SAMPLE = fcsFile
     
     write.table(
       centroidsInput,
@@ -87,7 +107,7 @@ cluster <-
       col.names = TRUE
     )
     
-    clust$SAMPLE=fcsFile
+    clust$SAMPLE = fcsFile
     save(clust, file = paste0(outRoot, ".clust.Rdata"))
     
   }

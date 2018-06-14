@@ -6,3 +6,5 @@ outDir=/Volumes/Beta2/flow/detect_v1/
 mkdir -p $outDir
 
 rsync -avz msi:$msiDir/*cents.scale $outDir
+
+rsync -avz msi:$msiDir/*cents.inputData $outDir

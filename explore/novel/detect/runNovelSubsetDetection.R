@@ -116,7 +116,16 @@ for (file in df$FCS) {
       fcsFile = file,
       gs = gs,
       outputDir = opt$outputDir,
-      frame = frame
+      frame = frame,
+      normBeforeSubset=FALSE
+    )
+    
+    cluster(
+      fcsFile = file,
+      gs = gs,
+      outputDir = opt$outputDir,
+      frame = frame,
+      normBeforeSubset=TRUE
     )
     print(paste("completed processing ", file, "starting from", wspFile))
     
