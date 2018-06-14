@@ -91,6 +91,13 @@ cents$SAMPLE=as.character(cents$SAMPLE)
   cents$MANUAL_ANNOTATION = cents$SANITIZE_NAME %in% manuals$V1
   
   cents = cents[which(cents$MANUAL_ANNOTATION == FALSE), ]
+  
+  
+  save(cents,file = "/Volumes/Beta2/flow/detect_NewNorms_v2/cents.RData")
+  
+  
+  
+  
 
 ```
 
@@ -233,45 +240,113 @@ superheat(
                        "HLA.DR")
   
   markersToCluster=rev(markersToCluster)
-  
+
+  library(openxlsx)
+ctlCounts=read.xlsx("/Volumes/Beta/data/flow/controlValidate/combinedctlsOC2.xlsx", sheet =1)
+rm =!(grepl("PBMC",ctlCounts$FCS.ID))
+ctlCounts =ctlCounts[rm,]
+
+# bn=basename(centFiles)
+# bn=gsub(".cents.inputData","",bn)
+# use=bn %in% ctlCounts$FCS.ID
  cents =data.frame()
  for(file in centFiles){
-   tmp=read.delim(file = file)
+   if(gsub(".cents.inputData","",basename(file)) %in% ctlCounts$FCS.ID){
+   tmp=read.delim(file = file,stringsAsFactors = FALSE)
    # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
    cents=rbind(cents,tmp)
+   }
  }
+
+#  ctlDef=grepl("Ctl",centFiles,ignore.case = TRUE)  
+# centFiles=centFiles[ctlDef]
+# 
+# ctlDef=!(grepl("Specimen",centFiles,ignore.case = TRUE))  
  
  # cents <- do.call(rbind, lapply(centFiles, read.delim))
 
 cents$SAMPLE=as.character(cents$SAMPLE) 
- 
-ctlDef=grepl("Ctl",cents$SAMPLE,ignore.case = TRUE)
 
-ctls = grepl("Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",cents$SAMPLE)
 # 
-# ctlCounts$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",ctlCounts$FCS.ID)
-# ctlCounts$CTL = gsub("_.*","",ctlCounts$CTL)
-# ctlCounts$CTL = gsub(" .*","",ctlCounts$CTL)
+cents$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",cents$SAMPLE)
+cents$CTL = gsub("_.*","",cents$CTL)
+cents$CTL = gsub(" .*","",cents$CTL)
+cents=cents[order(cents$CTL),]
+
 
 ```
-<!-- ## Characterizing Phenograph Clusters -->
 
-<!-- ```{r fig.height=5,fig.width=9} -->
-<!-- superheat( -->
-<!--     as.matrix(scale(t(cents[, markersToCluster])),center=TRUE,scale=TRUE), -->
 
-<!--     # place dendrograms on columns and rows -->
-<!--     row.dendrogram = F, -->
-<!--     col.dendrogram = T, -->
 
-<!--     # make gridlines white for enhanced prettiness -->
-<!--     grid.hline.col = "white", -->
-<!--     grid.vline.col = "white", -->
 
-<!--     # rotate bottom label text -->
-<!--     bottom.label.text.angle = 90 -->
-<!--   ) -->
+## Characterizing Phenograph Clusters
 
-<!-- ``` -->
+```{r fig.height=5,fig.width=9}
 
+ctlA=cents[which(cents$CTL=="A"),]
+superheat(
+    as.matrix(t(ctlA[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = F,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90,membership.cols = ctlA$SAMPLE
+  )
+
+```
+
+- "x"-axis are individual phenograph clusters ordered by CtlASample1,CtlASample2,....
+
+
+## Characterizing Phenograph Clusters
+
+```{r fig.height=5,fig.width=9}
+
+superheat(
+    as.matrix(t(ctlA[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = T,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+  )
+
+```
+
+
+
+## Characterizing Phenograph Clusters
+
+```{r fig.height=5,fig.width=9}
+
+superheat(
+    as.matrix(t(cents[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = F,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90,membership.cols = cents$CTL
+  )
+
+```
+
+- "x"-axis are individual phenograph clusters ordered by CtlA,CtlB,....
 
