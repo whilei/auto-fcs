@@ -83,7 +83,7 @@ for (file in wsps) {
 
 df$WSP = as.character(df$WSP)
 for (file in df$FCS) {
-  wspFile = df[which(df$FCS == file),]$WSP
+  wspFile = df[which(df$FCS == file), ]$WSP
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
@@ -93,7 +93,7 @@ for (file in df$FCS) {
     s = getSamples(ws)
     
     
-    id = s[which(s$name == file),]$name
+    id = s[which(s$name == file), ]$name
     gs <-
       parseWorkspace(
         ws,
@@ -117,7 +117,16 @@ for (file in df$FCS) {
       gs = gs,
       outputDir = opt$outputDir,
       frame = frame,
-      normBeforeSubset=FALSE
+      subsetFirst = TRUE,
+      normalize = FALSE
+    )
+    cluster(
+      fcsFile = file,
+      gs = gs,
+      outputDir = opt$outputDir,
+      frame = frame,
+      subsetFirst = FALSE,
+      normalize = TRUE
     )
     
     cluster(
@@ -125,8 +134,10 @@ for (file in df$FCS) {
       gs = gs,
       outputDir = opt$outputDir,
       frame = frame,
-      normBeforeSubset=TRUE
+      subsetFirst = TRUE,
+      normalize = TRUE
     )
+    
     print(paste("completed processing ", file, "starting from", wspFile))
     
     
