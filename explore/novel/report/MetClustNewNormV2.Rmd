@@ -14,6 +14,7 @@ library(superheat)
 library(scales)
 library(plotly)
 library(knitr)
+library(ClusterR)
 
 theme_set(theme_bw(15))
 
@@ -54,10 +55,7 @@ supeHe <- function(cents) {
       full = TRUE,
       recursive = FALSE
     )
- cents <- do.call(rbind, lapply(centFiles, read.delim))
-  # cents = cents[c(1:1000), ]
-  
-  markersToCluster = c("CD27",
+    markersToCluster = c("CD27",
                        "CD28",
                        "CD95",
                        "CCR7",
@@ -70,6 +68,22 @@ supeHe <- function(cents) {
                        "HLA.DR")
   
   markersToCluster=rev(markersToCluster)
+  
+ cents =data.frame()
+ for(file in centFiles){
+   tmp=read.delim(file = file)
+   # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
+   cents=rbind(cents,tmp)
+ }
+ 
+ # cents <- do.call(rbind, lapply(centFiles, read.delim))
+
+cents$SAMPLE=as.character(cents$SAMPLE) 
+ 
+ 
+  cents = cents[c(1:2000), ]
+  
+
   
   cents$SANITIZE_NAME = gsub(" ", "_", cents$SAMPLE)
   
@@ -166,34 +180,10 @@ superheat(
 - outlier values are assigned either min or max 
 
 
+<!-- ## Current notes -->
 
-## Characterizing Phenograph Clusters
-
-```{r fig.width=9}
-superheat(
-    as.matrix(t(cents[, markersToCluster])),
-    
-    # place dendrograms on columns and rows
-    row.dendrogram = F,
-    col.dendrogram = F,
-    
-    # make gridlines white for enhanced prettiness
-    grid.hline.col = "white",
-    grid.vline.col = "white",
-    
-    # rotate bottom label text
-    bottom.label.text.angle = 90,membership.cols = cents$SAMPLE,bottom.label="none"
-
-  )
-
-```
-
-- samples separated by white line
-
-## Current notes
-
-- Appears to be fairly cytotoxic with CD3+/CD8+, and _mostly_ CD4-/CD19-
-  - worried about Bcells
+<!-- - Appears to be fairly cytotoxic with CD3+/CD8+, and _mostly_ CD4-/CD19- -->
+<!--   - worried about Bcells -->
 
 
 ## Characterizing Phenograph Clusters
@@ -215,38 +205,22 @@ superheat(
     bottom.label.text.angle = 90
   )
 
+
+
 ```
 
-- "x"-axis ordered by common clusters (sorta)
+- "x"-axis ordered by common phenograph clusters 
+- sorta grouped by "meta" clusters
 
-```{r fig.width=10,fig.height=9,eval=FALSE}
-
-
-
-for (type in types) {
-  centFiles <-
+```{r fig.height=5,fig.width=9}
+ centFiles <-
     list.files(
-      inDir,
-      pattern = paste0(type, "$"),
+      "/Volumes/Beta2/flow/detect_v1/",
+      pattern = paste0("cents.inputData", "$"),
       full = TRUE,
       recursive = FALSE
     )
-  
-  cents <- do.call(rbind, lapply(centFiles, read.delim))
-  cents = cents[c(1:3000), ]
-  markersToCluster = c("CD27",
-                       "HLA.DR",
-                       "CD19",
-                       "CD8",
-                       "IgD",
-                       "CD3",
-                       "CCR7",
-                       "CD28",
-                       "CD95",
-                       "CD45RA",
-                       "CD4")
-  
-  markersToCluster = c("CD27",
+    markersToCluster = c("CD27",
                        "CD28",
                        "CD95",
                        "CCR7",
@@ -258,59 +232,46 @@ for (type in types) {
                        "IgD",
                        "HLA.DR")
   
-  markersToCluster = rev(markersToCluster)
-  # map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
-  #                stringsAsFactors = FALSE,
-  #                header = TRUE)
-  # map =map[which(map$PANEL=="panel1"),]
-  # summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+  markersToCluster=rev(markersToCluster)
   
-  
-  
-  
-  
-  
-  
-  #
-  if (type == "subFirst_TRUE_normalize_FALSE.cents.scale") {
-    for (mark in markersToCluster) {
-      cents[, mark] = squish(cents[, mark], range = c(-20, 250))
-    }
-    supeHe(cents = cents)
-  }else{
-    for (mark in markersToCluster) {
-      # cents[, mark] = squish(cents[, mark], range = c(0, 250))
-    }
-     supeHe(cents = cents)
+ cents =data.frame()
+ for(file in centFiles){
+   tmp=read.delim(file = file)
+   # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
+   cents=rbind(cents,tmp)
+ }
+ 
+ # cents <- do.call(rbind, lapply(centFiles, read.delim))
 
-  }
-}
-# superheat(as.matrix(cents[,markersToCluster]), 
-#           
-#           # place dendrograms on columns and rows 
-#           row.dendrogram = F, 
-#           col.dendrogram = T,
-#           
-#           # make gridlines white for enhanced prettiness
-#           grid.hline.col = "white",
-#           grid.vline.col = "white",
-#           
-#           # rotate bottom label text
-#           bottom.label.text.angle = 90,membership.rows = cents$SAMPLE)
-# }
+cents$SAMPLE=as.character(cents$SAMPLE) 
+ 
+ctlDef=grepl("Ctl",cents$SAMPLE,ignore.case = TRUE)
 
-# superheat(scale(as.matrix(t(cents[,markersToCluster])),center = TRUE,scale = TRUE), 
-#           
-#           # place dendrograms on columns and rows 
-#           row.dendrogram = T, 
-#           col.dendrogram = T,
-#           
-#           # make gridlines white for enhanced prettiness
-#           grid.hline.col = "white",
-#           grid.vline.col = "white",
-#           
-#           # rotate bottom label text
-#           bottom.label.text.angle = 90)
+ctls = grepl("Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",cents$SAMPLE)
+# 
+# ctlCounts$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",ctlCounts$FCS.ID)
+# ctlCounts$CTL = gsub("_.*","",ctlCounts$CTL)
+# ctlCounts$CTL = gsub(" .*","",ctlCounts$CTL)
 
 ```
+<!-- ## Characterizing Phenograph Clusters -->
+
+<!-- ```{r fig.height=5,fig.width=9} -->
+<!-- superheat( -->
+<!--     as.matrix(scale(t(cents[, markersToCluster])),center=TRUE,scale=TRUE), -->
+
+<!--     # place dendrograms on columns and rows -->
+<!--     row.dendrogram = F, -->
+<!--     col.dendrogram = T, -->
+
+<!--     # make gridlines white for enhanced prettiness -->
+<!--     grid.hline.col = "white", -->
+<!--     grid.vline.col = "white", -->
+
+<!--     # rotate bottom label text -->
+<!--     bottom.label.text.angle = 90 -->
+<!--   ) -->
+
+<!-- ``` -->
+
 
