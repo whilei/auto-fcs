@@ -120,23 +120,23 @@ for (file in df$FCS) {
       subsetFirst = TRUE,
       normalize = FALSE
     )
-    cluster(
-      fcsFile = file,
-      gs = gs,
-      outputDir = opt$outputDir,
-      frame = frame,
-      subsetFirst = FALSE,
-      normalize = TRUE
-    )
-    
-    cluster(
-      fcsFile = file,
-      gs = gs,
-      outputDir = opt$outputDir,
-      frame = frame,
-      subsetFirst = TRUE,
-      normalize = TRUE
-    )
+    # cluster(
+    #   fcsFile = file,
+    #   gs = gs,
+    #   outputDir = opt$outputDir,
+    #   frame = frame,
+    #   subsetFirst = FALSE,
+    #   normalize = TRUE
+    # )
+    # 
+    # cluster(
+    #   fcsFile = file,
+    #   gs = gs,
+    #   outputDir = opt$outputDir,
+    #   frame = frame,
+    #   subsetFirst = TRUE,
+    #   normalize = TRUE
+    # )
     
     print(paste("completed processing ", file, "starting from", wspFile))
     

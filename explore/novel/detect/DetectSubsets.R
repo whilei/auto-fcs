@@ -10,6 +10,9 @@
 
 
 
+
+
+
 cluster <-
   function(fcsFile,
            gs,
@@ -62,7 +65,7 @@ cluster <-
       }
     }
     if (subsetFirst | !normalize) {
-      subdata = getData(gh)[gatedData$DEFINITION, ]
+      subdata = getData(gh)[gatedData$DEFINITION,]
     } else{
       subdata = getData(gh)
     }
@@ -77,12 +80,12 @@ cluster <-
       clust = center_scale(t[, channels])
       
       clust = as.data.frame(clust)
-    
+      
       
       if (!subsetFirst) {
         # now need to subset to proper event
-        inputData = inputData[gatedData$DEFINITION, ]
-        clust = clust[gatedData$DEFINITION, ]
+        inputData = inputData[gatedData$DEFINITION,]
+        clust = clust[gatedData$DEFINITION,]
       }
     } else{
       clust = inputData
@@ -132,5 +135,29 @@ cluster <-
     
     clust$SAMPLE = fcsFile
     save(clust, file = paste0(outRoot, ".clust.Rdata"))
+    
+    boolMat = data.frame(gatedData$DEFINITION)
+    colnames(boolMat) = subsetGate
+    
+    uniqueClusts = sort(as.numeric(unique(clust$PHENOGRAPH)))
+    for (cluster in uniqueClusts) {
+      name = paste0("CLUST_", cluster)
+      tmp = data.frame(gatedData$DEFINITION)
+      colnames(tmp) = name
+      tmp[, name] = FALSE
+      def = clust$PHENOGRAPH == cluster
+      tmp[gatedData$DEFINITION, name][def] = TRUE
+      boolMat = cbind(boolMat, tmp)
+    }
+    
+    gz1 <- gzfile(paste0(outRoot, ".boolMatrix.txt.gz"), "w")
+    write.table(
+      boolMat,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+    close(gz1)
     
   }

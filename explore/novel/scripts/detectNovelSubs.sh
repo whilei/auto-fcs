@@ -21,7 +21,7 @@ echo "start detectNovelSubs at: " `date`
 
 script=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/runNovelSubsetDetection.R
 fcsDir=/scratch.global/lanej/flow/full/fcs/
-outputDir=/scratch.global/lanej/flow/novel/detect_NewNorms_v2/
+outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v3/
 mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
