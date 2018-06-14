@@ -1,0 +1,134 @@
+---
+title: "MetaClusters"
+author: "JL"
+date: "6/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(superheat)
+library(scales)
+
+```
+
+## Tests
+
+
+![](./map.png)
+
+
+
+```{r fig.width=10,fig.height=9}
+
+inDir="/Volumes/Beta2/flow/detect_NewNorms_v2/"
+
+
+types = c(
+  "subFirst_FALSE_normalize_TRUE.cents.scale",
+  "subFirst_TRUE_normalize_FALSE.cents.scale"
+  )
+
+manuals=read.delim("/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
+                       stringsAsFactors = FALSE,
+                       header = FALSE)
+for(type in types){
+centFiles <-
+  list.files(inDir,
+             pattern = paste0(type,"$"),
+             full = TRUE,
+             recursive = FALSE)
+
+cents <- do.call(rbind,lapply(centFiles,read.delim))
+markersToCluster = c("CD27",
+                     "HLA.DR",
+                     "CD19",
+                     "CD8",
+                     "IgD",
+                     "CD3",
+                     "CCR7",
+                     "CD28",
+                     "CD95",
+                     "CD45RA",
+                     "CD4")
+# map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+#                stringsAsFactors = FALSE,
+#                header = TRUE)
+# map =map[which(map$PANEL=="panel1"),]
+# summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+
+cents$SANITIZE_NAME = gsub(" ","_",cents$SAMPLE)
+
+
+cents$MANUAL_ANNOTATION= cents$SANITIZE_NAME %in% manuals$V1
+
+cents=cents[which(cents$MANUAL_ANNOTATION==FALSE),]
+
+
+
+superheat(as.matrix(t(cents[,markersToCluster])), 
+          
+          # place dendrograms on columns and rows 
+          row.dendrogram = T, 
+          col.dendrogram = T,
+          
+          # make gridlines white for enhanced prettiness
+          grid.hline.col = "white",
+          grid.vline.col = "white",
+          
+          # rotate bottom label text
+          bottom.label.text.angle = 90)
+
+
+# 
+if(type=="subFirst_TRUE_normalize_FALSE.cents.scale"){
+for(mark in markersToCluster){
+    cents[, mark] = squish(cents[, mark], range = c(0, 250))
+}
+
+  superheat(
+    as.matrix(t(cents[, markersToCluster])),
+
+    # place dendrograms on columns and rows
+    row.dendrogram = T,
+    col.dendrogram = T,
+
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+    )
+}
+}
+
+# superheat(as.matrix(cents[,markersToCluster]), 
+#           
+#           # place dendrograms on columns and rows 
+#           row.dendrogram = F, 
+#           col.dendrogram = T,
+#           
+#           # make gridlines white for enhanced prettiness
+#           grid.hline.col = "white",
+#           grid.vline.col = "white",
+#           
+#           # rotate bottom label text
+#           bottom.label.text.angle = 90,membership.rows = cents$SAMPLE)
+# }
+
+# superheat(scale(as.matrix(t(cents[,markersToCluster])),center = TRUE,scale = TRUE), 
+#           
+#           # place dendrograms on columns and rows 
+#           row.dendrogram = T, 
+#           col.dendrogram = T,
+#           
+#           # make gridlines white for enhanced prettiness
+#           grid.hline.col = "white",
+#           grid.vline.col = "white",
+#           
+#           # rotate bottom label text
+#           bottom.label.text.angle = 90)
+
+```
+

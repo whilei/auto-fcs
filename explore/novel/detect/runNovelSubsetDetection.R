@@ -144,3 +144,5 @@ for (file in df$FCS) {
     closeWorkspace(ws)
   })
 }
+
+sessionInfo()
