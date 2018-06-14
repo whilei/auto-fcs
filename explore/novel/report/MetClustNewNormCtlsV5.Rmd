@@ -21,10 +21,21 @@ theme_set(theme_bw(15))
 
 inDir = "/Volumes/Beta2/flow/detect_NewNorms_v2/"
 
+min=0
+max=250
+
+
 
 # ,
-type = "subFirst_TRUE_normalize_FALSE.cents.scale"
 type = "subFirst_FALSE_normalize_TRUE.cents.scale"
+type = "subFirst_TRUE_normalize_FALSE.cents.scale"
+
+
+if(type=="subFirst_FALSE_normalize_TRUE.cents.scale") {
+  min = -10
+  max = 10
+}
+  
 
 manuals = read.delim(
   "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
@@ -116,7 +127,7 @@ centsCtls=centsCtls[order(centsCtls$CTL),]
 keep =!(cents$SAMPLE  %in% centsCtls$SAMPLE)
 cents=cents[keep,]
 
-uniqSamps =unique(cents$SAMPLE)[1:500]
+uniqSamps =unique(cents$SAMPLE)[1:1000]
 keep =(cents$SAMPLE  %in% uniqSamps)
 cents=cents[keep,]
 
@@ -139,7 +150,6 @@ include_graphics(myimages)
 ```
 
 - running phenograph on Cytotoxic T cells from non-"manual" samples
-  - starting within **CtlA fcs files only**
 - used following markers `r paste0(markersToCluster)`
 
 
@@ -220,8 +230,6 @@ superheat(
 ## Characterizing Phenograph Clusters
 
 ```{r fig.width=9}
-min=0
-max=250
 
 for (mark in markersToCluster) {
       currentData[, mark] = squish(currentData[, mark], range = c(min, max))
