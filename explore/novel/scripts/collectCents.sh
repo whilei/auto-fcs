@@ -18,3 +18,14 @@ mkdir -p $outDir
 rsync -avz msi:$msiDir/*cents.scale $outDir
 
 rsync -avz msi:$msiDir/*cents.inputData $outDir
+
+
+msiDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v3/
+outDir=/Volumes/Beta2/flow/detect_NoNorm_v3/
+
+mkdir -p $outDir
+
+rsync -avz msi:$msiDir/*cents.scale $outDir
+
+rsync -avz msi:$msiDir/*cents.inputData $outDir
+
