@@ -58,16 +58,17 @@ manuals = read.delim(
   
   markersToCluster=rev(markersToCluster)
 
-  
-```
-
-```{r  include=FALSE,eval=FALSE}
-
-map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+  map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
                          stringsAsFactors = FALSE,
                          header = TRUE)
 map =map[which(map$PANEL=="panel1"),]
 map =map[which(!is.na(map$LAB_ID)),]
+map =map[which(map$MACHINE=="LSR"),] 
+```
+
+```{r  include=FALSE,eval=FALSE}
+
+
 
 centFiles <-
     list.files(
@@ -156,7 +157,7 @@ save(centsCtls,file = "/Volumes/Beta2/flow/detect_NoNorm_v3/centsCtls.RData")
 load("/Volumes/Beta2/flow/detect_NoNorm_v3/cents.RData")
 load("/Volumes/Beta2/flow/detect_NoNorm_v3/centsCtls.RData")
 
-uniqSamps =unique(cents$SAMPLE)[1:1500]
+uniqSamps =unique(cents$SAMPLE)[1:500]
 keep =(cents$SAMPLE  %in% uniqSamps)
 cents=cents[keep,]
 
