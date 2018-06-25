@@ -1,0 +1,4 @@
+rsync -avz /scratch.global/lanej/flow/full/fcs/2016-05-06_PANEL\ 1_ZF_panel\ one_CTL-A_001.fcs /scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/
+rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/2016-05-06_PANEL\ 1_ZF_panel\ one_CTL-A_001.fcskmeans_panel1Rename.wsp /scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/
+rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/2016-05-06_PANEL\ 1_ZF_panel\ one_CTL-A_001.fcs.boolMatrix.txt.gz  /scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/
+rsync -avz /scratch.global/lanej/flow/novel/detect_NoNorm_v3/2016-05-06_PANEL\ 1_ZF_panel\ one_CTL-A_001.fcs_subFirst_TRUE_normalize_FALSE.boolMatrix.txt.gz  /scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/
