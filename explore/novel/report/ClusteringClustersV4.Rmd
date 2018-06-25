@@ -360,15 +360,18 @@ ggplotly(p1)
 
 
 inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/"
-msi="msi:"
+msi="\'msi:"
 msi=""
+
+end= "' "
+end= " "
 
 commands=c()
 for (samp in unique(currentData$SAMPLE)) {
   command = paste0(
-    "rsync -avz \'msi:/scratch.global/lanej/flow/full/fcs/",
+    "rsync -avz ",msi,"/scratch.global/lanej/flow/full/fcs/",
     gsub(" ", "\\\ ", samp, fixed = TRUE),
-    "' ",
+   end,
     inputDir
   )
   commands=c(commands,command)
@@ -376,18 +379,18 @@ for (samp in unique(currentData$SAMPLE)) {
   
   msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
   command = paste0(
-    "rsync -avz \'",msi,msiKmeans,
+    "rsync -avz ",msi,msiKmeans,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
-    "kmeans_panel1Rename.wsp' ",
+    "kmeans_panel1Rename.wsp",end,
     inputDir
   )
     commands=c(commands,command)
   
   msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
   command = paste0(
-    "rsync -avz \'",msi,msiKmeans,
+    "rsync -avz ",msi,msiKmeans,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
-    ".boolMatrix.txt.gz' ",
+    ".boolMatrix.txt.gz ",end,
     inputDir
   )
   commands=c(commands,command)
@@ -396,9 +399,9 @@ for (samp in unique(currentData$SAMPLE)) {
   
    phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v3/"
   command = paste0(
-    "rsync -avz \'",msi,phenoGraph,
+    "rsync -avz ",msi,phenoGraph,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
-    "_subFirst_TRUE_normalize_FALSE.boolMatrix.txt.gz' ",
+    "_subFirst_TRUE_normalize_FALSE.boolMatrix.txt.gz ",end,
     inputDir
   )
 
