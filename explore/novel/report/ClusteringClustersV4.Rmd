@@ -354,6 +354,62 @@ p1=ggplot(merge, aes(SAMPLE,Freq ,fill=CTL)) + geom_bar(stat = "identity")+theme
 
 ggplotly(p1)
 
+
+
+# /Users/Kitty/git/auto-fcs/explore/novel/scripts/gatherSamps.sh
+
+
+inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/"
+msi="msi:"
+msi=""
+
+commands=c()
+for (samp in unique(currentData$SAMPLE)) {
+  command = paste0(
+    "rsync -avz \'msi:/scratch.global/lanej/flow/full/fcs/",
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "' ",
+    inputDir
+  )
+  commands=c(commands,command)
+  
+  
+  msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
+  command = paste0(
+    "rsync -avz \'",msi,msiKmeans,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "kmeans_panel1Rename.wsp' ",
+    inputDir
+  )
+    commands=c(commands,command)
+  
+  msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
+  command = paste0(
+    "rsync -avz \'",msi,msiKmeans,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    ".boolMatrix.txt.gz' ",
+    inputDir
+  )
+  commands=c(commands,command)
+
+ 
+  
+   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v3/"
+  command = paste0(
+    "rsync -avz \'",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.boolMatrix.txt.gz' ",
+    inputDir
+  )
+
+   commands=c(commands,command)
+
+  # system(command)
+}
+
+write.table( commands,file ="./scripts/gatherSamps.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+
+
 ```
 
 
