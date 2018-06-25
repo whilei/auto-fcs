@@ -13,6 +13,7 @@
 
 
 
+
 cluster <-
   function(fcsFile,
            gs,
@@ -65,7 +66,7 @@ cluster <-
       }
     }
     if (subsetFirst | !normalize) {
-      subdata = getData(gh)[gatedData$DEFINITION,]
+      subdata = getData(gh)[gatedData$DEFINITION, ]
     } else{
       subdata = getData(gh)
     }
@@ -84,8 +85,8 @@ cluster <-
       
       if (!subsetFirst) {
         # now need to subset to proper event
-        inputData = inputData[gatedData$DEFINITION,]
-        clust = clust[gatedData$DEFINITION,]
+        inputData = inputData[gatedData$DEFINITION, ]
+        clust = clust[gatedData$DEFINITION, ]
       }
     } else{
       clust = inputData
@@ -139,6 +140,12 @@ cluster <-
     boolMat = data.frame(gatedData$DEFINITION)
     colnames(boolMat) = subsetGate
     
+    intMat = data.frame(gatedData$DEFINITION)
+    colnames(intMat) = subsetGate
+    
+    intMat[, subsetGate] = gsub("FALSE", "-1", intMat[, subsetGate])
+    intMat[gatedData$DEFINITION, subsetGate] = clust$PHENOGRAPH
+    
     uniqueClusts = sort(as.numeric(unique(clust$PHENOGRAPH)))
     for (cluster in uniqueClusts) {
       name = paste0("CLUST_", cluster)
@@ -153,6 +160,16 @@ cluster <-
     gz1 <- gzfile(paste0(outRoot, ".boolMatrix.txt.gz"), "w")
     write.table(
       boolMat,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+    close(gz1)
+    
+    gz1 <- gzfile(paste0(outRoot, ".IntMatrix.txt.gz"), "w")
+    write.table(
+      intMat,
       file = gz1 ,
       sep = "\t",
       quote = FALSE,
