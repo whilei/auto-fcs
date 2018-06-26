@@ -17,25 +17,19 @@ summarize <-
     combo = cbind(phenoGraphClusters, knownPopulations)
     combo = combo[which(combo[, phenoColumn] >= 0), ]
     phenoClusts = sort(unique(combo[, phenoColumn]))
-    summary = data.frame(KNOWN_POPULATION = knownColumns)
-
+    summary = as.data.frame(table(combo))
     
-    for (phenoClust in phenoClusts) {
-      tmp = data.frame()
-      
-      for (knownPop in knownColumns) {
-        sub = combo[which(combo[, phenoColumn] == phenoClust), ]
-        counts = as.data.frame(table(sub[, phenoColumn], sub[, knownPop]))
-        counts$KNOWN_POPULATION=knownPop
-        counts = counts[, c("KNOWN_POPULATION","Freq")]
-        colnames(counts) = c("KNOWN_POPULATION", paste0("CLUSTER_",phenoClust,"_COUNT"))
-        tmp = rbind(tmp, counts)
-      }
-      summary = cbind(tmp, summary)
+    for(known in knownColumns){
+      summary[,known]=as.logical(summary[,known])
     }
     
-    summary$TOTAL_KNOWN = 0
-    summary$TOTAL_PHENOGRAPH = 0
+    
+    
+    summary$POP_NAMES_SUB=NA
+    
+    totalPhenograph=as.data.frame(table(combo[,phenoColumn]))
+
+    
     
   }
 
