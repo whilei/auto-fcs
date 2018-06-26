@@ -359,12 +359,14 @@ ggplotly(p1)
 # /Users/Kitty/git/auto-fcs/explore/novel/scripts/gatherSamps.sh
 
 
-inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v3_control_examples/"
+# inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples/"
+inputDir="/Volumes/Beta2/flow/testSync/"
+
 msi="\'msi:"
-msi=""
+# msi=""
 
 end= "' "
-end= " "
+# end= " "
 
 commands=c()
 for (samp in unique(currentData$SAMPLE)) {
@@ -397,7 +399,7 @@ for (samp in unique(currentData$SAMPLE)) {
 
  
   
-   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v3/"
+   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
   command = paste0(
     "rsync -avz ",msi,phenoGraph,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
@@ -406,11 +408,22 @@ for (samp in unique(currentData$SAMPLE)) {
   )
 
    commands=c(commands,command)
+   
+     phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
 
   # system(command)
 }
 
-write.table( commands,file ="./scripts/gatherSamps.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+# write.table( commands,file ="./scripts/gatherSampsV4.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+write.table( commands,file ="./scripts/gatherSampsV4.local.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
 
 
 ```
