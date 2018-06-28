@@ -18,4 +18,4 @@ module load gcc/8.1.0
 inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples_summary/
 
-Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputDirectory $inputDirectory --outputDir $outputDir
+Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputDirectory $inputDirectory --outputDir $outputDir
