@@ -1,6 +1,6 @@
 ---
 title: "Clustering Clusters"
-date: "6/15/2018"
+date: "6/28/2018"
 output:
   ioslides_presentation:
     widescreen: true
@@ -252,7 +252,7 @@ ggplotly(g)
 ```
 
 - only within control sample "A"
-- spearman rho`r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
+- spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
 
 
 ## Characterizing Phenograph Clusters
@@ -463,7 +463,7 @@ ggplotly(g)
 ```
 
 - all Ctl files
-- spearman rho`r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
+- spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
 
 
 
