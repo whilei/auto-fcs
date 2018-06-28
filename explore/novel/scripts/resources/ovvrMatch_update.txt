@@ -1,0 +1,21 @@
+cytotoxic Tcells-CD8+	CYTO_T  
+Helper Tcells-CD4+	HELPER_T        
+
+naive helper Tcells	HELPER_T	naive   
+effector helper Tcells	HELPER_T	effector  
+central memory helper Tcells	HELPER_T	central memory  
+effector memory helper Tcells	HELPER_T	effector memory
+
+effector cytotoxic Tcells	CYTO_T	effector      
+naive cytotoxic Tcells	CYTO_T	naive   
+central memory cytotoxic Tcells	CYTO_T	central memory  
+effector memory cytotoxic Tcells	CYTO_T	effector memory
+
+pE cytotoxic Tcells	CYTO_T	effector	CD28M_CD27M
+pE1 cytotoxic Tcells	CYTO_T	effector	CD28P_CD27P
+pE2 cytotoxic Tcells 	CYTO_T	effector	CD28M_CD27P
+
+EM1 cytotoxic Tcells	CYTO_T	effector memory	CD28P_CD27P
+EM2 cytotoxic Tcells	CYTO_T	effector memory	CD28M_CD27P
+EM3 cytotoxic Tcells	CYTO_T	effector memory	CD28M_CD27M
+EM4 cytotoxic Tcells	CYTO_T	effector memory	CD28P_CD27M
