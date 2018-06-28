@@ -2,53 +2,78 @@
 
 
 
+
+
+
+library(optparse)
+option_list = list(
+  make_option(
+    c("-dir", "--inputDirectory"),
+    type = "character",
+    help = "input directory",
+    metavar = "character"
+  ),
+  make_option(
+    c("-o", "--outputDir"),
+    type = "character",
+    help = "output directory",
+    metavar = "character"
+  )
+)
+
+
+opt_parser = OptionParser(option_list = option_list)
+
+opt = parse_args(opt_parser)
+outDir = opt$outputDir
+dir.create(outDir)
 summarize <-
   function(phenoGraphClusters, knownPopulations) {
     phenoColumn = colnames(phenoGraphClusters)
     knownColumns = colnames(knownPopulations)
     combo = cbind(phenoGraphClusters, knownPopulations)
-    combo = combo[which(combo[, phenoColumn] >= 0),]
+    combo = combo[which(combo[, phenoColumn] >= 0), ]
     phenoClusts = sort(unique(combo[, phenoColumn]))
     
     combo$POP_NAMES_SUB = NA
     combo[which(combo$CYTO_T &
-                  combo$effector.memory), ]$POP_NAMES_SUB = "effector memory"
+                  combo$effector.memory),]$POP_NAMES_SUB = "effector memory"
     combo[which(combo$CYTO_T &
-                  combo$naive), ]$POP_NAMES_SUB = "naive"
+                  combo$naive),]$POP_NAMES_SUB = "naive"
     combo[which(combo$CYTO_T &
-                  combo$central.memory), ]$POP_NAMES_SUB = "central memory"
+                  combo$central.memory),]$POP_NAMES_SUB = "central memory"
     combo[which(combo$CYTO_T &
-                  combo$effector), ]$POP_NAMES_SUB = "effector"
+                  combo$effector),]$POP_NAMES_SUB = "effector"
     
     
     combo$POP_NAMES_SUB_SUB = NA
     combo[which(combo$CYTO_T &
                   combo$effector &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "E"
+                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "E"
     combo[which(combo$CYTO_T &
                   combo$effector &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "pE2"
+                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "pE2"
     combo[which(combo$CYTO_T &
                   combo$effector &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "pE1"
+                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "pE1"
     combo[which(combo$CYTO_T &
                   combo$effector &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "CD28P_27M"
+                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "CD28P_27M"
     
     
     combo[which(combo$CYTO_T &
                   combo$effector.memory &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "EM3"
+                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "EM3"
     combo[which(combo$CYTO_T &
                   combo$effector.memory &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "EM2"
+                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "EM2"
     combo[which(combo$CYTO_T &
                   combo$effector.memory &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "EM1"
+                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "EM1"
     combo[which(combo$CYTO_T &
                   combo$effector.memory &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "EM4"
-    combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
+                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "EM4"
+    combo = combo[which(!is.na(combo$POP_NAMES_SUB)),]
     
     
     subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
@@ -72,16 +97,19 @@ summarize <-
     
   }
 
+print(opt$inputDirectory)
 
-intclusts = list.files("/Volumes/Beta2/flow/testSync/",
+intclusts = list.files(opt$inputDirectory,
                        full.names = TRUE,
                        pattern = ".IntMatrix.txt.gz$")
+
 for (file in intclusts) {
   knownPopulationFile = gsub("_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
                              ".boolMatrix.txt.gz",
                              file)
   
   if (file.exists(knownPopulationFile)) {
+    print(paste0("summarizing clusters from ", file, "to ", outDir))
     knownPopulations = read.delim(knownPopulationFile ,
                                   stringsAsFactors = FALSE,
                                   header = TRUE)
@@ -93,13 +121,18 @@ for (file in intclusts) {
                         knownPopulations = knownPopulations)
     write.table(
       summary,
-      file = gsub(".IntMatrix.txt.gz",
-                  ".known.pops.txt", file),
+      file = paste0(
+        outDir,
+        gsub(".IntMatrix.txt.gz",
+             ".known.pops.txt", basename(file))
+      ),
       row.names = FALSE,
       quote = FALSE,
       sep = "\t",
       col.names = TRUE
     )
+    print(paste0("finished summarizing clusters from ", file))
+    
   }
   
 }
