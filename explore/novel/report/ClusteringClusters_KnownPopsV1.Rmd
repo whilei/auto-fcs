@@ -466,6 +466,42 @@ ggplotly(g)
 - spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
 
 
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=sub, aes(sub$TOTAL_PHENOGRAPH_COUNTS)) + geom_histogram(binwidth=100)+xlab("number of events in cytotoxic phenograph clusters")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+merge =merge(sub,mapFull,by.x = "SAMPLE",by.y = "FILE")
+merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$TOTAL_COUNTS
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.0001)+xlab("number of events in cytotoxic phenograph clusters/total events in fcs")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
 
 ## Characterizing Phenograph Clusters
 
