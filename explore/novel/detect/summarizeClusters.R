@@ -5,6 +5,10 @@
 
 
 
+
+
+
+
 library(optparse)
 option_list = list(
   make_option(
@@ -36,43 +40,100 @@ summarize <-
     phenoClusts = sort(unique(combo[, phenoColumn]))
     
     combo$POP_NAMES_SUB = NA
-    combo[which(combo$CYTO_T &
-                  combo$effector.memory),]$POP_NAMES_SUB = "effector memory"
-    combo[which(combo$CYTO_T &
-                  combo$naive),]$POP_NAMES_SUB = "naive"
-    combo[which(combo$CYTO_T &
-                  combo$central.memory),]$POP_NAMES_SUB = "central memory"
-    combo[which(combo$CYTO_T &
-                  combo$effector),]$POP_NAMES_SUB = "effector"
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector.memory),]$POP_NAMES_SUB) > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector.memory),]$POP_NAMES_SUB = "effector memory"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$naive),]$POP_NAMES_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$naive),]$POP_NAMES_SUB = "naive"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$central.memory),]$POP_NAMES_SUB) > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$central.memory),]$POP_NAMES_SUB = "central memory"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector),]$POP_NAMES_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector),]$POP_NAMES_SUB = "effector"
+    }
     
     
     combo$POP_NAMES_SUB_SUB = NA
-    combo[which(combo$CYTO_T &
-                  combo$effector &
-                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "E"
-    combo[which(combo$CYTO_T &
-                  combo$effector &
-                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "pE2"
-    combo[which(combo$CYTO_T &
-                  combo$effector &
-                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "pE1"
-    combo[which(combo$CYTO_T &
-                  combo$effector &
-                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "CD28P_27M"
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector &
+                           combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector &
+                    combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "E"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector &
+                           combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector &
+                    combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "pE2"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector &
+                           combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector &
+                    combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "pE1"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector &
+                           combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector &
+                    combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "CD28P_27M"
+      
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector.memory &
+                           combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector.memory &
+                    combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "EM3"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector.memory &
+                           combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector.memory &
+                    combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "EM2"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector.memory &
+                           combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector.memory &
+                    combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "EM1"
+    }
+    
+    if (length(combo[which(combo$CYTO_T &
+                           combo$effector.memory &
+                           combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
+      combo[which(combo$CYTO_T &
+                    combo$effector.memory &
+                    combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "EM4"
+      
+    }
     
     
-    combo[which(combo$CYTO_T &
-                  combo$effector.memory &
-                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "EM3"
-    combo[which(combo$CYTO_T &
-                  combo$effector.memory &
-                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "EM2"
-    combo[which(combo$CYTO_T &
-                  combo$effector.memory &
-                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "EM1"
-    combo[which(combo$CYTO_T &
-                  combo$effector.memory &
-                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "EM4"
     combo = combo[which(!is.na(combo$POP_NAMES_SUB)),]
     
     
