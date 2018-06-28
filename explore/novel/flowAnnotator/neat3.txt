@@ -1,0 +1,9 @@
+@ANNOT=neat
+
+2017-07-19_PANEL_1_FORTESSA_RR_group_two_RR_Ctl-H_026.fcs	Cytotoxic T Subsets
+2017-06-15_PANEL_1_LSR_ZF_Group_one_EC_Ctl-H_032.fcs	Cytotoxic T Subsets
+2017-04-13_PANEL_1_LSR_HB_Group_three_Ctl-H_001.fcs	Cytotoxic T Subsets
+2016-06-08_PANEL_1_ZF_Group_two_Ctl-D_033.fcs	Cytotoxic T Subsets
+2016-11-28_PANEL_1_DHS_Group_two_Ctl-D_041.fcs	Cytotoxic T Subsets
+2017-04-28_PANEL_1_LSR_ZF_Group_two_Ctl-H_043.fcs	Cytotoxic T Subsets
+2017-03-06_PANEL_1_FORTESSA_DHS_group_two_Ctl-H_043.fcs	Cytotoxic T Subsets
