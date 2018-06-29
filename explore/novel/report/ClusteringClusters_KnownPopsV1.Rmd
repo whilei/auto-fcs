@@ -58,14 +58,14 @@ manuals = read.delim(
     
     markersToCluster =    c(
       "central.memory",
-      "effector",
-      "effector.memory",
       "naive",
-      "E",
+      "effector.memory",
       "EM1",
       "EM2",
       "EM3",
       "EM4",
+      "effector",
+      "E",
       "pE1",
       "pE2"
       )
@@ -486,7 +486,6 @@ g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.001)+xlab
 ggplotly(g)
 
 
-
 ```
 
 - all Ctl files
@@ -555,6 +554,7 @@ superheat(
 ```
 
 - "x"-axis white lines separating individual Ctls (multiple .fcs)
+- color = frequency of cell type in cluster
 
 ## Characterizing Phenograph Clusters
 
@@ -580,33 +580,6 @@ superheat(
 ```
 
 - "x"-axis ordered by common phenograph clusters 
-
-<!-- ## Characterizing Phenograph Clusters -->
-
-
-<!-- ```{r fig.height=5,fig.width=9} -->
-<!-- superheat( -->
-<!--     as.matrix(center_scale(t(currentData[, markersToCluster]))), -->
-
-<!--     # place dendrograms on columns and rows -->
-<!--     row.dendrogram = F, -->
-<!--     col.dendrogram = T, -->
-
-<!--     # make gridlines white for enhanced prettiness -->
-<!--     grid.hline.col = "white", -->
-<!--     grid.vline.col = "white", -->
-
-<!--     # rotate bottom label text -->
-<!--     bottom.label.text.angle = 90 -->
-<!--   ) -->
-
-
-
-<!-- ``` -->
-
-<!-- - "x"-axis ordered by common phenograph clusters  -->
-<!-- - percents are scaled within population -->
-
 
 
 
