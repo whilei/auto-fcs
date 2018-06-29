@@ -149,6 +149,7 @@ ctlCounts =ctlCounts[rm,]
 # bn=gsub(".cents.inputData","",bn)
 # use=bn %in% ctlCounts$FCS.ID
  centsCtls =data.frame()
+ centsCtlsOriginal =data.frame()
  for(file in centFiles){
    if(gsub(paste0("_",type),"",basename(file)) %in% ctlCounts$FCS.ID){
    sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary///","",file)
@@ -158,17 +159,25 @@ ctlCounts =ctlCounts[rm,]
 
    Missing <- setdiff(base, names(tmp))  # Find names of missing columns
    tmp[Missing] <- 0                    # Add them, filled with '0's
-   tmp <- tmp[base]  
+   tmp <- tmp[base] 
+      tmp$SAMPLE=sample
+
+   centsCtlsOriginal=rbind(centsCtlsOriginal,tmp)
       for(col in markersToCluster){
      tmp[,col]=tmp[,col]/tmp$TOTAL_PHENOGRAPH_COUNTS
       }
-   tmp$SAMPLE=sample
    # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
    centsCtls=rbind(centsCtls,tmp)
    }
  }
 
 centsCtls$SAMPLE=as.character(centsCtls$SAMPLE) 
+centsCtlsOriginal$SAMPLE=as.character(centsCtlsOriginal$SAMPLE)
+
+centsCtlsOriginal$CTYO_SUM=centsCtlsOriginal$central.memory+centsCtlsOriginal$effector+centsCtlsOriginal$effector.memory+centsCtlsOriginal$naive
+
+cytoSums=aggregate(centsCtlsOriginal$CTYO_SUM, by=list(SAMPLE=centsCtlsOriginal$SAMPLE), FUN=sum)
+colnames(cytoSums)=c("SAMPLE","CTYO_SUM")
   centsCtls$SANITIZE_NAME = gsub(" ", "_", centsCtls$SAMPLE)
   
   
@@ -443,6 +452,64 @@ for (samp in unique(currentData$SAMPLE)) {
 - all Ctl files
 - n = `r length(unique(currentData$SAMPLE))` fcs files
 
+
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=sub, aes(sub$TOTAL_PHENOGRAPH_COUNTS)) + geom_histogram(binwidth=100)+xlab("number of events in phenograph clusters")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+
+
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+merge =merge(sub,mapFull,by.x = "SAMPLE",by.y = "FILE")
+merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$TOTAL_COUNTS
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.001)+xlab("number of events in phenograph clusters/events in fcs")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+## Events in Phenograph Clusters
+
+```{r }
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+merge =merge(sub,cytoSums,by.x = "SAMPLE",by.y = "SAMPLE")
+merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$CTYO_SUM
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.01)+xlab("number of cells in phenograph clusters/number of cytotoxic cells")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+
 ## Phenograph Clusters detected
 
 
@@ -465,42 +532,6 @@ ggplotly(g)
 - all Ctl files
 - spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
 
-
-## Events in Phenograph Clusters
-
-```{r }
-
-sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
-
-# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
-g=ggplot(data=sub, aes(sub$TOTAL_PHENOGRAPH_COUNTS)) + geom_histogram(binwidth=100)+xlab("number of events in cytotoxic phenograph clusters")+ylab("number of clusters")
-
-ggplotly(g)
-
-
-
-```
-
-- all Ctl files
-
-## Events in Phenograph Clusters
-
-```{r }
-
-sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
-
-merge =merge(sub,mapFull,by.x = "SAMPLE",by.y = "FILE")
-merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$TOTAL_COUNTS
-# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
-g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.0001)+xlab("number of events in cytotoxic phenograph clusters/total events in fcs")+ylab("number of clusters")
-
-ggplotly(g)
-
-
-
-```
-
-- all Ctl files
 
 
 ## Characterizing Phenograph Clusters
