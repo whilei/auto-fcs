@@ -1,5 +1,8 @@
 
 
+
+
+
 library(optparse)
 option_list = list(
   make_option(
@@ -29,32 +32,32 @@ summarize <-
     phenoColumn = colnames(phenoGraphClusters)
     knownColumns = colnames(knownPopulations)
     combo = cbind(phenoGraphClusters, knownPopulations)
-    combo = combo[which(combo[, phenoColumn] >= 0),]
+    combo = combo[which(combo[, phenoColumn] >= 0), ]
     phenoClusts = sort(unique(combo[, phenoColumn]))
     
     combo$POP_NAMES_SUB = NA
     if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory), ]$POP_NAMES_SUB) > 0) {
+                           combo$effector.memory),]$POP_NAMES_SUB) > 0) {
       combo[which(combo$CYTO_T &
-                    combo$effector.memory), ]$POP_NAMES_SUB = "effector memory"
+                    combo$effector.memory),]$POP_NAMES_SUB = "effector memory"
     }
     
     if (length(combo[which(combo$CYTO_T &
-                           combo$naive), ]$POP_NAMES_SUB)  > 0) {
+                           combo$naive),]$POP_NAMES_SUB)  > 0) {
       combo[which(combo$CYTO_T &
-                    combo$naive), ]$POP_NAMES_SUB = "naive"
+                    combo$naive),]$POP_NAMES_SUB = "naive"
     }
     
     if (length(combo[which(combo$CYTO_T &
-                           combo$central.memory), ]$POP_NAMES_SUB) > 0) {
+                           combo$central.memory),]$POP_NAMES_SUB) > 0) {
       combo[which(combo$CYTO_T &
-                    combo$central.memory), ]$POP_NAMES_SUB = "central memory"
+                    combo$central.memory),]$POP_NAMES_SUB = "central memory"
     }
     
     if (length(combo[which(combo$CYTO_T &
-                           combo$effector), ]$POP_NAMES_SUB)  > 0) {
+                           combo$effector),]$POP_NAMES_SUB)  > 0) {
       combo[which(combo$CYTO_T &
-                    combo$effector), ]$POP_NAMES_SUB = "effector"
+                    combo$effector),]$POP_NAMES_SUB = "effector"
     }
     
     
@@ -62,72 +65,72 @@ summarize <-
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector &
-                           combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector &
-                    combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "E"
+                    combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "E"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector &
-                           combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector &
-                    combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "pE2"
+                    combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "pE2"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector &
-                           combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector &
-                    combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "pE1"
+                    combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "pE1"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector &
-                           combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector &
-                    combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "CD28P_27M"
+                    combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "CD28P_27M"
       
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector.memory &
-                           combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector.memory &
-                    combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "EM3"
+                    combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = "EM3"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector.memory &
-                           combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector.memory &
-                    combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "EM2"
+                    combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = "EM2"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector.memory &
-                           combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector.memory &
-                    combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "EM1"
+                    combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = "EM1"
     }
     
     if (length(combo[which(combo$CYTO_T &
                            combo$effector.memory &
-                           combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                           combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
       combo[which(combo$CYTO_T &
                     combo$effector.memory &
-                    combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "EM4"
+                    combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = "EM4"
       
     }
     
     
-    combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
+    combo = combo[which(!is.na(combo$POP_NAMES_SUB)),]
     
     
     subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
@@ -146,6 +149,21 @@ summarize <-
     
     summary = merge(summary, totalPhenograph, by.y = "PHENOGRAPH_CLUSTER", by.x =
                       "PHENOGRAPH_CLUSTER")
+    uniqSub = unique(combo$POP_NAMES_SUB)[1]
+    for (sub in uniqSub) {
+      
+      totalFreq = data.frame(FREQ = summary[, c(sub)] / summarySUB[, c(sub)])
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    uniqSubSub = unique(combo$POP_NAMES_SUB_SUB)
+    uniqSubSub = uniqSubSub[(!is.na(uniqSubSub))]
+    for (sub in uniqSubSub) {
+      totalFreq = data.frame(FREQ = summary[, c(sub)] / summarySUB_SUB[, c(sub)])
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
     
     return(summary)
     
