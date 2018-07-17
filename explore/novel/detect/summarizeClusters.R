@@ -227,7 +227,7 @@ for (file in intclusts) {
       summary,
       inputCents,
       by.x = "PHENOGRAPH_CLUSTER",
-      by.y = "Group.1",
+      by.y = "Group.1_RAW_SCALE_CENTROID",
       all.x = TRUE
     )
     
@@ -244,7 +244,7 @@ for (file in intclusts) {
       summary,
       scaleCents,
       by.x = "PHENOGRAPH_CLUSTER",
-      by.y = "Group.1",
+      by.y = "Group.1_SCALED_CENTROID",
       all.x = TRUE
     )
     

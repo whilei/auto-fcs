@@ -1,0 +1,607 @@
+---
+title: "Clustering Clusters"
+date: "6/28/2018"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: false
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(superheat)
+library(scales)
+library(plotly)
+library(knitr)
+library(ClusterR)
+
+theme_set(theme_bw(15))
+
+
+inDir = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary//"
+
+min=0
+max=250
+
+
+
+# ,
+type = "subFirst_FALSE_normalize_TRUE.cents.scale"
+type = "subFirst_TRUE_normalize_FALSE.known.pops.txt"
+
+
+if(type=="subFirst_FALSE_normalize_TRUE.cents.scale") {
+  min = -10
+  max = 10
+}
+  
+
+manuals = read.delim(
+  "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
+  stringsAsFactors = FALSE,
+  header = FALSE
+)
+
+  
+    markersToClusterActual = c("CD27",
+                       "CD28",
+                       "CD95",
+                       "CCR7",
+                       "CD45RA",
+                       "CD8",
+                       "CD4",
+                       "CD3",
+                       "CD19",
+                       "IgD",
+                       "HLA.DR")
+    
+    markersToCluster =    c(
+      "central.memory",
+      "naive",
+      "effector.memory",
+      "EM1",
+      "EM2",
+      "EM3",
+      "EM4",
+      "effector",
+      "E",
+      "pE1",
+      "pE2"
+      )
+  
+  markersToCluster=rev(markersToCluster)
+
+mapFull=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+
+map=mapFull  
+# lsr =map[which(map$MACHINE=="LSR"),]   
+map =map[which(map$PANEL=="panel1"),]
+map =map[which(!is.na(map$LAB_ID)),]
+# map =map[which(map$MACHINE=="LSR"),] 
+
+
+```
+
+```{r  include=FALSE,eval=TRUE}
+
+
+
+centFiles <-
+    list.files(
+      inDir,
+      pattern = paste0(type, "$"),
+      full = TRUE,
+      recursive = FALSE
+    )
+ cents =data.frame()
+ base=colnames(read.delim(centFiles[[1]]))
+ 
+ for(file in centFiles){
+   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary///","",file)
+      sample=gsub("_subFirst_TRUE_normalize_FALSE.known.pops.txt","",sample)
+
+   tmp=read.delim(file = file)
+
+   Missing <- setdiff(base, names(tmp))  # Find names of missing columns
+   tmp[Missing] <- 0                    # Add them, filled with '0's
+   tmp <- tmp[base]  
+      for(col in markersToCluster){
+     tmp[,col]=tmp[,col]/tmp$TOTAL_PHENOGRAPH_COUNTS
+      }
+   tmp$SAMPLE=sample
+   # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
+   cents=rbind(cents,tmp)
+ }
+ 
+ # cents <- do.call(rbind, lapply(centFiles, read.delim))
+
+cents$SAMPLE=as.character(cents$SAMPLE) 
+ 
+ 
+  # cents = cents[c(1:2000), ]
+  
+
+  
+  cents$SANITIZE_NAME = gsub(" ", "_", cents$SAMPLE)
+  
+  
+  cents$MANUAL_ANNOTATION = cents$SANITIZE_NAME %in% manuals$V1
+  
+  cents = cents[which(cents$MANUAL_ANNOTATION == FALSE), ]
+  
+  studySample=cents$SAMPLE %in% map$FILE
+  
+  cents=cents[studySample,]
+  
+  
+  # use=cents$SAMPLE %in% samplesUse
+  # cents=cents[use,]
+
+  library(openxlsx)
+ctlCounts=read.xlsx("/Volumes/Beta/data/flow/controlValidate/combinedctlsOC2.xlsx", sheet =1)
+rm =!(grepl("PBMC",ctlCounts$FCS.ID))
+ctlCounts =ctlCounts[rm,]
+
+# bn=basename(centFiles)
+# bn=gsub(".cents.inputData","",bn)
+# use=bn %in% ctlCounts$FCS.ID
+ centsCtls =data.frame()
+ centsCtlsOriginal =data.frame()
+ for(file in centFiles){
+   if(gsub(paste0("_",type),"",basename(file)) %in% ctlCounts$FCS.ID){
+   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary///","",file)
+      sample=gsub("_subFirst_TRUE_normalize_FALSE.known.pops.txt","",sample)
+
+   tmp=read.delim(file = file)
+
+   Missing <- setdiff(base, names(tmp))  # Find names of missing columns
+   tmp[Missing] <- 0                    # Add them, filled with '0's
+   tmp <- tmp[base] 
+      tmp$SAMPLE=sample
+
+   centsCtlsOriginal=rbind(centsCtlsOriginal,tmp)
+      for(col in markersToCluster){
+     tmp[,col]=tmp[,col]/tmp$TOTAL_PHENOGRAPH_COUNTS
+      }
+   # tmp[,markersToCluster]=center_scale(tmp[,markersToCluster])
+   centsCtls=rbind(centsCtls,tmp)
+   }
+ }
+
+centsCtls$SAMPLE=as.character(centsCtls$SAMPLE) 
+centsCtlsOriginal$SAMPLE=as.character(centsCtlsOriginal$SAMPLE)
+
+centsCtlsOriginal$CTYO_SUM=centsCtlsOriginal$central.memory+centsCtlsOriginal$effector+centsCtlsOriginal$effector.memory+centsCtlsOriginal$naive
+
+cytoSums=aggregate(centsCtlsOriginal$CTYO_SUM, by=list(SAMPLE=centsCtlsOriginal$SAMPLE), FUN=sum)
+colnames(cytoSums)=c("SAMPLE","CTYO_SUM")
+  centsCtls$SANITIZE_NAME = gsub(" ", "_", centsCtls$SAMPLE)
+  
+  
+  centsCtls$MANUAL_ANNOTATION = centsCtls$SANITIZE_NAME %in% manuals$V1
+  
+centsCtls = centsCtls[which(centsCtls$MANUAL_ANNOTATION == FALSE), ]
+  
+centsCtls$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",centsCtls$SAMPLE)
+centsCtls$CTL = gsub("_.*","",centsCtls$CTL)
+centsCtls$CTL = gsub(" .*","",centsCtls$CTL)
+centsCtls=centsCtls[order(centsCtls$CTL),]
+
+keep =!(cents$SAMPLE  %in% centsCtls$SAMPLE)
+cents=cents[keep,]
+
+
+cents=cents[keep,]
+
+save(cents,file = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary/cents.RData")
+
+# lsrCtls=centsCtls$SAMPLE %in% lsr$FILE
+# centsCtls=centsCtls[lsrCtls,]
+save(centsCtls,file = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary/centsCtls.RData")
+
+  
+
+```
+
+## Input data
+
+```{r, echo = FALSE,out.width="40%"}
+load("/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary/cents.RData")
+load("/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary/centsCtls.RData")
+
+uniqSamps =unique(cents$SAMPLE)[1:500]
+keep =(cents$SAMPLE  %in% uniqSamps)
+cents=cents[keep,]
+
+myimages<-list.files("./", pattern = ".png", full.names = TRUE)
+include_graphics(myimages)
+```
+
+- running phenograph on Cytotoxic T cells from non-"manual" study samples
+- used following markers `r paste0(markersToClusterActual)`
+
+
+## Phenograph Clusters detected
+
+
+
+```{r }
+currentData=centsCtls[which(centsCtls$CTL=="A"),]
+clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=clustTable, aes(clustTable$Freq)) + geom_histogram(binwidth=1)+xlab("number of cytotoxic phenograph clusters")+ylab("number of fcs files")
+
+ggplotly(g)
+
+```
+
+- only within control sample "A"
+- n = `r length(unique(currentData$SAMPLE))` fcs files
+
+
+## Phenograph Clusters detected
+
+
+
+```{r }
+currentData=centsCtls[which(centsCtls$CTL=="A"),]
+clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+
+clustTable$SAMPLE=as.character(clustTable$Var1)
+merge =merge(clustTable,mapFull,by.x = "SAMPLE",by.y = "FILE")
+
+g=ggplot(merge,
+                aes(x = Freq,
+                    y = TOTAL_COUNTS,color=MACHINE)) +
+      geom_point() +xlab("number of cytotoxic phenograph clusters")+ylab("total events in FCS file")
+ggplotly(g)
+
+```
+
+- only within control sample "A"
+- spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
+
+
+## Characterizing Phenograph Clusters
+
+- For each Phenograph Cluster:
+  - compute percent of each known cell type is present
+- group common centroids together
+
+
+## Characterizing Phenograph Clusters
+
+```{r fig.width=9}
+superheat(
+    as.matrix(t(currentData[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = F,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+  )
+
+```
+
+- "x"-axis bars are individual phenograph clusters
+- "y"-axis is the percent of that population represented in the cluster
+
+
+## Characterizing Phenograph Clusters
+
+```{r fig.width=9}
+superheat(
+    as.matrix(t(currentData[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = F,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90,membership.cols = currentData$SAMPLE,bottom.label = "none"
+  )
+
+```
+
+- "x"-axis white lines separating individual CtlA .fcs files
+- "y"-axis is the percent of that population represented in the cluster
+
+
+
+
+<!-- ## Current notes -->
+
+<!-- - Appears to be fairly cytotoxic with CD3+/CD8+, and _mostly_ CD4-/CD19- -->
+<!--   - worried about Bcells -->
+
+
+## Characterizing Phenograph Clusters
+
+
+```{r fig.height=5,fig.width=9}
+superheat(
+    as.matrix(t(currentData[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = T,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+  )
+
+
+
+```
+
+- "x"-axis ordered by common phenograph clusters 
+- sorta grouped by "meta" clusters
+
+
+
+
+## Phenograph Clusters detected
+
+
+
+```{r }
+currentData=centsCtls
+for (mark in markersToCluster) {
+      currentData[, mark] = squish(currentData[, mark], range = c(min, max))
+}
+clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+clustTable$SAMPLE=clustTable$Var1
+map=unique(currentData[,c("SAMPLE","CTL")])
+merge=merge(clustTable,map,by.x = "SAMPLE",by.y = "SAMPLE")
+merge$SAMPLE=reorder(merge$SAMPLE, merge$Freq)
+p1=ggplot(merge, aes(SAMPLE,Freq ,fill=CTL)) + geom_bar(stat = "identity")+theme(axis.text.x = element_text(angle = 90, hjust = 1)) +xlab("Sample")+ylab("Number of phenograph clusters")+theme(axis.text.x=element_blank())
+
+ggplotly(p1)
+
+
+
+# /Users/Kitty/git/auto-fcs/explore/novel/scripts/gatherSamps.sh
+
+
+inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples/"
+inputDir="/Volumes/Beta2/flow/testSync/"
+
+msi="\'msi:"
+# msi=""
+
+end= "' "
+# end= " "
+
+commands=c()
+for (samp in unique(currentData$SAMPLE)) {
+  command = paste0(
+    "rsync -avz ",msi,"/scratch.global/lanej/flow/full/fcs/",
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+   end,
+    inputDir
+  )
+  commands=c(commands,command)
+  
+  
+  msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
+  command = paste0(
+    "rsync -avz ",msi,msiKmeans,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "kmeans_panel1Rename.wsp",end,
+    inputDir
+  )
+    commands=c(commands,command)
+  
+  msiKmeans="/scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/"
+  command = paste0(
+    "rsync -avz ",msi,msiKmeans,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    ".boolMatrix.txt.gz ",end,
+    inputDir
+  )
+  commands=c(commands,command)
+
+ 
+  
+   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.boolMatrix.txt.gz ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
+   
+     phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
+   
+        phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.cents.inputData ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
+   
+      phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.cents.scale ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
+
+  # system(command)
+}
+
+# write.table( commands,file ="./scripts/gatherSampsV5.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+write.table( commands,file ="./scripts/gatherSampsV5.local.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+
+
+```
+
+
+- all Ctl files
+- n = `r length(unique(currentData$SAMPLE))` fcs files
+
+
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=sub, aes(sub$TOTAL_PHENOGRAPH_COUNTS)) + geom_histogram(binwidth=100)+xlab("number of events in phenograph clusters")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+
+
+## Events in Phenograph Clusters
+
+```{r }
+
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+merge =merge(sub,mapFull,by.x = "SAMPLE",by.y = "FILE")
+merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$TOTAL_COUNTS
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.001)+xlab("number of events in phenograph clusters/events in fcs")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+```
+
+- all Ctl files
+
+## Events in Phenograph Clusters
+
+```{r }
+sub=unique(currentData[,c("SAMPLE","TOTAL_PHENOGRAPH_COUNTS","PHENOGRAPH_CLUSTER")])
+
+merge =merge(sub,cytoSums,by.x = "SAMPLE",by.y = "SAMPLE")
+merge$FREQ_TOTAL=merge$TOTAL_PHENOGRAPH_COUNTS/merge$CTYO_SUM
+# clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+g=ggplot(data=merge, aes(merge$FREQ_TOTAL)) + geom_histogram(binwidth=.01)+xlab("number of cells in phenograph clusters/number of cytotoxic cells")+ylab("number of clusters")
+
+ggplotly(g)
+
+
+
+```
+
+- all Ctl files
+
+
+## Phenograph Clusters detected
+
+
+
+```{r }
+# currentData=centsCtls[which(centsCtls$CTL=="A"),]
+clustTable=as.data.frame(table(as.character(currentData$SAMPLE)))
+
+clustTable$SAMPLE=as.character(clustTable$Var1)
+merge =merge(clustTable,mapFull,by.x = "SAMPLE",by.y = "FILE")
+
+g=ggplot(merge,
+                aes(x = Freq,
+                    y = TOTAL_COUNTS,color=MACHINE)) +
+      geom_point() +xlab("number of cytotoxic phenograph clusters")+ylab("total events in FCS file")
+ggplotly(g)
+
+```
+
+- all Ctl files
+- spearman rho `r cor.test(merge$Freq,merge$TOTAL_COUNTS,method="spearman")$estimate`
+
+
+
+## Characterizing Phenograph Clusters
+
+```{r fig.width=9}
+superheat(
+    as.matrix(t(currentData[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = F,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90,membership.cols = currentData$CTL
+  )
+
+```
+
+- "x"-axis white lines separating individual Ctls (multiple .fcs)
+- color = frequency of cell type in cluster
+
+## Characterizing Phenograph Clusters
+
+
+```{r fig.height=5,fig.width=9}
+superheat(
+    as.matrix(t(currentData[, markersToCluster])),
+    
+    # place dendrograms on columns and rows
+    row.dendrogram = F,
+    col.dendrogram = T,
+    
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+  )
+
+
+
+```
+
+- "x"-axis ordered by common phenograph clusters 
+
+
+
+
+
