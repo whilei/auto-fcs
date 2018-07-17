@@ -3,6 +3,8 @@
 
 
 
+
+
 library(optparse)
 option_list = list(
   make_option(
@@ -151,15 +153,14 @@ summarize <-
     summary = merge(summary, totalPhenograph, by.y = "PHENOGRAPH_CLUSTER", by.x =
                       "PHENOGRAPH_CLUSTER")
     
-    rownames(summary) =summary$PHENOGRAPH_CLUSTER
+    rownames(summary) = summary$PHENOGRAPH_CLUSTER
     uniqSub = unique(combo$POP_NAMES_SUB)
     for (sub in uniqSub) {
-      
       totalFreq = data.frame(FREQ = summary[, c(sub)])
-      rownames(totalFreq)=as.numeric(summary$PHENOGRAPH_CLUSTER)
-      clusts=as.character(unique(summary$PHENOGRAPH_CLUSTER))
-      for(clust in clusts){
-        totalFreq[clust,"FREQ"]=totalFreq[clust,"FREQ"]/sum(summarySUB[, c(sub)])
+      rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for (clust in clusts) {
+        totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB[, c(sub)])
       }
       colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
       summary = cbind(summary, totalFreq)
@@ -168,21 +169,20 @@ summarize <-
     uniqSubSub = unique(combo$POP_NAMES_SUB_SUB)
     uniqSubSub = uniqSubSub[(!is.na(uniqSubSub))]
     for (sub in uniqSubSub) {
-      
       totalFreq = data.frame(FREQ = summary[, c(sub)])
-      rownames(totalFreq)=as.numeric(summary$PHENOGRAPH_CLUSTER)
-      clusts=as.character(unique(summary$PHENOGRAPH_CLUSTER))
-      for(clust in clusts){
-        totalFreq[clust,"FREQ"]=totalFreq[clust,"FREQ"]/sum(summarySUB_SUB[, c(sub)])
+      rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for (clust in clusts) {
+        totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB_SUB[, c(sub)])
       }
       colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
       summary = cbind(summary, totalFreq)
     }
     
     
-    allPops=c(uniqSub,uniqSubSub)
-    for(pop in allPops){
-      tmpPop=data.frame(FREQ=summary[,pop]/summary$TOTAL_PHENOGRAPH_COUNTS)
+    allPops = c(uniqSub, uniqSubSub)
+    for (pop in allPops) {
+      tmpPop = data.frame(FREQ = summary[, pop] / summary$TOTAL_PHENOGRAPH_COUNTS)
       colnames(tmpPop) = c(paste0(pop, "_ClusterFreq"))
       summary = cbind(summary, tmpPop)
     }
@@ -213,6 +213,42 @@ for (file in intclusts) {
     
     summary = summarize(phenoGraphClusters = phenoGraphClusters,
                         knownPopulations = knownPopulations)
+    
+    inputCentsFile = gsub(
+      "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
+      "_subFirst_TRUE_normalize_FALSE.cents.inputData",
+      file
+    )
+    inputCents = read.delim(inputCentsFile ,
+                            stringsAsFactors = FALSE,
+                            header = TRUE)
+    colnames(inputCents) = paste0(colnames(inputCents), "_RAW_SCALE_CENTROID")
+    summary = merge(
+      summary,
+      inputCents,
+      by.x = "PHENOGRAPH_CLUSTER",
+      by.y = "Group.1",
+      all.x = TRUE
+    )
+    
+    scaleCentsFile = gsub(
+      "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
+      "_subFirst_TRUE_normalize_FALSE.cents.scale",
+      file
+    )
+    scaleCents = read.delim(scaleCentsFile ,
+                            stringsAsFactors = FALSE,
+                            header = TRUE)
+    colnames(scaleCents) = paste0(colnames(scaleCents), "_SCALED_CENTROID")
+    summary = merge(
+      summary,
+      scaleCents,
+      by.x = "PHENOGRAPH_CLUSTER",
+      by.y = "Group.1",
+      all.x = TRUE
+    )
+    
+    
     write.table(
       summary,
       file = paste0(
