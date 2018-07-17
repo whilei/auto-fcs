@@ -7,11 +7,16 @@ output: ioslides_presentation
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
 library(superheat)
 library(scales)
 library(plotly)
 library(knitr)
 library(ClusterR)
+library(cytofkit)
+
 
 theme_set(theme_bw(15))
 
@@ -57,7 +62,7 @@ mapFull=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_M
 map=mapFull  
 # lsr =map[which(map$MACHINE=="LSR"),]   
 map =map[which(map$PANEL=="panel1"),]
-map =map[which(!is.na(map$LAB_ID)),]
+# map =map[which(!is.na(map$LAB_ID)),]
 
 summary = read.delim(
   "/Volumes/Beta2/flow/testSummary/allSummaries.txt" ,
@@ -151,3 +156,56 @@ getHeat(sub=sub)
 
 - median z-score of markers in each cluster
 
+
+## Meta Phenograph + tsne
+
+```{r fig.width=9,message=FALSE}
+sub = summary[, paste0(markersToCluster, "_SCALED_CENTROID")]
+colnames(sub) = markersToCluster
+```
+
+```{r fig.width=9,message=FALSE,eval=FALSE}
+clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
+tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
+
+save(clusterPhenograph,file = "clusterPhenograph.RData")
+save(tsne,file = "tsne.RData")
+
+```
+
+```{r fig.width=7,message=FALSE}
+load("clusterPhenograph.RData")
+load("tsne.RData")
+
+summary$META_CLUSTER = as.factor(clusterPhenograph)
+summary$metaTsne1=tsne[,1]
+summary$metaTsne2=tsne[,2]
+
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=META_CLUSTER)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+```
+
+- colored by "meta" phenograph cluster
+
+## Meta Phenograph + tsne
+
+```{r fig.width=7,message=FALSE}
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=naive_ClusterFreq)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+
+gz1 <- gzfile(paste0("summary.gz"), "w")
+    write.table(
+      summary,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+close(gz1)
+
+```
+
+- colored by percent of cells that are naive in original clusters
+- keep slide 4 in mind
