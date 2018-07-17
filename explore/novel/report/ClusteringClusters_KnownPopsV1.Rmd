@@ -19,7 +19,7 @@ library(ClusterR)
 theme_set(theme_bw(15))
 
 
-inDir = "/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary//"
+inDir = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary//"
 
 min=0
 max=250
@@ -100,7 +100,7 @@ centFiles <-
  base=colnames(read.delim(centFiles[[1]]))
  
  for(file in centFiles){
-   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary///","",file)
+   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary///","",file)
       sample=gsub("_subFirst_TRUE_normalize_FALSE.known.pops.txt","",sample)
 
    tmp=read.delim(file = file)
@@ -152,7 +152,7 @@ ctlCounts =ctlCounts[rm,]
  centsCtlsOriginal =data.frame()
  for(file in centFiles){
    if(gsub(paste0("_",type),"",basename(file)) %in% ctlCounts$FCS.ID){
-   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary///","",file)
+   sample=gsub("/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary///","",file)
       sample=gsub("_subFirst_TRUE_normalize_FALSE.known.pops.txt","",sample)
 
    tmp=read.delim(file = file)
@@ -196,11 +196,11 @@ cents=cents[keep,]
 
 cents=cents[keep,]
 
-save(cents,file = "/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary/cents.RData")
+save(cents,file = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary/cents.RData")
 
 # lsrCtls=centsCtls$SAMPLE %in% lsr$FILE
 # centsCtls=centsCtls[lsrCtls,]
-save(centsCtls,file = "/Volumes/Beta2/flow/detect_NoNorm_v4_control_examples/summary/centsCtls.RData")
+save(centsCtls,file = "/Volumes/Beta2/flow/detect_NoNorm_v5_control_examples/summary/centsCtls.RData")
 
   
 
@@ -379,14 +379,14 @@ ggplotly(p1)
 # /Users/Kitty/git/auto-fcs/explore/novel/scripts/gatherSamps.sh
 
 
-# inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples/"
-inputDir="/Volumes/Beta2/flow/testSync/"
+inputDir="/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples/"
+# inputDir="/Volumes/Beta2/flow/testSync/"
 
 msi="\'msi:"
-# msi=""
+msi=""
 
 end= "' "
-# end= " "
+end= " "
 
 commands=c()
 for (samp in unique(currentData$SAMPLE)) {
@@ -419,7 +419,7 @@ for (samp in unique(currentData$SAMPLE)) {
 
  
   
-   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
+   phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
   command = paste0(
     "rsync -avz ",msi,phenoGraph,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
@@ -429,7 +429,7 @@ for (samp in unique(currentData$SAMPLE)) {
 
    commands=c(commands,command)
    
-     phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
+     phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
   command = paste0(
     "rsync -avz ",msi,phenoGraph,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
@@ -439,7 +439,7 @@ for (samp in unique(currentData$SAMPLE)) {
 
    commands=c(commands,command)
    
-        phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
+        phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v5/"
   command = paste0(
     "rsync -avz ",msi,phenoGraph,
     gsub(" ", "\\\ ", samp, fixed = TRUE),
@@ -452,7 +452,7 @@ for (samp in unique(currentData$SAMPLE)) {
   # system(command)
 }
 
-write.table( commands,file ="./scripts/gatherSampsV4.2.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+write.table( commands,file ="./scripts/gatherSampsV5.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
 # write.table( commands,file ="./scripts/gatherSampsV4.local.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
 
 
