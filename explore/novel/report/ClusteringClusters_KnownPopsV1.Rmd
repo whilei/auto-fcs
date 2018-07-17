@@ -438,11 +438,21 @@ for (samp in unique(currentData$SAMPLE)) {
   )
 
    commands=c(commands,command)
+   
+        phenoGraph="/scratch.global/lanej/flow/novel/detect_NoNorm_v4/"
+  command = paste0(
+    "rsync -avz ",msi,phenoGraph,
+    gsub(" ", "\\\ ", samp, fixed = TRUE),
+    "_subFirst_TRUE_normalize_FALSE.cents.inputData ",end,
+    inputDir
+  )
+
+   commands=c(commands,command)
 
   # system(command)
 }
 
-# write.table( commands,file ="./scripts/gatherSampsV4.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
+write.table( commands,file ="./scripts/gatherSampsV4.2.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
 # write.table( commands,file ="./scripts/gatherSampsV4.local.sh",sep = "\t",quote = FALSE,row.names = FALSE,col.names = FALSE)
 
 

@@ -1,17 +1,23 @@
 
+
+
+
+
 library(optparse)
 option_list = list(
   make_option(
     c("-dir", "--inputDirectory"),
     type = "character",
     help = "input directory",
-    metavar = "character"
+    metavar = "character",
+    default = "/Volumes/Beta2/flow/testSync/"
   ),
   make_option(
     c("-o", "--outputDir"),
     type = "character",
     help = "output directory",
-    metavar = "character"
+    metavar = "character",
+    default = "/Volumes/Beta2/flow/testSummary/"
   )
 )
 
@@ -132,6 +138,7 @@ summarize <-
     summarySUB = as.data.frame.matrix(table(combo$cytotoxic.Tcells.CD8., combo$POP_NAMES_SUB))
     summarySUB_SUB = as.data.frame.matrix(table(combo$cytotoxic.Tcells.CD8., combo$POP_NAMES_SUB_SUB))
     summary = cbind(summarySUB, summarySUB_SUB)
+    
     summary$PHENOGRAPH_CLUSTER = row.names(summary)
     
     
@@ -143,6 +150,42 @@ summarize <-
     
     summary = merge(summary, totalPhenograph, by.y = "PHENOGRAPH_CLUSTER", by.x =
                       "PHENOGRAPH_CLUSTER")
+    
+    rownames(summary) =summary$PHENOGRAPH_CLUSTER
+    uniqSub = unique(combo$POP_NAMES_SUB)
+    for (sub in uniqSub) {
+      
+      totalFreq = data.frame(FREQ = summary[, c(sub)])
+      rownames(totalFreq)=as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts=as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for(clust in clusts){
+        totalFreq[clust,"FREQ"]=totalFreq[clust,"FREQ"]/sum(summarySUB[, c(sub)])
+      }
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    uniqSubSub = unique(combo$POP_NAMES_SUB_SUB)
+    uniqSubSub = uniqSubSub[(!is.na(uniqSubSub))]
+    for (sub in uniqSubSub) {
+      
+      totalFreq = data.frame(FREQ = summary[, c(sub)])
+      rownames(totalFreq)=as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts=as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for(clust in clusts){
+        totalFreq[clust,"FREQ"]=totalFreq[clust,"FREQ"]/sum(summarySUB_SUB[, c(sub)])
+      }
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    
+    allPops=c(uniqSub,uniqSubSub)
+    for(pop in allPops){
+      tmpPop=data.frame(FREQ=summary[,pop]/summary$TOTAL_PHENOGRAPH_COUNTS)
+      colnames(tmpPop) = c(paste0(pop, "_ClusterFreq"))
+      summary = cbind(summary, tmpPop)
+    }
     
     return(summary)
     

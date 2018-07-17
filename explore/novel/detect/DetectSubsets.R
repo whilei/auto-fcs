@@ -14,6 +14,21 @@
 
 
 
+normChannels <- function(inputData, channels, min, max) {
+  t = inputData
+  for (channel in channels) {
+    t[, channel] = squish(t[, channel], range = c(min, max))
+  }
+  clust = center_scale(t[, channels])
+  
+  clust = as.data.frame(clust)
+  return(clust)
+}
+
+
+
+
+
 cluster <-
   function(fcsFile,
            gs,
@@ -74,14 +89,7 @@ cluster <-
     
     inputData = as.data.frame(subdata@exprs)[, channels]
     if (normalize) {
-      t = inputData
-      for (channel in channels) {
-        t[, channel] = squish(t[, channel], range = c(min, max))
-      }
-      clust = center_scale(t[, channels])
-      
-      clust = as.data.frame(clust)
-      
+      clust = normChannels(inputData = inputData, channels = channels)
       
       if (!subsetFirst) {
         # now need to subset to proper event
@@ -111,7 +119,23 @@ cluster <-
     clusterPhenograph = cytof_cluster(xdata = clust, method = "Rphenograph")
     clust$PHENOGRAPH = clusterPhenograph
     
-    centroidsScale = aggregate(clust[, markersToCluster], list(clust$PHENOGRAPH), median)
+    clustToAggregate = clust
+    if (!normalize) {
+      print("normalization not flagged, apply scaleing for centroids")
+      clustToAggregate = normChannels(
+        inputData = as.data.frame(getData(gh)@exprs)[, channels],
+        channels = channels,
+        min = min,
+        max = max
+      )
+      colnames(clustToAggregate) = markersToCluster
+      clustToAggregate = clustToAggregate[gatedData$DEFINITION, ]
+      clustToAggregate$PHENOGRAPH = clusterPhenograph
+      
+    }
+    centroidsScale = aggregate(clustToAggregate[, markersToCluster],
+                               list(clustToAggregate$PHENOGRAPH),
+                               median)
     centroidsScale$SAMPLE = fcsFile
     write.table(
       centroidsScale,
