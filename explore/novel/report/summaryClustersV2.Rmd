@@ -97,7 +97,6 @@ save(summary,file="summary.RData")
 
 load("summary.RData")
 # tmp=unique(summary[,c("SAMPLE_RAW_SCALE_CENTROID","MACHINE")])
-summary=summary[which(summary$MACHINE=="LSR")]
 # table(tmp$MACHINE)
 getHeat <- function(sub) {
   superheat(
@@ -119,6 +118,38 @@ getHeat <- function(sub) {
 
 
 ```
+
+
+
+## LSR vs FORTESSA
+
+```{r fig.width=9}
+
+sub=summary[order(summary$MACHINE), ]
+subHC = sub[, paste0(markersToCluster,"_SCALED_CENTROID")]
+colnames(subHC)=markersToCluster
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$MACHINE,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+summary=summary[which(summary$MACHINE=="LSR"),]
+
+```
+
+- ordered by machine, using only LSR for remaining
+
 
 ## Raw centroids
 
@@ -219,16 +250,16 @@ ggplotly(g)
 
 - colored by control
 
-## Meta Phenograph +Meta tsne
+<!-- ## Meta Phenograph +Meta tsne -->
 
-```{r fig.width=7,message=FALSE}
+<!-- ```{r fig.width=7,message=FALSE} -->
 
-g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=MACHINE)) +geom_point()+ theme(legend.position="none")
-ggplotly(g)
+<!-- g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=MACHINE)) +geom_point()+ theme(legend.position="none") -->
+<!-- ggplotly(g) -->
 
-```
+<!-- ``` -->
 
-- colored by control
+<!-- - colored by control -->
 
 
 
@@ -387,6 +418,40 @@ ggplotly(g)
 
 - colored by median CD27 (scaled) expression in original clusters
 
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = IgD_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median IgD (scaled) expression in original clusters
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD19_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD19 (scaled) expression in original clusters
+
 
 ```{r fig.width=7,message=FALSE}
 
@@ -472,7 +537,7 @@ write.xlsx(list_of_datasets, file = "summary.xlsx")
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=7,message=FALSE}
-subs=c(14,3,2)
+subs=c(14,10,8)
 use=summary$META_CLUSTER %in% subs
 sub=summary[use,]
 sub=sub[order(sub$META_CLUSTER), ]
@@ -506,3 +571,11 @@ superheat(
 ```
 
 - meta-clusters `r paste(subs)`
+
+
+
+## NOTES
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729477/
+
+> The total T cells (CD3+), helper T cells (CD3+CD4+), and total B cells (CD19+) were gated. The expression of mIgD on T and B cells was analyzed by calculating the percentages of CD3+IgD+, CD3+CD4+IgD+, immature B cells (CD19+IgM+IgD-) and mature B cells (CD19+IgD+) on a flow cytometer (model FC 500; Beckman Coulter Ltd., USA)
