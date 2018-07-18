@@ -47,6 +47,7 @@ populations =    c(
 )
 
 markersToCluster = rev(markersToCluster)
+```
 
 ```{r prep, include=FALSE, eval=FALSE}
 
@@ -86,9 +87,13 @@ summary$SAMPLE)
 summary$CTL = gsub("_.*", "", summary$CTL)
 summary$CTL = gsub(" .*", "", summary$CTL)
 summary = summary[order(summary$CTL), ]
+save(summary,file="summary.RData")
+```
 
 
+```{r}
 
+load("summary.RData")
 
 getHeat <- function(sub) {
   superheat(
