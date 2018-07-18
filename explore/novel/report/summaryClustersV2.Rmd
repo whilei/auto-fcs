@@ -542,7 +542,7 @@ use=summary$META_CLUSTER %in% subs
 sub=summary[use,]
 sub=sub[order(sub$META_CLUSTER), ]
 
-subHC = sub[, paste0(markersToCluster, "_SCALED_CENTROID")]
+subHC = sub[, paste0(markersToCluster, "_RAW_SCALE_CENTROID")]
 colnames(subHC) = markersToCluster
 
 
@@ -573,7 +573,18 @@ superheat(
 - meta-clusters `r paste(subs)`
 
 
+## Meta Phenograph +Meta tsne
 
+```{r fig.width=7,message=FALSE}
+
+pb=ggplot(sub,aes(x=as.factor(META_CLUSTER),y=naive_TotalFreq,colour=META_CLUSTER)) +
+  geom_boxplot()
+
+ggplotly(pb)
+
+
+```  
+  
 ## NOTES
 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729477/
