@@ -1,7 +1,7 @@
 ---
 title: "SummaryClusters"
 author: "JL"
-date: "7/17/2018"
+date: "7/18/2018"
 output: ioslides_presentation
 ---
 
@@ -43,7 +43,8 @@ populations =    c(
 "effector",
 "E",
 "pE1",
-"pE2"
+"pE2",
+"CD28P_27M"
 )
 
 markersToCluster = rev(markersToCluster)
@@ -192,6 +193,10 @@ summary$metaTsne2 = tsne[, 2]
 
 myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
 
+```
+
+
+```{r fig.width=7,message=FALSE}
 
 g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=META_CLUSTER)) +geom_point()+ theme(legend.position="none")
 ggplotly(g)
@@ -199,6 +204,16 @@ ggplotly(g)
 ```
 
 - colored by "meta" phenograph cluster
+
+
+```{r fig.width=7,message=FALSE}
+
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=CTL)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+```
+
+- colored by control
 
 ## Meta Phenograph +Meta tsne
 
@@ -348,5 +363,50 @@ gz1 <- gzfile(paste0("summary.gz"), "w")
       row.names = FALSE
     )
 close(gz1)
+
+cols=data.frame(COLUMN=colnames(summary))
+rownames(cols)=cols$COLUMN
+cols$DESCRIPTION="NA"
+
+for(pop in populations){
+  popForm=gsub("."," ",pop,fixed = TRUE)
+  cols[popForm,"DESCRIPTION"] = paste0("Count of ",pop, " events in this phenograph cluster")
+  
+  popTFreq=paste0(popForm,"_TotalFreq")
+  cols[popTFreq,"DESCRIPTION"] = paste0("Proportion of events in this phenograph cluster out of all events in  ",pop)
+ 
+  popCFreq=paste0(popForm,"_ClusterFreq")
+  cols[popCFreq,"DESCRIPTION"] = paste0("Frequency of population ",pop, " in this phenograph cluster")
+   
+}
+
+for(marker in markersToCluster){
+  mraw = paste0(popForm, "_RAW_SCALE_CENTROID")
+  cols[mraw, "DESCRIPTION"] = paste0(
+  "Median raw (but after compensating/logicle transform) expression of ",
+  marker,
+  "in this phenograph cluster"
+  )
+  
+  mscale = paste0(popForm, "_SCALED_CENTROID")
+  cols[mscale, "DESCRIPTION"] = paste0(
+  "Median scaled (after compensating/logicle transform and normalizing) expression of ",
+  marker,
+  "in this phenograph cluster"
+  )
+}
+
+cols["PHENOGRAPH_CLUSTER","DESCRIPTION"]="Phenograph cluster for the sample"
+cols["TOTAL_PHENOGRAPH_COUNTS","DESCRIPTION"]="Total events in sample's phenograph cluster"
+
+
+table(cols$COLUMN %in% populations)
+write.table(
+cols,
+file = "summary.columns" ,
+sep = "\t",
+quote = FALSE,
+row.names = FALSE
+)
 
 ```

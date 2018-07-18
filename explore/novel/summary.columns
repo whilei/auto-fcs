@@ -1,0 +1,27 @@
+COLUMN	DESCRIPTION
+PHENOGRAPH_CLUSTER	Phenograph cluster for the sample
+central memory	Count of central.memory in phenograph cluster
+effector	Count of effector in phenograph cluster
+effector memory	Count of effector.memory in phenograph cluster
+naive	Count of naive in phenograph cluster
+CD28P_27M	Count of CD28P_27M in phenograph cluster
+E	Count of E in phenograph cluster
+EM1	Count of EM1 in phenograph cluster
+EM2	Count of EM2 in phenograph cluster
+EM3	Count of EM3 in phenograph cluster
+EM4	Count of EM4 in phenograph cluster
+pE1	Count of pE1 in phenograph cluster
+pE2	Count of pE2 in phenograph cluster
+TOTAL_PHENOGRAPH_COUNTS	Total events in sample's phenograph cluster
+effector_TotalFreq	Frequency of effector in phenograph cluster
+naive_TotalFreq	Frequency of naive in phenograph cluster
+effector memory_TotalFreq	Frequency of effector.memory in phenograph cluster
+central memory_TotalFreq	Frequency of central.memory in phenograph cluster
+E_TotalFreq	Frequency of E in phenograph cluster
+pE2_TotalFreq	Frequency of pE2 in phenograph cluster
+EM1_TotalFreq	Frequency of EM1 in phenograph cluster
+EM4_TotalFreq	Frequency of EM4 in phenograph cluster
+EM2_TotalFreq	Frequency of EM2 in phenograph cluster
+EM3_TotalFreq	Frequency of EM3 in phenograph cluster
+pE1_TotalFreq	Frequency of pE1 in phenograph cluster
+CD28P_27M_TotalFreq	Frequency of CD28P_27M in phenograph cluster
