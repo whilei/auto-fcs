@@ -63,17 +63,10 @@ CD45RA_SCALED_CENTROID	Median scaled (after compensating/logicle transform and n
 CD4_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of CD4in this phenograph cluster
 SAMPLE_SCALED_CENTROID	Sample used for centroids (just a check)
 SANITIZE_NAME	Sample with spaces replaced with _
-TOTAL_COUNTS	NA
-QC	NA
-PANEL	NA
-MACHINE	NA
-LAB_ID	NA
-formatName	NA
-DATE	NA
-DATE_MONTH	NA
-DATE_WEEK	NA
-formatExp	NA
-EXPERIMENTER	NA
+TOTAL_COUNTS	Total events in fcs file
+PANEL	flow panel
+MACHINE	LSR or FORTESSA
+EXPERIMENTER	EXPERIMENTER
 CTL	Which control this sample is
 META_CLUSTER	The phenograph meta-cluster this sample belongs to
 metaTsne1	Meta-tsne diminsion 1

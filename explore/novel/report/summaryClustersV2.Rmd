@@ -204,22 +204,25 @@ getHeat(sub=sub)
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=9,message=FALSE}
-sub = summary[, paste0(markersToCluster, "_SCALED_CENTROID")]
+type="_RAW_SCALE_CENTROID"
+sub = summary[, paste0(markersToCluster, type)]
 colnames(sub) = markersToCluster
+clustFile= paste0("clusterPhenograph",type,".RData")
+tsneFile=paste0("tsne",type,".RData")
 ```
 
 ```{r fig.width=9,message=FALSE,eval=TRUE}
 clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
 tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
 
-save(clusterPhenograph,file = "clusterPhenograph.RData")
-save(tsne,file = "tsne.RData")
+save(clusterPhenograph,file = clustFile)
+save(tsne,file =tsneFile)
 
 ```
 
 ```{r fig.width=7,message=FALSE}
-load("clusterPhenograph.RData")
-load("tsne.RData")
+load(clustFile)
+load(tsneFile)
 
 summary$META_CLUSTER = as.factor(clusterPhenograph)
 summary$metaTsne1=tsne[,1]
