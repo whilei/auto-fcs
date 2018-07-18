@@ -1,0 +1,78 @@
+COLUMN	DESCRIPTION
+PHENOGRAPH_CLUSTER	Phenograph cluster for the sample
+central.memory	NA
+effector	Count of effector events in this phenograph cluster
+effector.memory	NA
+naive	Count of naive events in this phenograph cluster
+CD28P_27M	Count of CD28P_27M events in this phenograph cluster
+E	Count of E events in this phenograph cluster
+EM1	Count of EM1 events in this phenograph cluster
+EM2	Count of EM2 events in this phenograph cluster
+EM3	Count of EM3 events in this phenograph cluster
+EM4	Count of EM4 events in this phenograph cluster
+pE1	Count of pE1 events in this phenograph cluster
+pE2	Count of pE2 events in this phenograph cluster
+TOTAL_PHENOGRAPH_COUNTS	Total events in sample's phenograph cluster
+naive_TotalFreq	Proportion of events in this phenograph cluster out of all events in  naive
+effector_TotalFreq	Proportion of events in this phenograph cluster out of all events in  effector
+central.memory_TotalFreq	NA
+effector.memory_TotalFreq	NA
+E_TotalFreq	Proportion of events in this phenograph cluster out of all events in  E
+EM1_TotalFreq	Proportion of events in this phenograph cluster out of all events in  EM1
+pE2_TotalFreq	Proportion of events in this phenograph cluster out of all events in  pE2
+EM2_TotalFreq	Proportion of events in this phenograph cluster out of all events in  EM2
+EM4_TotalFreq	Proportion of events in this phenograph cluster out of all events in  EM4
+EM3_TotalFreq	Proportion of events in this phenograph cluster out of all events in  EM3
+CD28P_27M_TotalFreq	Proportion of events in this phenograph cluster out of all events in  CD28P_27M
+pE1_TotalFreq	Proportion of events in this phenograph cluster out of all events in  pE1
+naive_ClusterFreq	Frequency of population naive in this phenograph cluster
+effector_ClusterFreq	Frequency of population effector in this phenograph cluster
+central.memory_ClusterFreq	NA
+effector.memory_ClusterFreq	NA
+E_ClusterFreq	Frequency of population E in this phenograph cluster
+EM1_ClusterFreq	Frequency of population EM1 in this phenograph cluster
+pE2_ClusterFreq	Frequency of population pE2 in this phenograph cluster
+EM2_ClusterFreq	Frequency of population EM2 in this phenograph cluster
+EM4_ClusterFreq	Frequency of population EM4 in this phenograph cluster
+EM3_ClusterFreq	Frequency of population EM3 in this phenograph cluster
+CD28P_27M_ClusterFreq	Frequency of population CD28P_27M in this phenograph cluster
+pE1_ClusterFreq	Frequency of population pE1 in this phenograph cluster
+CD27_RAW_SCALE_CENTROID	NA
+HLA.DR_RAW_SCALE_CENTROID	NA
+CD19_RAW_SCALE_CENTROID	NA
+CD8_RAW_SCALE_CENTROID	NA
+IgD_RAW_SCALE_CENTROID	NA
+CD3_RAW_SCALE_CENTROID	NA
+CCR7_RAW_SCALE_CENTROID	NA
+CD28_RAW_SCALE_CENTROID	NA
+CD95_RAW_SCALE_CENTROID	NA
+CD45RA_RAW_SCALE_CENTROID	NA
+CD4_RAW_SCALE_CENTROID	NA
+SAMPLE_RAW_SCALE_CENTROID	NA
+CD27_SCALED_CENTROID	NA
+HLA.DR_SCALED_CENTROID	NA
+CD19_SCALED_CENTROID	NA
+CD8_SCALED_CENTROID	NA
+IgD_SCALED_CENTROID	NA
+CD3_SCALED_CENTROID	NA
+CCR7_SCALED_CENTROID	NA
+CD28_SCALED_CENTROID	NA
+CD95_SCALED_CENTROID	NA
+CD45RA_SCALED_CENTROID	NA
+CD4_SCALED_CENTROID	NA
+SAMPLE_SCALED_CENTROID	NA
+SAMPLE	NA
+SANITIZE_NAME	NA
+MANUAL_ANNOTATION	NA
+CTL	NA
+META_CLUSTER	NA
+metaTsne1	NA
+metaTsne2	NA
+NA	Count of central.memory events in this phenograph cluster
+NA	Proportion of events in this phenograph cluster out of all events in  central.memory
+NA	Frequency of population central.memory in this phenograph cluster
+NA	Count of effector.memory events in this phenograph cluster
+NA	Proportion of events in this phenograph cluster out of all events in  effector.memory
+NA	Frequency of population effector.memory in this phenograph cluster
+NA	Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster
+NA	Median scaled (after compensating/logicle transform and normalizing) expression of CD27in this phenograph cluster
