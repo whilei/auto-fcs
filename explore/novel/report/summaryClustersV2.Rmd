@@ -50,7 +50,7 @@ populations =    c(
 markersToCluster = rev(markersToCluster)
 ```
 
-```{r prep, include=FALSE, eval=FALSE}
+```{r prep, include=FALSE, eval=TRUE}
 
 manuals = read.delim(
   "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
@@ -77,10 +77,11 @@ summary = read.delim(
 summary$SAMPLE = summary$SAMPLE_RAW_SCALE_CENTROID
 summary$SANITIZE_NAME = gsub(" ", "_", summary$SAMPLE)
 
+summary=merge(summary,map,by.x ="SAMPLE",by.y ="FILE",all.x = TRUE)
 
-summary$MANUAL_ANNOTATION = summary$SANITIZE_NAME %in% manuals$V1
+# summary$MANUAL_ANNOTATION = 
 
-summary = summary[which(summary$MANUAL_ANNOTATION == FALSE),]
+summary = summary[!(summary$SANITIZE_NAME %in% manuals$V1),]
 
 summary$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ",
 "",
@@ -95,20 +96,22 @@ save(summary,file="summary.RData")
 ```{r}
 
 load("summary.RData")
-
+# tmp=unique(summary[,c("SAMPLE_RAW_SCALE_CENTROID","MACHINE")])
+summary=summary[which(summary$MACHINE=="LSR")]
+# table(tmp$MACHINE)
 getHeat <- function(sub) {
   superheat(
       as.matrix(t(sub)),
-      
+
       # place dendrograms on columns and rows
       row.dendrogram = T,
       col.dendrogram = T,
-      
+
       # make gridlines white for enhanced prettiness
       grid.hline.col = "white",
       grid.vline.col = "white",
       # membership.rows = markersToCluster,
-      
+
       # rotate bottom label text
       bottom.label.text.angle = 90
     )
@@ -174,7 +177,7 @@ sub = summary[, paste0(markersToCluster, "_SCALED_CENTROID")]
 colnames(sub) = markersToCluster
 ```
 
-```{r fig.width=9,message=FALSE,eval=FALSE}
+```{r fig.width=9,message=FALSE,eval=TRUE}
 clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
 tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
 
@@ -205,6 +208,7 @@ ggplotly(g)
 
 - colored by "meta" phenograph cluster
 
+## Meta Phenograph +Meta tsne
 
 ```{r fig.width=7,message=FALSE}
 
@@ -214,6 +218,20 @@ ggplotly(g)
 ```
 
 - colored by control
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=MACHINE)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+```
+
+- colored by control
+
+
+
 
 ## Meta Phenograph +Meta tsne
 
@@ -287,7 +305,7 @@ myPalette <-
   colorRampPalette(rev(RColorBrewer::brewer.pal(11, "Spectral")))
   sc <-
   scale_colour_gradientn(colours = myPalette(100),
-  limits = c(-2.5, 2.5),
+  limits = c(-2, 2),
   oob = squish)
  
 g = ggplot(summary) + geom_point(
@@ -352,6 +370,24 @@ ggplotly(g)
 - colored by median CD95 (scaled) expression in original clusters
 
 
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD27_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD27 (scaled) expression in original clusters
+
+
 ```{r fig.width=7,message=FALSE}
 
 gz1 <- gzfile(paste0("summary.gz"), "w")
@@ -369,7 +405,8 @@ rownames(cols)=cols$COLUMN
 cols$DESCRIPTION="NA"
 
 for(pop in populations){
-  popForm=gsub("."," ",pop,fixed = TRUE)
+  popForm=pop
+  # gsub("."," ",pop,fixed = TRUE)
   cols[popForm,"DESCRIPTION"] = paste0("Count of ",pop, " events in this phenograph cluster")
   
   popTFreq=paste0(popForm,"_TotalFreq")
@@ -381,14 +418,14 @@ for(pop in populations){
 }
 
 for(marker in markersToCluster){
-  mraw = paste0(popForm, "_RAW_SCALE_CENTROID")
+  mraw = paste0(marker, "_RAW_SCALE_CENTROID")
   cols[mraw, "DESCRIPTION"] = paste0(
   "Median raw (but after compensating/logicle transform) expression of ",
   marker,
   "in this phenograph cluster"
   )
   
-  mscale = paste0(popForm, "_SCALED_CENTROID")
+  mscale = paste0(marker, "_SCALED_CENTROID")
   cols[mscale, "DESCRIPTION"] = paste0(
   "Median scaled (after compensating/logicle transform and normalizing) expression of ",
   marker,
@@ -398,6 +435,17 @@ for(marker in markersToCluster){
 
 cols["PHENOGRAPH_CLUSTER","DESCRIPTION"]="Phenograph cluster for the sample"
 cols["TOTAL_PHENOGRAPH_COUNTS","DESCRIPTION"]="Total events in sample's phenograph cluster"
+cols["SAMPLE_SCALED_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE_RAW_SCALE_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE_RAW_SCALE_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE","DESCRIPTION"]="Sample name"
+cols["SANITIZE_NAME","DESCRIPTION"]="Sample with spaces replaced with _"
+cols["CTL","DESCRIPTION"]="Which control this sample is"
+cols["META_CLUSTER","DESCRIPTION"]="The phenograph meta-cluster this sample belongs to"
+cols["metaTsne1","DESCRIPTION"]="Meta-tsne diminsion 1"
+cols["metaTsne2","DESCRIPTION"]="Meta-tsne diminsion 2"
+
+
 
 
 table(cols$COLUMN %in% populations)
@@ -409,4 +457,52 @@ quote = FALSE,
 row.names = FALSE
 )
 
+
+require(openxlsx)
+list_of_datasets <- list("DATA_DICTIONARY" = cols, "SUMMARY" = summary)
+write.xlsx(list_of_datasets, file = "summary.xlsx")
+
+
+
+
 ```
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+subs=c(14,3,2)
+use=summary$META_CLUSTER %in% subs
+sub=summary[use,]
+sub=sub[order(sub$META_CLUSTER), ]
+
+subHC = sub[, paste0(markersToCluster, "_SCALED_CENTROID")]
+colnames(subHC) = markersToCluster
+
+
+# g = ggplot(sub) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+   
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$META_CLUSTER,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+```
+
+- meta-clusters `r paste(subs)`
