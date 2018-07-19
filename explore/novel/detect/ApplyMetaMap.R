@@ -6,6 +6,8 @@
 
 
 
+
+
 library(optparse)
 option_list = list(
   make_option(
@@ -56,24 +58,30 @@ for (matFile in intMatFiles) {
                 sample)
   sampleMeta = metaMap[which(metaMap$SAMPLE == sample), ]
   
-  print(length(sampleMeta$SAMPLE))
   mat = read.delim(matFile ,
                    stringsAsFactors = FALSE,
                    header = TRUE)
   newMat = data.frame(DEF = mat$cytotoxic.Tcells.CD8.)
-  newMat$META_CLUSTER = -1
-  for (pOrig in unique(sampleMeta$PHENOGRAPH_CLUSTER)) {
-    sub = newMat$DEF == pOrig
-    new = sampleMeta[which(sampleMeta$PHENOGRAPH_CLUSTER == pOrig), ]$META_CLUSTER
-    newMat$META_CLUSTER[sub] = new
+  if (length(sampleMeta$SAMPLE) > 0) {
+    newMat$META_CLUSTER = -1
+    for (pOrig in unique(sampleMeta$PHENOGRAPH_CLUSTER)) {
+      sub = newMat$DEF == pOrig
+      new = sampleMeta[which(sampleMeta$PHENOGRAPH_CLUSTER == pOrig), ]$META_CLUSTER
+      newMat$META_CLUSTER[sub] = new
+    }
+    
+    newMat = as.data.frame(newMat[, c("META_CLUSTER")])
+    print(length(newMat$`cytotoxic Tcells-CD8+`))
+    print(length(mat$cytotoxic.Tcells.CD8.))
+    
+  } else{
+    newMat$DEF = -1
   }
-  
-  newMat = as.data.frame(newMat[, c("META_CLUSTER")])
   colnames(newMat) = "cytotoxic Tcells-CD8+"
-  print(length(newMat$`cytotoxic Tcells-CD8+`))
-  print(length(mat$cytotoxic.Tcells.CD8.))
-  t = table(mat$cytotoxic.Tcells.CD8., newMat$`cytotoxic Tcells-CD8+`)
+  t = table(mat$cytotoxic.Tcells.CD8.,
+            newMat$`cytotoxic Tcells-CD8+`)
   print(paste0("-1 sums of ", sum(t[1, ]), " and ", sum(t[, 1])))
+  
   gz1 <- gzfile(paste0(outDir, basename(matFile)), "w")
   write.table(
     newMat,
