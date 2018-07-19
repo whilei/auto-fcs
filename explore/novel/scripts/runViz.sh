@@ -9,10 +9,10 @@
 module load java
 
 genvisis=/home/tsaim/lane0212/genvisis.viz.jar
-baseDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples/
+baseDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples/
 fcs=$baseDir
 wsp=$baseDir
-out=/scratch.global/lanej/flow/novel/detect_NoNorm_v4_control_examples_viz/
+out=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples_viz/
 gateOverride=$baseDir
 repoDir=/home/tsaim/lane0212/git/auto-fcs
 gateOverrideMatchup=$repoDir/explore/novel/scripts/resources/ovvrMatch_update.txt

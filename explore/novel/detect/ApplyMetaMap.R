@@ -1,7 +1,16 @@
 
 
+
+
 library(optparse)
 option_list = list(
+  make_option(
+    c("-dir", "--inputDirectory"),
+    type = "character",
+    help = "input directory with .IntMatrix.txt.gz files",
+    metavar = "character",
+    default = "/Volumes/Beta2/flow/testSync/"
+  ),
   make_option(
     c("-map", "--inputMap"),
     type = "character",
