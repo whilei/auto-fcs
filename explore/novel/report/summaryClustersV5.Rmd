@@ -314,7 +314,6 @@ ggplotly(g)
 ```
 
 - colored by percent of cells that are naive in original clusters
-- keep slide 4 in mind
 
 
 
@@ -488,6 +487,74 @@ ggplotly(g)
 - colored by median CD19 (scaled) expression in original clusters
 
 
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+subs=c(9,2,1,16)
+use=summary$META_CLUSTER %in% subs
+sub=summary[use,]
+sub=sub[order(sub$META_CLUSTER), ]
+
+subHC = sub[, paste0(markersToCluster, "_RAW_SCALE_CENTROID")]
+colnames(subHC) = markersToCluster
+
+
+# g = ggplot(sub) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+   
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$META_CLUSTER,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+```
+
+- meta-clusters `r paste(subs)`
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+pb=ggplot(sub,aes(x=as.factor(META_CLUSTER),y=naive_TotalFreq,colour=META_CLUSTER)) +
+  geom_boxplot()
+
+ggplotly(pb)
+
+
+```  
+  
+## NOTES
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729477/
+
+> The total T cells (CD3+), helper T cells (CD3+CD4+), and total B cells (CD19+) were gated. The expression of mIgD on T and B cells was analyzed by calculating the percentages of CD3+IgD+, CD3+CD4+IgD+, immature B cells (CD19+IgM+IgD-) and mature B cells (CD19+IgD+) on a flow cytometer (model FC 500; Beckman Coulter Ltd., USA)
+
+https://www.ncbi.nlm.nih.gov/pubmed/11243700
+
+## NOTES
+
+- IgD values ~ 100 not really positive
+- see https://github.com/PankratzLab/auto-fcs/issues/64
+- higher CD19 not too weird on LSR
+
+
+
+
 ```{r fig.width=7,message=FALSE}
 
 gz1 <- gzfile(paste0("summary.gz"), "w")
@@ -566,6 +633,18 @@ write.table(
   quote = FALSE,
   row.names = FALSE
 )
+
+metaMapSub=metaMap[metaMap$META_CLUSTER %in% subs,]
+
+write.table(
+  metaMapSub,
+  file = "summary.naive.interest.metaMap" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
 require(openxlsx)
 list_of_datasets <- list("DATA_DICTIONARY" = cols, "SUMMARY" = summary,"META_MAP"=metaMap)
 write.xlsx(list_of_datasets, file = "summary.xlsx")
@@ -575,63 +654,3 @@ write.xlsx(list_of_datasets, file = "summary.xlsx")
 
 ```
 
-
-
-## Meta Phenograph +Meta tsne
-
-```{r fig.width=7,message=FALSE}
-subs=c(9,2,1,16)
-use=summary$META_CLUSTER %in% subs
-sub=summary[use,]
-sub=sub[order(sub$META_CLUSTER), ]
-
-subHC = sub[, paste0(markersToCluster, "_RAW_SCALE_CENTROID")]
-colnames(subHC) = markersToCluster
-
-
-# g = ggplot(sub) + geom_point(
-#            aes(x = metaTsne1,
-#            y = metaTsne2,
-#            colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-# ggplotly(g)
-   
-superheat(
-      as.matrix(t(subHC)),
-
-      # place dendrograms on columns and rows
-      row.dendrogram = T,
-      col.dendrogram = F,
-      membership.cols = sub$META_CLUSTER,
-
-      # make gridlines white for enhanced prettiness
-      grid.hline.col = "white",
-      grid.vline.col = "white",
-      # membership.rows = markersToCluster,
-
-      # rotate bottom label text
-      bottom.label.text.angle = 90
-    )
-```
-
-- meta-clusters `r paste(subs)`
-
-
-## Meta Phenograph +Meta tsne
-
-```{r fig.width=7,message=FALSE}
-
-pb=ggplot(sub,aes(x=as.factor(META_CLUSTER),y=naive_TotalFreq,colour=META_CLUSTER)) +
-  geom_boxplot()
-
-ggplotly(pb)
-
-
-```  
-  
-## NOTES
-
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729477/
-
-> The total T cells (CD3+), helper T cells (CD3+CD4+), and total B cells (CD19+) were gated. The expression of mIgD on T and B cells was analyzed by calculating the percentages of CD3+IgD+, CD3+CD4+IgD+, immature B cells (CD19+IgM+IgD-) and mature B cells (CD19+IgD+) on a flow cytometer (model FC 500; Beckman Coulter Ltd., USA)
-
-https://www.ncbi.nlm.nih.gov/pubmed/11243700
