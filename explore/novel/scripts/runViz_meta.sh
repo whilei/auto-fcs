@@ -23,7 +23,7 @@ genvisis=/home/tsaim/lane0212/genvisis.viz.jar
 baseDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples/
 fcs=$baseDir
 wsp=$baseDir
-out=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples_meta_viz/
+out=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_control_examples_meta_viz_2/
 gateOverride=$baseDir
 repoDir=/home/tsaim/lane0212/git/auto-fcs
 gateOverrideMatchup=$repoDir/explore/novel/scripts/resources/ovvrMatch_update.txt
@@ -36,7 +36,7 @@ echo "prepping for meta clusters"
 mkdir -p $baseDir"bakInts/"
 
 mv $baseDir/*.IntMatrix.txt.gz  $baseDir"bakInts/"
-mapFile=/home/tsaim/lane0212/git/auto-fcs/explore/novel/report/summary.naive.interest.metaMap
+mapFile=/home/tsaim/lane0212/git/auto-fcs/explore/novel/report/subs_9_2_1_16_8_summary.naive.interest.metaMap
 
 Rscript  /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/ApplyMetaMap.R --inputDirectory $baseDir"bakInts/" --inputMap $mapFile --outputDir $baseDir
 
