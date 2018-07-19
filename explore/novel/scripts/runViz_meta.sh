@@ -36,7 +36,9 @@ echo "prepping for meta clusters"
 mkdir -p $baseDir"bakInts/"
 
 mv $baseDir/*.IntMatrix.txt.gz  $baseDir"bakInts/"
+mapFile=/home/tsaim/lane0212/git/auto-fcs/explore/novel/report/summary.metaMap
 
+Rscript  /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/ApplyMetaMap.R --inputDirectory $baseDir"bakInts/" --inputMap $mapFile --outputDir $baseDir
 
 java -jar $genvisis org.genvisis.one.ben.fcs.auto.FCSProcessingPipeline \
     fcs=$fcs \
