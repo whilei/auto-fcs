@@ -1,11 +1,7 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+
+
+
+
 
 
 summary <- readRDS("data/summary.rds")
@@ -13,6 +9,8 @@ library(shiny)
 library(plotly)
 library(RColorBrewer)
 library(scales)
+library(shinyWidgets)
+library(reshape2)
 
 
 theme_set(theme_bw(15))
@@ -72,7 +70,7 @@ ui <- fluidPage(
     ),
     selectInput(
       'middlecolor',
-      'Middle Color',
+      'Middle Plot Color',
       choices = c(markers, pops),
       selected = "CD45RA_SCALED_CENTROID"
     ),
@@ -91,26 +89,35 @@ ui <- fluidPage(
       min = 100,
       max = 1000,
       value = 700
+    ),
+    pickerInput(
+      inputId = "metaclusters",
+      label = "Meta clusters to characterize",
+      choices = sort(unique(summary$META_CLUSTER)),
+      options = list(`actions-box` = TRUE),
+      multiple = TRUE,
+      selected = unique(summary$META_CLUSTER)
     )
-  ),
-  mainPanel(
-    tabsetPanel(type = "tabs",
-                tabPanel("Plot", plotlyOutput('trendPlot', height = "1000px")),
-                tabPanel("Summary", verbatimTextOutput("summary")),
-                tabPanel("Table", tableOutput("table"))
-    )
-   
     
-  )
+  ),
+  mainPanel(tabsetPanel(
+    type = "tabs",
+    tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
+    tabPanel(
+      "Cluster Characteristics",
+      plotlyOutput('characterPlot', height = "1000px")
+    )
+  ))
+  # plotlyOutput('tsnePlot', height = "1000px")
 )
 
 server <- function(input, output) {
-  #add reactive data information. Dataset = built in diamonds data
   dataset <- reactive({
-    summary
+    # summary
+    summary[(summary$META_CLUSTER %in% input$metaclusters), ]
   })
   
-  output$trendPlot <- renderPlotly({
+  output$tsnePlot <- renderPlotly({
     # build graph with ggplot syntax
     p1g <-
       ggplot(dataset(),
@@ -163,9 +170,16 @@ server <- function(input, output) {
       layout(height = input$plotHeight, autosize = TRUE)
   })
   
-  # layout(legend = list(orientation = 'h')) %>%
   
-  
+  output$characterPlot <- renderPlotly({
+    subBM = melt(dataset()[, c("META_CLUSTER", markers),], id.vars = "META_CLUSTER")
+    subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
+    g = ggplot(subBM) + geom_boxplot(aes(x = variable,
+                                         y = value, color = META_CLUSTER)) + ylab("scaled expression") +
+      xlab("marker")
+    ggplotly(g) %>% layout(height = input$plotHeight, autosize = TRUE)
+    
+  })
 }
 
 shinyApp(ui, server)

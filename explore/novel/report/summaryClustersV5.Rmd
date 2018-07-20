@@ -712,6 +712,17 @@ write.xlsx(list_of_datasets, file = "summary.xlsx")
 save(summary,file ="summary.meta.RData")
 
 
+library(reshape2)
+
+# markers = colnames(summary)[grepl(pattern = "_SCALED_CENTROID",  colnames(summary))]
+# markers = markers[!grepl(pattern = "SAMPLE", markers)]
+
+subB =summary[, c("META_CLUSTER",markers),]
+# 
+# 
+# 
+# + theme(legend.position = "none") +sc 
+# ggplotly(g)
 
 ```
 
