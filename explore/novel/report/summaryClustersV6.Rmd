@@ -1,7 +1,7 @@
 ---
 title: "SummaryClusters"
 author: "JL"
-date: "7/20/2018"
+date: "7/19/2018"
 output: ioslides_presentation
 ---
 
@@ -98,11 +98,11 @@ save(summary,file="summary.RData")
 
 load("summary.RData")
 
-nms <- names(summary)
-raw=nms[grepl(pattern = "_RAW", nms)]
-raw=gsub("_SCALE","",raw)
-
-colnames(summary)[grepl(pattern = "_RAW", colnames(summary))]=raw
+# nms <- names(summary)
+# raw=nms[grepl(pattern = "_RAW", nms)]
+# raw=gsub("_SCALE","",raw)
+# 
+# colnames(summary)[grepl(pattern = "_RAW", colnames(summary))]=raw
 
 
 # tmp=unique(summary[,c("SAMPLE_RAW_CENTROID","MACHINE")])
@@ -134,10 +134,9 @@ getHeat <- function(sub) {
 
 ```{r fig.width=9}
 
-# sub=summary[order(summary$MACHINE), ]
-# subHC = sub[, paste0(markersToCluster,"_RAW_CENTROID")]
-# colnames(subHC)=markersToCluster
-
+sub=summary[order(summary$MACHINE), ]
+subHC = sub[, paste0(markersToCluster,"_RAW_CENTROID")]
+colnames(subHC)=markersToCluster
 superheat(
       as.matrix(t(subHC)),
 
@@ -719,18 +718,6 @@ write.xlsx(list_of_datasets, file = "summary.xlsx")
 
 save(summary,file ="summary.meta.RData")
 
-
-library(reshape2)
-
-# markers = colnames(summary)[grepl(pattern = "_SCALED_CENTROID",  colnames(summary))]
-# markers = markers[!grepl(pattern = "SAMPLE", markers)]
-
-subB =summary[, c("META_CLUSTER",markers),]
-# 
-# 
-# 
-# + theme(legend.position = "none") +sc 
-# ggplotly(g)
 
 ```
 

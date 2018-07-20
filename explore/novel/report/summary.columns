@@ -38,18 +38,18 @@ EM4_ClusterFreq	Frequency of population EM4 in this phenograph cluster
 EM3_ClusterFreq	Frequency of population EM3 in this phenograph cluster
 CD28P_27M_ClusterFreq	Frequency of population CD28P_27M in this phenograph cluster
 pE1_ClusterFreq	Frequency of population pE1 in this phenograph cluster
-CD27_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster
-HLA.DR_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of HLA.DRin this phenograph cluster
-CD19_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD19in this phenograph cluster
-CD8_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD8in this phenograph cluster
-IgD_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of IgDin this phenograph cluster
-CD3_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD3in this phenograph cluster
-CCR7_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CCR7in this phenograph cluster
-CD28_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD28in this phenograph cluster
-CD95_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD95in this phenograph cluster
-CD45RA_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD45RAin this phenograph cluster
-CD4_RAW_SCALE_CENTROID	Median raw (but after compensating/logicle transform) expression of CD4in this phenograph cluster
-SAMPLE_RAW_SCALE_CENTROID	Sample used for centroids (just a check)
+CD27_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster
+HLA.DR_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of HLA.DRin this phenograph cluster
+CD19_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD19in this phenograph cluster
+CD8_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD8in this phenograph cluster
+IgD_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of IgDin this phenograph cluster
+CD3_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD3in this phenograph cluster
+CCR7_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CCR7in this phenograph cluster
+CD28_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD28in this phenograph cluster
+CD95_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD95in this phenograph cluster
+CD45RA_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD45RAin this phenograph cluster
+CD4_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of CD4in this phenograph cluster
+SAMPLE_RAW_CENTROID	Sample used for centroids (just a check)
 CD27_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of CD27in this phenograph cluster
 HLA.DR_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of HLA.DRin this phenograph cluster
 CD19_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of CD19in this phenograph cluster
