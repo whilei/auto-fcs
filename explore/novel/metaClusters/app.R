@@ -4,6 +4,7 @@
 
 
 
+
 summary <- readRDS("data/summary.rds")
 library(shiny)
 library(plotly)
@@ -114,7 +115,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   dataset <- reactive({
     # summary
-    summary[(summary$META_CLUSTER %in% input$metaclusters), ]
+    summary[(summary$META_CLUSTER %in% input$metaclusters),]
   })
   
   output$tsnePlot <- renderPlotly({
@@ -172,11 +173,11 @@ server <- function(input, output) {
   
   
   output$characterPlot <- renderPlotly({
-    subBM = melt(dataset()[, c("META_CLUSTER", markers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", markers), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     g = ggplot(subBM) + geom_boxplot(aes(x = variable,
                                          y = value, color = META_CLUSTER)) + ylab("scaled expression") +
-      xlab("marker")
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
     ggplotly(g) %>% layout(height = input$plotHeight, autosize = TRUE)
     
   })
