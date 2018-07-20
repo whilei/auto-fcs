@@ -58,8 +58,8 @@ colorMe <- function(color, pg) {
 
 getHeat <- function(markers, type, data) {
   subBM = data
-  subBM = subBM[order(subBM$META_CLUSTER), ]
-  subHC = subBM[, c(markers),]
+  subBM = subBM[order(subBM$META_CLUSTER),]
+  subHC = subBM[, c(markers), ]
   colnames(subHC) = gsub(type, "", colnames(subHC))
   
   superheat(
@@ -102,13 +102,13 @@ ui <- fluidPage(
       'middlecolor',
       'Middle Plot Color',
       choices = options,
-      selected = "CD45RA_SCALED_CENTROID"
+      selected = "CD45RA_RAW_CENTROID"
     ),
     selectInput(
       'bottomcolor',
       'Bottom Plot Color',
       choices = options,
-      selected = "CCR7_SCALED_CENTROID"
+      selected = "CCR7_RAW_CENTROID"
     ),
     
     # selectInput('facet_col', 'Facet Column', c(None = '.', facets), selected = "."),
@@ -133,24 +133,24 @@ ui <- fluidPage(
   mainPanel(
     tabsetPanel(
       type = "tabs",
+      tabPanel("Example",
+               includeMarkdown("example.Rmd")),
       tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
       tabPanel("Raw Heatmap",
                plotOutput('rawheat', height = "700px")),
       tabPanel("Normalized Heatmap",
                plotOutput('normheat', height = "700px")),
       tabPanel(
-        "Cluster Distributions",
+        "Distributions",
         plotlyOutput('characterPlot', height = "1000px")
-      ),
-      tabPanel("Methods",
-               includeMarkdown("include.Rmd"))
+      )
     )
   )
 )
 
 server <- function(input, output) {
   dataset <- reactive({
-    summary[(summary$META_CLUSTER %in% input$metaclusters), ]
+    summary[(summary$META_CLUSTER %in% input$metaclusters),]
   })
   
   output$tsnePlot <- renderPlotly({
@@ -207,7 +207,7 @@ server <- function(input, output) {
   
   
   output$characterPlot <- renderPlotly({
-    subBM = melt(dataset()[, c("META_CLUSTER", normmarkers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", normmarkers), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -215,7 +215,7 @@ server <- function(input, output) {
                                                                                                    y = value, color = META_CLUSTER)) + ylab("scaled expression")  + theme(legend.position = "none")
     g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
     
-    subBM = melt(dataset()[, c("META_CLUSTER", rawMarkers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", rawMarkers), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
     
     g2g = ggplot(subBM)  +
