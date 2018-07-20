@@ -94,9 +94,13 @@ ui <- fluidPage(
     )
   ),
   mainPanel(
-    plotlyOutput('trendPlot', height = "1000px"),
+    tabsetPanel(type = "tabs",
+                tabPanel("Plot", plotlyOutput('trendPlot', height = "1000px")),
+                tabPanel("Summary", verbatimTextOutput("summary")),
+                tabPanel("Table", tableOutput("table"))
+    )
+   
     
-    plotlyOutput('scalePlot', height = "1000px")
   )
 )
 
