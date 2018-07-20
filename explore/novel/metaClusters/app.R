@@ -5,6 +5,7 @@
 
 
 
+
 summary <- readRDS("data/summary.rds")
 library(shiny)
 library(plotly)
@@ -18,8 +19,9 @@ theme_set(theme_bw(15))
 
 nms <- names(summary)
 
-markers = nms[grepl(pattern = "_SCALED_CENTROID", nms)]
+markers = c(nms[grepl(pattern = "_SCALED_CENTROID", nms)],nms[grepl(pattern = "_RAW_CENTROID", nms)])
 markers = markers[!grepl(pattern = "SAMPLE", markers)]
+markers=sort(markers)
 
 pops = nms[grepl(pattern = "_ClusterFreq", nms)]
 
@@ -107,15 +109,20 @@ ui <- fluidPage(
     tabPanel(
       "Cluster Characteristics",
       plotlyOutput('characterPlot', height = "1000px")
+    ),
+    tabPanel(
+      "Methods",
+      includeMarkdown("include.Rmd")
     )
   ))
   # plotlyOutput('tsnePlot', height = "1000px")
+  # includeMarkdown("include.md")
 )
 
 server <- function(input, output) {
   dataset <- reactive({
     # summary
-    summary[(summary$META_CLUSTER %in% input$metaclusters),]
+    summary[(summary$META_CLUSTER %in% input$metaclusters), ]
   })
   
   output$tsnePlot <- renderPlotly({
@@ -173,7 +180,7 @@ server <- function(input, output) {
   
   
   output$characterPlot <- renderPlotly({
-    subBM = melt(dataset()[, c("META_CLUSTER", markers), ], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", markers),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     g = ggplot(subBM) + geom_boxplot(aes(x = variable,
                                          y = value, color = META_CLUSTER)) + ylab("scaled expression") +

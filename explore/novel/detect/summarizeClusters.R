@@ -225,12 +225,12 @@ for (file in intclusts) {
     inputCents = read.delim(inputCentsFile ,
                             stringsAsFactors = FALSE,
                             header = TRUE)
-    colnames(inputCents) = paste0(colnames(inputCents), "_RAW_SCALE_CENTROID")
+    colnames(inputCents) = paste0(colnames(inputCents), "_RAW_CENTROID")
     summary = merge(
       summary,
       inputCents,
       by.x = "PHENOGRAPH_CLUSTER",
-      by.y = "Group.1_RAW_SCALE_CENTROID",
+      by.y = "Group.1_RAW_CENTROID",
       all.x = TRUE
     )
     

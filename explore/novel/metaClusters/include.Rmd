@@ -1,0 +1,18 @@
+---
+title: "Description"
+author: "JL"
+date: "7/20/2018"
+output: html_document
+---
+
+
+Current Methods:
+
+1. Run phenograph on each individual sample
+2. For each sample's phenograph cluster, compute two types of centroids
+  1. compute median compensated/transformed expression across all markers used
+  2. compute median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
+3. Combine individual sample's centroids into a single matrix
+4. Run phenograph on the combined matrix (currently using non-normalized input)
+5. Run tsne on the combined matrix (currently using non-normalized input)
+6. Plot results, coloring by marker expression and 
