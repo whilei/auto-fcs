@@ -75,7 +75,6 @@ for (matFile in intMatFiles) {
     hasPrevious = mat$cytotoxic.Tcells.CD8. > 0
     newMat$META_CLUSTER[hasPrevious & replace] = 1
     newMat = as.data.frame(newMat[, c("META_CLUSTER")])
-    print(length(newMat$`cytotoxic Tcells-CD8+`))
     
     
     print(length(mat$cytotoxic.Tcells.CD8.))
@@ -84,6 +83,8 @@ for (matFile in intMatFiles) {
     newMat$DEF = -1
   }
   colnames(newMat) = "cytotoxic Tcells-CD8+"
+  print(length(newMat$`cytotoxic Tcells-CD8+`))
+  
   t = table(mat$cytotoxic.Tcells.CD8.,
             newMat$`cytotoxic Tcells-CD8+`)
   print(paste0("-1 sums of ", sum(t[1,]), " and ", sum(t[, 1])))

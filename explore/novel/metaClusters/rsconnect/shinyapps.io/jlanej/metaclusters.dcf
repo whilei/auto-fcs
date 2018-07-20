@@ -5,6 +5,6 @@ account: jlanej
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 384831
-bundleId: 1491394
+bundleId: 1491569
 url: https://jlanej.shinyapps.io/metaclusters/
-when: 1532095970.71589
+when: 1532099651.40237
