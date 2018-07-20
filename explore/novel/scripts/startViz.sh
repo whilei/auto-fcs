@@ -4,7 +4,7 @@
 cd /Volumes/Beta2/flow
 
 
-dir=detect_NoNorm_v5_control_examples_meta_viz_2
+dir=detect_NoNorm_v5_control_examples_meta_viz_3
 mkdir -p $dir
 
 cd $dir
