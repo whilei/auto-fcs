@@ -14,7 +14,7 @@ output: html_document
   - Seems to be IgD, CD95, CD19, maybe CD4
 5. Similar process for "Normalized Heatmap"
 6. Select "Distributions" to see box-plot comparisons of marker expression 
-
+7. Go back to "Tsne Plots" and color a plot by IgD 
 
 ### Current Methods
 
