@@ -8,6 +8,7 @@
 
 
 
+
 library(optparse)
 option_list = list(
   make_option(
@@ -22,7 +23,7 @@ option_list = list(
     type = "character",
     help = "map file used to re-assign clusters",
     metavar = "character",
-    default = "/Users/Kitty/git/auto-fcs/explore/novel/report/summary.metaMap"
+    default = "/Users/Kitty/git/auto-fcs/explore/novel/report/subs_9_2_1_16_8_summary.naive.interest.metaMap"
   ),
   make_option(
     c("-o", "--outputDir"),
@@ -56,7 +57,7 @@ for (matFile in intMatFiles) {
   sample = gsub("_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
                 "",
                 sample)
-  sampleMeta = metaMap[which(metaMap$SAMPLE == sample), ]
+  sampleMeta = metaMap[which(metaMap$SAMPLE == sample),]
   
   mat = read.delim(matFile ,
                    stringsAsFactors = FALSE,
@@ -66,12 +67,17 @@ for (matFile in intMatFiles) {
     newMat$META_CLUSTER = -1
     for (pOrig in unique(sampleMeta$PHENOGRAPH_CLUSTER)) {
       sub = newMat$DEF == pOrig
-      new = sampleMeta[which(sampleMeta$PHENOGRAPH_CLUSTER == pOrig), ]$META_CLUSTER
+      new = sampleMeta[which(sampleMeta$PHENOGRAPH_CLUSTER == pOrig),]$META_CLUSTER
+      new = new + 1
       newMat$META_CLUSTER[sub] = new
     }
-    
+    replace = !(mat$cytotoxic.Tcells.CD8. %in% unique(sampleMeta$PHENOGRAPH_CLUSTER))
+    hasPrevious = mat$cytotoxic.Tcells.CD8. > 0
+    newMat$META_CLUSTER[hasPrevious & replace] = 1
     newMat = as.data.frame(newMat[, c("META_CLUSTER")])
     print(length(newMat$`cytotoxic Tcells-CD8+`))
+    
+    
     print(length(mat$cytotoxic.Tcells.CD8.))
     
   } else{
@@ -80,7 +86,7 @@ for (matFile in intMatFiles) {
   colnames(newMat) = "cytotoxic Tcells-CD8+"
   t = table(mat$cytotoxic.Tcells.CD8.,
             newMat$`cytotoxic Tcells-CD8+`)
-  print(paste0("-1 sums of ", sum(t[1, ]), " and ", sum(t[, 1])))
+  print(paste0("-1 sums of ", sum(t[1,]), " and ", sum(t[, 1])))
   
   gz1 <- gzfile(paste0(outDir, basename(matFile)), "w")
   write.table(
