@@ -709,6 +709,7 @@ require(openxlsx)
 list_of_datasets <- list("DATA_DICTIONARY" = cols, "SUMMARY" = summary,"META_MAP"=metaMap)
 write.xlsx(list_of_datasets, file = "summary.xlsx")
 
+save(summary,file ="summary.meta.RData")
 
 
 
