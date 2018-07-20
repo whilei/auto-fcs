@@ -1,36 +1,39 @@
-
-
-
-
-
-
-
-
-summary <- readRDS("data/summary.rds")
 library(shiny)
 library(plotly)
 library(RColorBrewer)
 library(scales)
 library(shinyWidgets)
 library(reshape2)
+library(superheat)
 
+
+summary <- readRDS("data/summary.rds")
 
 theme_set(theme_bw(15))
 
 nms <- names(summary)
 
-markers = c(nms[grepl(pattern = "_SCALED_CENTROID", nms)],nms[grepl(pattern = "_RAW_CENTROID", nms)])
+normmarkers = nms[grepl(pattern = "_SCALED_CENTROID", nms)]
+normmarkers = normmarkers[!grepl(pattern = "SAMPLE", normmarkers)]
+rawMarkers = nms[grepl(pattern = "_RAW_CENTROID", nms)]
+rawMarkers = rawMarkers[!grepl(pattern = "SAMPLE", rawMarkers)]
+
+
+markers = c(normmarkers, rawMarkers)
 markers = markers[!grepl(pattern = "SAMPLE", markers)]
-markers=sort(markers)
+markers = sort(markers)
 
-pops = nms[grepl(pattern = "_ClusterFreq", nms)]
-
+pops = sort(nms[grepl(pattern = "_ClusterFreq", nms)])
 
 myPalette <-
   colorRampPalette(rev(brewer.pal(11, "Spectral")))
-scMarkers <-
+scNormMarkers <-
   scale_colour_gradientn(colours = myPalette(100),
                          limits = c(-2, 2),
+                         oob = squish)
+scRawMarkers <-
+  scale_colour_gradientn(colours = myPalette(100),
+                         limits = c(-10, 220),
                          oob = squish)
 
 
@@ -42,13 +45,37 @@ clusters = c("META_CLUSTER", "PHENOGRAPH_CLUSTER")
 facets = c("EXPERIMENTER", "CTL")
 
 colorMe <- function(color, pg) {
-  if (color %in% markers) {
-    pg <- pg + scMarkers
+  if (color %in% normmarkers) {
+    pg <- pg + scNormMarkers
   } else if (color %in% pops) {
     pg <- pg + scPops
+  } else if (color %in% rawMarkers) {
+    pg <- pg + scRawMarkers
   }
   return(pg)
 }
+
+
+getHeat <- function(markers, type, data) {
+  subBM = data
+  subBM = subBM[order(subBM$META_CLUSTER), ]
+  subHC = subBM[, c(markers),]
+  colnames(subHC) = gsub(type, "", colnames(subHC))
+  
+  superheat(
+    as.matrix(t(subHC)),
+    # make gridlines white for enhanced prettiness
+    grid.hline.col = "white",
+    grid.vline.col = "white",
+    membership.cols = subBM$META_CLUSTER,
+    row.dendrogram = T,
+    # membership.rows = markersToCluster,
+    # rotate bottom label text
+    bottom.label.text.angle = 90
+  )
+}
+
+options = c(facets, clusters, markers, pops)
 
 ui <- fluidPage(
   headerPanel("Meta-cluster Explorer"),
@@ -68,19 +95,19 @@ ui <- fluidPage(
     selectInput(
       'topcolor',
       'Top Plot Color',
-      choices = c(facets, clusters, markers, pops),
+      choices = options ,
       selected = "META_CLUSTER"
     ),
     selectInput(
       'middlecolor',
       'Middle Plot Color',
-      choices = c(markers, pops),
+      choices = options,
       selected = "CD45RA_SCALED_CENTROID"
     ),
     selectInput(
       'bottomcolor',
       'Bottom Plot Color',
-      choices = c(markers, pops),
+      choices = options,
       selected = "CCR7_SCALED_CENTROID"
     ),
     
@@ -103,30 +130,30 @@ ui <- fluidPage(
     )
     
   ),
-  mainPanel(tabsetPanel(
-    type = "tabs",
-    tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
-    tabPanel(
-      "Cluster Characteristics",
-      plotlyOutput('characterPlot', height = "1000px")
-    ),
-    tabPanel(
-      "Methods",
-      includeMarkdown("include.Rmd")
+  mainPanel(
+    tabsetPanel(
+      type = "tabs",
+      tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
+      tabPanel("Raw Heatmap",
+               plotOutput('rawheat', height = "700px")),
+      tabPanel("Normalized Heatmap",
+               plotOutput('normheat', height = "700px")),
+      tabPanel(
+        "Cluster Distributions",
+        plotlyOutput('characterPlot', height = "1000px")
+      ),
+      tabPanel("Methods",
+               includeMarkdown("include.Rmd"))
     )
-  ))
-  # plotlyOutput('tsnePlot', height = "1000px")
-  # includeMarkdown("include.md")
+  )
 )
 
 server <- function(input, output) {
   dataset <- reactive({
-    # summary
     summary[(summary$META_CLUSTER %in% input$metaclusters), ]
   })
   
   output$tsnePlot <- renderPlotly({
-    # build graph with ggplot syntax
     p1g <-
       ggplot(dataset(),
              aes_string(
@@ -180,12 +207,37 @@ server <- function(input, output) {
   
   
   output$characterPlot <- renderPlotly({
-    subBM = melt(dataset()[, c("META_CLUSTER", markers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", normmarkers),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
-    g = ggplot(subBM) + geom_boxplot(aes(x = variable,
-                                         y = value, color = META_CLUSTER)) + ylab("scaled expression") +
-      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-    ggplotly(g) %>% layout(height = input$plotHeight, autosize = TRUE)
+    
+    g1g = ggplot(subBM)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                   y = value, color = META_CLUSTER)) + ylab("scaled expression")  + theme(legend.position = "none")
+    g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
+    
+    subBM = melt(dataset()[, c("META_CLUSTER", rawMarkers),], id.vars = "META_CLUSTER")
+    subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
+    
+    g2g = ggplot(subBM)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                   y = value, color = META_CLUSTER)) + ylab("raw expression") + theme(legend.position = "none")
+    g2 = ggplotly(g2g)
+    
+    p <- subplot(g1, g2, nrows = 2, shareX = TRUE) %>%
+      layout(height = input$plotHeight, autosize = TRUE)
+    
+  })
+  
+  output$rawheat <- renderPlot({
+    getHeat(markers = rawMarkers,
+            type = "_RAW_CENTROID",
+            data = dataset())
+    
+  })
+  output$normheat <- renderPlot({
+    getHeat(markers = normmarkers,
+            type = "_SCALED_CENTROID",
+            data = dataset())
     
   })
 }
