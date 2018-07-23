@@ -328,7 +328,7 @@ $(document).ready(function () {
 </ol>
 <ul>
 <li>Select IgD, CD95, CD19, and CD4 in the “Markers” dropdown</li>
-<li>Resonably separated distributions (TODO is to add p-values)</li>
+<li>Resonably separated distributions</li>
 </ul>
 <ol start="8" style="list-style-type: decimal">
 <li>Select “Population Freq Heatmap”, can confirm that cluster 8 is a little less naive-like</li>
@@ -383,10 +383,22 @@ $(document).ready(function () {
 </tbody>
 </table>
 </div>
+<div id="todo" class="section level3">
+<h3>TODO</h3>
+<ol style="list-style-type: decimal">
+<li>legends!! Currently the legends are placed over the plots of interest</li>
+<li>add p-values to distribution plots</li>
+</ol>
+</div>
 <div id="current-methods" class="section level3">
 <h3>Current Methods</h3>
 <ol style="list-style-type: decimal">
 <li>Run phenograph on each individual sample, starting with cytotoxic T cells</li>
+</ol>
+<ul>
+<li>Results displayed here are from CTL samples run on LSR only</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
 <li>For each sample’s phenograph cluster compute:</li>
 <li>median compensated/transformed expression across all markers used (calling this “RAW”)</li>
 <li>median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use</li>

@@ -8,6 +8,7 @@ output:
 ---
 
 ## Example workflow
+
 1. Select "Tsne Plots"
 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
 2. Meta clusters 1, 2, 8, 9, and 16 seem to be made up of mostly naive cells (less so 8)
@@ -17,7 +18,7 @@ output:
 5. Similar process for "Normalized Heatmap"
 6. Select "Marker Distributions"
   - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown
-  - Resonably separated distributions (TODO is to add p-values)
+  - Resonably separated distributions
 8. Select "Population Freq Heatmap", can confirm that cluster 8 is a little less naive-like
 7. Go back to "Tsne Plots" and color a plot by IgD 
 
@@ -38,10 +39,16 @@ output:
 |Population Distributions      |Distributions of  population values, top is frequency in cluster, bottom is frequency of known |
 
 
+### TODO
+
+1. legends!! Currently the legends are placed over the plots of interest
+1. add p-values to distribution plots
+
 ### Current Methods
 
 
 1. Run phenograph on each individual sample, starting with cytotoxic T cells
+  - Results displayed here are from CTL samples run on LSR only
 2. For each sample's phenograph cluster compute:
   1.  median compensated/transformed expression across all markers used (calling this "RAW")
   2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
