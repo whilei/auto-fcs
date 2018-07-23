@@ -305,7 +305,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Example</h1>
 <h4 class="author"><em>JL</em></h4>
-<h4 class="date"><em>7/20/2018</em></h4>
+<h4 class="date"><em>7/23/2018</em></h4>
 
 </div>
 
@@ -314,18 +314,75 @@ $(document).ready(function () {
 <h2>Example workflow</h2>
 <ol style="list-style-type: decimal">
 <li>Select “Tsne Plots”</li>
-<li>Color middle tsne plot by “naive_ClusterFreq” to see which meta clusters are naive cells</li>
+<li>Color middle tsne plot by “naive_ClusterFreq” using the “Middle Plot Color” dropdown to see which meta clusters are naive cells</li>
 <li>Meta clusters 1, 2, 8, 9, and 16 seem to be made up of mostly naive cells (less so 8)</li>
 <li>Select meta clusters 1, 2, 8, 9, and 16 in the “Meta clusters to characterize” dropdown</li>
-<li>Select “Raw Heatmap” to see which markers differentiate these meta-clusters</li>
+<li>Select “Raw Marker Heatmap” to see which markers differentiate these meta-clusters</li>
 </ol>
 <ul>
 <li>Seems to be IgD, CD95, CD19, maybe CD4</li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
 <li>Similar process for “Normalized Heatmap”</li>
-<li>Select “Distributions” to see box-plot comparisons of marker expression</li>
+<li>Select “Marker Distributions”</li>
 </ol>
+<ul>
+<li>Select IgD, CD95, CD19, and CD4 in the “Markers” dropdown</li>
+<li>Resonably separated distributions (TODO is to add p-values)</li>
+</ul>
+<ol start="8" style="list-style-type: decimal">
+<li>Select “Population Freq Heatmap”, can confirm that cluster 8 is a little less naive-like</li>
+<li>Go back to “Tsne Plots” and color a plot by IgD</li>
+</ol>
+<div id="description-of-tabs" class="section level3">
+<h3>Description of tabs</h3>
+<table>
+<colgroup>
+<col width="24%"></col>
+<col width="76%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">TAB</th>
+<th align="left">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Example</td>
+<td align="left">This tab, a little overview and an example</td>
+</tr>
+<tr class="even">
+<td align="left">Tsne Plots</td>
+<td align="left">Three t-sne plots, with options to color each differently</td>
+</tr>
+<tr class="odd">
+<td align="left">Raw Marker Heatmap</td>
+<td align="left">Heatmap using “Raw” marker values</td>
+</tr>
+<tr class="even">
+<td align="left">Normalized Marker Heatmap</td>
+<td align="left">Heatmap using normalized marker values</td>
+</tr>
+<tr class="odd">
+<td align="left">Marker Distributions</td>
+<td align="left">Distributions of marker values, top is “Raw”, bottom is normalized</td>
+</tr>
+<tr class="even">
+<td align="left">Population Freq Heatmap</td>
+<td align="left">Heatmap using the frequency of known populations in each cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">Total Population Freq Heatmap</td>
+<td align="left">Heatmap using the proportion of events in each phenograph cluster out of all events</td>
+</tr>
+<tr class="even">
+<td align="left">Population Distributions</td>
+<td align="left">Distributions of population values, top is frequency in cluster, bottom is frequency of known</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="current-methods" class="section level3">
 <h3>Current Methods</h3>
 <ol style="list-style-type: decimal">
@@ -340,6 +397,314 @@ $(document).ready(function () {
 <li>Run tsne on the combined matrix (currently using “RAW”)</li>
 <li>Plot results, coloring by things</li>
 </ol>
+</div>
+<div id="data-column-descriptions" class="section level3">
+<h3>Data column descriptions</h3>
+<ul>
+<li>just for reference</li>
+</ul>
+<table>
+<colgroup>
+<col width="19%"></col>
+<col width="80%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">COLUMN</th>
+<th align="left">DESCRIPTION</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SAMPLE</td>
+<td align="left">Sample name</td>
+</tr>
+<tr class="even">
+<td align="left">PHENOGRAPH_CLUSTER</td>
+<td align="left">Phenograph cluster for the sample</td>
+</tr>
+<tr class="odd">
+<td align="left">central.memory</td>
+<td align="left">Count of central.memory events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">effector</td>
+<td align="left">Count of effector events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">effector.memory</td>
+<td align="left">Count of effector.memory events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">naive</td>
+<td align="left">Count of naive events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD28P_27M</td>
+<td align="left">Count of CD28P_27M events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">E</td>
+<td align="left">Count of E events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">EM1</td>
+<td align="left">Count of EM1 events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">EM2</td>
+<td align="left">Count of EM2 events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">EM3</td>
+<td align="left">Count of EM3 events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">EM4</td>
+<td align="left">Count of EM4 events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">pE1</td>
+<td align="left">Count of pE1 events in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">pE2</td>
+<td align="left">Count of pE2 events in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">TOTAL_PHENOGRAPH_COUNTS</td>
+<td align="left">Total events in sample’s phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">naive_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in naive</td>
+</tr>
+<tr class="odd">
+<td align="left">effector_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in effector</td>
+</tr>
+<tr class="even">
+<td align="left">central.memory_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in central.memory</td>
+</tr>
+<tr class="odd">
+<td align="left">effector.memory_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in effector.memory</td>
+</tr>
+<tr class="even">
+<td align="left">E_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in E</td>
+</tr>
+<tr class="odd">
+<td align="left">EM1_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in EM1</td>
+</tr>
+<tr class="even">
+<td align="left">pE2_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in pE2</td>
+</tr>
+<tr class="odd">
+<td align="left">EM2_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in EM2</td>
+</tr>
+<tr class="even">
+<td align="left">EM4_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in EM4</td>
+</tr>
+<tr class="odd">
+<td align="left">EM3_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in EM3</td>
+</tr>
+<tr class="even">
+<td align="left">CD28P_27M_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in CD28P_27M</td>
+</tr>
+<tr class="odd">
+<td align="left">pE1_TotalFreq</td>
+<td align="left">Proportion of events in this phenograph cluster out of all events in pE1</td>
+</tr>
+<tr class="even">
+<td align="left">naive_ClusterFreq</td>
+<td align="left">Frequency of population naive in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">effector_ClusterFreq</td>
+<td align="left">Frequency of population effector in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">central.memory_ClusterFreq</td>
+<td align="left">Frequency of population central.memory in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">effector.memory_ClusterFreq</td>
+<td align="left">Frequency of population effector.memory in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">E_ClusterFreq</td>
+<td align="left">Frequency of population E in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">EM1_ClusterFreq</td>
+<td align="left">Frequency of population EM1 in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">pE2_ClusterFreq</td>
+<td align="left">Frequency of population pE2 in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">EM2_ClusterFreq</td>
+<td align="left">Frequency of population EM2 in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">EM4_ClusterFreq</td>
+<td align="left">Frequency of population EM4 in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">EM3_ClusterFreq</td>
+<td align="left">Frequency of population EM3 in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD28P_27M_ClusterFreq</td>
+<td align="left">Frequency of population CD28P_27M in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">pE1_ClusterFreq</td>
+<td align="left">Frequency of population pE1 in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD27_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">HLA.DR_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of HLA.DRin this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD19_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD19in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD8in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">IgD_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of IgDin this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD3_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD3in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CCR7_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CCR7in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD28_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD28in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD95_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD95in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD45RA_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD45RAin this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD4_RAW_CENTROID</td>
+<td align="left">Median raw (but after compensating/logicle transform) expression of CD4in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">SAMPLE_RAW_CENTROID</td>
+<td align="left">Sample used for centroids (just a check)</td>
+</tr>
+<tr class="even">
+<td align="left">CD27_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD27in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">HLA.DR_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of HLA.DRin this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD19_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD19in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD8in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">IgD_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of IgDin this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD3_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD3in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CCR7_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CCR7in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD28_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD28in this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD95_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD95in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">CD45RA_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD45RAin this phenograph cluster</td>
+</tr>
+<tr class="even">
+<td align="left">CD4_SCALED_CENTROID</td>
+<td align="left">Median scaled (after compensating/logicle transform and normalizing) expression of CD4in this phenograph cluster</td>
+</tr>
+<tr class="odd">
+<td align="left">SAMPLE_SCALED_CENTROID</td>
+<td align="left">Sample used for centroids (just a check)</td>
+</tr>
+<tr class="even">
+<td align="left">SANITIZE_NAME</td>
+<td align="left">Sample with spaces replaced with _</td>
+</tr>
+<tr class="odd">
+<td align="left">TOTAL_COUNTS</td>
+<td align="left">Total events in fcs file</td>
+</tr>
+<tr class="even">
+<td align="left">PANEL</td>
+<td align="left">flow panel</td>
+</tr>
+<tr class="odd">
+<td align="left">MACHINE</td>
+<td align="left">LSR or FORTESSA</td>
+</tr>
+<tr class="even">
+<td align="left">EXPERIMENTER</td>
+<td align="left">EXPERIMENTER</td>
+</tr>
+<tr class="odd">
+<td align="left">CTL</td>
+<td align="left">Which control this sample is</td>
+</tr>
+<tr class="even">
+<td align="left">META_CLUSTER</td>
+<td align="left">The phenograph meta-cluster this sample belongs to</td>
+</tr>
+<tr class="odd">
+<td align="left">metaTsne1</td>
+<td align="left">Meta-tsne diminsion 1</td>
+</tr>
+<tr class="even">
+<td align="left">metaTsne2</td>
+<td align="left">Meta-tsne diminsion 2</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

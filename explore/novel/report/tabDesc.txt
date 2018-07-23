@@ -1,0 +1,9 @@
+TAB	DESCRIPTION
+Example	"This tab, a little overview and an example"
+Tsne Plots	"Three t-sne plots, with options to color each differently"
+Raw Marker Heatmap	"Heatmap using ""Raw"" marker values"
+Normalized Marker Heatmap	Heatmap using normalized marker values
+Marker Distributions	"Distributions of  marker values, top is ""Raw"", bottom is normalized"
+Population Freq Heatmap	Heatmap using the frequency of known populations in each cluster
+Total Population Freq Heatmap	Heatmap using the proportion of events in each phenograph cluster out of all events
+Population Distributions	"Distributions of  population values, top is frequency in cluster, bottom is frequency of known"

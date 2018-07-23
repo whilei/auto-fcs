@@ -1,20 +1,38 @@
 ---
 title: "Example"
 author: "JL"
-date: "7/20/2018"
-output: html_document
+date: "7/23/2018"
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ## Example workflow
 1. Select "Tsne Plots"
-1. Color middle tsne plot by "naive_ClusterFreq" to see which meta clusters are naive cells
+1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
 2. Meta clusters 1, 2, 8, 9, and 16 seem to be made up of mostly naive cells (less so 8)
 3. Select meta clusters 1, 2, 8, 9, and 16 in the "Meta clusters to characterize" dropdown
-4. Select "Raw Heatmap" to see which markers differentiate these meta-clusters
+4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters
   - Seems to be IgD, CD95, CD19, maybe CD4
 5. Similar process for "Normalized Heatmap"
-6. Select "Distributions" to see box-plot comparisons of marker expression 
+6. Select "Marker Distributions"
+  - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown
+  - Resonably separated distributions (TODO is to add p-values)
+8. Select "Population Freq Heatmap", can confirm that cluster 8 is a little less naive-like
 7. Go back to "Tsne Plots" and color a plot by IgD 
+
+### Description of tabs
+
+
+
+```{r echo=FALSE}
+
+d=read.delim("../report/tabDesc.txt",stringsAsFactors = FALSE)
+library(knitr)
+kable(d,format = "markdown")
+
+```
+
 
 ### Current Methods
 
@@ -29,3 +47,16 @@ output: html_document
 4. Run phenograph on the combined matrix (currently using "RAW")
 5. Run tsne on the combined matrix (currently using "RAW")
 6. Plot results, coloring by things
+
+### Data column descriptions
+
+- just for reference
+
+```{r echo=FALSE}
+
+d=read.delim("../report/summary.columns")
+library(knitr)
+kable(d,format = "markdown")
+
+```
+

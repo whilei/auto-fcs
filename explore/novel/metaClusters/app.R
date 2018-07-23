@@ -23,7 +23,10 @@ markers = c(normmarkers, rawMarkers)
 markers = markers[!grepl(pattern = "SAMPLE", markers)]
 markers = sort(markers)
 displayMarkers = gsub("_SCALED_CENTROID", "", normmarkers)
-pops = sort(nms[grepl(pattern = "_ClusterFreq", nms)])
+pops = nms[grepl(pattern = "_ClusterFreq", nms)]
+
+displayPops = gsub("_ClusterFreq", "", pops)
+displayPops = displayPops[!grepl(pattern = "CD28P_27M", displayPops)]
 
 myPalette <-
   colorRampPalette(rev(brewer.pal(11, "Spectral")))
@@ -121,13 +124,7 @@ ui <- fluidPage(
     
     # selectInput('facet_col', 'Facet Column', c(None = '.', facets), selected = "."),
     # selectInput('facet_col', 'Facet Column', c(None = '.', c("."))),
-    sliderInput(
-      'plotHeight',
-      'Height of plot (in pixels)',
-      min = 100,
-      max = 1000,
-      value = 700
-    ),
+    
     pickerInput(
       inputId = "metaclusters",
       label = "Meta clusters to characterize",
@@ -138,11 +135,26 @@ ui <- fluidPage(
     ),
     pickerInput(
       inputId = "markerdisplay",
-      label = "Markers to characterize",
+      label = "Markers",
       choices = sort(unique(displayMarkers)),
       options = list(`actions-box` = TRUE),
       multiple = TRUE,
       selected = unique(displayMarkers)
+    ),
+    pickerInput(
+      inputId = "displayPops",
+      label = "Known Populations",
+      choices = unique(displayPops),
+      options = list(`actions-box` = TRUE),
+      multiple = TRUE,
+      selected = displayPops
+    ),
+    sliderInput(
+      'plotHeight',
+      'Height of plot (in pixels)',
+      min = 100,
+      max = 1000,
+      value = 700
     )
     
   ),
@@ -150,15 +162,23 @@ ui <- fluidPage(
     tabsetPanel(
       type = "tabs",
       tabPanel("Example",
-               includeMarkdown("example.Rmd")),
+               includeMarkdown("example.md")),
       tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
-      tabPanel("Raw Heatmap",
+      tabPanel("Raw Marker Heatmap",
                plotOutput('rawheat', height = "700px")),
-      tabPanel("Normalized Heatmap",
+      tabPanel("Normalized Marker Heatmap",
                plotOutput('normheat', height = "700px")),
       tabPanel(
-        "Distributions",
+        "Marker Distributions",
         plotlyOutput('characterPlot', height = "1000px")
+      ),
+      tabPanel("Population Freq Heatmap",
+               plotOutput('clusterPopheat', height = "700px")),
+      tabPanel("Total Population Freq Heatmap",
+               plotOutput('totalPopheat', height = "700px")),
+      tabPanel(
+        "Population Distributions",
+        plotlyOutput('popPlot', height = "1000px")
       )
     )
   )
@@ -241,6 +261,31 @@ server <- function(input, output) {
     
   })
   
+  output$popPlot <- renderPlotly({
+    # displayPops = gsub("_ClusterFreq", "", pops)
+    subBM = melt(dataset()[, c("META_CLUSTER",
+                               paste0(input$displayPops, "_ClusterFreq")),], id.vars = "META_CLUSTER")
+    subBM$variable = gsub("_ClusterFreq", "", subBM$variable)
+    
+    g1g = ggplot(subBM)  +ggtitle("f")+
+      xlab("population") + ylab("freq in cluster") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                                                 y = value, color = META_CLUSTER)) + ylab("scaled expression")  + theme(legend.position = "none")
+    g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
+    
+    subBM = melt(dataset()[, c("META_CLUSTER",
+                               paste0(input$displayPops, "_TotalFreq")),], id.vars = "META_CLUSTER")
+    subBM$variable = gsub("_TotalFreq", "", subBM$variable)
+    
+    g2g = ggplot(subBM)  +
+      xlab("population") + ylab("freq of all events in population")  + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                                                                   y = value, color = META_CLUSTER)) + ylab("raw expression") + theme(legend.position = "none")
+    g2 = ggplotly(g2g)
+    
+    p <- subplot(g1, g2, nrows = 2, shareX = TRUE) %>%
+      layout(height = input$plotHeight, autosize = TRUE)
+    
+  })
+  
   output$rawheat <- renderPlot({
     getHeat(
       markers = paste0(input$markerdisplay, "_RAW_CENTROID"),
@@ -253,6 +298,23 @@ server <- function(input, output) {
     getHeat(
       markers = paste0(input$markerdisplay, "_SCALED_CENTROID"),
       type = "_SCALED_CENTROID",
+      data = dataset()
+    )
+    
+  })
+  
+  output$clusterPopheat <- renderPlot({
+    getHeat(
+      markers = paste0(input$displayPops, "_ClusterFreq"),
+      type = "_ClusterFreq",
+      data = dataset()
+    )
+    
+  })
+  output$totalPopheat <- renderPlot({
+    getHeat(
+      markers = paste0(input$displayPops, "_TotalFreq"),
+      type = "_TotalFreq",
       data = dataset()
     )
     
