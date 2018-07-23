@@ -58,8 +58,8 @@ colorMe <- function(color, pg) {
 
 getHeat <- function(markers, type, data) {
   subBM = data
-  subBM = subBM[order(subBM$META_CLUSTER), ]
-  subHC = subBM[, c(markers),]
+  subBM = subBM[order(subBM$META_CLUSTER),]
+  subHC = subBM[, c(markers), ]
   colnames(subHC) = gsub(type, "", colnames(subHC))
   
   superheat(
@@ -73,6 +73,14 @@ getHeat <- function(markers, type, data) {
     # rotate bottom label text
     bottom.label.text.angle = 90
   )
+}
+
+getTsnePlot <- function(data, x, y, color) {
+  ggplot(data,
+         aes_string(x = x,
+                    y = y,
+                    color = color)) +
+    geom_point() + theme(legend.position = "none")
 }
 
 options = c(facets, clusters, markers, pops)
@@ -150,36 +158,31 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   dataset <- reactive({
-    summary[(summary$META_CLUSTER %in% input$metaclusters), ]
+    summary[(summary$META_CLUSTER %in% input$metaclusters),]
   })
   
   output$tsnePlot <- renderPlotly({
     p1g <-
-      ggplot(dataset(),
-             aes_string(
-               x = input$x,
-               y = input$y,
-               color = input$topcolor
-             )) +
-      geom_point() + theme(legend.position = "none")
-    
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$topcolor
+      )
     p2g <-
-      ggplot(dataset(),
-             aes_string(
-               x = input$x,
-               y = input$y,
-               color = input$middlecolor
-             )) +
-      geom_point() + theme(legend.position = "none")
-    
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$middlecolor
+      )
     p3g <-
-      ggplot(dataset(),
-             aes_string(
-               x = input$x,
-               y = input$y,
-               color = input$bottomcolor
-             )) +
-      geom_point() + theme(legend.position = "none")
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$bottomcolor
+      )
     
     p1g = colorMe(color = input$topcolor , pg = p1g)
     p2g = colorMe(color = input$middlecolor , pg = p2g)
@@ -207,7 +210,7 @@ server <- function(input, output) {
   
   
   output$characterPlot <- renderPlotly({
-    subBM = melt(dataset()[, c("META_CLUSTER", normmarkers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", normmarkers), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -215,7 +218,7 @@ server <- function(input, output) {
                                                                                                    y = value, color = META_CLUSTER)) + ylab("scaled expression")  + theme(legend.position = "none")
     g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
     
-    subBM = melt(dataset()[, c("META_CLUSTER", rawMarkers),], id.vars = "META_CLUSTER")
+    subBM = melt(dataset()[, c("META_CLUSTER", rawMarkers), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
     
     g2g = ggplot(subBM)  +
