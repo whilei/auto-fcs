@@ -243,7 +243,7 @@ colnames(sub)=populations
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=9,message=FALSE}
-type="_RAW_CENTROID"
+type="_SCALED_CENTROID"
 sub = summary[, paste0(markersToCluster, type)]
 colnames(sub) = markersToCluster
 clustFile= paste0("clusterPhenograph",type,".RData")
