@@ -1,0 +1,20 @@
+---
+title: "Description"
+author: "JL"
+date: "7/20/2018"
+output: html_document
+---
+
+
+### Current Methods
+
+1. Run phenograph on each individual sample, starting with cytotoxic T cells
+2. For each sample's phenograph cluster compute:
+  1.  median compensated/transformed expression across all markers used (calling this "RAW")
+  2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
+  3. Frequency of known cytotoxic subsets in the cluster
+  4  Proportion of events in the phenograph cluster out of all events in each known cytotoxic subset
+3. Combine individual sample's centroids into a single matrix
+4. Run phenograph on the combined matrix (currently using "RAW")
+5. Run tsne on the combined matrix (currently using "RAW")
+6. Plot results, coloring by things

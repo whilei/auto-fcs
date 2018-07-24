@@ -67,6 +67,7 @@ TOTAL_COUNTS	Total events in fcs file
 PANEL	flow panel
 MACHINE	LSR or FORTESSA
 EXPERIMENTER	EXPERIMENTER
+LAB_ID	LAB ID for this sample
 CTL	Which control this sample is
 META_CLUSTER	The phenograph meta-cluster this sample belongs to
 metaTsne1	Meta-tsne diminsion 1
