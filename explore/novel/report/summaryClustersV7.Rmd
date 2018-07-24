@@ -275,8 +275,8 @@ myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
 
 ```{r fig.width=7,message=FALSE}
 
-g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=META_CLUSTER)) +geom_point()+ theme(legend.position="none")
-ggplotly(g)
+# g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=META_CLUSTER)) +geom_point()+ theme(legend.position="none")
+# ggplotly(g)
 
 ```
 
@@ -286,8 +286,8 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=CTL)) +geom_point()+ theme(legend.position="none")
-ggplotly(g)
+# g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=CTL)) +geom_point()+ theme(legend.position="none")
+# ggplotly(g)
 
 ```
 
@@ -313,11 +313,11 @@ ggplotly(g)
   myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "Spectral")))
   sc <- scale_colour_gradientn(colours = myPalette(100),limits=c(0, 1),oob=squish)
   
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = naive_ClusterFreq)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = naive_ClusterFreq)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
 
 ```
 
@@ -346,12 +346,12 @@ ggplotly(g)
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=7,message=FALSE}
-
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = effector_ClusterFreq)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# 
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = effector_ClusterFreq)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
 
 ```
 
@@ -362,11 +362,11 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = effector.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = effector.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
 
 
 ```
@@ -378,11 +378,11 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = central.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = central.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
 
 ```
 
@@ -398,12 +398,12 @@ myPalette <-
   scale_colour_gradientn(colours = myPalette(100),
   limits = c(-2, 2),
   oob = squish)
- 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CD45RA_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+#  
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CD45RA_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
    
 
 ```
@@ -413,12 +413,12 @@ ggplotly(g)
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=7,message=FALSE}
-
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# 
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
    
 
 
@@ -431,11 +431,11 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CD28_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CD28_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
    
 
 
@@ -447,13 +447,13 @@ ggplotly(g)
 ## Meta Phenograph +Meta tsne
 
 ```{r fig.width=7,message=FALSE}
-
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CD95_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
-   
+# 
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CD95_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+#    
 
 
 ```
@@ -466,12 +466,12 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CD27_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
-   
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CD27_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+#    
 
 
 ```
@@ -482,12 +482,12 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = IgD_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
-   
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = IgD_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+#    
 
 
 ```
@@ -500,11 +500,11 @@ ggplotly(g)
 
 ```{r fig.width=7,message=FALSE}
 
-g = ggplot(summary) + geom_point(
-           aes(x = metaTsne1,
-           y = metaTsne2,
-           colour = CD19_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
-ggplotly(g)
+# g = ggplot(summary) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CD19_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
    
 
 

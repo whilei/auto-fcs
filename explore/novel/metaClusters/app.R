@@ -224,12 +224,15 @@ server <- function(input, output) {
     
     color=colorMe(color = input$bottomcolor,data = dataset()[,input$bottomcolor])
     
-    p3 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color, marker = list(size = pointSize))
+    p3 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color, marker = list(size = pointSize),fillcolor='Viridis')
    
     p <- subplot(p1, p2, p3, nrows = 3, shareX = TRUE) %>%
 
       layout(height = input$plotHeight, autosize = TRUE,showlegend=F)
   })
+  
+  
+  
   output$info=renderText(
     paste0("Currently ",length(dataset()$META_CLUSTER)," datapoints, ",length(unique(dataset()$META_CLUSTER))," meta clusters, and ",length(unique(dataset()$SAMPLE))," samples")
   ) 
