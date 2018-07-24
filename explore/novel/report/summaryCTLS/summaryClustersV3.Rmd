@@ -1,0 +1,629 @@
+---
+title: "SummaryClusters"
+author: "JL"
+date: "7/18/2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+
+library(superheat)
+library(scales)
+library(plotly)
+library(knitr)
+library(ClusterR)
+library(cytofkit)
+
+
+theme_set(theme_bw(15))
+
+markersToCluster = c("CD27",
+"CD28",
+"CD95",
+"CCR7",
+"CD45RA",
+"CD8",
+"CD4",
+"CD3",
+"CD19",
+"IgD",
+"HLA.DR")
+
+populations =    c(
+"central.memory",
+"naive",
+"effector.memory",
+"EM1",
+"EM2",
+"EM3",
+"EM4",
+"effector",
+"E",
+"pE1",
+"pE2",
+"CD28P_27M"
+)
+
+markersToCluster = rev(markersToCluster)
+```
+
+```{r prep, include=FALSE, eval=TRUE}
+
+manuals = read.delim(
+  "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
+  stringsAsFactors = FALSE,
+  header = FALSE
+)
+
+mapFull=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+
+map=mapFull  
+# lsr =map[which(map$MACHINE=="LSR"),]   
+map =map[which(map$PANEL=="panel1"),]
+map=map[,c("FILE","TOTAL_COUNTS","PANEL","MACHINE","EXPERIMENTER")]
+# map =map[which(!is.na(map$LAB_ID)),]
+
+summary = read.delim(
+  "/Volumes/Beta2/flow/testSummary/allSummaries.txt" ,
+  stringsAsFactors = FALSE,
+  header = TRUE
+  )
+
+
+summary$SAMPLE = summary$SAMPLE_RAW_SCALE_CENTROID
+summary$SANITIZE_NAME = gsub(" ", "_", summary$SAMPLE)
+
+summary=merge(summary,map,by.x ="SAMPLE",by.y ="FILE",all.x = TRUE)
+
+# summary$MANUAL_ANNOTATION = 
+
+summary = summary[!(summary$SANITIZE_NAME %in% manuals$V1),]
+
+summary$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ",
+"",
+summary$SAMPLE)
+summary$CTL = gsub("_.*", "", summary$CTL)
+summary$CTL = gsub(" .*", "", summary$CTL)
+summary = summary[order(summary$CTL), ]
+save(summary,file="summary.RData")
+```
+
+
+```{r}
+
+load("summary.RData")
+# tmp=unique(summary[,c("SAMPLE_RAW_SCALE_CENTROID","MACHINE")])
+# table(tmp$MACHINE)
+getHeat <- function(sub) {
+  superheat(
+      as.matrix(t(sub)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = T,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+}
+
+
+```
+
+
+
+## LSR vs FORTESSA
+
+```{r fig.width=9}
+
+sub=summary[order(summary$MACHINE), ]
+subHC = sub[, paste0(markersToCluster,"_RAW_SCALE_CENTROID")]
+colnames(subHC)=markersToCluster
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$MACHINE,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+summary=summary[which(summary$MACHINE=="LSR"),]
+
+```
+
+- ordered by machine, using only LSR for remaining
+
+
+## LSR vs FORTESSA
+
+```{r fig.width=9}
+
+sub=summary[order(summary$MACHINE), ]
+subHC = sub[, paste0(markersToCluster,"_SCALED_CENTROID")]
+colnames(subHC)=markersToCluster
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$MACHINE,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+summary=summary[which(summary$MACHINE=="LSR"),]
+
+```
+
+- ordered by machine, using only LSR for remaining
+
+
+## Raw centroids
+
+```{r fig.width=9}
+
+sub = summary[, paste0(markersToCluster,"_RAW_SCALE_CENTROID")]
+colnames(sub)=markersToCluster
+getHeat(sub=sub)
+```
+
+- median value of markers in each cluster
+
+## Normalized centroids
+
+```{r fig.width=9}
+
+sub = summary[, paste0(markersToCluster,"_SCALED_CENTROID")]
+colnames(sub)=markersToCluster
+getHeat(sub=sub)
+
+```
+
+- median z-score of markers in each cluster
+
+
+## Freq cluster
+
+```{r fig.width=9}
+
+sub = summary[, paste0(populations,"_ClusterFreq")]
+colnames(sub)=populations
+getHeat(sub=sub)
+
+```
+
+- median z-score of markers in each cluster
+
+
+## Freq population
+
+```{r fig.width=9}
+
+sub = summary[, paste0(populations,"_TotalFreq")]
+colnames(sub)=populations
+getHeat(sub=sub)
+
+```
+
+- median z-score of markers in each cluster
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=9,message=FALSE}
+type="_RAW_SCALE_CENTROID"
+sub = summary[, paste0(markersToCluster, type)]
+colnames(sub) = markersToCluster
+clustFile= paste0("clusterPhenograph",type,".RData")
+tsneFile=paste0("tsne",type,".RData")
+```
+
+```{r fig.width=9,message=FALSE,eval=TRUE}
+clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
+tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
+
+save(clusterPhenograph,file = clustFile)
+save(tsne,file =tsneFile)
+
+```
+
+```{r fig.width=7,message=FALSE}
+load(clustFile)
+load(tsneFile)
+
+summary$META_CLUSTER = as.factor(clusterPhenograph)
+summary$metaTsne1=tsne[,1]
+summary$metaTsne2 = tsne[, 2]
+
+myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+
+```
+
+
+```{r fig.width=7,message=FALSE}
+
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=META_CLUSTER)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+```
+
+- colored by "meta" phenograph cluster
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=CTL)) +geom_point()+ theme(legend.position="none")
+ggplotly(g)
+
+```
+
+- colored by control
+
+<!-- ## Meta Phenograph +Meta tsne -->
+
+<!-- ```{r fig.width=7,message=FALSE} -->
+
+<!-- g=ggplot(summary , aes(x = metaTsne1,y=metaTsne2,color=MACHINE)) +geom_point()+ theme(legend.position="none") -->
+<!-- ggplotly(g) -->
+
+<!-- ``` -->
+
+<!-- - colored by control -->
+
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+  myPalette <- colorRampPalette(rev(RColorBrewer::brewer.pal(11, "Spectral")))
+  sc <- scale_colour_gradientn(colours = myPalette(100),limits=c(0, 1),oob=squish)
+  
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = naive_ClusterFreq)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+
+```
+
+- colored by percent of cells that are naive in original clusters
+- keep slide 4 in mind
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = effector_ClusterFreq)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+
+```
+
+- colored by percent of cells that are effector in original clusters
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = effector.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+
+
+```
+
+- colored by percent of cells that are effector memory in original clusters
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = central.memory_ClusterFreq)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+
+```
+
+- colored by percent of cells that are central memory in original clusters
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+myPalette <-
+  colorRampPalette(rev(RColorBrewer::brewer.pal(11, "Spectral")))
+  sc <-
+  scale_colour_gradientn(colours = myPalette(100),
+  limits = c(-2, 2),
+  oob = squish)
+ 
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD45RA_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+```
+
+- colored by median CD45 (scaled) expression in original clusters
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CCR7 (scaled) expression in original clusters
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD28_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD28 (scaled) expression in original clusters
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD95_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD95 (scaled) expression in original clusters
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD27_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD27 (scaled) expression in original clusters
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = IgD_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median IgD (scaled) expression in original clusters
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+g = ggplot(summary) + geom_point(
+           aes(x = metaTsne1,
+           y = metaTsne2,
+           colour = CD19_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+ggplotly(g)
+   
+
+
+```
+
+- colored by median CD19 (scaled) expression in original clusters
+
+
+```{r fig.width=7,message=FALSE}
+
+gz1 <- gzfile(paste0("summary.gz"), "w")
+    write.table(
+      summary,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+close(gz1)
+
+cols=data.frame(COLUMN=colnames(summary))
+rownames(cols)=cols$COLUMN
+cols$DESCRIPTION="NA"
+
+for(pop in populations){
+  popForm=pop
+  # gsub("."," ",pop,fixed = TRUE)
+  cols[popForm,"DESCRIPTION"] = paste0("Count of ",pop, " events in this phenograph cluster")
+  
+  popTFreq=paste0(popForm,"_TotalFreq")
+  cols[popTFreq,"DESCRIPTION"] = paste0("Proportion of events in this phenograph cluster out of all events in  ",pop)
+ 
+  popCFreq=paste0(popForm,"_ClusterFreq")
+  cols[popCFreq,"DESCRIPTION"] = paste0("Frequency of population ",pop, " in this phenograph cluster")
+   
+}
+
+for(marker in markersToCluster){
+  mraw = paste0(marker, "_RAW_SCALE_CENTROID")
+  cols[mraw, "DESCRIPTION"] = paste0(
+  "Median raw (but after compensating/logicle transform) expression of ",
+  marker,
+  "in this phenograph cluster"
+  )
+  
+  mscale = paste0(marker, "_SCALED_CENTROID")
+  cols[mscale, "DESCRIPTION"] = paste0(
+  "Median scaled (after compensating/logicle transform and normalizing) expression of ",
+  marker,
+  "in this phenograph cluster"
+  )
+}
+
+cols["PHENOGRAPH_CLUSTER","DESCRIPTION"]="Phenograph cluster for the sample"
+cols["TOTAL_PHENOGRAPH_COUNTS","DESCRIPTION"]="Total events in sample's phenograph cluster"
+cols["SAMPLE_SCALED_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE_RAW_SCALE_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE_RAW_SCALE_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
+cols["SAMPLE","DESCRIPTION"]="Sample name"
+cols["SANITIZE_NAME","DESCRIPTION"]="Sample with spaces replaced with _"
+cols["CTL","DESCRIPTION"]="Which control this sample is"
+cols["META_CLUSTER","DESCRIPTION"]="The phenograph meta-cluster this sample belongs to"
+cols["metaTsne1","DESCRIPTION"]="Meta-tsne diminsion 1"
+cols["metaTsne2","DESCRIPTION"]="Meta-tsne diminsion 2"
+cols["TOTAL_COUNTS","DESCRIPTION"]="Total events in fcs file"
+cols["PANEL","DESCRIPTION"]="flow panel"
+cols["MACHINE","DESCRIPTION"]="LSR or FORTESSA"
+cols["EXPERIMENTER","DESCRIPTION"]="EXPERIMENTER"
+
+table(cols$COLUMN %in% populations)
+write.table(
+cols,
+file = "summary.columns" ,
+sep = "\t",
+quote = FALSE,
+row.names = FALSE
+)
+
+
+require(openxlsx)
+list_of_datasets <- list("DATA_DICTIONARY" = cols, "SUMMARY" = summary)
+write.xlsx(list_of_datasets, file = "summary.xlsx")
+
+
+
+
+```
+
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+subs=c(9,2,1,16)
+use=summary$META_CLUSTER %in% subs
+sub=summary[use,]
+sub=sub[order(sub$META_CLUSTER), ]
+
+subHC = sub[, paste0(markersToCluster, "_RAW_SCALE_CENTROID")]
+colnames(subHC) = markersToCluster
+
+
+# g = ggplot(sub) + geom_point(
+#            aes(x = metaTsne1,
+#            y = metaTsne2,
+#            colour = CCR7_SCALED_CENTROID)) + theme(legend.position = "none") +sc 
+# ggplotly(g)
+   
+superheat(
+      as.matrix(t(subHC)),
+
+      # place dendrograms on columns and rows
+      row.dendrogram = T,
+      col.dendrogram = F,
+      membership.cols = sub$META_CLUSTER,
+
+      # make gridlines white for enhanced prettiness
+      grid.hline.col = "white",
+      grid.vline.col = "white",
+      # membership.rows = markersToCluster,
+
+      # rotate bottom label text
+      bottom.label.text.angle = 90
+    )
+```
+
+- meta-clusters `r paste(subs)`
+
+
+## Meta Phenograph +Meta tsne
+
+```{r fig.width=7,message=FALSE}
+
+pb=ggplot(sub,aes(x=as.factor(META_CLUSTER),y=naive_TotalFreq,colour=META_CLUSTER)) +
+  geom_boxplot()
+
+ggplotly(pb)
+
+
+```  
+  
+## NOTES
+
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4729477/
+
+> The total T cells (CD3+), helper T cells (CD3+CD4+), and total B cells (CD19+) were gated. The expression of mIgD on T and B cells was analyzed by calculating the percentages of CD3+IgD+, CD3+CD4+IgD+, immature B cells (CD19+IgM+IgD-) and mature B cells (CD19+IgD+) on a flow cytometer (model FC 500; Beckman Coulter Ltd., USA)
+
+https://www.ncbi.nlm.nih.gov/pubmed/11243700

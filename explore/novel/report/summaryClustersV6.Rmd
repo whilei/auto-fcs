@@ -65,11 +65,11 @@ mapFull=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_M
 map=mapFull  
 # lsr =map[which(map$MACHINE=="LSR"),]   
 map =map[which(map$PANEL=="panel1"),]
-map=map[,c("FILE","TOTAL_COUNTS","PANEL","MACHINE","EXPERIMENTER")]
+map=map[,c("FILE","TOTAL_COUNTS","PANEL","MACHINE","EXPERIMENTER","LAB_ID")]
 # map =map[which(!is.na(map$LAB_ID)),]
 
 summary = read.delim(
-  "/Volumes/Beta2/flow/testSummary/allSummaries.txt" ,
+  "/Volumes/Beta2/flow/detect_NoNorm_v5_summary/allSummaries.txt" ,
   stringsAsFactors = FALSE,
   header = TRUE
   )
@@ -682,6 +682,8 @@ cols["TOTAL_COUNTS","DESCRIPTION"]="Total events in fcs file"
 cols["PANEL","DESCRIPTION"]="flow panel"
 cols["MACHINE","DESCRIPTION"]="LSR or FORTESSA"
 cols["EXPERIMENTER","DESCRIPTION"]="EXPERIMENTER"
+cols["LAB_ID","DESCRIPTION"]="LAB ID for this sample"
+
 
 write.table(
 cols,
