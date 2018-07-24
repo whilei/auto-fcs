@@ -1,4 +1,4 @@
 library(devtools)
 
-load("../report/summary.meta.RData")
-saveRDS(summary,file="./data/summary.rds")
+load("/Users/Kitty/git/auto-fcs/explore/novel/summary.meta.RData")
+saveRDS(summary,file="/Users/Kitty/git/auto-fcs/explore/novel/metaClusters/data/summary.rds")

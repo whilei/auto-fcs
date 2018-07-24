@@ -108,21 +108,21 @@ load("summary.RData")
 # tmp=unique(summary[,c("SAMPLE_RAW_CENTROID","MACHINE")])
 # table(tmp$MACHINE)
 getHeat <- function(sub) {
-  superheat(
-      as.matrix(t(sub)),
-
-      # place dendrograms on columns and rows
-      row.dendrogram = T,
-      col.dendrogram = T,
-
-      # make gridlines white for enhanced prettiness
-      grid.hline.col = "white",
-      grid.vline.col = "white",
-      # membership.rows = markersToCluster,
-
-      # rotate bottom label text
-      bottom.label.text.angle = 90
-    )
+  # superheat(
+  #     as.matrix(t(sub)),
+  # 
+  #     # place dendrograms on columns and rows
+  #     row.dendrogram = T,
+  #     col.dendrogram = T,
+  # 
+  #     # make gridlines white for enhanced prettiness
+  #     grid.hline.col = "white",
+  #     grid.vline.col = "white",
+  #     # membership.rows = markersToCluster,
+  # 
+  #     # rotate bottom label text
+  #     bottom.label.text.angle = 90
+  #   )
 }
 
 
@@ -254,16 +254,17 @@ tsneFile=paste0("tsne",type,".RData")
 clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
 tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
 
-save(clusterPhenograph,file = clustFile)
-save(tsne,file =tsneFile)
+# save(clusterPhenograph,file = clustFile)
+# save(tsne,file =tsneFile)
 
 ```
 
 ```{r fig.width=7,message=FALSE}
-load(clustFile)
-load(tsneFile)
+# load(clustFile)
+# load(tsneFile)
 
-summary$META_CLUSTER = as.factor(clusterPhenograph)
+summary$META_CLUSTER =clusterPhenograph
+ summary$META_CLUSTER =as.factor(summary$META_CLUSTER )
 summary$metaTsne1=tsne[,1]
 summary$metaTsne2 = tsne[, 2]
 

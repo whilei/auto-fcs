@@ -1,4 +1,4 @@
-system("/Users/Kitty/git/auto-fcs/explore/novel/scripts/collectSummary.sh")
+# system("/Users/Kitty/git/auto-fcs/explore/novel/scripts/collectSummary.sh")
 dir="/Volumes/Beta2/flow/detect_NoNorm_v5_summary/"
 allSummariesFiles = list.files(dir,
                                full.names = TRUE,
