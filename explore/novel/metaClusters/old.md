@@ -1,3 +1,6 @@
+      tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
+renderPlotly
+
 library(shiny)
 library(plotly)
 library(RColorBrewer)
@@ -48,15 +51,15 @@ scPops <-
 clusters = c("META_CLUSTER", "PHENOGRAPH_CLUSTER")
 facets = c("EXPERIMENTER", "CTL")
 
-colorMe <- function(color, data) {
+colorMe <- function(color, pg) {
   if (color %in% normmarkers) {
-    data <- squish(data,range = c(-2,2))
+    pg <- pg + scNormMarkers
   } else if (color %in% pops) {
-    data <- squish(data,range = c(0,1))
+    pg <- pg + scPops
   } else if (color %in% rawMarkers) {
-    data <- squish(data,range = c(-10,220))
+    pg <- pg + scRawMarkers
   }
-  return(data)
+  return(pg)
 }
 
 
@@ -157,14 +160,6 @@ ui <- fluidPage(
       max = 1000,
       value = 700
     )
-    ,
-    sliderInput(
-      'pointSize',
-      'Size of tsne points',
-      min = 0,
-      max = 10,
-      value = 4
-    )
     
   ),
   
@@ -204,7 +199,50 @@ server <- function(input, output) {
   })
   
   output$tsnePlot <- renderPlotly({
-   
+    p1g <-
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$topcolor
+      )
+    p2g <-
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$middlecolor
+      )
+    p3g <-
+      getTsnePlot(
+        data = dataset(),
+        x = input$x,
+        y = input$y,
+        color = input$bottomcolor
+      )
+    
+    p1g = colorMe(color = input$topcolor , pg = p1g)
+    p2g = colorMe(color = input$middlecolor , pg = p2g)
+    p3g = colorMe(color = input$bottomcolor , pg = p3g)
+    
+    # if at least one facet column/row is specified, add it
+    if (!is.null(input$facet_col)) {
+      facets <- paste(input$facet_col)
+      if (facets != '.') {
+        p1g <- p1g + facet_grid(facets)
+        p2g <- p2g + facet_grid(facets)
+        p3g <- p3g + facet_grid(facets)
+        
+      }
+    }
+    # randWalk <- function(n = 1000, mu = 0, std = 1){
+    #   y <- rep(0, n)
+    #   for(i in 2:n){
+    #     y[i] <- y[i-1] + rnorm(1, mu, std)
+    #   }
+    #   
+    #   return(y)
+    # }
     
     # https://codepen.io/etpinard/pen/XXrzBe
     # nRand <- 10000
@@ -212,20 +250,41 @@ server <- function(input, output) {
     # https://plot.ly/r/line-and-scatter/
     x=dataset()[,input$x]
     y=dataset()[,input$y]
-    color=colorMe(color = input$topcolor,data = dataset()[,input$topcolor])
+    color=dataset()[,input$topcolor]
     colorscale='Viridis'
-    pointSize=input$pointSize
     # ,color=~input$bottomcolor,colors = ~scRawMarkers
-    p1 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color, marker = list(size = pointSize))
+    p1 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color)
     
-   
-    color=colorMe(color = input$middlecolor,data = dataset()[,input$middlecolor])
-    p2 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color, marker = list(size = pointSize)) 
+    color=dataset()[,input$middlecolor]
+    p2 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color) 
     
-    color=colorMe(color = input$bottomcolor,data = dataset()[,input$bottomcolor])
+    # color=dataset()[,input$middlecolor]
+    # p2 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color,colorscale=colorscale,colorbar=list(
+    #   title=input$topcolor
+    # )) %>% 
+    #   layout(showlegend = F,legend = list(orientation = 'h'))
+    # 
     
-    p3 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color, marker = list(size = pointSize))
-   
+    # p2 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers") %>% 
+    #   layout(showlegend = T)
+    color=dataset()[,input$bottomcolor]
+    
+    p3 <- plot_ly(data=dataset(),x =  x, y =  y, type = "scattergl", mode = "markers",color=color)
+    # for(i in 1:nPlot){
+    #   p <- add_trace(p, x = 1:nRand, y = randWalk(n = nRand), type = "scattergl", mode = "lines")
+    # }
+
+    
+    # 
+    # p1 = ggplotly(p1g)
+    # p2 = ggplotly(p2g)
+    # p3 = ggplotly(p3g)
+    # 
+    # # grid.arrange(
+    # #   p1g,p2g,p3g,
+    # #   ncol = 1,
+    # #   nrow = 3
+    # # )
     p <- subplot(p1, p2, p3, nrows = 3, shareX = TRUE) %>%
 
       layout(height = input$plotHeight, autosize = TRUE,showlegend=F)
