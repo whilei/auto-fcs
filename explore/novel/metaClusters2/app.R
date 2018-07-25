@@ -5,12 +5,11 @@ library(scales)
 library(shinyWidgets)
 library(reshape2)
 library(superheat)
-library(grid)
+library(gridExtra)
 
 
 summary <- readRDS("data/summary.rds")
-summary=summary[, -which(names(summary) %in% colnames(summary)[3:14])]
-summary = summary[order(summary$META_CLUSTER),]
+# summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
 
 nms <- names(summary)
@@ -47,7 +46,9 @@ colorMe <- function(color, data) {
 
 
 getHeat <- function(markers, type, data) {
-  subHC = data[, c(markers), ]
+  subBM = data
+  subBM = subBM[order(subBM$META_CLUSTER),]
+  subHC = subBM[, c(markers), ]
   colnames(subHC) = gsub(type, "", colnames(subHC))
   
   superheat(
@@ -55,7 +56,7 @@ getHeat <- function(markers, type, data) {
     # make gridlines white for enhanced prettiness
     grid.hline.col = "white",
     grid.vline.col = "white",
-    membership.cols = data$META_CLUSTER,
+    membership.cols = subBM$META_CLUSTER,
     row.dendrogram = T,
     # membership.rows = markersToCluster,
     # rotate bottom label text
@@ -187,7 +188,7 @@ ui <- fluidPage(
       ),
       tabPanel(
         "Marker Distributions",
-        plotlyOutput('characterPlot', height = "1000px")
+        plotOutput('characterPlot', height = "1000px")
       ),
       tabPanel(
         "Population Freq Heatmap",
@@ -321,65 +322,31 @@ server <- function(input, output) {
     )
   )
   
-  output$characterPlot <- renderPlotly({
+  output$characterPlot <- renderPlot({
     subBM = melt(dataset()[, c("META_CLUSTER",
                                paste0(input$markerdisplay, "_SCALED_CENTROID")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
-    # 
     
-    p1 <- plot_ly(subBM, x =  subBM$variable, y = subBM$value, color = subBM$META_CLUSTER, type = "box") %>%
-      layout(boxmode = "group")
-    # g1g = ggplot(subBM)  +
-    #   xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
-    #                                                                                                y = value, color = META_CLUSTER)) + ylab("scaled expression")
-    # # g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
-    # 
+    g1g = ggplot(subBM)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                   y = value, color = META_CLUSTER)) + ylab("scaled expression")
+    # g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
+    
     subBM = melt(dataset()[, c("META_CLUSTER",
                                paste0(input$markerdisplay, "_RAW_CENTROID")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
     
-    p2 <- plot_ly(subBM, x =  subBM$variable, y = subBM$value, color = subBM$META_CLUSTER, type = "box") %>%
-      layout(boxmode = "group")
-    # 
-    # # + theme(legend.position = "none")
-    # g2g = ggplot(subBM)  +
-    #   xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
-    #                                                                                                y = value, color = META_CLUSTER)) + ylab("raw expression")
+    # + theme(legend.position = "none")
+    g2g = ggplot(subBM)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = variable,
+                                                                                                   y = value, color = META_CLUSTER)) + ylab("raw expression")
     # g2 = ggplotly(g2g)
     
-    #     p <- plot_ly(y = ~rnorm(50), type = "box") %>%
-
-    # p1 <- plot_ly( type = "box")
-    #   
-    # for(marker in input$markerdisplay){
-    #   p1<-add_trace(p1,x=marker, y=dataset()[,paste0(marker, "_SCALED_CENTROID")],color= dataset()[,"META_CLUSTER"],type="box" )
-    # }
-    # p1 
-    # 
-    # 
-    # p2 <- plot_ly( type = "box")
-    # 
-    # for(marker in input$markerdisplay){
-    #   p2<-add_trace(p2,x=marker, y=dataset()[,paste0(marker, "_RAW_CENTROID")],color= dataset()[,"META_CLUSTER"],type="box" )
-    # }
-    # p2 %>%
-    #   layout(boxmode = "group")
     
-    
-    p <- subplot(p1, p2, nrows = 2, shareX = TRUE) %>%
-      
-      layout(
-        height = input$plotHeight,
-        autosize = TRUE,
-        showlegend = F
-      ) %>% toWebGL()
-    # 
-    # grid.arrange(g1g,
-    #              g2g,
-    #              ncol = 1,
-    #              nrow = 2)
-    
-    # https://plot.ly/r/box-plots/
+    grid.arrange(g1g,
+                 g2g,
+                 ncol = 1,
+                 nrow = 2)
     
     # p <- subplot(g1, g2, nrows = 2, shareX = TRUE) %>%
     #   layout(height = input$plotHeight, autosize = TRUE)
