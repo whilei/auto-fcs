@@ -5,6 +5,7 @@ library(scales)
 library(shinyWidgets)
 library(reshape2)
 library(superheat)
+library(grid)
 
 
 summary <- readRDS("data/summary.rds")
@@ -198,7 +199,7 @@ ui <- fluidPage(
       ),
       tabPanel(
         "Population Distributions",
-        plotlyOutput('popPlot', height = "1000px")
+        plotOutput('popPlot', height = "1000px")
       )
     )
   )
@@ -351,7 +352,7 @@ server <- function(input, output) {
     #
   })
   
-  output$popPlot <- renderPlotly({
+  output$popPlot <- renderPlot({
     # displayPops = gsub("_ClusterFreq", "", pops)
     subBM = melt(dataset()[, c("META_CLUSTER",
                                paste0(input$displayPops, "_ClusterFreq")), ], id.vars = "META_CLUSTER")
