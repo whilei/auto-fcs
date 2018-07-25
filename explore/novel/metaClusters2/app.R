@@ -7,7 +7,6 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-install.packages()
 summary <- readRDS("data/summary.rds")
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
@@ -246,6 +245,7 @@ server <- function(input, output) {
     summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
               summary$META_CLUSTER %in% input$metaclusters, ]
   })
+  
   
   output$tsnePlot <- renderPlotly({
     # https://codepen.io/etpinard/pen/XXrzBe

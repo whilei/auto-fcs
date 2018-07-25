@@ -11,15 +11,14 @@ output:
 
 1. Select "Tsne Plots"
 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
-2. Meta clusters 1, 2, 8, 9, and 16 seem to be made up of mostly naive cells (less so 8)
-3. Select meta clusters 1, 2, 8, 9, and 16 in the "Meta clusters to characterize" dropdown
+2. Check out which meta-clusters seem to be made up of mostly naive cells
+3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown
 4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters
   - Seems to be IgD, CD95, CD19, maybe CD4
 5. Similar process for "Normalized Heatmap"
 6. Select "Marker Distributions"
   - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown
   - Resonably separated distributions
-8. Select "Population Freq Heatmap", can confirm that cluster 8 is a little less naive-like
 7. Go back to "Tsne Plots" and color a plot by IgD 
 
 ### Description of tabs
@@ -134,6 +133,7 @@ output:
 |PANEL                       |flow panel                                                                                                          |
 |MACHINE                     |LSR or FORTESSA                                                                                                     |
 |EXPERIMENTER                |EXPERIMENTER                                                                                                        |
+|LAB_ID                      |LAB ID for this sample                                                                                              |
 |CTL                         |Which control this sample is                                                                                        |
 |META_CLUSTER                |The phenograph meta-cluster this sample belongs to                                                                  |
 |metaTsne1                   |Meta-tsne diminsion 1                                                                                               |

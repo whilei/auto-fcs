@@ -315,8 +315,8 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>Select “Tsne Plots”</li>
 <li>Color middle tsne plot by “naive_ClusterFreq” using the “Middle Plot Color” dropdown to see which meta clusters are naive cells</li>
-<li>Meta clusters 1, 2, 8, 9, and 16 seem to be made up of mostly naive cells (less so 8)</li>
-<li>Select meta clusters 1, 2, 8, 9, and 16 in the “Meta clusters to characterize” dropdown</li>
+<li>Check out which meta-clusters seem to be made up of mostly naive cells</li>
+<li>Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the “Meta clusters to characterize” dropdown</li>
 <li>Select “Raw Marker Heatmap” to see which markers differentiate these meta-clusters</li>
 </ol>
 <ul>
@@ -330,8 +330,7 @@ $(document).ready(function () {
 <li>Select IgD, CD95, CD19, and CD4 in the “Markers” dropdown</li>
 <li>Resonably separated distributions</li>
 </ul>
-<ol start="8" style="list-style-type: decimal">
-<li>Select “Population Freq Heatmap”, can confirm that cluster 8 is a little less naive-like</li>
+<ol start="7" style="list-style-type: decimal">
 <li>Go back to “Tsne Plots” and color a plot by IgD</li>
 </ol>
 <div id="description-of-tabs" class="section level3">
@@ -700,18 +699,22 @@ $(document).ready(function () {
 <td align="left">EXPERIMENTER</td>
 </tr>
 <tr class="odd">
+<td align="left">LAB_ID</td>
+<td align="left">LAB ID for this sample</td>
+</tr>
+<tr class="even">
 <td align="left">CTL</td>
 <td align="left">Which control this sample is</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">META_CLUSTER</td>
 <td align="left">The phenograph meta-cluster this sample belongs to</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">metaTsne1</td>
 <td align="left">Meta-tsne diminsion 1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">metaTsne2</td>
 <td align="left">Meta-tsne diminsion 2</td>
 </tr>

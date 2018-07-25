@@ -12,7 +12,7 @@ output:
 1. Select "Tsne Plots"
 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
 2. Check out which meta-clusters seem to be made up of mostly naive cells
-3. Select a few naive meta clusters (such as 10, 12, 15, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown
+3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown
 4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters
   - Seems to be IgD, CD95, CD19, maybe CD4
 5. Similar process for "Normalized Heatmap"
