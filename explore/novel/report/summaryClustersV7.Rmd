@@ -90,10 +90,16 @@ summary$SAMPLE)
 summary$CTL = gsub("_.*", "", summary$CTL)
 summary$CTL = gsub(" .*", "", summary$CTL)
 summary$CTL=gsub("-.*", "", summary$CTL)
+
 summary$CTL=gsub("2016", "STUDY_SAMPLE", summary$CTL)
 summary$CTL=gsub("2017", "STUDY_SAMPLE", summary$CTL)
+summary$CTL=gsub("Specimen", "Specimen", summary$CTL)
 
-summary = summary[order(summary$CTL), ]
+ctls=c("A","B","C","D","E","F","G","H")
+# summary = summary[order(summary$CTL), ]
+use=(!is.na(summary$LAB_ID) |summary$CTL %in% ctls)
+summary=summary[use,]
+# summary=summary[1:10000,]
 save(summary,file="summary.RData")
 ```
 
