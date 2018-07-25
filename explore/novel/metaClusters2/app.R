@@ -38,7 +38,7 @@ colorMe <- function(color, data) {
   } else if (color %in% pops) {
     data <- squish(data, range = c(0, 1))
   } else if (color %in% rawMarkers) {
-    data <- squish(data, range = c(0, 200))
+    data <- squish(data, range = c(10, 200))
   }
   return(data)
 }
@@ -47,8 +47,8 @@ colorMe <- function(color, data) {
 
 getHeat <- function(markers, type, data) {
   subBM = data
-  subBM = subBM[order(subBM$META_CLUSTER),]
-  subHC = subBM[, c(markers), ]
+  subBM = subBM[order(subBM$META_CLUSTER), ]
+  subHC = subBM[, c(markers),]
   colnames(subHC) = gsub(type, "", colnames(subHC))
   
   superheat(
@@ -239,7 +239,7 @@ getPlot <- function(x,
 server <- function(input, output) {
   dataset <- reactive({
     summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
-              summary$META_CLUSTER %in% input$metaclusters,]
+              summary$META_CLUSTER %in% input$metaclusters, ]
   })
   
   output$tsnePlot <- renderPlotly({
@@ -324,7 +324,7 @@ server <- function(input, output) {
   
   output$characterPlot <- renderPlot({
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$markerdisplay, "_SCALED_CENTROID")), ], id.vars = "META_CLUSTER")
+                               paste0(input$markerdisplay, "_SCALED_CENTROID")),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -333,7 +333,7 @@ server <- function(input, output) {
     # g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
     
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$markerdisplay, "_RAW_CENTROID")), ], id.vars = "META_CLUSTER")
+                               paste0(input$markerdisplay, "_RAW_CENTROID")),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
     
     # + theme(legend.position = "none")
@@ -356,7 +356,7 @@ server <- function(input, output) {
   output$popPlot <- renderPlot({
     # displayPops = gsub("_ClusterFreq", "", pops)
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$displayPops, "_ClusterFreq")), ], id.vars = "META_CLUSTER")
+                               paste0(input$displayPops, "_ClusterFreq")),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_ClusterFreq", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -366,7 +366,7 @@ server <- function(input, output) {
     # + ylab("scaled expression")  + theme(legend.position = "none")
     
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$displayPops, "_TotalFreq")), ], id.vars = "META_CLUSTER")
+                               paste0(input$displayPops, "_TotalFreq")),], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_TotalFreq", "", subBM$variable)
     
     # + ylab("raw expression") + theme(legend.position = "none")
