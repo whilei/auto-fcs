@@ -7,7 +7,7 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-
+install.packages()
 summary <- readRDS("data/summary.rds")
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
@@ -201,6 +201,11 @@ ui <- fluidPage(
       tabPanel(
         "Population Distributions",
         plotOutput('popPlot', height = "1000px")
+      )
+      ,
+      tabPanel(
+        "Meta-cluster Counts",
+        plotlyOutput('counts', height = "500px")
       )
     )
   )
@@ -416,6 +421,18 @@ server <- function(input, output) {
       data = dataset()
     )
     
+  })
+  output$counts <- renderPlotly({
+    c =as.data.frame(table(unique(dataset()[,c("META_CLUSTER","SAMPLE")])$META_CLUSTER))
+    colnames(c)=c("META_CLUSTER","NUM_SAMPLES")
+  p <- plot_ly(x =c$META_CLUSTER , y = c$NUM_SAMPLES, color = c$META_CLUSTER,name="sample counts")%>%
+    
+    layout(
+      height =500,
+      autosize = TRUE,
+      showlegend = T
+    )
+  
   })
 }
 
