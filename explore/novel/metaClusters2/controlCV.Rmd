@@ -1,0 +1,38 @@
+---
+title: "Control CV"
+author: "JL"
+date: "9/27/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+library(irr)
+
+
+
+dir="/Volumes/Beta2/flow/detect_NoNorm_v5_summary/"
+summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
+
+ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
+
+
+ctls$META_CLUSTER
+
+ctlsMat <- matrix(0, nrow=length(ctls$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
+ctlsMat[cbind(seq_along(ctls$META_CLUSTER), ctls$META_CLUSTER)] <- 1
+
+uniqueCtls=unique(ctls$CTL)
+
+for(ctl in uniqueCtls){
+  subCtl=ctls[which(ctls$CTL==ctl),]
+  subctlsMat <- matrix(0, nrow=length(subCtl$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
+  subctlsMat[cbind(seq_along(subCtl$META_CLUSTER), subCtl$META_CLUSTER)] <- 1
+  agree(subctlsMat, tolerance=0)
+  agree(t(subctlsMat), tolerance=0)
+
+}
+
+
+
+```
