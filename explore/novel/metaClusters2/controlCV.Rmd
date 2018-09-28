@@ -11,9 +11,9 @@ library(irr)
 
 
 
-dir="/Volumes/Beta2/flow/detect_NoNorm_v5_summary/"
 summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
 
+summary$FREQ_TOTAL_CLUST=summary$TOTAL_COUNTSsummary$TOTAL_PHENOGRAPH_COUNTS
 ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
 
 
@@ -55,14 +55,42 @@ cvCalc <- function(vec){
 
 metClusts=unique(summary$META_CLUSTER)
 
+results=data.frame()
 for(ctl in uniqueCtls){
   for(pop in pops){
     for(metClust in metClusts){
       subCtl=ctls[which(ctls$CTL==ctl&ctls$META_CLUSTER==metClust),pop]
-      print(cvCalc(subCtl))
+     cv =cvCalc(subCtl)
+     
+     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust)
+     results=rbind(results,tmp)
     }
   }
 }
+
+
+for(ctl in uniqueCtls){
+    for(metClust in metClusts){
+      #TODO, add sum
+      subCtl=ctls[which(ctls$CTL==ctl&ctls$META_CLUSTER==metClust),]
+      
+     cv =cvCalc(subCtl)
+     
+     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust)
+     results=rbind(results,tmp)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
   # subctlsMat <- matrix(0, nrow=length(subCtl$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
