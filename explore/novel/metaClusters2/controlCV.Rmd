@@ -62,7 +62,7 @@ for(ctl in uniqueCtls){
       subCtl=ctls[which(ctls$CTL==ctl&ctls$META_CLUSTER==metClust),pop]
      cv =cvCalc(subCtl)
      
-     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust)
+     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust,CV=cv,METHOD="FREQ_PARENT_OC")
      results=rbind(results,tmp)
     }
   }
@@ -70,13 +70,19 @@ for(ctl in uniqueCtls){
 
 
 for(ctl in uniqueCtls){
+    # &ctls$META_CLUSTER==metClust
+    subCtl=ctls[which(ctls$CTL==ctl),]
+    totCount=aggregate(subCtl$TOTAL_PHENOGRAPH_COUNTS, list(subCtl$SAMPLE), sum)
+    colnames(totCount) =c("SAMPLE","ALL_INPUT_COUNT")
+    subCtl=merge(subCtl,totCount,by.x = "SAMPLE",by.y = "SAMPLE")
+    subCtl$FREQ_PHENOGRAPH_PARENT=subCtl$TOTAL_PHENOGRAPH_COUNTS/subCtl$ALL_INPUT_COUNT
     for(metClust in metClusts){
-      #TODO, add sum
-      subCtl=ctls[which(ctls$CTL==ctl&ctls$META_CLUSTER==metClust),]
       
-     cv =cvCalc(subCtl)
+      #TODO, add sum
+
+     cv =cvCalc(subCtl$FREQ_PHENOGRAPH_PARENT)
      
-     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust)
+     tmp=data.frame(CTL=ctl,POP=NA,META_CLUSTER=metClust,CV=cv,METHOD="FREQ_PARENT_PHENOGRAPH")
      results=rbind(results,tmp)
     }
 }
