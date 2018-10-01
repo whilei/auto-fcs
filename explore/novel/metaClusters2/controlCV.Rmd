@@ -5,19 +5,27 @@ date: "9/27/2018"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r}
 
 library(irr)
+
+library(plotly)
 
 
 
 summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
 
-summary$FREQ_TOTAL_CLUST=summary$TOTAL_COUNTSsummary$TOTAL_PHENOGRAPH_COUNTS
+# summary$FREQ_TOTAL_CLUST=summary$TOTAL_COUNTSsummary$TOTAL_PHENOGRAPH_COUNTS
+
+totCount=aggregate(summary$TOTAL_PHENOGRAPH_COUNTS, list(summary$SAMPLE), sum)
+    colnames(totCount) =c("SAMPLE","ALL_INPUT_COUNT")
+    summary=merge(summary,totCount,by.x = "SAMPLE",by.y = "SAMPLE")
+    summary$FREQ_PHENOGRAPH_PARENT=summary$TOTAL_PHENOGRAPH_COUNTS/summary$ALL_INPUT_COUNT
+
 ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
 
 
-ctls$META_CLUSTER
+# ctls$META_CLUSTER
 
 ctlsMat <- matrix(0, nrow=length(ctls$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
 ctlsMat[cbind(seq_along(ctls$META_CLUSTER), ctls$META_CLUSTER)] <- 1
@@ -69,33 +77,38 @@ for(ctl in uniqueCtls){
 }
 
 
+
+
+resultsMetaCV=data.frame()
 for(ctl in uniqueCtls){
     # &ctls$META_CLUSTER==metClust
     subCtl=ctls[which(ctls$CTL==ctl),]
-    totCount=aggregate(subCtl$TOTAL_PHENOGRAPH_COUNTS, list(subCtl$SAMPLE), sum)
-    colnames(totCount) =c("SAMPLE","ALL_INPUT_COUNT")
-    subCtl=merge(subCtl,totCount,by.x = "SAMPLE",by.y = "SAMPLE")
-    subCtl$FREQ_PHENOGRAPH_PARENT=subCtl$TOTAL_PHENOGRAPH_COUNTS/subCtl$ALL_INPUT_COUNT
+ 
     for(metClust in metClusts){
-      
-      #TODO, add sum
+     subCtlClust=subCtl[which(subCtl$META_CLUSTER==metClust),]
 
-     cv =cvCalc(subCtl$FREQ_PHENOGRAPH_PARENT)
-     
+     cv =cvCalc(subCtlClust$FREQ_PHENOGRAPH_PARENT)
      tmp=data.frame(CTL=ctl,POP=NA,META_CLUSTER=metClust,CV=cv,METHOD="FREQ_PARENT_PHENOGRAPH")
-     results=rbind(results,tmp)
+     resultsMetaCV=rbind(resultsMetaCV,tmp)
     }
 }
 
+ g1g = ggplot(resultsMetaCV)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = META_CLUSTER,
+                                                                                                   y = CV, color = META_CLUSTER)) + ylab("scaled expression") +facet_wrap(~CTL)
+  
 
 
 
+ggplotly(g1g)
 
 
+resultsMetaCVSummary=aggregate(resultsMetaCV$CV, list(resultsMetaCV$META_CLUSTER), median)
 
+colnames(resultsMetaCVSummary)=c("META_CLUSTER","CTL_CV")
+summary=merge(summary,resultsMetaCVSummary,by.x = "META_CLUSTER",by.y ="META_CLUSTER",all.x = TRUE )
 
-
-
+saveRDS(summary,file="/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.CV.rds")
 
 
 

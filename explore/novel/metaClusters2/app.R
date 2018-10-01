@@ -8,6 +8,8 @@ library(superheat)
 library(gridExtra)
 
 summary <- readRDS("data/summary.rds")
+summary <- readRDS("data/summary.CV.rds")
+
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
 
@@ -29,7 +31,7 @@ displayPops = gsub("_ClusterFreq", "", pops)
 displayPops = displayPops[!grepl(pattern = "CD28P_27M", displayPops)]
 
 clusters = c("META_CLUSTER", "PHENOGRAPH_CLUSTER")
-facets = c("EXPERIMENTER", "CTL")
+facets = c("EXPERIMENTER", "CTL","CTL_CV","FREQ_PHENOGRAPH_PARENT")
 
 colorMe <- function(color, data) {
   if (color %in% normmarkers) {
@@ -38,6 +40,8 @@ colorMe <- function(color, data) {
     data <- squish(data, range = c(0, 1))
   } else if (color %in% rawMarkers) {
     data <- squish(data, range = c(10, 200))
+  }else if (color %in% c("FREQ_PHENOGRAPH_PARENT")) {
+    data <- squish(data, range = c(0, 0.2))
   }
   return(data)
 }
