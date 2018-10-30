@@ -27,7 +27,6 @@ mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
 
-p
 
 runScript="$outputDir"runscript.txt
 echo "" > $runScript
