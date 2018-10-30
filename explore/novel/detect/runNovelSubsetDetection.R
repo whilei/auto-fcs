@@ -173,7 +173,7 @@ for (file in df$FCS) {
     gzMat <- gzfile(paste0(outRoot, ".OC.POP.matrix.txt.gz"), "w")
     write.table(
       boolMat,
-      file = gz1 ,
+      file = gzMat ,
       sep = "\t",
       quote = FALSE,
       row.names = FALSE

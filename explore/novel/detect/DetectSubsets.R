@@ -14,6 +14,7 @@
 
 
 
+
 normChannels <- function(inputData, channels, min, max) {
   t = inputData
   for (channel in channels) {
@@ -83,7 +84,7 @@ cluster <-
       }
     }
     if (subsetFirst | !normalize) {
-      subdata = getData(gh)[gatedData$DEFINITION, ]
+      subdata = getData(gh)[gatedData$DEFINITION,]
     } else{
       subdata = getData(gh)
     }
@@ -95,8 +96,8 @@ cluster <-
       
       if (!subsetFirst) {
         # now need to subset to proper event
-        inputData = inputData[gatedData$DEFINITION, ]
-        clust = clust[gatedData$DEFINITION, ]
+        inputData = inputData[gatedData$DEFINITION,]
+        clust = clust[gatedData$DEFINITION,]
       }
     } else{
       clust = inputData
@@ -131,7 +132,7 @@ cluster <-
         max = max
       )
       colnames(clustToAggregate) = markersToCluster
-      clustToAggregate = clustToAggregate[gatedData$DEFINITION, ]
+      clustToAggregate = clustToAggregate[gatedData$DEFINITION,]
       clustToAggregate$PHENOGRAPH = clusterPhenograph
       
     }
