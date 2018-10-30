@@ -1,0 +1,121 @@
+---
+title: "Control CV"
+author: "JL"
+date: "9/27/2018"
+output: html_document
+---
+
+```{r}
+
+library(irr)
+
+library(plotly)
+
+
+
+summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
+
+# summary$FREQ_TOTAL_CLUST=summary$TOTAL_COUNTSsummary$TOTAL_PHENOGRAPH_COUNTS
+
+totCount=aggregate(summary$TOTAL_PHENOGRAPH_COUNTS, list(summary$SAMPLE), sum)
+    colnames(totCount) =c("SAMPLE","ALL_INPUT_COUNT")
+    summary=merge(summary,totCount,by.x = "SAMPLE",by.y = "SAMPLE")
+    summary$FREQ_PHENOGRAPH_PARENT=summary$TOTAL_PHENOGRAPH_COUNTS/summary$ALL_INPUT_COUNT
+
+ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
+
+
+# ctls$META_CLUSTER
+
+ctlsMat <- matrix(0, nrow=length(ctls$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
+ctlsMat[cbind(seq_along(ctls$META_CLUSTER), ctls$META_CLUSTER)] <- 1
+
+uniqueCtls=unique(ctls$CTL)
+
+for(ctl in uniqueCtls){
+  subCtl=ctls[which(ctls$CTL==ctl),]
+  subctlsMat <- matrix(0, nrow=length(subCtl$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
+  subctlsMat[cbind(seq_along(subCtl$META_CLUSTER), subCtl$META_CLUSTER)] <- 1
+  print(agree(subctlsMat, tolerance=0))
+  print( agree(t(subctlsMat), tolerance=0))
+
+}
+
+
+
+nms <- names(summary)
+
+# controlCV
+
+
+pops = nms[grepl(pattern = "_ClusterFreq", nms)]
+
+
+CV <- function(mean, sd){
+      (sd/mean)*100
+}
+
+cvCalc <- function(vec){
+  CV(mean = mean(vec,na.rm = TRUE),sd=sd(vec,na.rm = TRUE))
+}
+
+
+
+metClusts=unique(summary$META_CLUSTER)
+
+results=data.frame()
+for(ctl in uniqueCtls){
+  for(pop in pops){
+    for(metClust in metClusts){
+      subCtl=ctls[which(ctls$CTL==ctl&ctls$META_CLUSTER==metClust),pop]
+     cv =cvCalc(subCtl)
+     
+     tmp=data.frame(CTL=ctl,POP=pop,META_CLUSTER=metClust,CV=cv,METHOD="FREQ_PARENT_OC")
+     results=rbind(results,tmp)
+    }
+  }
+}
+
+
+
+
+resultsMetaCV=data.frame()
+for(ctl in uniqueCtls){
+    # &ctls$META_CLUSTER==metClust
+    subCtl=ctls[which(ctls$CTL==ctl),]
+ 
+    for(metClust in metClusts){
+     subCtlClust=subCtl[which(subCtl$META_CLUSTER==metClust),]
+
+     cv =cvCalc(subCtlClust$FREQ_PHENOGRAPH_PARENT)
+     tmp=data.frame(CTL=ctl,POP=NA,META_CLUSTER=metClust,CV=cv,METHOD="FREQ_PARENT_PHENOGRAPH")
+     resultsMetaCV=rbind(resultsMetaCV,tmp)
+    }
+}
+
+ g1g = ggplot(resultsMetaCV)  +
+      xlab("marker") + theme(axis.text.x = element_text(angle = 90, hjust = 1)) + geom_boxplot(aes(x = META_CLUSTER,
+                                                                                                   y = CV, color = META_CLUSTER)) + ylab("scaled expression") +facet_wrap(~CTL)
+  
+
+
+
+ggplotly(g1g)
+
+
+resultsMetaCVSummary=aggregate(resultsMetaCV$CV, list(resultsMetaCV$META_CLUSTER), median)
+
+colnames(resultsMetaCVSummary)=c("META_CLUSTER","CTL_CV")
+summary=merge(summary,resultsMetaCVSummary,by.x = "META_CLUSTER",by.y ="META_CLUSTER",all.x = TRUE )
+
+saveRDS(summary,file="/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.CV.rds")
+
+
+
+  # subctlsMat <- matrix(0, nrow=length(subCtl$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
+  # subctlsMat[cbind(seq_along(subCtl$META_CLUSTER), subCtl$META_CLUSTER)] <- 1
+  # agree(subctlsMat, tolerance=0)
+  # agree(t(subctlsMat), tolerance=0)
+
+
+```

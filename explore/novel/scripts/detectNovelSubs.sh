@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=252gb,walltime=96:00:00,nodes=1:ppn=24
+#PBS -l mem=200gb,walltime=46:00:00,nodes=1:ppn=24
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -21,7 +21,8 @@ echo "start detectNovelSubs at: " `date`
 
 script=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/runNovelSubsetDetection.R
 fcsDir=/scratch.global/lanej/flow/full/fcs/
-outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5/
+subsetGate="Live cells \(PE-\)"
+outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
 mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
@@ -36,7 +37,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	currentIn=$outputDir"inputs/$out.wsp.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-	echo "Rscript $script --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
+	echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
 
 done
 

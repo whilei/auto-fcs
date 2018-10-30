@@ -33,8 +33,16 @@ option_list = list(
     type = "character",
     help = "full path to repo directory with (includes kmeansGateTCellSubs.R)",
     metavar = "character"
+  ) ,
+  make_option(
+    c("-s", "--subsetGate"),
+    default = "cytotoxic Tcells-CD8+",
+    type = "character",
+    help = "Initial gate to subset to",
+    metavar = "character"
   )
 )
+
 
 
 opt_parser = OptionParser(option_list = option_list)
@@ -42,7 +50,8 @@ opt_parser = OptionParser(option_list = option_list)
 opt = parse_args(opt_parser)
 print(opt)
 
-
+subsetGate = opt$subsetGate
+  
 
 source(paste0(opt$repoDir, "DetectSubsets.R"))
 
@@ -118,7 +127,7 @@ for (file in df$FCS) {
       outputDir = opt$outputDir,
       frame = frame,
       subsetFirst = TRUE,
-      normalize = FALSE
+      normalize = FALSE,subsetGate = subsetGate
     )
     # cluster(
     #   fcsFile = file,
