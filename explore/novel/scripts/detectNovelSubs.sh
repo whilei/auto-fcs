@@ -38,7 +38,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	currentIn=$outputDir"inputs/$out.wsp.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-	echo "Rscript $script --l $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
+	echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
 
 done
 
