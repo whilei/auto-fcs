@@ -9,7 +9,7 @@ option_list = list(
   make_option(
     c("-wf", "--workspaceFiles"),
     type = "character",
-    default = NULL,
+    default = "/Users/Kitty/git/auto-fcs/explore/novel/testInput.txt",
     help = "text file listing workspace files to use",
     metavar = "character"
   ),
@@ -17,26 +17,29 @@ option_list = list(
     c("-f", "--fcsDir"),
     type = "character",
     help = "location of .fcs files, all files in workspaces must be here",
-    metavar = "character"
+    metavar = "character",
+    default = "/Volumes/Beta2/flow/testNovels/"
   )
   ,
   make_option(
     c("-o", "--outputDir"),
     type = "character",
     help = "output directory",
-    metavar = "character"
+    metavar = "character",
+    default = "/Volumes/Beta2/flow/testNovelsOut/"
+    
   )
   ,
   make_option(
     c("-r", "--repoDir"),
-    default = "~/git/auto-fcs/explore/novel/",
+    default = "~/git/auto-fcs/explore/novel/detect/",
     type = "character",
     help = "full path to repo directory with (includes kmeansGateTCellSubs.R)",
     metavar = "character"
   ) ,
   make_option(
     c("-s", "--subsetGate"),
-    default = "cytotoxic Tcells-CD8+",
+    default = "Live cells (PE-)",
     type = "character",
     help = "Initial gate to subset to",
     metavar = "character"
@@ -51,7 +54,7 @@ opt = parse_args(opt_parser)
 print(opt)
 
 subsetGate = opt$subsetGate
-  
+
 
 source(paste0(opt$repoDir, "DetectSubsets.R"))
 
@@ -121,13 +124,16 @@ for (file in df$FCS) {
     # gs <- compensate(gs, compensation(keyword(frame)$`SPILL`))
     names(gs@compensation) = file
     sampleNames(gs) = file
-    cluster(
+    
+    
+    outRoot = cluster(
       fcsFile = file,
       gs = gs,
       outputDir = opt$outputDir,
       frame = frame,
       subsetFirst = TRUE,
-      normalize = FALSE,subsetGate = subsetGate
+      normalize = FALSE,
+      subsetGate = subsetGate
     )
     # cluster(
     #   fcsFile = file,
@@ -137,7 +143,7 @@ for (file in df$FCS) {
     #   subsetFirst = FALSE,
     #   normalize = TRUE
     # )
-    # 
+    #
     # cluster(
     #   fcsFile = file,
     #   gs = gs,
@@ -147,7 +153,36 @@ for (file in df$FCS) {
     #   normalize = TRUE
     # )
     
+    
+    print(paste(
+      "extracting all gate definitions for ",
+      file,
+      "starting from",
+      wspFile
+    ))
+    
+    nodes = getNodes(gs, path = "auto")
+    
+    boolMat = data.frame(ALL = getIndiceMat(gs, "root")[, 1])
+    
+    for (node in nodes) {
+      gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
+      colnames(gatedData) = paste0("OPEN_CYTO_", node)
+      boolMat = cbind(boolMat, gatedData)
+    }
+    gzMat <- gzfile(paste0(outRoot, ".OC.POP.matrix.txt.gz"), "w")
+    write.table(
+      boolMat,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+    close(gzMat)
+    
     print(paste("completed processing ", file, "starting from", wspFile))
+    
+    
     
     
     closeWorkspace(ws)
@@ -155,4 +190,3 @@ for (file in df$FCS) {
 }
 
 sessionInfo()
-

@@ -202,5 +202,6 @@ cluster <-
       row.names = FALSE
     )
     close(gz1)
+    return(outRoot)
     
   }

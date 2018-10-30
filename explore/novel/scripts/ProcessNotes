@@ -1,0 +1,6 @@
+1. run detectNovelSubs.sh
+2. run runSummarizeAll.sh
+3. copy to local
+4. knit summaryClustersV#
+5. prepare.R
+6. run app
