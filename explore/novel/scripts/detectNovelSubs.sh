@@ -21,11 +21,13 @@ echo "start detectNovelSubs at: " `date`
 
 script=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/runNovelSubsetDetection.R
 fcsDir=/scratch.global/lanej/flow/full/fcs/
+subsetGate="Live cells (PE-)"
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
 mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
 
+p
 
 runScript="$outputDir"runscript.txt
 echo "" > $runScript
@@ -36,7 +38,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	currentIn=$outputDir"inputs/$out.wsp.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-	echo "Rscript $script --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
+	echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
 
 done
 
