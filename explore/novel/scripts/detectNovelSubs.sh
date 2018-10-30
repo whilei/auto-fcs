@@ -15,7 +15,7 @@ module load hdf5/hdf5-1.8.9-intel
 module load libtiff
 module load gcc/8.1.0
 
-
+#note remove conda from bash rc, reintall igraph, cytofkit, CLusterR
 echo "start detectNovelSubs at: " `date`
 /bin/hostname
 

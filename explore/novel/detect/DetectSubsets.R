@@ -59,6 +59,8 @@ cluster <-
                      normalize)
     print(paste0("writing output to root ", outRoot))
     set.seed(42)
+    print(paste0("using gate ", subsetGate, " as intitial filter"))
+    
     
     # boolean matrix of gate definition
     gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
