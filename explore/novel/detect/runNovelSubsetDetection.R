@@ -168,7 +168,7 @@ for (file in df$FCS) {
       boolMat = data.frame(ALL = getIndiceMat(gs, "root")[, 1])
       
       for (node in nodes) {
-        gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
+        gatedData = data.frame(DEFINITION = getIndiceMat(gs, node)[, 1])
         colnames(gatedData) = paste0("OPEN_CYTO_", node)
         boolMat = cbind(boolMat, gatedData)
       }

@@ -1,15 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
 library(optparse)
 option_list = list(
   make_option(
@@ -17,14 +6,20 @@ option_list = list(
     type = "character",
     help = "input directory",
     metavar = "character",
-    default = "/Volumes/Beta2/flow/testSync/"
+    default = "/Volumes/Beta2/flow/testSyncLymph//"
   ),
   make_option(
     c("-o", "--outputDir"),
     type = "character",
     help = "output directory",
     metavar = "character",
-    default = "/Volumes/Beta2/flow/testSummary/"
+    default = "/Volumes/Beta2/flow/testSummaryLymph//"
+  ),  make_option(
+    c("-p", "--ocPopFile"),
+    type = "character",
+    help = "file with OC populations of interest",
+    metavar = "character",
+    default = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
   )
 )
 
@@ -34,110 +29,127 @@ opt_parser = OptionParser(option_list = option_list)
 opt = parse_args(opt_parser)
 outDir = opt$outputDir
 dir.create(outDir)
+
+map= read.delim(opt$ocPopFile ,
+                stringsAsFactors = FALSE,
+                header = TRUE)
+
+map$EXTRACT=paste0("OPEN_CYTO_",map$Manual)
+
+
+addKmeans <- function(combo,def) {
+  if (length(combo[which(def &
+                         combo$effector.memory), ]$POP_NAMES_SUB) > 0) {
+    combo[which(def &
+                  combo$effector.memory), ]$POP_NAMES_SUB = "effector memory"
+  }
+  
+  if (length(combo[which(def &
+                         combo$naive), ]$POP_NAMES_SUB)  > 0) {
+    combo[which(def &
+                  combo$naive), ]$POP_NAMES_SUB = "naive"
+  }
+  
+  if (length(combo[which(def &
+                         combo$central.memory), ]$POP_NAMES_SUB) > 0) {
+    combo[which(def &
+                  combo$central.memory), ]$POP_NAMES_SUB = "central memory"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector), ]$POP_NAMES_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector), ]$POP_NAMES_SUB = "effector"
+  }
+  
+  
+  
+  if (length(combo[which(def &
+                         combo$effector &
+                         combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector &
+                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "E"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector &
+                         combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector &
+                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "pE2"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector &
+                         combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector &
+                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "pE1"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector &
+                         combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector &
+                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "CD28P_27M"
+    
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector.memory &
+                         combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector.memory &
+                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "EM3"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector.memory &
+                         combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector.memory &
+                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "EM2"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector.memory &
+                         combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector.memory &
+                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "EM1"
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector.memory &
+                         combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector.memory &
+                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "EM4"
+    
+  }
+  combo
+}
 summarize <-
-  function(phenoGraphClusters, knownPopulations) {
+  function(phenoGraphClusters, knownPopulations,fullOCPopulations) {
     phenoColumn = colnames(phenoGraphClusters)
     knownColumns = colnames(knownPopulations)
     combo = cbind(phenoGraphClusters, knownPopulations)
-    combo = combo[which(combo[, phenoColumn] >= 0),]
+    combo = cbind(combo, fullOCPopulations)
+    
     phenoClusts = sort(unique(combo[, phenoColumn]))
     
     combo$POP_NAMES_SUB = NA
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory), ]$POP_NAMES_SUB) > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector.memory), ]$POP_NAMES_SUB = "effector memory"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$naive), ]$POP_NAMES_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$naive), ]$POP_NAMES_SUB = "naive"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$central.memory), ]$POP_NAMES_SUB) > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$central.memory), ]$POP_NAMES_SUB = "central memory"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector), ]$POP_NAMES_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector), ]$POP_NAMES_SUB = "effector"
-    }
-    
-    
     combo$POP_NAMES_SUB_SUB = NA
+    # ,base="CD8"
+    combo=addKmeans(combo=combo,def=combo$CYTO_T)
+    combo= addKmeans(combo=combo,def=combo$HELPER_T)
     
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector &
-                           combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector &
-                    combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "E"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector &
-                           combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector &
-                    combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "pE2"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector &
-                           combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector &
-                    combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "pE1"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector &
-                           combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector &
-                    combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "CD28P_27M"
-      
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory &
-                           combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector.memory &
-                    combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "EM3"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory &
-                           combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector.memory &
-                    combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "EM2"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory &
-                           combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector.memory &
-                    combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "EM1"
-    }
-    
-    if (length(combo[which(combo$CYTO_T &
-                           combo$effector.memory &
-                           combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
-      combo[which(combo$CYTO_T &
-                    combo$effector.memory &
-                    combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "EM4"
-      
-    }
+    combo = combo[which(combo[, phenoColumn] >= 0),]
     
     
-    combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
+    # combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
     
     
     subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
@@ -200,19 +212,20 @@ print(opt$inputDirectory)
 
 intclusts = list.files(opt$inputDirectory,
                        full.names = TRUE,
-                       pattern = ".IntMatrix.txt.gz$")
+                       pattern = ".IntMatrix.txt.gz$")[1:1]
 
 for (file in intclusts) {
   print(file)
-  knownPopulationFile = gsub(".IntMatrix.txt.gz",
+  knownPopulationFile = gsub("_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
                              ".boolMatrix.txt.gz",
                              file)
   
   fullOCPopFile = gsub(".IntMatrix.txt.gz",
                        ".OC.POP.matrix.txt.gz",
                        file)
-
-  if (file.exists(knownPopulationFile) & file.exists(fullOCPopFile)) {
+  
+  if (file.exists(knownPopulationFile) &
+      file.exists(fullOCPopFile)) {
     print(knownPopulationFile)
     print(fullOCPopFile)
     
@@ -220,19 +233,26 @@ for (file in intclusts) {
     knownPopulations = read.delim(knownPopulationFile ,
                                   stringsAsFactors = FALSE,
                                   header = TRUE)
-    print(paste0("Pop N ", length(knownPopulations[,1]), "in  ", knownPopulationFile))
+    print(paste0(
+      "Pop N ",
+      length(knownPopulations[, 1]),
+      "in  ",
+      knownPopulationFile
+    ))
     
     fullOCPopulations = read.delim(fullOCPopFile ,
                                    stringsAsFactors = FALSE,
-                                   header = TRUE)
-    print(paste0("Pop N ", length(fullOCPopulations[,1]), "in  ", fullOCPopFile))
+                                   header = TRUE, check.names=FALSE)
+    fullOCPopulations=fullOCPopulations[,map$EXTRACT]
+    
+    print(paste0("Pop N ", length(fullOCPopulations[, 1]), "in  ", fullOCPopFile))
     
     phenoGraphClusters = read.delim(file ,
                                     stringsAsFactors = FALSE,
                                     header = TRUE)
     
     summary = summarize(phenoGraphClusters = phenoGraphClusters,
-                        knownPopulations = knownPopulations)
+                        knownPopulations = knownPopulations,fullOCPopulations=fullOCPopulations)
     
     inputCentsFile = gsub(
       "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
