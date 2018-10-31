@@ -1,4 +1,6 @@
 
+
+
 library(optparse)
 option_list = list(
   make_option(
@@ -14,12 +16,20 @@ option_list = list(
     help = "output directory",
     metavar = "character",
     default = "/Volumes/Beta2/flow/testSummaryLymph//"
-  ),  make_option(
+  ),
+  make_option(
     c("-p", "--ocPopFile"),
     type = "character",
     help = "file with OC populations of interest",
     metavar = "character",
     default = "/Users/Kitty/git/auto-fcs/explore/openCyto/panel1Map.txt"
+  ),
+  make_option(
+    c("-c", "--phenographColumn"),
+    type = "character",
+    help = "phenograph cluster column",
+    metavar = "character",
+    default = "Live cells (PE-)"
   )
 )
 
@@ -30,36 +40,39 @@ opt = parse_args(opt_parser)
 outDir = opt$outputDir
 dir.create(outDir)
 
-map= read.delim(opt$ocPopFile ,
-                stringsAsFactors = FALSE,
-                header = TRUE)
+map = read.delim(opt$ocPopFile ,
+                 stringsAsFactors = FALSE,
+                 header = TRUE)
 
-map$EXTRACT=paste0("OPEN_CYTO_",map$Manual)
+pcol = opt$phenographColumn
+
+map$EXTRACT = paste0("OPEN_CYTO_", map$Manual)
 
 
-addKmeans <- function(combo,def) {
+addKmeans <- function(combo, def, type) {
   if (length(combo[which(def &
                          combo$effector.memory), ]$POP_NAMES_SUB) > 0) {
     combo[which(def &
-                  combo$effector.memory), ]$POP_NAMES_SUB = "effector memory"
+                  combo$effector.memory), ]$POP_NAMES_SUB = paste0(type, " kmeans effector memory")
+    print("effector memory")
   }
   
   if (length(combo[which(def &
                          combo$naive), ]$POP_NAMES_SUB)  > 0) {
     combo[which(def &
-                  combo$naive), ]$POP_NAMES_SUB = "naive"
+                  combo$naive), ]$POP_NAMES_SUB = paste0(type, " kmeans naive")
   }
   
   if (length(combo[which(def &
                          combo$central.memory), ]$POP_NAMES_SUB) > 0) {
     combo[which(def &
-                  combo$central.memory), ]$POP_NAMES_SUB = "central memory"
+                  combo$central.memory), ]$POP_NAMES_SUB = paste0(type, " kmeans central memory")
   }
   
   if (length(combo[which(def &
                          combo$effector), ]$POP_NAMES_SUB)  > 0) {
     combo[which(def &
-                  combo$effector), ]$POP_NAMES_SUB = "effector"
+                  combo$effector), ]$POP_NAMES_SUB = paste0(type, " kmeans effector")
   }
   
   
@@ -69,7 +82,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "E"
+                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans E")
   }
   
   if (length(combo[which(def &
@@ -77,7 +90,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "pE2"
+                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE2")
   }
   
   if (length(combo[which(def &
@@ -85,7 +98,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "pE1"
+                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE1")
   }
   
   if (length(combo[which(def &
@@ -93,7 +106,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "CD28P_27M"
+                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans CD28P_27M")
     
   }
   
@@ -102,7 +115,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = "EM3"
+                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM3")
   }
   
   if (length(combo[which(def &
@@ -110,7 +123,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = "EM2"
+                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM2")
   }
   
   if (length(combo[which(def &
@@ -118,7 +131,7 @@ addKmeans <- function(combo,def) {
                          combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = "EM1"
+                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM1")
   }
   
   if (length(combo[which(def &
@@ -126,13 +139,15 @@ addKmeans <- function(combo,def) {
                          combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = "EM4"
+                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM4")
     
   }
   combo
 }
 summarize <-
-  function(phenoGraphClusters, knownPopulations,fullOCPopulations) {
+  function(phenoGraphClusters,
+           knownPopulations,
+           fullOCPopulations) {
     phenoColumn = colnames(phenoGraphClusters)
     knownColumns = colnames(knownPopulations)
     combo = cbind(phenoGraphClusters, knownPopulations)
@@ -140,11 +155,15 @@ summarize <-
     
     phenoClusts = sort(unique(combo[, phenoColumn]))
     
-    combo$POP_NAMES_SUB = NA
-    combo$POP_NAMES_SUB_SUB = NA
+    combo$POP_NAMES_SUB = "NA"
+    combo$POP_NAMES_SUB_SUB = "NA"
     # ,base="CD8"
-    combo=addKmeans(combo=combo,def=combo$CYTO_T)
-    combo= addKmeans(combo=combo,def=combo$HELPER_T)
+    combo = addKmeans(combo = combo,
+                      def = combo$CYTO_T,
+                      type = "CD8")
+    combo = addKmeans(combo = combo,
+                      def = combo$HELPER_T,
+                      type = "CD4")
     
     combo = combo[which(combo[, phenoColumn] >= 0),]
     
@@ -153,12 +172,22 @@ summarize <-
     
     
     subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
+    comboBase=combo
     combo = combo[, c(phenoColumn, subInterest)]
-    summarySUB = as.data.frame.matrix(table(combo$cytotoxic.Tcells.CD8., combo$POP_NAMES_SUB))
-    summarySUB_SUB = as.data.frame.matrix(table(combo$cytotoxic.Tcells.CD8., combo$POP_NAMES_SUB_SUB))
+    summarySUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB))
+    summarySUB_SUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB_SUB))
+    
+ 
     summary = cbind(summarySUB, summarySUB_SUB)
     
     summary$PHENOGRAPH_CLUSTER = row.names(summary)
+    
+    oc=data.frame(PHENOGRAPH_CLUSTER = row.names(summary))
+    for(ocPop in colnames(fullOCPopulations)){
+      tmp= as.data.frame.matrix(table(comboBase[, pcol], comboBase[,ocPop]))
+      colnames(tmp)=ocPop
+      oc=cbind(oc,tmp)
+    }
     
     
     
@@ -230,9 +259,12 @@ for (file in intclusts) {
     print(fullOCPopFile)
     
     print(paste0("summarizing clusters from ", file, "to ", outDir))
-    knownPopulations = read.delim(knownPopulationFile ,
-                                  stringsAsFactors = FALSE,
-                                  header = TRUE)
+    knownPopulations = read.delim(
+      knownPopulationFile ,
+      stringsAsFactors = FALSE,
+      header = TRUE,
+      check.names = TRUE
+    )
     print(paste0(
       "Pop N ",
       length(knownPopulations[, 1]),
@@ -240,19 +272,28 @@ for (file in intclusts) {
       knownPopulationFile
     ))
     
-    fullOCPopulations = read.delim(fullOCPopFile ,
-                                   stringsAsFactors = FALSE,
-                                   header = TRUE, check.names=FALSE)
-    fullOCPopulations=fullOCPopulations[,map$EXTRACT]
+    fullOCPopulations = read.delim(
+      fullOCPopFile ,
+      stringsAsFactors = FALSE,
+      header = TRUE,
+      check.names = FALSE
+    )
+    fullOCPopulations = fullOCPopulations[, map$EXTRACT]
     
     print(paste0("Pop N ", length(fullOCPopulations[, 1]), "in  ", fullOCPopFile))
     
-    phenoGraphClusters = read.delim(file ,
-                                    stringsAsFactors = FALSE,
-                                    header = TRUE)
+    phenoGraphClusters = read.delim(
+      file ,
+      stringsAsFactors = FALSE,
+      header = TRUE,
+      check.names = FALSE
+    )
     
-    summary = summarize(phenoGraphClusters = phenoGraphClusters,
-                        knownPopulations = knownPopulations,fullOCPopulations=fullOCPopulations)
+    summary = summarize(
+      phenoGraphClusters = phenoGraphClusters,
+      knownPopulations = knownPopulations,
+      fullOCPopulations = fullOCPopulations
+    )
     
     inputCentsFile = gsub(
       "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
