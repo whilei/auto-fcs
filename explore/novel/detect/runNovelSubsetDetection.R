@@ -95,7 +95,7 @@ for (file in wsps) {
 
 df$WSP = as.character(df$WSP)
 for (file in df$FCS) {
-  wspFile = df[which(df$FCS == file),]$WSP
+  wspFile = df[which(df$FCS == file), ]$WSP
   print(wspFile)
   frame = read.FCS(paste(opt$fcsDir, file, sep = ""))
   
@@ -105,7 +105,7 @@ for (file in df$FCS) {
     s = getSamples(ws)
     
     
-    id = s[which(s$name == file),]$name
+    id = s[which(s$name == file), ]$name
     gs <-
       parseWorkspace(
         ws,
@@ -154,31 +154,42 @@ for (file in df$FCS) {
     # )
     
     
-    print(paste(
-      "extracting all gate definitions for ",
-      file,
-      "starting from",
-      wspFile
-    ))
-    
-    nodes = getNodes(gs, path = "auto")
-    
-    boolMat = data.frame(ALL = getIndiceMat(gs, "root")[, 1])
-    
-    for (node in nodes) {
-      gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
-      colnames(gatedData) = paste0("OPEN_CYTO_", node)
-      boolMat = cbind(boolMat, gatedData)
+    boolMatFile = paste0(outRoot, ".OC.POP.matrix.txt.gz")
+    if (!file.exists(boolMatFile)) {
+      print(paste(
+        "extracting all gate definitions for ",
+        file,
+        "starting from",
+        wspFile
+      ))
+      
+      nodes = getNodes(gs, path = "auto")
+      
+      boolMat = data.frame(ALL = getIndiceMat(gs, "root")[, 1])
+      
+      for (node in nodes) {
+        gatedData = data.frame(DEFINITION = getIndiceMat(gs, subsetGate)[, 1])
+        colnames(gatedData) = paste0("OPEN_CYTO_", node)
+        boolMat = cbind(boolMat, gatedData)
+      }
+      gzMat <- gzfile(boolMatFile, "w")
+      write.table(
+        boolMat,
+        file = gzMat ,
+        sep = "\t",
+        quote = FALSE,
+        row.names = FALSE
+      )
+      close(gzMat)
+    } else{
+      print(paste0(
+        "skipping for",
+        outRoot,
+        " full boolmat ",
+        boolMatFile,
+        " exists"
+      ))
     }
-    gzMat <- gzfile(paste0(outRoot, ".OC.POP.matrix.txt.gz"), "w")
-    write.table(
-      boolMat,
-      file = gzMat ,
-      sep = "\t",
-      quote = FALSE,
-      row.names = FALSE
-    )
-    close(gzMat)
     
     print(paste("completed processing ", file, "starting from", wspFile))
     
