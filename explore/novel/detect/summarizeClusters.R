@@ -386,9 +386,9 @@ processFile <- function(file,outDir,map) {
 
 print(opt$inputDirectory)
 
-intclusts = list.files(opt$inputDirectory,
+intclusts = rev(list.files(opt$inputDirectory,
                        full.names = TRUE,
-                       pattern = ".IntMatrix.txt.gz$")
+                       pattern = ".IntMatrix.txt.gz$"))
 
 print(paste0("found ", length(intclusts), " files in", opt$inputDirectory))
 
