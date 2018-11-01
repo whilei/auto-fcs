@@ -157,122 +157,122 @@ addKmeans <- function(combo, def, type) {
 }
 
 
+summarize <-
+  function(phenoGraphClusters,
+           knownPopulations,
+           fullOCPopulations) {
+    phenoColumn = colnames(phenoGraphClusters)
+    knownColumns = colnames(knownPopulations)
+    combo = cbind(phenoGraphClusters, knownPopulations)
+    combo = cbind(combo, fullOCPopulations)
+    
+    phenoClusts = sort(unique(combo[, phenoColumn]))
+    
+    combo$POP_NAMES_SUB = NA
+    combo$POP_NAMES_SUB_SUB = NA
+    # ,base="CD8"
+    combo = addKmeans(combo = combo,
+                      def = combo$CYTO_T,
+                      type = "CD8")
+    combo = addKmeans(combo = combo,
+                      def = combo$HELPER_T,
+                      type = "CD4")
+    
+    combo = combo[which(combo[, phenoColumn] >= 0), ]
+    
+    
+    # combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
+    
+    
+    subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
+    comboBase = combo
+    combo = combo[, c(phenoColumn, subInterest)]
+    summarySUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB))
+    summarySUB_SUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB_SUB))
+    
+    
+    summary = cbind(summarySUB, summarySUB_SUB)
+    
+    summary$PHENOGRAPH_CLUSTER = row.names(summary)
+    
+    oc = data.frame(PHENOGRAPH_CLUSTER = row.names(summary))
+    for (ocPop in colnames(fullOCPopulations)) {
+      tmpOC = as.data.frame.matrix(table(comboBase[, pcol], comboBase[, ocPop]))
+      tmpOC=as.data.frame(tmpOC[,"TRUE"])
+      colnames(tmpOC) = ocPop
+      oc = cbind(oc, tmpOC)
+    }
+    
+    
+    
+    totalPhenograph = as.data.frame(table(combo[, phenoColumn]))
+    totalPhenograph$PHENOGRAPH_CLUSTER = as.character(totalPhenograph$Var1)
+    totalPhenograph$TOTAL_PHENOGRAPH_COUNTS = totalPhenograph$Freq
+    totalPhenograph = totalPhenograph[, c("PHENOGRAPH_CLUSTER", "TOTAL_PHENOGRAPH_COUNTS")]
+    
+    summary = merge(summary, totalPhenograph, by.y = "PHENOGRAPH_CLUSTER", by.x =
+                      "PHENOGRAPH_CLUSTER")
+    summary = merge(summary, oc, by.y = "PHENOGRAPH_CLUSTER", by.x =
+                      "PHENOGRAPH_CLUSTER")
+    rownames(summary) = summary$PHENOGRAPH_CLUSTER
+    
+    # TODO refactor _TotalFreq methods to single with arg
+    
+    uniqSub = unique(combo$POP_NAMES_SUB)
+    uniqSub = uniqSub[(!is.na(uniqSub))]
+    
+    for (sub in uniqSub) {
+      totalFreq = data.frame(FREQ = summary[, c(sub)])
+      rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for (clust in clusts) {
+        totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB[, c(sub)])
+      }
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    uniqSubSub = unique(combo$POP_NAMES_SUB_SUB)
+    uniqSubSub = uniqSubSub[(!is.na(uniqSubSub))]
+    for (sub in uniqSubSub) {
+      totalFreq = data.frame(FREQ = summary[, c(sub)])
+      rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for (clust in clusts) {
+        totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB_SUB[, c(sub)])
+      }
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    uniqOC = unique(colnames(fullOCPopulations))
+    uniqOC = uniqOC[(!is.na(uniqOC))]
+    
+    for (sub in uniqOC) {
+      totalFreq = data.frame(FREQ = summary[, c(sub)])
+      rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
+      clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
+      for (clust in clusts) {
+        totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(oc[, c(sub)])
+      }
+      colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
+      summary = cbind(summary, totalFreq)
+    }
+    
+    
+    allPops = c(uniqSub, uniqSubSub, colnames(fullOCPopulations))
+    for (pop in allPops) {
+      tmpPop = data.frame(FREQ = summary[, pop] / summary$TOTAL_PHENOGRAPH_COUNTS)
+      colnames(tmpPop) = c(paste0(pop, "_ClusterFreq"))
+      summary = cbind(summary, tmpPop)
+    }
+    
+    return(summary)
+    
+  }
 
 processFile <- function(file,outDir,map) {
   
-  summarize <-
-    function(phenoGraphClusters,
-             knownPopulations,
-             fullOCPopulations) {
-      phenoColumn = colnames(phenoGraphClusters)
-      knownColumns = colnames(knownPopulations)
-      combo = cbind(phenoGraphClusters, knownPopulations)
-      combo = cbind(combo, fullOCPopulations)
-      
-      phenoClusts = sort(unique(combo[, phenoColumn]))
-      
-      combo$POP_NAMES_SUB = NA
-      combo$POP_NAMES_SUB_SUB = NA
-      # ,base="CD8"
-      combo = addKmeans(combo = combo,
-                        def = combo$CYTO_T,
-                        type = "CD8")
-      combo = addKmeans(combo = combo,
-                        def = combo$HELPER_T,
-                        type = "CD4")
-      
-      combo = combo[which(combo[, phenoColumn] >= 0), ]
-      
-      
-      # combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
-      
-      
-      subInterest = c("POP_NAMES_SUB", "POP_NAMES_SUB_SUB")
-      comboBase = combo
-      combo = combo[, c(phenoColumn, subInterest)]
-      summarySUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB))
-      summarySUB_SUB = as.data.frame.matrix(table(combo[, pcol], combo$POP_NAMES_SUB_SUB))
-      
-      
-      summary = cbind(summarySUB, summarySUB_SUB)
-      
-      summary$PHENOGRAPH_CLUSTER = row.names(summary)
-      
-      oc = data.frame(PHENOGRAPH_CLUSTER = row.names(summary))
-      for (ocPop in colnames(fullOCPopulations)) {
-        tmpOC = as.data.frame.matrix(table(comboBase[, pcol], comboBase[, ocPop]))
-        tmpOC=as.data.frame(tmpOC[,"TRUE"])
-        colnames(tmpOC) = ocPop
-        oc = cbind(oc, tmpOC)
-      }
-      
-      
-      
-      totalPhenograph = as.data.frame(table(combo[, phenoColumn]))
-      totalPhenograph$PHENOGRAPH_CLUSTER = as.character(totalPhenograph$Var1)
-      totalPhenograph$TOTAL_PHENOGRAPH_COUNTS = totalPhenograph$Freq
-      totalPhenograph = totalPhenograph[, c("PHENOGRAPH_CLUSTER", "TOTAL_PHENOGRAPH_COUNTS")]
-      
-      summary = merge(summary, totalPhenograph, by.y = "PHENOGRAPH_CLUSTER", by.x =
-                        "PHENOGRAPH_CLUSTER")
-      summary = merge(summary, oc, by.y = "PHENOGRAPH_CLUSTER", by.x =
-                        "PHENOGRAPH_CLUSTER")
-      rownames(summary) = summary$PHENOGRAPH_CLUSTER
-      
-      # TODO refactor _TotalFreq methods to single with arg
-      
-      uniqSub = unique(combo$POP_NAMES_SUB)
-      uniqSub = uniqSub[(!is.na(uniqSub))]
-      
-      for (sub in uniqSub) {
-        totalFreq = data.frame(FREQ = summary[, c(sub)])
-        rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
-        clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
-        for (clust in clusts) {
-          totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB[, c(sub)])
-        }
-        colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
-        summary = cbind(summary, totalFreq)
-      }
-      
-      uniqSubSub = unique(combo$POP_NAMES_SUB_SUB)
-      uniqSubSub = uniqSubSub[(!is.na(uniqSubSub))]
-      for (sub in uniqSubSub) {
-        totalFreq = data.frame(FREQ = summary[, c(sub)])
-        rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
-        clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
-        for (clust in clusts) {
-          totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(summarySUB_SUB[, c(sub)])
-        }
-        colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
-        summary = cbind(summary, totalFreq)
-      }
-      
-      uniqOC = unique(colnames(fullOCPopulations))
-      uniqOC = uniqOC[(!is.na(uniqOC))]
-      
-      for (sub in uniqOC) {
-        totalFreq = data.frame(FREQ = summary[, c(sub)])
-        rownames(totalFreq) = as.numeric(summary$PHENOGRAPH_CLUSTER)
-        clusts = as.character(unique(summary$PHENOGRAPH_CLUSTER))
-        for (clust in clusts) {
-          totalFreq[clust, "FREQ"] = totalFreq[clust, "FREQ"] / sum(oc[, c(sub)])
-        }
-        colnames(totalFreq) = c(paste0(sub, "_TotalFreq"))
-        summary = cbind(summary, totalFreq)
-      }
-      
-      
-      allPops = c(uniqSub, uniqSubSub, colnames(fullOCPopulations))
-      for (pop in allPops) {
-        tmpPop = data.frame(FREQ = summary[, pop] / summary$TOTAL_PHENOGRAPH_COUNTS)
-        colnames(tmpPop) = c(paste0(pop, "_ClusterFreq"))
-        summary = cbind(summary, tmpPop)
-      }
-      
-      return(summary)
-      
-    }
   
   print(file)
   knownPopulationFile = gsub("_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
@@ -392,17 +392,17 @@ intclusts = list.files(opt$inputDirectory,
 
 print(paste0("found ", length(intclusts), " files in", opt$inputDirectory))
 
-cl <- makeCluster(as.numeric(opt$threads))
-
-parLapply(cl,intclusts,processFile,outDir=outDir,map=map)
-
-stopCluster(cl)
+# cl <- makeCluster(as.numeric(opt$threads))
+# 
+# parLapply(cl,intclusts,processFile,outDir=outDir,map=map)
+# 
+# stopCluster(cl)
 
 
 # 
-# for (file in intclusts) {
-#   processFile(file = file)
-# }
+for (file in intclusts) {
+  processFile(file = file,outDir=outDir,map=map)
+}
 
 allSummariesFiles = list.files(outDir,
                                full.names = TRUE,
