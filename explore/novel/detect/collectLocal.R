@@ -18,6 +18,7 @@ for (summaryFile in allSummariesFiles) {
   allSummaries = rbind(allSummaries, tmp)
 }
 
+
 write.table(
   allSummaries,
   file = paste0(outDir, "allSummaries.txt"),
@@ -26,3 +27,10 @@ write.table(
   sep = "\t",
   col.names = TRUE
 )
+
+print("collected")
+
+library(rmarkdown)
+
+
+rmarkdown::render("/Users/Kitty/git/auto-fcs/explore/novel/report/summaryClustersV8.Rmd", "html_document")

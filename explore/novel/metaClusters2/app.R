@@ -29,6 +29,8 @@ displayMarkers = gsub("_SCALED_CENTROID", "", normmarkers)
 pops = nms[grepl(pattern = "_ClusterFreq|_TotalFreq", nms)]
 
 displayPops = gsub("_ClusterFreq", "", pops)
+displayPops = unique(gsub("_TotalFreq", "", displayPops))
+
 displayPops = displayPops[!grepl(pattern = "CD28P_27M", displayPops)]
 
 clusters = c("META_CLUSTER", "PHENOGRAPH_CLUSTER")
@@ -103,13 +105,13 @@ ui <- fluidPage(
       'middlecolor',
       'Middle Plot Color',
       choices = options,
-      selected = "CD45RA_RAW_CENTROID"
+      selected = "OPEN_CYTO_B cells (CD3- CD19+)_ClusterFreq"
     ),
     selectInput(
       'bottomcolor',
       'Bottom Plot Color',
       choices = options,
-      selected = "CCR7_RAW_CENTROID"
+      selected = "OPEN_CYTO_Tcells (CD3+ CD19-)_ClusterFreq"
     ),
     
     # selectInput('facet_col', 'Facet Column', c(None = '.', facets), selected = "."),
@@ -420,6 +422,7 @@ server <- function(input, output) {
     
   })
   output$totalPopheat <- renderPlot({
+    # print()
     getHeat(
       markers = paste0(input$displayPops, "_TotalFreq"),
       type = "_TotalFreq",
