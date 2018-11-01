@@ -41,9 +41,9 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 
 done
 
-tail -n 3000 "$runScript" >"$runScript"
+tail -n 3000 "$runScript" >"$runScript".tail.use.txt
 
-parallel --jobs 24 < "$runScript"
+parallel --jobs 24 < "$runScript".tail.use.txt
 
 
 
