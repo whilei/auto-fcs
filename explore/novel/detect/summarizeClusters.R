@@ -404,7 +404,7 @@ intclusts = list.files(opt$inputDirectory,
                        full.names = TRUE,
                        pattern = ".IntMatrix.txt.gz$")
 
-if(is.null(opt$inputFile)){
+if(!is.null(opt$inputFile)){
   intclusts=c(read.delim(opt$inputFile,header = FALSE,stringsAsFactors = FALSE,sep = "\t")$V1)
 }
 
