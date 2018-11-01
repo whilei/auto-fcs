@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=52gb,walltime=24:00:00,nodes=1:ppn=24
+#PBS -l mem=152gb,walltime=24:00:00,nodes=1:ppn=2
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -16,7 +16,7 @@ module load libtiff
 module load gcc/8.1.0
 
 
-threads=24
+threads=2
 inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
 
 # rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
@@ -24,4 +24,25 @@ inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph_summary/
 
 ocPopFile=/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/panel1Map.txt
-Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile
+
+mkdir -p $outputDir
+mkdir -p $outputDir"inputs/"
+
+runScript="$outputDir"runscript.txt
+echo "" > $runScript
+
+
+
+for file in $inputDirectory*.IntMatrix.txt.gz; do
+	out=$(basename "$file" _panel1Rename.wsp)
+	out="$(echo -e "${out}" | tr -d '[:space:]')"
+	currentIn=$outputDir"inputs/$out.in.input.txt"
+    echo "$file" > $currentIn
+    # echo "$currentIn"
+	echo "Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputFile $currentIn --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile" >> $runScript
+
+done
+
+
+parallel --jobs 24 < "$runScript"
+

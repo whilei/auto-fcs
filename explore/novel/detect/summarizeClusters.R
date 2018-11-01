@@ -14,6 +14,12 @@ option_list = list(
     default = "/Volumes/Beta2/flow/testSyncLymph//"
   ),
   make_option(
+    c("-i", "--inputFile"),
+    type = "character",
+    help = "input directory",
+    metavar = "character"
+  ),
+  make_option(
     c("-o", "--outputDir"),
     type = "character",
     help = "output directory",
@@ -41,6 +47,14 @@ option_list = list(
     help = "number of threads for processing",
     metavar = "character",
     default = 4
+  )
+  ,
+  make_option(
+    c("-r", "--reverseProcOrder"),
+    type = "character",
+    help = "number of threads for processing",
+    metavar = "character",
+    default = FALSE
   )
 )
 
@@ -386,9 +400,17 @@ processFile <- function(file,outDir,map) {
 
 print(opt$inputDirectory)
 
-intclusts = rev(list.files(opt$inputDirectory,
+intclusts = list.files(opt$inputDirectory,
                        full.names = TRUE,
-                       pattern = ".IntMatrix.txt.gz$"))
+                       pattern = ".IntMatrix.txt.gz$")
+
+if(is.null(opt$inputFile)){
+  intclusts=c(read.delim(opt$inputFile,header = FALSE,stringsAsFactors = FALSE,sep = "\t")$V1)
+}
+
+if(as.logical(opt$reverseProcOrder)){
+  intclusts=rev(intclusts)
+}
 
 print(paste0("found ", length(intclusts), " files in", opt$inputDirectory))
 
