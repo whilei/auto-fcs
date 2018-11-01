@@ -30,6 +30,7 @@ ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
 ctlsMat <- matrix(0, nrow=length(ctls$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
 ctlsMat[cbind(seq_along(ctls$META_CLUSTER), ctls$META_CLUSTER)] <- 1
 
+print(table(ctls$CTL))
 uniqueCtls=unique(ctls$CTL)
 
 for(ctl in uniqueCtls){
@@ -64,6 +65,7 @@ cvCalc <- function(vec){
 metClusts=unique(summary$META_CLUSTER)
 
 results=data.frame()
+
 for(ctl in uniqueCtls){
   for(pop in pops){
     for(metClust in metClusts){
@@ -75,6 +77,7 @@ for(ctl in uniqueCtls){
     }
   }
 }
+
 
 
 

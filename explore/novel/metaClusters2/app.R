@@ -8,8 +8,8 @@ library(superheat)
 library(gridExtra)
 
 # summary <- readRDS("data/summary.rds")
-# summary <- readRDS("data/summary.CV.rds")
-summary <- readRDS("data/summary.rds")
+summary <- readRDS("data/summary.CV.rds")
+# summary <- readRDS("data/summary.rds")
 
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
