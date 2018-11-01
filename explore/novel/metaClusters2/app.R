@@ -7,8 +7,9 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
+# summary <- readRDS("data/summary.rds")
+# summary <- readRDS("data/summary.CV.rds")
 summary <- readRDS("data/summary.rds")
-summary <- readRDS("data/summary.CV.rds")
 
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
@@ -25,7 +26,7 @@ markers = c(normmarkers, rawMarkers)
 markers = markers[!grepl(pattern = "SAMPLE", markers)]
 markers = sort(markers)
 displayMarkers = gsub("_SCALED_CENTROID", "", normmarkers)
-pops = nms[grepl(pattern = "_ClusterFreq", nms)]
+pops = nms[grepl(pattern = "_ClusterFreq|_TotalFreq", nms)]
 
 displayPops = gsub("_ClusterFreq", "", pops)
 displayPops = displayPops[!grepl(pattern = "CD28P_27M", displayPops)]
