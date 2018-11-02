@@ -14,7 +14,7 @@ output:
 
 ### USAGE
 
-Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne Plots tab
+Select a few (less than 10) meta-clusters to characterize before moving beyond the "Tsne Plots" and "Meta-cluster Counts" tabs
 
 
 ### Current Methods
@@ -31,6 +31,13 @@ Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne P
 4. Run phenograph on the combined matrix (currently using "RAW")
 5. Run tsne on the combined matrix (currently using "RAW")
 6. Plot results, coloring by things
+
+
+### Notes (actual cluster number may change)
+
+Meta cluster 14 : CD4/CD8 double positive?
+- [CD4+/CD8+ double-positive T cells: more than just a developmental stage?](https://www.ncbi.nlm.nih.gov/pubmed/25360000)
+
 
 <!-- ## Example workflow -->
 
@@ -79,9 +86,21 @@ Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne P
 |SAMPLE                                                                   |Sample name                                                                                                         |
 |PHENOGRAPH_CLUSTER                                                       |Phenograph cluster for the sample                                                                                   |
 |CD4 kmeans central memory                                                |NA                                                                                                                  |
+|CD4 kmeans effector                                                      |NA                                                                                                                  |
+|CD4 kmeans effector memory                                               |NA                                                                                                                  |
 |CD4 kmeans naive                                                         |NA                                                                                                                  |
 |CD8 kmeans central memory                                                |NA                                                                                                                  |
+|CD8 kmeans effector                                                      |NA                                                                                                                  |
+|CD8 kmeans effector memory                                               |NA                                                                                                                  |
 |CD8 kmeans naive                                                         |NA                                                                                                                  |
+|CD8 kmeans CD28P_27M                                                     |NA                                                                                                                  |
+|CD8 kmeans E                                                             |NA                                                                                                                  |
+|CD8 kmeans EM1                                                           |NA                                                                                                                  |
+|CD8 kmeans EM2                                                           |NA                                                                                                                  |
+|CD8 kmeans EM3                                                           |NA                                                                                                                  |
+|CD8 kmeans EM4                                                           |NA                                                                                                                  |
+|CD8 kmeans pE1                                                           |NA                                                                                                                  |
+|CD8 kmeans pE2                                                           |NA                                                                                                                  |
 |TOTAL_PHENOGRAPH_COUNTS                                                  |Total events in sample's phenograph cluster                                                                         |
 |OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)                                    |NA                                                                                                                  |
 |OPEN_CYTO_Single Cells (FSC-H v FSC-W)                                   |NA                                                                                                                  |
@@ -120,9 +139,21 @@ Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne P
 |OPEN_CYTO_pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)                |NA                                                                                                                  |
 |OPEN_CYTO_pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)                 |NA                                                                                                                  |
 |CD4 kmeans central memory_TotalFreq                                      |NA                                                                                                                  |
-|CD4 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
-|CD8 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
+|CD4 kmeans effector_TotalFreq                                            |NA                                                                                                                  |
+|CD8 kmeans effector memory_TotalFreq                                     |NA                                                                                                                  |
 |CD8 kmeans central memory_TotalFreq                                      |NA                                                                                                                  |
+|CD8 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
+|CD4 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
+|CD8 kmeans effector_TotalFreq                                            |NA                                                                                                                  |
+|CD4 kmeans effector memory_TotalFreq                                     |NA                                                                                                                  |
+|CD8 kmeans EM3_TotalFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans E_TotalFreq                                                   |NA                                                                                                                  |
+|CD8 kmeans pE2_TotalFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans EM4_TotalFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans EM2_TotalFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans EM1_TotalFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans CD28P_27M_TotalFreq                                           |NA                                                                                                                  |
+|CD8 kmeans pE1_TotalFreq                                                 |NA                                                                                                                  |
 |OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)_TotalFreq                          |NA                                                                                                                  |
 |OPEN_CYTO_Single Cells (FSC-H v FSC-W)_TotalFreq                         |NA                                                                                                                  |
 |OPEN_CYTO_Live cells (PE-)_TotalFreq                                     |NA                                                                                                                  |
@@ -160,9 +191,21 @@ Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne P
 |OPEN_CYTO_pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)_TotalFreq      |NA                                                                                                                  |
 |OPEN_CYTO_pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)_TotalFreq       |NA                                                                                                                  |
 |CD4 kmeans central memory_ClusterFreq                                    |NA                                                                                                                  |
-|CD4 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
-|CD8 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
+|CD4 kmeans effector_ClusterFreq                                          |NA                                                                                                                  |
+|CD8 kmeans effector memory_ClusterFreq                                   |NA                                                                                                                  |
 |CD8 kmeans central memory_ClusterFreq                                    |NA                                                                                                                  |
+|CD8 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
+|CD4 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
+|CD8 kmeans effector_ClusterFreq                                          |NA                                                                                                                  |
+|CD4 kmeans effector memory_ClusterFreq                                   |NA                                                                                                                  |
+|CD8 kmeans EM3_ClusterFreq                                               |NA                                                                                                                  |
+|CD8 kmeans E_ClusterFreq                                                 |NA                                                                                                                  |
+|CD8 kmeans pE2_ClusterFreq                                               |NA                                                                                                                  |
+|CD8 kmeans EM4_ClusterFreq                                               |NA                                                                                                                  |
+|CD8 kmeans EM2_ClusterFreq                                               |NA                                                                                                                  |
+|CD8 kmeans EM1_ClusterFreq                                               |NA                                                                                                                  |
+|CD8 kmeans CD28P_27M_ClusterFreq                                         |NA                                                                                                                  |
+|CD8 kmeans pE1_ClusterFreq                                               |NA                                                                                                                  |
 |OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)_ClusterFreq                        |NA                                                                                                                  |
 |OPEN_CYTO_Single Cells (FSC-H v FSC-W)_ClusterFreq                       |NA                                                                                                                  |
 |OPEN_CYTO_Live cells (PE-)_ClusterFreq                                   |NA                                                                                                                  |

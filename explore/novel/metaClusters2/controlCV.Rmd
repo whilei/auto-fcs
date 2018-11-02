@@ -16,11 +16,17 @@ library(plotly)
 summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
 
 # summary$FREQ_TOTAL_CLUST=summary$TOTAL_COUNTSsummary$TOTAL_PHENOGRAPH_COUNTS
-
+summary$SAMPLE_META_COUNT=paste0(summary$SAMPLE,"_",summary$META_CLUSTER)
 totCount=aggregate(summary$TOTAL_PHENOGRAPH_COUNTS, list(summary$SAMPLE), sum)
     colnames(totCount) =c("SAMPLE","ALL_INPUT_COUNT")
     summary=merge(summary,totCount,by.x = "SAMPLE",by.y = "SAMPLE")
-    summary$FREQ_PHENOGRAPH_PARENT=summary$TOTAL_PHENOGRAPH_COUNTS/summary$ALL_INPUT_COUNT
+    
+summary$SAMPLE_META_COUNT=paste0(summary$SAMPLE,"_",summary$META_CLUSTER)
+totCount=aggregate(summary$TOTAL_PHENOGRAPH_COUNTS, list(summary$SAMPLE_META_COUNT), sum)
+    colnames(totCount) =c("SAMPLE_META_COUNT","TOTAL_META_COUNT")
+  summary=merge(summary,totCount,by.x = "SAMPLE_META_COUNT",by.y = "SAMPLE_META_COUNT")
+    
+summary$FREQ_PHENOGRAPH_PARENT=summary$TOTAL_META_COUNT/summary$ALL_INPUT_COUNT
 
 ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
 

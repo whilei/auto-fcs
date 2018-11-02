@@ -314,7 +314,7 @@ $(document).ready(function () {
 <!-- Agnostic overview of panel 1 populations starting from live, single, lymphocytes as defined by OpenCyto. -->
 <div id="usage" class="section level3">
 <h3>USAGE</h3>
-<p>Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne Plots tab</p>
+<p>Select a few (less than 10) meta-clusters to characterize before moving beyond the “Tsne Plots” and “Meta-cluster Counts” tabs</p>
 </div>
 <div id="current-methods" class="section level3">
 <h3>Current Methods</h3>
@@ -335,6 +335,10 @@ $(document).ready(function () {
 <li>Run tsne on the combined matrix (currently using “RAW”)</li>
 <li>Plot results, coloring by things</li>
 </ol>
+</div>
+<div id="notes-actual-cluster-number-may-change" class="section level3">
+<h3>Notes (actual cluster number may change)</h3>
+<p>Meta cluster 14 : CD4/CD8 double positive? - <a href="https://www.ncbi.nlm.nih.gov/pubmed/25360000">CD4+/CD8+ double-positive T cells: more than just a developmental stage?</a></p>
 <!-- ## Example workflow -->
 <!-- 1. Select "Tsne Plots" -->
 <!-- 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells -->
@@ -434,6 +438,14 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="even">
+<td align="left">CD4 kmeans effector</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD4 kmeans effector memory</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">CD4 kmeans naive</td>
 <td align="left">NA</td>
 </tr>
@@ -442,7 +454,47 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="even">
+<td align="left">CD8 kmeans effector</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans effector memory</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">CD8 kmeans naive</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans CD28P_27M</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans E</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM1</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM2</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM3</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM4</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans pE1</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans pE2</td>
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
@@ -598,7 +650,15 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">CD4 kmeans naive_TotalFreq</td>
+<td align="left">CD4 kmeans effector_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans effector memory_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans central memory_TotalFreq</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -606,7 +666,47 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">CD8 kmeans central memory_TotalFreq</td>
+<td align="left">CD4 kmeans naive_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans effector_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD4 kmeans effector memory_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM3_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans E_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans pE2_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM4_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM2_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM1_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans CD28P_27M_TotalFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans pE1_TotalFreq</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -758,7 +858,15 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">CD4 kmeans naive_ClusterFreq</td>
+<td align="left">CD4 kmeans effector_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans effector memory_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans central memory_ClusterFreq</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">
@@ -766,7 +874,47 @@ $(document).ready(function () {
 <td align="left">NA</td>
 </tr>
 <tr class="odd">
-<td align="left">CD8 kmeans central memory_ClusterFreq</td>
+<td align="left">CD4 kmeans naive_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans effector_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD4 kmeans effector memory_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM3_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans E_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans pE2_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM4_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans EM2_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans EM1_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">CD8 kmeans CD28P_27M_ClusterFreq</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">CD8 kmeans pE1_ClusterFreq</td>
 <td align="left">NA</td>
 </tr>
 <tr class="even">

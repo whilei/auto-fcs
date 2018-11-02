@@ -14,7 +14,7 @@ output:
 
 ### USAGE
 
-Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne Plots tab
+Select a few (less than 10) meta-clusters to characterize before moving beyond the "Tsne Plots" and "Meta-cluster Counts" tabs
 
 
 ### Current Methods
@@ -30,7 +30,16 @@ Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne P
 3. Combine individual sample's centroids into a single matrix
 4. Run phenograph on the combined matrix (currently using "RAW")
 5. Run tsne on the combined matrix (currently using "RAW")
+7. Compute CV of each meta cluster within control samples
 6. Plot results, coloring by things
+
+
+
+### Notes (actual cluster number may change)
+
+Meta cluster 14 : CD4/CD8 double positive?
+- [CD4+/CD8+ double-positive T cells: more than just a developmental stage?](https://www.ncbi.nlm.nih.gov/pubmed/25360000)
+
 
 <!-- ## Example workflow -->
 

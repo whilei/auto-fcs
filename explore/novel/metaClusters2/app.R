@@ -13,7 +13,7 @@ summary <- readRDS("data/summary.CV.rds")
 
 # summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
-
+maxMeta = 10
 nms <- names(summary)
 
 normmarkers = nms[grepl(pattern = "_SCALED_CENTROID", nms)]
@@ -34,7 +34,7 @@ displayPops = unique(gsub("_TotalFreq", "", displayPops))
 displayPops = displayPops[!grepl(pattern = "CD28P_27M", displayPops)]
 
 clusters = c("META_CLUSTER", "PHENOGRAPH_CLUSTER")
-facets = c("EXPERIMENTER", "CTL","CTL_CV","FREQ_PHENOGRAPH_PARENT")
+facets = c("EXPERIMENTER", "CTL", "CTL_CV", "FREQ_PHENOGRAPH_PARENT")
 
 colorMe <- function(color, data) {
   if (color %in% normmarkers) {
@@ -43,7 +43,7 @@ colorMe <- function(color, data) {
     data <- squish(data, range = c(0, 1))
   } else if (color %in% rawMarkers) {
     data <- squish(data, range = c(10, 200))
-  }else if (color %in% c("FREQ_PHENOGRAPH_PARENT")) {
+  } else if (color %in% c("FREQ_PHENOGRAPH_PARENT")) {
     data <- squish(data, range = c(0, 0.2))
   }
   return(data)
@@ -53,8 +53,8 @@ colorMe <- function(color, data) {
 
 getHeat <- function(markers, type, data) {
   subBM = data
-  subBM = subBM[order(subBM$META_CLUSTER), ]
-  subHC = subBM[, c(markers),]
+  subBM = subBM[order(subBM$META_CLUSTER),]
+  subHC = subBM[, c(markers), ]
   colnames(subHC) = gsub(type, "", colnames(subHC))
   
   superheat(
@@ -192,7 +192,9 @@ ui <- fluidPage(
       type = "tabs",
       tabPanel("Example",
                includeMarkdown("example.md")),
-      tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")),
+      tabPanel("Tsne Plots", plotlyOutput('tsnePlot', height = "1000px")) ,
+      tabPanel("Meta-cluster Counts",
+               plotlyOutput('counts', height = "500px")),
       tabPanel("Raw Marker Heatmap",
                plotOutput('rawheat', height = "700px")),
       tabPanel(
@@ -215,11 +217,7 @@ ui <- fluidPage(
         "Population Distributions",
         plotOutput('popPlot', height = "1000px")
       )
-      ,
-      tabPanel(
-        "Meta-cluster Counts",
-        plotlyOutput('counts', height = "500px")
-      )
+      
     )
   )
 )
@@ -256,12 +254,13 @@ getPlot <- function(x,
 }
 server <- function(input, output) {
   dataset <- reactive({
-    subSamples=unique(summary$SAMPLE)
+    subSamples = unique(summary$SAMPLE)
     # if(input$maxSamples<length(subSamples)){
     #   subSamples=subSamples[1:input$maxSamples]
     # }
-    current=summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
-              summary$META_CLUSTER %in% input$metaclusters&summary$SAMPLE %in% subSamples, ]
+    current = summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
+                        summary$META_CLUSTER %in% input$metaclusters &
+                        summary$SAMPLE %in% subSamples,]
   })
   
   
@@ -346,8 +345,13 @@ server <- function(input, output) {
   )
   
   output$characterPlot <- renderPlot({
-    subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$markerdisplay, "_SCALED_CENTROID")),], id.vars = "META_CLUSTER")
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
+    subBM = melt(data[, c("META_CLUSTER",
+                               paste0(input$markerdisplay, "_SCALED_CENTROID")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_SCALED_CENTROID", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -356,7 +360,7 @@ server <- function(input, output) {
     # g1 = ggplotly(g1g) %>% layout(height = input$plotHeight, autosize = TRUE)
     
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$markerdisplay, "_RAW_CENTROID")),], id.vars = "META_CLUSTER")
+                               paste0(input$markerdisplay, "_RAW_CENTROID")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_RAW_CENTROID", "", subBM$variable)
     
     # + theme(legend.position = "none")
@@ -377,9 +381,14 @@ server <- function(input, output) {
   })
   
   output$popPlot <- renderPlot({
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
     # displayPops = gsub("_ClusterFreq", "", pops)
-    subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$displayPops, "_ClusterFreq")),], id.vars = "META_CLUSTER")
+    subBM = melt(data[, c("META_CLUSTER",
+                          paste0(input$displayPops, "_ClusterFreq")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_ClusterFreq", "", subBM$variable)
     
     g1g = ggplot(subBM)  +
@@ -389,7 +398,7 @@ server <- function(input, output) {
     # + ylab("scaled expression")  + theme(legend.position = "none")
     
     subBM = melt(dataset()[, c("META_CLUSTER",
-                               paste0(input$displayPops, "_TotalFreq")),], id.vars = "META_CLUSTER")
+                               paste0(input$displayPops, "_TotalFreq")), ], id.vars = "META_CLUSTER")
     subBM$variable = gsub("_TotalFreq", "", subBM$variable)
     
     # + ylab("raw expression") + theme(legend.position = "none")
@@ -408,50 +417,74 @@ server <- function(input, output) {
   })
   
   output$rawheat <- renderPlot({
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
     getHeat(
       markers = paste0(input$markerdisplay, "_RAW_CENTROID"),
       type = "_RAW_CENTROID",
-      data = dataset()
+      data = data
     )
     
   })
   output$normheat <- renderPlot({
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
     getHeat(
       markers = paste0(input$markerdisplay, "_SCALED_CENTROID"),
       type = "_SCALED_CENTROID",
-      data = dataset()
+      data = data
     )
     
   })
   
   output$clusterPopheat <- renderPlot({
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
     getHeat(
       markers = paste0(input$displayPops, "_ClusterFreq"),
       type = "_ClusterFreq",
-      data = dataset()
+      data = data
     )
     
   })
   output$totalPopheat <- renderPlot({
+    data = dataset()
+    validate(need(
+      length(unique(data$META_CLUSTER)) < maxMeta ,
+      paste0("please limit the number of  meta-clusters selected to less than ", maxMeta)
+    ))
     # print()
     getHeat(
       markers = paste0(input$displayPops, "_TotalFreq"),
       type = "_TotalFreq",
-      data = dataset()
+      data = data
     )
     
   })
   output$counts <- renderPlotly({
-    c =as.data.frame(table(unique(dataset()[,c("META_CLUSTER","SAMPLE")])$META_CLUSTER))
-    colnames(c)=c("META_CLUSTER","NUM_SAMPLES")
-  p <- plot_ly(x =c$META_CLUSTER , y = c$NUM_SAMPLES, color = c$META_CLUSTER,name="sample counts")%>%
+    c = as.data.frame(table(unique(dataset()[, c("META_CLUSTER", "SAMPLE")])$META_CLUSTER))
+    colnames(c) = c("META_CLUSTER", "NUM_SAMPLES")
+    p <-
+      plot_ly(
+        x = c$META_CLUSTER ,
+        y = c$NUM_SAMPLES,
+        color = c$META_CLUSTER,
+        name = "sample counts"
+      ) %>%
+      
+      layout(height = 500,
+             autosize = TRUE,
+             showlegend = T)
     
-    layout(
-      height =500,
-      autosize = TRUE,
-      showlegend = T
-    )
-  
   })
 }
 
