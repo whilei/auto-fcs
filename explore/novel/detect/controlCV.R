@@ -50,7 +50,6 @@ for (ctl in uniqueCtls) {
     subCtlClust = subCtl[which(subCtl$META_CLUSTER == metClust),]
     
     cv = cvCalc(subCtlClust$FREQ_PHENOGRAPH_PARENT)
-    print(is.na(cv))
     tmp = data.frame(
       CTL = ctl,
       POP = NA,

@@ -3,7 +3,7 @@
 library(ClusterR)
 library(cytofkit)
 
-setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/")
+setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/")
 theme_set(theme_bw(15))
 
 markersToCluster = c("CD27",
