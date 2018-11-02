@@ -7,15 +7,8 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-# summary <- readRDS("data/summary.rds")
 summary <- readRDS("data/summary.CV.rds")
-# summary$META_CLUSTER=as.character(summary$META_CLUSTER)
-# samps=unique(summary$SAMPLE)
-# samps=samps[1:750]
-# summary=summary[which(summary$SAMPLE %in% samps),]
-# summary <- readRDS("data/summary.rds")
 
-# summary = summary[order(summary$META_CLUSTER),]
 theme_set(theme_bw(15))
 maxMeta = 10
 nms <- names(summary)

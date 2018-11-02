@@ -2,6 +2,7 @@
 
 
 
+
 summary <-
   readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
 
@@ -20,7 +21,7 @@ summary = merge(summary, totCount, by.x = "SAMPLE_META_COUNT", by.y = "SAMPLE_ME
 
 summary$FREQ_PHENOGRAPH_PARENT = summary$TOTAL_META_COUNT / summary$ALL_INPUT_COUNT
 
-ctls = summary[which(summary$CTL != "STUDY_SAMPLE"), ]
+ctls = summary[which(summary$CTL != "STUDY_SAMPLE"),]
 
 
 nms <- names(summary)
@@ -34,13 +35,17 @@ cvCalc <- function(vec) {
      sd = sd(vec, na.rm = TRUE))
 }
 
+
+uniqueCtls = unique(ctls$CTL)
+print(table(uniqueCtls))
+
 resultsMetaCV = data.frame()
 for (ctl in uniqueCtls) {
   # &ctls$META_CLUSTER==metClust
-  subCtl = ctls[which(ctls$CTL == ctl), ]
+  subCtl = ctls[which(ctls$CTL == ctl),]
   
   for (metClust in metClusts) {
-    subCtlClust = subCtl[which(subCtl$META_CLUSTER == metClust), ]
+    subCtlClust = subCtl[which(subCtl$META_CLUSTER == metClust),]
     
     cv = cvCalc(subCtlClust$FREQ_PHENOGRAPH_PARENT)
     print(is.na(cv))
