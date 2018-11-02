@@ -7,10 +7,6 @@ output: html_document
 
 ```{r}
 
-library(irr)
-
-library(plotly)
-
 
 
 summary <- readRDS("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
@@ -29,28 +25,6 @@ totCount=aggregate(summary$TOTAL_PHENOGRAPH_COUNTS, list(summary$SAMPLE_META_COU
 summary$FREQ_PHENOGRAPH_PARENT=summary$TOTAL_META_COUNT/summary$ALL_INPUT_COUNT
 
 ctls = summary[which(summary$CTL!="STUDY_SAMPLE"),]
-
-
-# ctls$META_CLUSTER
-
-# nlevels(summary$META_CLUSTER)
-# summary$META_CLUSTER=as.factor(summary$META_CLUSTER)
-# length(unique(summary$META_CLUSTER)
-# ctlsMat <- matrix(0, nrow=length(ctls$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
-# ctlsMat[cbind(seq_along(ctls$META_CLUSTER), ctls$META_CLUSTER)] <- 1
-# 
-# print(table(ctls$CTL))
-# uniqueCtls=unique(ctls$CTL)
-
-# for(ctl in uniqueCtls){
-#   subCtl=ctls[which(ctls$CTL==ctl),]
-#   subctlsMat <- matrix(0, nrow=length(subCtl$SAMPLE), ncol=nlevels(summary$META_CLUSTER))
-#   subctlsMat[cbind(seq_along(subCtl$META_CLUSTER), subCtl$META_CLUSTER)] <- 1
-#   print(agree(subctlsMat, tolerance=0))
-#   print( agree(t(subctlsMat), tolerance=0))
-# 
-# }
-
 
 
 nms <- names(summary)

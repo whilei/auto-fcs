@@ -7,8 +7,8 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-summary <- readRDS("data/summary.rds")
-# summary <- readRDS("data/summary.CV.rds")
+# summary <- readRDS("data/summary.rds")
+summary <- readRDS("data/summary.CV.rds")
 # summary$META_CLUSTER=as.character(summary$META_CLUSTER)
 # samps=unique(summary$SAMPLE)
 # samps=samps[1:750]
@@ -49,6 +49,8 @@ colorMe <- function(color, data) {
     data <- squish(data, range = c(10, 200))
   } else if (color %in% c("FREQ_PHENOGRAPH_PARENT")) {
     data <- squish(data, range = c(0, 0.2))
+  }else if (color %in% c("META_CLUSTER")) {
+    data <- as.factor(data)
   }
   return(data)
 }

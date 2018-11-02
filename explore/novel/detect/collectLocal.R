@@ -1,5 +1,5 @@
 print("collecting")
-outDir="/Volumes/Beta2/flow/testSummaryLymph/"
+outDir = "/Volumes/Beta2/flow/testSummaryLymph/"
 
 allSummariesFiles = list.files(outDir,
                                full.names = TRUE,
@@ -16,7 +16,7 @@ base = colnames(
 
 # [1:1200]
 allSummaries = data.frame()
-for (summaryFile in allSummariesFiles[grepl("CTL",toupper(allSummariesFiles))]) {
+for (summaryFile in allSummariesFiles[grepl("CTL", toupper(allSummariesFiles))]) {
   tmp = read.delim(
     summaryFile ,
     stringsAsFactors = FALSE,
@@ -26,7 +26,8 @@ for (summaryFile in allSummariesFiles[grepl("CTL",toupper(allSummariesFiles))]) 
   if (sum(tmp$TOTAL_PHENOGRAPH_COUNTS) > minLymph) {
     Missing <-
       setdiff(base, names(tmp))  # Find names of missing columns
-    tmp[Missing] <- 0                    # Add them, filled with '0's
+    tmp[Missing] <-
+      0                    # Add them, filled with '0's
     tmp <- tmp[base]
     allSummaries = rbind(allSummaries, tmp)
   }
