@@ -15,7 +15,7 @@ base = colnames(
 )
 
 allSummaries = data.frame()
-for (summaryFile in allSummariesFiles) {
+for (summaryFile in allSummariesFiles[1:750]) {
   tmp = read.delim(
     summaryFile ,
     stringsAsFactors = FALSE,

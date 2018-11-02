@@ -7,8 +7,12 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-# summary <- readRDS("data/summary.rds")
-summary <- readRDS("data/summary.CV.rds")
+summary <- readRDS("data/summary.rds")
+# summary <- readRDS("data/summary.CV.rds")
+# summary$META_CLUSTER=as.character(summary$META_CLUSTER)
+# samps=unique(summary$SAMPLE)
+# samps=samps[1:750]
+# summary=summary[which(summary$SAMPLE %in% samps),]
 # summary <- readRDS("data/summary.rds")
 
 # summary = summary[order(summary$META_CLUSTER),]
@@ -254,13 +258,14 @@ getPlot <- function(x,
 }
 server <- function(input, output) {
   dataset <- reactive({
-    subSamples = unique(summary$SAMPLE)
+    # subSamples = unique(summary$SAMPLE)
     # if(input$maxSamples<length(subSamples)){
     #   subSamples=subSamples[1:input$maxSamples]
     # }
-    current = summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
-                        summary$META_CLUSTER %in% input$metaclusters &
-                        summary$SAMPLE %in% subSamples,]
+    # summary$SAMPLE %in% subSamples
+    subMeta=as.character(summary$META_CLUSTER)%in% input$metaclusters
+    return(summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
+              subMeta,])
   })
   
   
