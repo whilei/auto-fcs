@@ -402,7 +402,7 @@ print(opt$inputDirectory)
 
 intclusts = list.files(opt$inputDirectory,
                        full.names = TRUE,
-                       pattern = ".IntMatrix.txt.gz$")
+                       pattern = ".IntMatrix.txt.gz$")[1]
 
 if(!is.null(opt$inputFile)){
   intclusts=c(read.delim(opt$inputFile,header = FALSE,stringsAsFactors = FALSE,sep = "\t")$V1)
@@ -425,30 +425,30 @@ print(paste0("found ", length(intclusts), " files in", opt$inputDirectory))
 for (file in intclusts) {
   processFile(file = file,outDir=outDir,map=map)
 }
-
-allSummariesFiles = list.files(outDir,
-                               full.names = TRUE,
-                               pattern = ".known.pops.txt$")
-
-base = colnames(read.delim(allSummariesFiles[[1]]))
-
-allSummaries = data.frame()
-for (summaryFile in allSummariesFiles) {
-  tmp = read.delim(summaryFile ,
-                   stringsAsFactors = FALSE,
-                   header = TRUE)
-  Missing <-
-    setdiff(base, names(tmp))  # Find names of missing columns
-  tmp[Missing] <- 0                    # Add them, filled with '0's
-  tmp <- tmp[base]
-  allSummaries = rbind(allSummaries, tmp)
-}
-
-write.table(
-  allSummaries,
-  file = paste0(outDir, "allSummaries.txt"),
-  row.names = FALSE,
-  quote = FALSE,
-  sep = "\t",
-  col.names = TRUE
-)
+# 
+# allSummariesFiles = list.files(outDir,
+#                                full.names = TRUE,
+#                                pattern = ".known.pops.txt$")
+# 
+# base = colnames(read.delim(allSummariesFiles[[1]]))
+# 
+# allSummaries = data.frame()
+# for (summaryFile in allSummariesFiles) {
+#   tmp = read.delim(summaryFile ,
+#                    stringsAsFactors = FALSE,
+#                    header = TRUE)
+#   Missing <-
+#     setdiff(base, names(tmp))  # Find names of missing columns
+#   tmp[Missing] <- 0                    # Add them, filled with '0's
+#   tmp <- tmp[base]
+#   allSummaries = rbind(allSummaries, tmp)
+# }
+# 
+# write.table(
+#   allSummaries,
+#   file = paste0(outDir, "allSummaries.txt"),
+#   row.names = FALSE,
+#   quote = FALSE,
+#   sep = "\t",
+#   col.names = TRUE
+# )
