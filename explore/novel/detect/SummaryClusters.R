@@ -50,7 +50,6 @@ mapFull = read.delim(
 )
 
 map = mapFull
-# lsr =map[which(map$MACHINE=="LSR"),]
 map = map[which(map$PANEL == "panel1"), ]
 map = map[, c("FILE",
               "TOTAL_COUNTS",
@@ -58,7 +57,6 @@ map = map[, c("FILE",
               "MACHINE",
               "EXPERIMENTER",
               "LAB_ID")]
-# map =map[which(!is.na(map$LAB_ID)),]
 
 summary = read.delim(
   "/Volumes/Beta2/flow/testSummaryLymph/allSummaries.txt" ,
@@ -77,7 +75,6 @@ summary = merge(summary,
                 by.y = "FILE",
                 all.x = TRUE)
 
-# summary$MANUAL_ANNOTATION =
 
 summary = summary[!(summary$SANITIZE_NAME %in% manuals$V1), ]
 
@@ -93,10 +90,8 @@ summary$CTL = gsub("2017", "STUDY_SAMPLE", summary$CTL)
 summary$CTL = gsub("Specimen", "Specimen", summary$CTL)
 
 ctls = c("A", "B", "C", "D", "E", "F", "G", "H")
-# summary = summary[order(summary$CTL), ]
 use = (!is.na(summary$LAB_ID) | summary$CTL %in% ctls)
 summary = summary[use, ]
-# summary=summary[1:10000,]
 
 
 summary = summary[which(summary$MACHINE == "LSR"), ]
@@ -120,7 +115,6 @@ tsne <- cytof_dimReduction(data = sub,
                            out_dim = 2)
 
 summary$META_CLUSTER = clusterPhenograph
-# summary$META_CLUSTER =as.numeric(summary$META_CLUSTER )
 summary$metaTsne1 = tsne[, 1]
 summary$metaTsne2 = tsne[, 2]
 

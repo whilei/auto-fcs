@@ -16,7 +16,7 @@ base = colnames(
 
 # [1:1200]
 allSummaries = data.frame()
-for (summaryFile in allSummariesFiles[grepl("CTL", toupper(allSummariesFiles))]) {
+for (summaryFile in allSummariesFiles[1:1000]) {
   tmp = read.delim(
     summaryFile ,
     stringsAsFactors = FALSE,
