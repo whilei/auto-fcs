@@ -6,23 +6,47 @@ output:
   html_document: 
     keep_md: yes
 ---
+<!-- # Summary -->
 
-## Example workflow
+<!-- Agnostic overview of panel 1 populations starting from live, single, lymphocytes as defined by OpenCyto. -->
 
-1. Select "Tsne Plots"
-1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
-2. Check out which meta-clusters seem to be made up of mostly naive cells
-3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown
-4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters
-  - Seems to be IgD, CD95, CD19, maybe CD4
-5. Similar process for "Normalized Heatmap"
-6. Select "Marker Distributions"
-  - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown
-  - Resonably separated distributions
-7. Go back to "Tsne Plots" and color a plot by IgD 
+
+
+### USAGE
+
+Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne Plots tab
+
+
+### Current Methods
+
+
+1. Run phenograph on each individual sample, starting with OpenCyto gate of interest (currently live,single lymp)
+  - Results displayed here are from samples run on LSR only
+2. For each sample's phenograph cluster compute:
+  1.  median compensated/transformed expression across all markers used (calling this "RAW")
+  2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
+  3. Frequency of known subsets in the cluster (T cells,B cells, etc) defined by OpenCyto (or kmeans)
+  4. Proportion of events in the phenograph cluster out of all events in each known subset
+3. Combine individual sample's centroids into a single matrix
+4. Run phenograph on the combined matrix (currently using "RAW")
+5. Run tsne on the combined matrix (currently using "RAW")
+6. Plot results, coloring by things
+
+<!-- ## Example workflow -->
+
+<!-- 1. Select "Tsne Plots" -->
+<!-- 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells -->
+<!-- 2. Check out which meta-clusters seem to be made up of mostly naive cells -->
+<!-- 3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown -->
+<!-- 4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters -->
+<!--   - Seems to be IgD, CD95, CD19, maybe CD4 -->
+<!-- 5. Similar process for "Normalized Heatmap" -->
+<!-- 6. Select "Marker Distributions" -->
+<!--   - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown -->
+<!--   - Resonably separated distributions -->
+<!-- 7. Go back to "Tsne Plots" and color a plot by IgD  -->
 
 ### Description of tabs
-
 
 
 ```{r echo=FALSE}
@@ -39,20 +63,7 @@ kable(d,format = "markdown")
 1. legends!! Currently the legends are placed over the plots of interest
 1. add p-values to distribution plots
 
-### Current Methods
 
-
-1. Run phenograph on each individual sample, starting with cytotoxic T cells
-  - Results displayed here are from CTL samples run on LSR only
-2. For each sample's phenograph cluster compute:
-  1.  median compensated/transformed expression across all markers used (calling this "RAW")
-  2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
-  3. Frequency of known cytotoxic subsets in the cluster
-  4.  Proportion of events in the phenograph cluster out of all events in each known cytotoxic subset
-3. Combine individual sample's centroids into a single matrix
-4. Run phenograph on the combined matrix (currently using "RAW")
-5. Run tsne on the combined matrix (currently using "RAW")
-6. Plot results, coloring by things
 
 ### Data column descriptions
 
@@ -65,4 +76,6 @@ library(knitr)
 kable(d,format = "markdown")
 
 ```
+
+
 

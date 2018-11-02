@@ -10,4 +10,4 @@ Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/renderControls.R
 
 zip -r /Users/Kitty/git/auto-fcs/explore/novel/build/metaClusters.build.zip /Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/*
 
-git save
+# git save

@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=62gb,walltime=1:00:00,nodes=1:ppn=24
+#PBS -l mem=62gb,walltime=4:00:00,nodes=1:ppn=12
 
 
 profile.pl -o detectNovelSubs.profile &

@@ -105,13 +105,13 @@ ui <- fluidPage(
       'middlecolor',
       'Middle Plot Color',
       choices = options,
-      selected = "OPEN_CYTO_B cells (CD3- CD19+)_ClusterFreq"
+      selected = "OPEN_CYTO_Helper Tcells-CD4+_ClusterFreq"
     ),
     selectInput(
       'bottomcolor',
       'Bottom Plot Color',
       choices = options,
-      selected = "OPEN_CYTO_Tcells (CD3+ CD19-)_ClusterFreq"
+      selected = "OPEN_CYTO_cytotoxic Tcells-CD8+_ClusterFreq"
     ),
     
     # selectInput('facet_col', 'Facet Column', c(None = '.', facets), selected = "."),
@@ -141,6 +141,13 @@ ui <- fluidPage(
       multiple = TRUE,
       selected = displayPops
     ),
+    # sliderInput(
+    #   'maxSamples',
+    #   'Limit to this many samples',
+    #   min = 0,
+    #   max = length(unique(summary$SAMPLE)),
+    #   value = 200
+    # ),
     sliderInput(
       'minN',
       'Minimum number of events in phenograph cluster',
@@ -249,8 +256,12 @@ getPlot <- function(x,
 }
 server <- function(input, output) {
   dataset <- reactive({
-    summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
-              summary$META_CLUSTER %in% input$metaclusters, ]
+    subSamples=unique(summary$SAMPLE)
+    # if(input$maxSamples<length(subSamples)){
+    #   subSamples=subSamples[1:input$maxSamples]
+    # }
+    current=summary[summary$TOTAL_PHENOGRAPH_COUNTS > input$minN &
+              summary$META_CLUSTER %in% input$metaclusters&summary$SAMPLE %in% subSamples, ]
   })
   
   

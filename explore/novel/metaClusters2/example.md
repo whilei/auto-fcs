@@ -6,23 +6,47 @@ output:
   html_document: 
     keep_md: yes
 ---
+<!-- # Summary -->
 
-## Example workflow
+<!-- Agnostic overview of panel 1 populations starting from live, single, lymphocytes as defined by OpenCyto. -->
 
-1. Select "Tsne Plots"
-1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells
-2. Check out which meta-clusters seem to be made up of mostly naive cells
-3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown
-4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters
-  - Seems to be IgD, CD95, CD19, maybe CD4
-5. Similar process for "Normalized Heatmap"
-6. Select "Marker Distributions"
-  - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown
-  - Resonably separated distributions
-7. Go back to "Tsne Plots" and color a plot by IgD 
+
+
+### USAGE
+
+Select a few (4-5) meta-clusters to characterize before moving beyond the Tsne Plots tab
+
+
+### Current Methods
+
+
+1. Run phenograph on each individual sample, starting with OpenCyto gate of interest (currently live,single lymp)
+  - Results displayed here are from samples run on LSR only
+2. For each sample's phenograph cluster compute:
+  1.  median compensated/transformed expression across all markers used (calling this "RAW")
+  2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
+  3. Frequency of known subsets in the cluster (T cells,B cells, etc) defined by OpenCyto (or kmeans)
+  4. Proportion of events in the phenograph cluster out of all events in each known subset
+3. Combine individual sample's centroids into a single matrix
+4. Run phenograph on the combined matrix (currently using "RAW")
+5. Run tsne on the combined matrix (currently using "RAW")
+6. Plot results, coloring by things
+
+<!-- ## Example workflow -->
+
+<!-- 1. Select "Tsne Plots" -->
+<!-- 1. Color middle tsne plot by "naive_ClusterFreq" using the "Middle Plot Color" dropdown to see which meta clusters are naive cells -->
+<!-- 2. Check out which meta-clusters seem to be made up of mostly naive cells -->
+<!-- 3. Select a few naive meta clusters (such as 5, 6, 10, 12, 15, 18, 26, 31, 32, and 34) in the "Meta clusters to characterize" dropdown -->
+<!-- 4. Select "Raw Marker Heatmap" to see which markers differentiate these meta-clusters -->
+<!--   - Seems to be IgD, CD95, CD19, maybe CD4 -->
+<!-- 5. Similar process for "Normalized Heatmap" -->
+<!-- 6. Select "Marker Distributions" -->
+<!--   - Select IgD, CD95, CD19, and CD4 in the "Markers" dropdown -->
+<!--   - Resonably separated distributions -->
+<!-- 7. Go back to "Tsne Plots" and color a plot by IgD  -->
 
 ### Description of tabs
-
 
 
 
@@ -43,99 +67,208 @@ output:
 1. legends!! Currently the legends are placed over the plots of interest
 1. add p-values to distribution plots
 
-### Current Methods
 
-
-1. Run phenograph on each individual sample, starting with cytotoxic T cells
-  - Results displayed here are from CTL samples run on LSR only
-2. For each sample's phenograph cluster compute:
-  1.  median compensated/transformed expression across all markers used (calling this "RAW")
-  2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
-  3. Frequency of known cytotoxic subsets in the cluster
-  4.  Proportion of events in the phenograph cluster out of all events in each known cytotoxic subset
-3. Combine individual sample's centroids into a single matrix
-4. Run phenograph on the combined matrix (currently using "RAW")
-5. Run tsne on the combined matrix (currently using "RAW")
-6. Plot results, coloring by things
 
 ### Data column descriptions
 
 - just for reference
 
 
-|COLUMN                      |DESCRIPTION                                                                                                         |
-|:---------------------------|:-------------------------------------------------------------------------------------------------------------------|
-|SAMPLE                      |Sample name                                                                                                         |
-|PHENOGRAPH_CLUSTER          |Phenograph cluster for the sample                                                                                   |
-|central.memory              |Count of central.memory events in this phenograph cluster                                                           |
-|effector                    |Count of effector events in this phenograph cluster                                                                 |
-|effector.memory             |Count of effector.memory events in this phenograph cluster                                                          |
-|naive                       |Count of naive events in this phenograph cluster                                                                    |
-|CD28P_27M                   |Count of CD28P_27M events in this phenograph cluster                                                                |
-|E                           |Count of E events in this phenograph cluster                                                                        |
-|EM1                         |Count of EM1 events in this phenograph cluster                                                                      |
-|EM2                         |Count of EM2 events in this phenograph cluster                                                                      |
-|EM3                         |Count of EM3 events in this phenograph cluster                                                                      |
-|EM4                         |Count of EM4 events in this phenograph cluster                                                                      |
-|pE1                         |Count of pE1 events in this phenograph cluster                                                                      |
-|pE2                         |Count of pE2 events in this phenograph cluster                                                                      |
-|TOTAL_PHENOGRAPH_COUNTS     |Total events in sample's phenograph cluster                                                                         |
-|naive_TotalFreq             |Proportion of events in this phenograph cluster out of all events in  naive                                         |
-|effector_TotalFreq          |Proportion of events in this phenograph cluster out of all events in  effector                                      |
-|central.memory_TotalFreq    |Proportion of events in this phenograph cluster out of all events in  central.memory                                |
-|effector.memory_TotalFreq   |Proportion of events in this phenograph cluster out of all events in  effector.memory                               |
-|E_TotalFreq                 |Proportion of events in this phenograph cluster out of all events in  E                                             |
-|EM1_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  EM1                                           |
-|pE2_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  pE2                                           |
-|EM2_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  EM2                                           |
-|EM4_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  EM4                                           |
-|EM3_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  EM3                                           |
-|CD28P_27M_TotalFreq         |Proportion of events in this phenograph cluster out of all events in  CD28P_27M                                     |
-|pE1_TotalFreq               |Proportion of events in this phenograph cluster out of all events in  pE1                                           |
-|naive_ClusterFreq           |Frequency of population naive in this phenograph cluster                                                            |
-|effector_ClusterFreq        |Frequency of population effector in this phenograph cluster                                                         |
-|central.memory_ClusterFreq  |Frequency of population central.memory in this phenograph cluster                                                   |
-|effector.memory_ClusterFreq |Frequency of population effector.memory in this phenograph cluster                                                  |
-|E_ClusterFreq               |Frequency of population E in this phenograph cluster                                                                |
-|EM1_ClusterFreq             |Frequency of population EM1 in this phenograph cluster                                                              |
-|pE2_ClusterFreq             |Frequency of population pE2 in this phenograph cluster                                                              |
-|EM2_ClusterFreq             |Frequency of population EM2 in this phenograph cluster                                                              |
-|EM4_ClusterFreq             |Frequency of population EM4 in this phenograph cluster                                                              |
-|EM3_ClusterFreq             |Frequency of population EM3 in this phenograph cluster                                                              |
-|CD28P_27M_ClusterFreq       |Frequency of population CD28P_27M in this phenograph cluster                                                        |
-|pE1_ClusterFreq             |Frequency of population pE1 in this phenograph cluster                                                              |
-|CD27_RAW_CENTROID           |Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster                  |
-|HLA.DR_RAW_CENTROID         |Median raw (but after compensating/logicle transform) expression of HLA.DRin this phenograph cluster                |
-|CD19_RAW_CENTROID           |Median raw (but after compensating/logicle transform) expression of CD19in this phenograph cluster                  |
-|CD8_RAW_CENTROID            |Median raw (but after compensating/logicle transform) expression of CD8in this phenograph cluster                   |
-|IgD_RAW_CENTROID            |Median raw (but after compensating/logicle transform) expression of IgDin this phenograph cluster                   |
-|CD3_RAW_CENTROID            |Median raw (but after compensating/logicle transform) expression of CD3in this phenograph cluster                   |
-|CCR7_RAW_CENTROID           |Median raw (but after compensating/logicle transform) expression of CCR7in this phenograph cluster                  |
-|CD28_RAW_CENTROID           |Median raw (but after compensating/logicle transform) expression of CD28in this phenograph cluster                  |
-|CD95_RAW_CENTROID           |Median raw (but after compensating/logicle transform) expression of CD95in this phenograph cluster                  |
-|CD45RA_RAW_CENTROID         |Median raw (but after compensating/logicle transform) expression of CD45RAin this phenograph cluster                |
-|CD4_RAW_CENTROID            |Median raw (but after compensating/logicle transform) expression of CD4in this phenograph cluster                   |
-|SAMPLE_RAW_CENTROID         |Sample used for centroids (just a check)                                                                            |
-|CD27_SCALED_CENTROID        |Median scaled (after compensating/logicle transform and normalizing) expression of CD27in this phenograph cluster   |
-|HLA.DR_SCALED_CENTROID      |Median scaled (after compensating/logicle transform and normalizing) expression of HLA.DRin this phenograph cluster |
-|CD19_SCALED_CENTROID        |Median scaled (after compensating/logicle transform and normalizing) expression of CD19in this phenograph cluster   |
-|CD8_SCALED_CENTROID         |Median scaled (after compensating/logicle transform and normalizing) expression of CD8in this phenograph cluster    |
-|IgD_SCALED_CENTROID         |Median scaled (after compensating/logicle transform and normalizing) expression of IgDin this phenograph cluster    |
-|CD3_SCALED_CENTROID         |Median scaled (after compensating/logicle transform and normalizing) expression of CD3in this phenograph cluster    |
-|CCR7_SCALED_CENTROID        |Median scaled (after compensating/logicle transform and normalizing) expression of CCR7in this phenograph cluster   |
-|CD28_SCALED_CENTROID        |Median scaled (after compensating/logicle transform and normalizing) expression of CD28in this phenograph cluster   |
-|CD95_SCALED_CENTROID        |Median scaled (after compensating/logicle transform and normalizing) expression of CD95in this phenograph cluster   |
-|CD45RA_SCALED_CENTROID      |Median scaled (after compensating/logicle transform and normalizing) expression of CD45RAin this phenograph cluster |
-|CD4_SCALED_CENTROID         |Median scaled (after compensating/logicle transform and normalizing) expression of CD4in this phenograph cluster    |
-|SAMPLE_SCALED_CENTROID      |Sample used for centroids (just a check)                                                                            |
-|SANITIZE_NAME               |Sample with spaces replaced with _                                                                                  |
-|TOTAL_COUNTS                |Total events in fcs file                                                                                            |
-|PANEL                       |flow panel                                                                                                          |
-|MACHINE                     |LSR or FORTESSA                                                                                                     |
-|EXPERIMENTER                |EXPERIMENTER                                                                                                        |
-|LAB_ID                      |LAB ID for this sample                                                                                              |
-|CTL                         |Which control this sample is                                                                                        |
-|META_CLUSTER                |The phenograph meta-cluster this sample belongs to                                                                  |
-|metaTsne1                   |Meta-tsne diminsion 1                                                                                               |
-|metaTsne2                   |Meta-tsne diminsion 2                                                                                               |
+|COLUMN                                                                   |DESCRIPTION                                                                                                         |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
+|SAMPLE                                                                   |Sample name                                                                                                         |
+|PHENOGRAPH_CLUSTER                                                       |Phenograph cluster for the sample                                                                                   |
+|CD4 kmeans central memory                                                |NA                                                                                                                  |
+|CD4 kmeans naive                                                         |NA                                                                                                                  |
+|CD8 kmeans central memory                                                |NA                                                                                                                  |
+|CD8 kmeans naive                                                         |NA                                                                                                                  |
+|TOTAL_PHENOGRAPH_COUNTS                                                  |Total events in sample's phenograph cluster                                                                         |
+|OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)                                    |NA                                                                                                                  |
+|OPEN_CYTO_Single Cells (FSC-H v FSC-W)                                   |NA                                                                                                                  |
+|OPEN_CYTO_Live cells (PE-)                                               |NA                                                                                                                  |
+|OPEN_CYTO_Tcells (CD3+ CD19-)                                            |NA                                                                                                                  |
+|OPEN_CYTO_Helper Tcells-CD4+                                             |NA                                                                                                                  |
+|OPEN_CYTO_cytotoxic Tcells-CD8+                                          |NA                                                                                                                  |
+|OPEN_CYTO_activated helper Tcells (CD4+ HLA-DR+)                         |NA                                                                                                                  |
+|OPEN_CYTO_B cells (CD3- CD19+)                                           |NA                                                                                                                  |
+|OPEN_CYTO_naive Bcells (CD27- IgD+)                                      |NA                                                                                                                  |
+|OPEN_CYTO_IgD- memory Bcells (CD27+)                                     |NA                                                                                                                  |
+|OPEN_CYTO_IgD+ memory Bcells (CD27+)                                     |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CCR7+ CD45RA-)                   |NA                                                                                                                  |
+|OPEN_CYTO_effector helper Tcells (CCR7- CD45RA+)                         |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CCR7- CD45RA-)                  |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CCR7+ CD45RA+)                            |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CCR7+ , CD45RA-)              |NA                                                                                                                  |
+|OPEN_CYTO_effector cytotoxic Tcells  (CCR7-  CD45RA+)                    |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CCR7- , CD45RA-)             |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CCR7+ , CD45RA+)                       |NA                                                                                                                  |
+|OPEN_CYTO_activated cytotoxic Tcells (CD8+ HLA-DR+)                      |NA                                                                                                                  |
+|OPEN_CYTO_EM3 cytotoxic Tcells (CD27-  CD28-)                            |NA                                                                                                                  |
+|OPEN_CYTO_EM4 cytotoxic Tcells (CD27-  CD28+)                            |NA                                                                                                                  |
+|OPEN_CYTO_EM2 cytotoxic Tcells (CD27+  CD28-)                            |NA                                                                                                                  |
+|OPEN_CYTO_EM1 cytotoxic Tcells (CD27+  CD28+)                            |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD27-  CD28-)                             |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD27+ , CD28-)                           |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD27+  CD28+)                            |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CD95- CD28+)                              |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CD95- CD28-)                    |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CD95+ CD28+)                     |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CD95- , CD28+)                         |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CD95+ , CD28+)                |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CD95- , CD28-)               |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)                  |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)                |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)                 |NA                                                                                                                  |
+|CD4 kmeans central memory_TotalFreq                                      |NA                                                                                                                  |
+|CD4 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
+|CD8 kmeans naive_TotalFreq                                               |NA                                                                                                                  |
+|CD8 kmeans central memory_TotalFreq                                      |NA                                                                                                                  |
+|OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)_TotalFreq                          |NA                                                                                                                  |
+|OPEN_CYTO_Single Cells (FSC-H v FSC-W)_TotalFreq                         |NA                                                                                                                  |
+|OPEN_CYTO_Live cells (PE-)_TotalFreq                                     |NA                                                                                                                  |
+|OPEN_CYTO_Tcells (CD3+ CD19-)_TotalFreq                                  |NA                                                                                                                  |
+|OPEN_CYTO_Helper Tcells-CD4+_TotalFreq                                   |NA                                                                                                                  |
+|OPEN_CYTO_cytotoxic Tcells-CD8+_TotalFreq                                |NA                                                                                                                  |
+|OPEN_CYTO_activated helper Tcells (CD4+ HLA-DR+)_TotalFreq               |NA                                                                                                                  |
+|OPEN_CYTO_B cells (CD3- CD19+)_TotalFreq                                 |NA                                                                                                                  |
+|OPEN_CYTO_naive Bcells (CD27- IgD+)_TotalFreq                            |NA                                                                                                                  |
+|OPEN_CYTO_IgD- memory Bcells (CD27+)_TotalFreq                           |NA                                                                                                                  |
+|OPEN_CYTO_IgD+ memory Bcells (CD27+)_TotalFreq                           |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CCR7+ CD45RA-)_TotalFreq         |NA                                                                                                                  |
+|OPEN_CYTO_effector helper Tcells (CCR7- CD45RA+)_TotalFreq               |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CCR7- CD45RA-)_TotalFreq        |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CCR7+ CD45RA+)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CCR7+ , CD45RA-)_TotalFreq    |NA                                                                                                                  |
+|OPEN_CYTO_effector cytotoxic Tcells  (CCR7-  CD45RA+)_TotalFreq          |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CCR7- , CD45RA-)_TotalFreq   |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CCR7+ , CD45RA+)_TotalFreq             |NA                                                                                                                  |
+|OPEN_CYTO_activated cytotoxic Tcells (CD8+ HLA-DR+)_TotalFreq            |NA                                                                                                                  |
+|OPEN_CYTO_EM3 cytotoxic Tcells (CD27-  CD28-)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_EM4 cytotoxic Tcells (CD27-  CD28+)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_EM2 cytotoxic Tcells (CD27+  CD28-)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_EM1 cytotoxic Tcells (CD27+  CD28+)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD27-  CD28-)_TotalFreq                   |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD27+ , CD28-)_TotalFreq                 |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD27+  CD28+)_TotalFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CD95- CD28+)_TotalFreq                    |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CD95- CD28-)_TotalFreq          |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CD95+ CD28+)_TotalFreq           |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CD95- , CD28+)_TotalFreq               |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CD95+ , CD28+)_TotalFreq      |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CD95- , CD28-)_TotalFreq     |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)_TotalFreq        |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)_TotalFreq      |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)_TotalFreq       |NA                                                                                                                  |
+|CD4 kmeans central memory_ClusterFreq                                    |NA                                                                                                                  |
+|CD4 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
+|CD8 kmeans naive_ClusterFreq                                             |NA                                                                                                                  |
+|CD8 kmeans central memory_ClusterFreq                                    |NA                                                                                                                  |
+|OPEN_CYTO_Lymphocytes (SSC-A v FSC-A)_ClusterFreq                        |NA                                                                                                                  |
+|OPEN_CYTO_Single Cells (FSC-H v FSC-W)_ClusterFreq                       |NA                                                                                                                  |
+|OPEN_CYTO_Live cells (PE-)_ClusterFreq                                   |NA                                                                                                                  |
+|OPEN_CYTO_Tcells (CD3+ CD19-)_ClusterFreq                                |NA                                                                                                                  |
+|OPEN_CYTO_Helper Tcells-CD4+_ClusterFreq                                 |NA                                                                                                                  |
+|OPEN_CYTO_cytotoxic Tcells-CD8+_ClusterFreq                              |NA                                                                                                                  |
+|OPEN_CYTO_activated helper Tcells (CD4+ HLA-DR+)_ClusterFreq             |NA                                                                                                                  |
+|OPEN_CYTO_B cells (CD3- CD19+)_ClusterFreq                               |NA                                                                                                                  |
+|OPEN_CYTO_naive Bcells (CD27- IgD+)_ClusterFreq                          |NA                                                                                                                  |
+|OPEN_CYTO_IgD- memory Bcells (CD27+)_ClusterFreq                         |NA                                                                                                                  |
+|OPEN_CYTO_IgD+ memory Bcells (CD27+)_ClusterFreq                         |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CCR7+ CD45RA-)_ClusterFreq       |NA                                                                                                                  |
+|OPEN_CYTO_effector helper Tcells (CCR7- CD45RA+)_ClusterFreq             |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CCR7- CD45RA-)_ClusterFreq      |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CCR7+ CD45RA+)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CCR7+ , CD45RA-)_ClusterFreq  |NA                                                                                                                  |
+|OPEN_CYTO_effector cytotoxic Tcells  (CCR7-  CD45RA+)_ClusterFreq        |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CCR7- , CD45RA-)_ClusterFreq |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CCR7+ , CD45RA+)_ClusterFreq           |NA                                                                                                                  |
+|OPEN_CYTO_activated cytotoxic Tcells (CD8+ HLA-DR+)_ClusterFreq          |NA                                                                                                                  |
+|OPEN_CYTO_EM3 cytotoxic Tcells (CD27-  CD28-)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_EM4 cytotoxic Tcells (CD27-  CD28+)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_EM2 cytotoxic Tcells (CD27+  CD28-)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_EM1 cytotoxic Tcells (CD27+  CD28+)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD27-  CD28-)_ClusterFreq                 |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD27+ , CD28-)_ClusterFreq               |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD27+  CD28+)_ClusterFreq                |NA                                                                                                                  |
+|OPEN_CYTO_naive helper Tcells (CD95- CD28+)_ClusterFreq                  |NA                                                                                                                  |
+|OPEN_CYTO_effector memory helper Tcells (CD95- CD28-)_ClusterFreq        |NA                                                                                                                  |
+|OPEN_CYTO_central memory helper Tcells (CD95+ CD28+)_ClusterFreq         |NA                                                                                                                  |
+|OPEN_CYTO_naive cytotoxic Tcells (CD95- , CD28+)_ClusterFreq             |NA                                                                                                                  |
+|OPEN_CYTO_central memory cytotoxic Tcells (CD95+ , CD28+)_ClusterFreq    |NA                                                                                                                  |
+|OPEN_CYTO_effector memory cytotoxic Tcells (CD95- , CD28-)_ClusterFreq   |NA                                                                                                                  |
+|OPEN_CYTO_pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)_ClusterFreq      |NA                                                                                                                  |
+|OPEN_CYTO_pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)_ClusterFreq    |NA                                                                                                                  |
+|OPEN_CYTO_pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)_ClusterFreq     |NA                                                                                                                  |
+|CD27_RAW_CENTROID                                                        |Median raw (but after compensating/logicle transform) expression of CD27in this phenograph cluster                  |
+|HLA.DR_RAW_CENTROID                                                      |Median raw (but after compensating/logicle transform) expression of HLA.DRin this phenograph cluster                |
+|CD19_RAW_CENTROID                                                        |Median raw (but after compensating/logicle transform) expression of CD19in this phenograph cluster                  |
+|CD8_RAW_CENTROID                                                         |Median raw (but after compensating/logicle transform) expression of CD8in this phenograph cluster                   |
+|IgD_RAW_CENTROID                                                         |Median raw (but after compensating/logicle transform) expression of IgDin this phenograph cluster                   |
+|CD3_RAW_CENTROID                                                         |Median raw (but after compensating/logicle transform) expression of CD3in this phenograph cluster                   |
+|CCR7_RAW_CENTROID                                                        |Median raw (but after compensating/logicle transform) expression of CCR7in this phenograph cluster                  |
+|CD28_RAW_CENTROID                                                        |Median raw (but after compensating/logicle transform) expression of CD28in this phenograph cluster                  |
+|CD95_RAW_CENTROID                                                        |Median raw (but after compensating/logicle transform) expression of CD95in this phenograph cluster                  |
+|CD45RA_RAW_CENTROID                                                      |Median raw (but after compensating/logicle transform) expression of CD45RAin this phenograph cluster                |
+|CD4_RAW_CENTROID                                                         |Median raw (but after compensating/logicle transform) expression of CD4in this phenograph cluster                   |
+|SAMPLE_RAW_CENTROID                                                      |Sample used for centroids (just a check)                                                                            |
+|CD27_SCALED_CENTROID                                                     |Median scaled (after compensating/logicle transform and normalizing) expression of CD27in this phenograph cluster   |
+|HLA.DR_SCALED_CENTROID                                                   |Median scaled (after compensating/logicle transform and normalizing) expression of HLA.DRin this phenograph cluster |
+|CD19_SCALED_CENTROID                                                     |Median scaled (after compensating/logicle transform and normalizing) expression of CD19in this phenograph cluster   |
+|CD8_SCALED_CENTROID                                                      |Median scaled (after compensating/logicle transform and normalizing) expression of CD8in this phenograph cluster    |
+|IgD_SCALED_CENTROID                                                      |Median scaled (after compensating/logicle transform and normalizing) expression of IgDin this phenograph cluster    |
+|CD3_SCALED_CENTROID                                                      |Median scaled (after compensating/logicle transform and normalizing) expression of CD3in this phenograph cluster    |
+|CCR7_SCALED_CENTROID                                                     |Median scaled (after compensating/logicle transform and normalizing) expression of CCR7in this phenograph cluster   |
+|CD28_SCALED_CENTROID                                                     |Median scaled (after compensating/logicle transform and normalizing) expression of CD28in this phenograph cluster   |
+|CD95_SCALED_CENTROID                                                     |Median scaled (after compensating/logicle transform and normalizing) expression of CD95in this phenograph cluster   |
+|CD45RA_SCALED_CENTROID                                                   |Median scaled (after compensating/logicle transform and normalizing) expression of CD45RAin this phenograph cluster |
+|CD4_SCALED_CENTROID                                                      |Median scaled (after compensating/logicle transform and normalizing) expression of CD4in this phenograph cluster    |
+|SAMPLE_SCALED_CENTROID                                                   |Sample used for centroids (just a check)                                                                            |
+|SANITIZE_NAME                                                            |Sample with spaces replaced with _                                                                                  |
+|TOTAL_COUNTS                                                             |Total events in fcs file                                                                                            |
+|PANEL                                                                    |flow panel                                                                                                          |
+|MACHINE                                                                  |LSR or FORTESSA                                                                                                     |
+|EXPERIMENTER                                                             |EXPERIMENTER                                                                                                        |
+|LAB_ID                                                                   |LAB ID for this sample                                                                                              |
+|CTL                                                                      |Which control this sample is                                                                                        |
+|META_CLUSTER                                                             |The phenograph meta-cluster this sample belongs to                                                                  |
+|metaTsne1                                                                |Meta-tsne diminsion 1                                                                                               |
+|metaTsne2                                                                |Meta-tsne diminsion 2                                                                                               |
+|NA                                                                       |Count of central.memory events in this phenograph cluster                                                           |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  central.memory                                |
+|NA                                                                       |Frequency of population central.memory in this phenograph cluster                                                   |
+|NA                                                                       |Count of naive events in this phenograph cluster                                                                    |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  naive                                         |
+|NA                                                                       |Frequency of population naive in this phenograph cluster                                                            |
+|NA                                                                       |Count of effector.memory events in this phenograph cluster                                                          |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  effector.memory                               |
+|NA                                                                       |Frequency of population effector.memory in this phenograph cluster                                                  |
+|NA                                                                       |Count of EM1 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  EM1                                           |
+|NA                                                                       |Frequency of population EM1 in this phenograph cluster                                                              |
+|NA                                                                       |Count of EM2 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  EM2                                           |
+|NA                                                                       |Frequency of population EM2 in this phenograph cluster                                                              |
+|NA                                                                       |Count of EM3 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  EM3                                           |
+|NA                                                                       |Frequency of population EM3 in this phenograph cluster                                                              |
+|NA                                                                       |Count of EM4 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  EM4                                           |
+|NA                                                                       |Frequency of population EM4 in this phenograph cluster                                                              |
+|NA                                                                       |Count of effector events in this phenograph cluster                                                                 |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  effector                                      |
+|NA                                                                       |Frequency of population effector in this phenograph cluster                                                         |
+|NA                                                                       |Count of E events in this phenograph cluster                                                                        |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  E                                             |
+|NA                                                                       |Frequency of population E in this phenograph cluster                                                                |
+|NA                                                                       |Count of pE1 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  pE1                                           |
+|NA                                                                       |Frequency of population pE1 in this phenograph cluster                                                              |
+|NA                                                                       |Count of pE2 events in this phenograph cluster                                                                      |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  pE2                                           |
+|NA                                                                       |Frequency of population pE2 in this phenograph cluster                                                              |
+|NA                                                                       |Count of CD28P_27M events in this phenograph cluster                                                                |
+|NA                                                                       |Proportion of events in this phenograph cluster out of all events in  CD28P_27M                                     |
+|NA                                                                       |Frequency of population CD28P_27M in this phenograph cluster                                                        |
+
+
 
