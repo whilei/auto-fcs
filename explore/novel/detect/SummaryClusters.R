@@ -1,57 +1,40 @@
----
-title: "SummaryClusters"
-author: "JL"
-date: "7/19/2018"
-output: ioslides_presentation
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-knitr::opts_chunk$set(message = FALSE)
-knitr::opts_chunk$set(warning = FALSE)
-
-library(superheat)
-library(scales)
-library(plotly)
-library(knitr)
 library(ClusterR)
 library(cytofkit)
 
-
-# source("./")
+setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/")
 theme_set(theme_bw(15))
 
 markersToCluster = c("CD27",
-"CD28",
-"CD95",
-"CCR7",
-"CD45RA",
-"CD8",
-"CD4",
-"CD3",
-"CD19",
-"IgD",
-"HLA.DR")
+                     "CD28",
+                     "CD95",
+                     "CCR7",
+                     "CD45RA",
+                     "CD8",
+                     "CD4",
+                     "CD3",
+                     "CD19",
+                     "IgD",
+                     "HLA.DR")
 
 populations =    c(
-"central.memory",
-"naive",
-"effector.memory",
-"EM1",
-"EM2",
-"EM3",
-"EM4",
-"effector",
-"E",
-"pE1",
-"pE2",
-"CD28P_27M"
+  "central.memory",
+  "naive",
+  "effector.memory",
+  "EM1",
+  "EM2",
+  "EM3",
+  "EM4",
+  "effector",
+  "E",
+  "pE1",
+  "pE2",
+  "CD28P_27M"
 )
 
 markersToCluster = rev(markersToCluster)
-```
 
-```{r prep, include=FALSE, eval=TRUE}
+
 
 manuals = read.delim(
   "/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
@@ -60,8 +43,8 @@ manuals = read.delim(
 )
 
 mapFull=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
-                         stringsAsFactors = FALSE,
-                         header = TRUE)
+                   stringsAsFactors = FALSE,
+                   header = TRUE)
 
 map=mapFull  
 # lsr =map[which(map$MACHINE=="LSR"),]   
@@ -73,7 +56,7 @@ summary = read.delim(
   "/Volumes/Beta2/flow/testSummaryLymph/allSummaries.txt" ,
   stringsAsFactors = FALSE,
   header = TRUE,check.names = FALSE
-  )
+)
 
 
 summary$SAMPLE = summary$SAMPLE_RAW_CENTROID
@@ -86,8 +69,8 @@ summary=merge(summary,map,by.x ="SAMPLE",by.y ="FILE",all.x = TRUE)
 summary = summary[!(summary$SANITIZE_NAME %in% manuals$V1),]
 
 summary$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ",
-"",
-summary$SAMPLE)
+                   "",
+                   summary$SAMPLE)
 summary$CTL = gsub("_.*", "", summary$CTL)
 summary$CTL = gsub(" .*", "", summary$CTL)
 summary$CTL=gsub("-.*", "", summary$CTL)
@@ -101,98 +84,39 @@ ctls=c("A","B","C","D","E","F","G","H")
 use=(!is.na(summary$LAB_ID) |summary$CTL %in% ctls)
 summary=summary[use,]
 # summary=summary[1:10000,]
-save(summary,file="summary.RData")
-```
 
-
-```{r}
-
-load("summary.RData")
-
-# nms <- names(summary)
-# raw=nms[grepl(pattern = "_RAW", nms)]
-# raw=gsub("_SCALE","",raw)
-# 
-# colnames(summary)[grepl(pattern = "_RAW", colnames(summary))]=raw
-
-
-# tmp=unique(summary[,c("SAMPLE_RAW_CENTROID","MACHINE")])
-# table(tmp$MACHINE)
-getHeat <- function(sub) {
-  # superheat(
-  #     as.matrix(t(sub)),
-  # 
-  #     # place dendrograms on columns and rows
-  #     row.dendrogram = T,
-  #     col.dendrogram = T,
-  # 
-  #     # make gridlines white for enhanced prettiness
-  #     grid.hline.col = "white",
-  #     grid.vline.col = "white",
-  #     # membership.rows = markersToCluster,
-  # 
-  #     # rotate bottom label text
-  #     bottom.label.text.angle = 90
-  #   )
-}
-
-
-```
-
-
-```{r fig.width=9}
 
 summary=summary[which(summary$MACHINE=="LSR"),]
 
-```
 
-- ordered by machine, using only LSR for remaining
+
 
 
 
 ## Meta Phenograph +Meta tsne
 
-```{r fig.width=9,message=FALSE}
 type="_SCALED_CENTROID"
 sub = summary[, paste0(markersToCluster, type)]
 colnames(sub) = markersToCluster
 clustFile= paste0("clusterPhenograph",type,".RData")
 tsneFile=paste0("tsne",type,".RData")
-```
 
-```{r fig.width=9,message=FALSE,eval=TRUE}
 clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
 tsne <- cytof_dimReduction(data=sub, method = "tsne",out_dim = 2)
 
-# save(clusterPhenograph,file = clustFile)
-# save(tsne,file =tsneFile)
-
-```
-
-```{r fig.width=7,message=FALSE}
-# load(clustFile)
-# load(tsneFile)
-
 summary$META_CLUSTER =clusterPhenograph
-summary$META_CLUSTER =as.numeric(summary$META_CLUSTER )
+# summary$META_CLUSTER =as.numeric(summary$META_CLUSTER )
 summary$metaTsne1=tsne[,1]
 summary$metaTsne2 = tsne[, 2]
 
-myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
-
-```
-
-
-```{r fig.width=7,message=FALSE}
-
 gz1 <- gzfile(paste0("summary.gz"), "w")
-    write.table(
-      summary,
-      file = gz1 ,
-      sep = "\t",
-      quote = FALSE,
-      row.names = FALSE
-    )
+write.table(
+  summary,
+  file = gz1 ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
 close(gz1)
 
 cols=data.frame(COLUMN=colnames(summary))
@@ -206,25 +130,25 @@ for(pop in populations){
   
   popTFreq=paste0(popForm,"_TotalFreq")
   cols[popTFreq,"DESCRIPTION"] = paste0("Proportion of events in this phenograph cluster out of all events in  ",pop)
- 
+  
   popCFreq=paste0(popForm,"_ClusterFreq")
   cols[popCFreq,"DESCRIPTION"] = paste0("Frequency of population ",pop, " in this phenograph cluster")
-   
+  
 }
 
 for(marker in markersToCluster){
   mraw = paste0(marker, "_RAW_CENTROID")
   cols[mraw, "DESCRIPTION"] = paste0(
-  "Median raw (but after compensating/logicle transform) expression of ",
-  marker,
-  "in this phenograph cluster"
+    "Median raw (but after compensating/logicle transform) expression of ",
+    marker,
+    "in this phenograph cluster"
   )
   
   mscale = paste0(marker, "_SCALED_CENTROID")
   cols[mscale, "DESCRIPTION"] = paste0(
-  "Median scaled (after compensating/logicle transform and normalizing) expression of ",
-  marker,
-  "in this phenograph cluster"
+    "Median scaled (after compensating/logicle transform and normalizing) expression of ",
+    marker,
+    "in this phenograph cluster"
   )
 }
 
@@ -247,11 +171,11 @@ cols["LAB_ID","DESCRIPTION"]="LAB ID for this sample"
 
 
 write.table(
-cols,
-file = "summary.columns" ,
-sep = "\t",
-quote = FALSE,
-row.names = FALSE
+  cols,
+  file = "summary.columns" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
 )
 
 metaMap =summary[,c("SAMPLE","PHENOGRAPH_CLUSTER","META_CLUSTER")]
@@ -282,5 +206,5 @@ write.xlsx(list_of_datasets, file = "summary.xlsx")
 save(summary,file ="summary.meta.RData")
 
 
-```
+
 

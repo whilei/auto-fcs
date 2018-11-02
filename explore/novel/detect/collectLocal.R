@@ -14,8 +14,9 @@ base = colnames(
   )
 )
 
+# [1:1200]
 allSummaries = data.frame()
-for (summaryFile in allSummariesFiles[1:750]) {
+for (summaryFile in allSummariesFiles[grepl("CTL",toupper(allSummariesFiles))]) {
   tmp = read.delim(
     summaryFile ,
     stringsAsFactors = FALSE,
@@ -46,4 +47,4 @@ print("collected")
 library(rmarkdown)
 
 
-rmarkdown::render("/Users/Kitty/git/auto-fcs/explore/novel/report/summaryClustersV8.Rmd", "html_document")
+# rmarkdown::render("/Users/Kitty/git/auto-fcs/explore/novel/report/summaryClustersV8.Rmd", "html_document")
