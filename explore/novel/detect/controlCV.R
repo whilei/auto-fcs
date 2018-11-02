@@ -37,7 +37,9 @@ cvCalc <- function(vec) {
 
 
 uniqueCtls = unique(ctls$CTL)
-print(table(uniqueCtls))
+metClusts=unique(summary$META_CLUSTER)
+print(table(ctls$CTL))
+print(table(summary$META_CLUSTER))
 
 resultsMetaCV = data.frame()
 for (ctl in uniqueCtls) {
