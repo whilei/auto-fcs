@@ -104,6 +104,7 @@ summary = summary[which(summary$MACHINE == "LSR"), ]
 ## Meta Phenograph +Meta tsne
 
 type = "_SCALED_CENTROID"
+print(paste0("using tsne type ", type))
 sub = summary[, paste0(markersToCluster, type)]
 colnames(sub) = markersToCluster
 clustFile = paste0("clusterPhenograph", type, ".RData")
@@ -193,20 +194,6 @@ metaMap = summary[, c("SAMPLE", "PHENOGRAPH_CLUSTER", "META_CLUSTER")]
 write.table(
   metaMap,
   file = "summary.metaMap" ,
-  sep = "\t",
-  quote = FALSE,
-  row.names = FALSE
-)
-
-metaMapSub = metaMap[metaMap$META_CLUSTER %in% subs, ]
-
-write.table(
-  metaMapSub,
-  file = paste0(
-    "subs_",
-    paste0(subs, collapse = "_"),
-    "_summary.naive.interest.metaMap"
-  ),
   sep = "\t",
   quote = FALSE,
   row.names = FALSE
