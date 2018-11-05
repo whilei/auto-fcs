@@ -7,7 +7,7 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-summary <- readRDS("data/summary.CV.rds")
+summary <- readRDS("data/summary.rds")
 
 theme_set(theme_bw(15))
 maxMeta = 10

@@ -207,6 +207,7 @@ list_of_datasets <-
     "SUMMARY" = summary,
     "META_MAP" = metaMap
   )
-write.xlsx(list_of_datasets, file = "summary.xlsx")
+# write.xlsx(list_of_datasets, file = "summary.xlsx")
+save(list_of_datasets, file = "summary.data.list.meta.RData")
 
 save(summary, file = "summary.meta.RData")

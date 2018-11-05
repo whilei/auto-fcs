@@ -58,7 +58,7 @@ resultsMetaCVSummary=aggregate(resultsMetaCV$CV, list(resultsMetaCV$META_CLUSTER
 colnames(resultsMetaCVSummary)=c("META_CLUSTER","CTL_CV")
 summary=merge(summary,resultsMetaCVSummary,by.x = "META_CLUSTER",by.y ="META_CLUSTER",all.x = TRUE )
 
-saveRDS(summary,file="/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.CV.rds")
+saveRDS(summary,file="/Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/data/summary.rds")
 
 
 
