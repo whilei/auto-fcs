@@ -17,6 +17,8 @@
 
 
 
+
+
 normChannels <- function(inputData, channels, min, max) {
   t = inputData
   for (channel in channels) {
@@ -200,10 +202,26 @@ cluster <-
       )
       
       
+      colnames(centroidsInput) = paste0("MEDIAN_", colnames(centroidsInput))
+      colnames(centroidsInputIQR) = paste0("IQR_", colnames(centroidsInput))
+      
+      centroidsInputIQRCombo = cbind(centroidsInput, centroidsInputIQR)
+      
+      write.table(
+        centroidsInputIQRCombo,
+        file = paste0(outRoot, ".IQR.MEDIAN.inputData.txt"),
+        row.names = FALSE,
+        quote = FALSE,
+        sep = "\t",
+        col.names = TRUE
+      )
+      
       inputDataStats = data.frame(
         MEDIAN_BASE = apply(inputData, 2, median),
         IQR_BASE = apply(inputData, 2, IQR)
       )
+      
+      
       
       
       
@@ -216,6 +234,16 @@ cluster <-
         colnames(tmpP) = paste0(colnames(tmpP), "_MINUS_PCLUST_", pclust)
         inputDataStats = cbind(inputDataStats, tmpP)
       }
+      
+      inputDataStats$REFERENCE = subsetGate
+      write.table(
+        inputDataStats,
+        file = paste0(outRoot, ".input.IQR.MEDIAN.txt"),
+        row.names = FALSE,
+        quote = FALSE,
+        sep = "\t",
+        col.names = TRUE
+      )
       
       
       
