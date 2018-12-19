@@ -16,6 +16,7 @@
 
 
 
+
 normChannels <- function(inputData, channels, min, max) {
   t = inputData
   for (channel in channels) {
@@ -28,7 +29,27 @@ normChannels <- function(inputData, channels, min, max) {
 }
 
 
+fcsFile = file
+outputDir = opt$outputDir
+subsetGate = subsetGate
+subsetFirst = TRUE
+normalize = FALSE
 
+markersToCluster = c("CD27",
+                     "HLA-DR",
+                     "CD19",
+                     "CD8",
+                     "IgD",
+                     "CD3",
+                     "CCR7",
+                     "CD28",
+                     "CD95",
+                     "CD45RA",
+                     "CD4")
+
+addComp = TRUE
+min = -20
+max = 250
 
 
 cluster <-
@@ -88,7 +109,7 @@ cluster <-
         }
       }
       if (subsetFirst | !normalize) {
-        subdata = getData(gh)[gatedData$DEFINITION, ]
+        subdata = getData(gh)[gatedData$DEFINITION,]
       } else{
         subdata = getData(gh)
       }
@@ -100,8 +121,8 @@ cluster <-
         
         if (!subsetFirst) {
           # now need to subset to proper event
-          inputData = inputData[gatedData$DEFINITION, ]
-          clust = clust[gatedData$DEFINITION, ]
+          inputData = inputData[gatedData$DEFINITION,]
+          clust = clust[gatedData$DEFINITION,]
         }
       } else{
         clust = inputData
@@ -136,7 +157,7 @@ cluster <-
           max = max
         )
         colnames(clustToAggregate) = markersToCluster
-        clustToAggregate = clustToAggregate[gatedData$DEFINITION, ]
+        clustToAggregate = clustToAggregate[gatedData$DEFINITION,]
         clustToAggregate$PHENOGRAPH = clusterPhenograph
         
       }
@@ -171,12 +192,30 @@ cluster <-
       
       write.table(
         centroidsInputIQR,
-        file = paste0(outRoot, ".cents.IQR.inputData"),
+        file = paste0(outRoot, ".IQR.inputData"),
         row.names = FALSE,
         quote = FALSE,
         sep = "\t",
         col.names = TRUE
       )
+      
+      
+      inputDataStats = data.frame(
+        MEDIAN_BASE = apply(inputData, 2, median),
+        IQR_BASE = apply(inputData, 2, IQR)
+      )
+      
+      
+      
+      uniquePclusts = unique(clust$PHENOGRAPH)
+      
+      for (pclust in uniquePclusts) {
+        subP = inputData[which(clust$PHENOGRAPH != pclust),]
+        tmpP = data.frame(MEDIAN = apply(subP, 2, median),
+                          IQR = apply(subP, 2, IQR))
+        colnames(tmpP) = paste0(colnames(tmpP), "_MINUS_PCLUST_", pclust)
+        inputDataStats = cbind(inputDataStats, tmpP)
+      }
       
       
       
