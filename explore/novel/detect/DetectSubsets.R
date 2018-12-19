@@ -165,6 +165,25 @@ cluster <-
         col.names = TRUE
       )
       
+      
+      centroidsInputIQR = aggregate(inputData, list(clust$PHENOGRAPH), IQR)
+      centroidsInputIQR$SAMPLE = fcsFile
+      
+      write.table(
+        centroidsInputIQR,
+        file = paste0(outRoot, ".cents.IQR.inputData"),
+        row.names = FALSE,
+        quote = FALSE,
+        sep = "\t",
+        col.names = TRUE
+      )
+      
+      
+      
+      
+      
+      
+      
       clust$SAMPLE = fcsFile
       save(clust, file = paste0(outRoot, ".clust.Rdata"))
       
