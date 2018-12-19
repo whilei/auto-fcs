@@ -22,7 +22,7 @@ echo "start detectNovelSubs at: " `date`
 script=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/runNovelSubsetDetection.R
 fcsDir=/scratch.global/lanej/flow/full/fcs/
 subsetGate='"Live cells \(PE-\)"'
-outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
+outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
 mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
