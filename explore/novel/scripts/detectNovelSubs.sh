@@ -46,7 +46,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	echo "module load gcc/8.1.0" >> $currentIn.run
 	echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
 	quicksub $currentIn.run
-
+	qsub $currentIn.run
 
 done
 
