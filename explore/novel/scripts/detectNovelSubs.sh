@@ -22,6 +22,7 @@ echo "start detectNovelSubs at: " `date`
 script=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/runNovelSubsetDetection.R
 fcsDir=/scratch.global/lanej/flow/full/fcs/
 subsetGate='"Live cells \(PE-\)"'
+subsetGateQsub='"Live cells (PE-)"'
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
 mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
@@ -30,7 +31,7 @@ repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
 
 runScript="$outputDir"runscript.txt
 echo "" > $runScript
-cd $outputDir
+cd $outputDir"inputs/"
 for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/gatesRename/*_panel1Rename.wsp; do
 	out=$(basename "$file" _panel1Rename.wsp)
 	out="$(echo -e "${out}" | tr -d '[:space:]')"
@@ -43,7 +44,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	echo "module load hdf5/hdf5-1.8.9-intel" >> $currentIn.run
 	echo "module load libtiff" >> $currentIn.run
 	echo "module load gcc/8.1.0" >> $currentIn.run
-	echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
+	echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
 	quicksub $currentIn.run
 
 

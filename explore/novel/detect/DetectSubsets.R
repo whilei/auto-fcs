@@ -19,6 +19,7 @@
 
 
 
+
 normChannels <- function(inputData, channels, min, max) {
   t = inputData
   for (channel in channels) {
@@ -111,7 +112,7 @@ cluster <-
         }
       }
       if (subsetFirst | !normalize) {
-        subdata = getData(gh)[gatedData$DEFINITION,]
+        subdata = getData(gh)[gatedData$DEFINITION, ]
       } else{
         subdata = getData(gh)
       }
@@ -123,8 +124,8 @@ cluster <-
         
         if (!subsetFirst) {
           # now need to subset to proper event
-          inputData = inputData[gatedData$DEFINITION,]
-          clust = clust[gatedData$DEFINITION,]
+          inputData = inputData[gatedData$DEFINITION, ]
+          clust = clust[gatedData$DEFINITION, ]
         }
       } else{
         clust = inputData
@@ -159,7 +160,7 @@ cluster <-
           max = max
         )
         colnames(clustToAggregate) = markersToCluster
-        clustToAggregate = clustToAggregate[gatedData$DEFINITION,]
+        clustToAggregate = clustToAggregate[gatedData$DEFINITION, ]
         clustToAggregate$PHENOGRAPH = clusterPhenograph
         
       }
@@ -203,7 +204,7 @@ cluster <-
       
       
       colnames(centroidsInput) = paste0("MEDIAN_", colnames(centroidsInput))
-      colnames(centroidsInputIQR) = paste0("IQR_", colnames(centroidsInput))
+      colnames(centroidsInputIQR) = paste0("IQR_", colnames(centroidsInputIQR))
       
       centroidsInputIQRCombo = cbind(centroidsInput, centroidsInputIQR)
       
@@ -217,28 +218,31 @@ cluster <-
       )
       
       inputDataStats = data.frame(
+        MARKER = colnames(inputData),
         MEDIAN_BASE = apply(inputData, 2, median),
         IQR_BASE = apply(inputData, 2, IQR)
       )
       
-      
+      rownames(inputDataStats) = colnames(inputData)
+      # inputDataStats$MARKER=colnames(inputData)
       
       
       
       uniquePclusts = unique(clust$PHENOGRAPH)
       
       for (pclust in uniquePclusts) {
-        subP = inputData[which(clust$PHENOGRAPH != pclust),]
+        subP = inputData[which(clust$PHENOGRAPH != pclust), ]
         tmpP = data.frame(MEDIAN = apply(subP, 2, median),
                           IQR = apply(subP, 2, IQR))
         colnames(tmpP) = paste0(colnames(tmpP), "_MINUS_PCLUST_", pclust)
+        rownames(tmpP) = colnames(subP)
         inputDataStats = cbind(inputDataStats, tmpP)
       }
       
       inputDataStats$REFERENCE = subsetGate
       write.table(
         inputDataStats,
-        file = paste0(outRoot, ".input.IQR.MEDIAN.txt"),
+        file = paste0(outRoot, ".refPop.IQR.MEDIAN.txt"),
         row.names = FALSE,
         quote = FALSE,
         sep = "\t",
