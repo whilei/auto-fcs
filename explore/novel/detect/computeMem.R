@@ -7,6 +7,13 @@
 
 
 
+
+
+
+
+
+
+
 inDir = "/Volumes/Beta2/flow/testNovelsOut/"
 outDir = "/Volumes/Beta2/flow/testNovelsOutMEM/"
 
@@ -26,18 +33,21 @@ for (refPop in refPops) {
   
   markers = ref$MARKER
   results = data.frame()
-  for (marker in marker) {
-    subRef = ref[which(ref$MARKER == marker), ]
-    for (phengraphCluster in clusts$MEDIAN_Group.1) {
-      pgraphSub = clusts[which(clusts$MEDIAN_Group.1 == phengraphCluster), ]
+  for (phengraphCluster in clusts$MEDIAN_Group.1) {
+    pgraphSub = clusts[which(clusts$MEDIAN_Group.1 == phengraphCluster),]
+    clustData = data.frame()
+    for (marker in markers) {
+      subRef = ref[which(ref$MARKER == marker),]
       
-      medDiff = pgraphSub[, paste0("MEDIAN_", marker),] - subRef$MEDIAN_BASE
-      iqrRatio = pgraphSub[, paste0("IQR_", marker),] - subRef$IQR_BASE
+      markerPgraph = gsub("-", ".", marker)
+      medDiff = pgraphSub[, paste0("MEDIAN_", markerPgraph), ] - subRef$MEDIAN_BASE
+      iqrRatio =   subRef$IQR_BASE / max(0.5, pgraphSub[, paste0("IQR_", markerPgraph), ])
       
-      memScore = abs(medDiff) - iqrRatio - 1
+      memScore = abs(medDiff) + iqrRatio - 1
       if (medDiff < 0) {
         memScore = memScore * -1
       }
+      memlabel = paste0(marker, round(memScore))
       
       tmp = data.frame(
         MARKER = marker,
@@ -45,26 +55,40 @@ for (refPop in refPops) {
         MEM = memScore,
         METHOD = "BASE"
       )
-      results = rbind(results, tmp)
+      clustData = rbind(clustData, tmp)
       
-      medDiff = pgraphSub[, paste0("MEDIAN_", marker),] - subRef[, paste0("MEDIAN_MINUS_PCLUST_", phengraphCluster)]
-      iqrRatio = pgraphSub[, paste0("IQR_", marker),] - subRef[, paste0("IQR_MINUS_PCLUST_", phengraphCluster)]
       
-      memScore = abs(medDiff) - iqrRatio - 1
+      medDiff = pgraphSub[, paste0("MEDIAN_", markerPgraph), ] - subRef[, paste0("MEDIAN_MINUS_PCLUST_", phengraphCluster)]
+      iqrRatio =   subRef[, paste0("IQR_MINUS_PCLUST_", phengraphCluster)] /
+        max(0.5, pgraphSub[, paste0("IQR_", markerPgraph), ])
+      
+      memScore = abs(medDiff) + iqrRatio - 1
       if (medDiff < 0) {
         memScore = memScore * -1
       }
       
+      memlabel = paste0(marker, round(memScore))
       tmp = data.frame(
         MARKER = marker,
         PHENOGRAPH_CLUSTER = phengraphCluster,
         MEM = memScore,
         METHOD = "BASE_MINUS_CLUST"
       )
-      results = rbind(results, tmp)
+      clustData = rbind(clustData, tmp)
       
       
     }
+    
+    # clustData$FULL_MEM_LABEL = paste0(clustData$MEM_LABEL)
+    
+    results = rbind(results, clustData)
+    
+    
+  }
+  for (method in unique(results$METHOD)) {
+    sub = results$METHOD == method
+    max = max(results[sub,]$MEM)
+    results$MEM[sub] = 10 * (results$MEM[sub] / max)
     
   }
   print(markers)
