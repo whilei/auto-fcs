@@ -393,15 +393,7 @@ processFile <- function(file, outDir, map) {
       )
       
       
-      write.table(
-        summary,
-        file = summaryFileOutput,
-        row.names = FALSE,
-        quote = FALSE,
-        sep = "\t",
-        col.names = TRUE
-      )
-      
+     
       
       print(paste0("finished summarizing clusters from ", file))
       
@@ -422,6 +414,8 @@ processFile <- function(file, outDir, map) {
       memOut = paste0(outDir,
                       gsub(".IntMatrix.txt.gz",
                            ".mem.txt", basename(file)))
+      
+      
       write.table(
         mems,
         file = memOut,
@@ -430,6 +424,16 @@ processFile <- function(file, outDir, map) {
         sep = "\t",
         col.names = TRUE
       )
+      
+      write.table(
+        summary,
+        file = summaryFileOutput,
+        row.names = FALSE,
+        quote = FALSE,
+        sep = "\t",
+        col.names = TRUE
+      )
+      
       
     }
   } else{
