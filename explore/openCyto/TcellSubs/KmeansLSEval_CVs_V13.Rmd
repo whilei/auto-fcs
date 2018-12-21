@@ -1,0 +1,642 @@
+---
+title: "K-means Evaluation - control comparisons and manual 1st 1K correlations  "
+author: "JL"
+date: "2/16/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+# K-Means notes
+- K-means is currently trying to identify 4 clusters using 3 dimensions (CCR7, CD45R4, and CD28)
+- The input to k-means is currently the union of Helper and Cytotoxic T cells
+  - For current results below, only OpenCyto was used to determine input for kmeans clustering (i.e did not start with Helper/Cyto T defined by manual .wsps)
+
+
+# Control gating "consistency"
+
+- OC controls were filtered for likely failures (lose ~%10 of the samples with this filter)
+
+
+```{r include=FALSE,echo=FALSE}
+library(openxlsx)
+library(ggplot2)
+library(reshape)
+library(gridExtra)
+library(grid)
+library(knitr)
+
+theme_set(theme_bw(10))
+t2 <- theme(
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(colour = "black"),
+    axis.ticks = element_line(colour = "black"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.text.x=element_text(angle=90,hjust=1)
+)
+inDir ="/Volumes/Beta/data/flow/kmeansValidate/results_r26_TcellSubs_Kmeans_wsp_v8/"
+outDir="/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/"
+dir.create(outDir)
+summaryFile=paste0(outDir,"summmary.counts.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+corSummaryFile=paste0(outDir,"summmary.cor.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+cvSummaryFile=paste0(outDir,"summmary.cv.results_r26_TcellSubs_Kmeans_wsp_v8.txt")
+
+```
+
+
+```{r setup, include=FALSE,eval=FALSE}
+
+summFiles <-
+  list.files(inDir,
+             pattern = "counts.txt$",
+             full = TRUE,
+             recursive = FALSE)
+details = file.info(list.files(inDir,
+             pattern = "counts.txt$",
+             full = TRUE,
+             recursive = FALSE))
+details = details[with(details, order(as.POSIXct(mtime))), ]
+details$date=as.Date(as.POSIXct(details$mtime))
+details=details[which(details$date< as.Date('2018-02-24')),]
+summFiles=rownames(details)
+
+summaries <- do.call(rbind,lapply(summFiles,read.delim))
+
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+map =map[which(map$PANEL=="panel1"),]
+summaries =merge(summaries,map,by.x ="SAMPLE",by.y = "FILE" )
+
+write.table( summaries,file =summaryFile,sep = "\t",quote = FALSE,row.names = FALSE)
+
+write.table( summFiles,file ="./filesUse.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+```
+
+```{r echo=FALSE,warning=FALSE}
+summaries = read.delim(summaryFile,
+                       stringsAsFactors = FALSE,
+                       header = TRUE)
+summaries$SANITIZE_NAME = gsub(" ","_",summaries$SAMPLE)
+manuals=read.delim("/Volumes/Beta/data/flow/kmeansValidateResults/results_r26_TcellSubs_Kmeans_wsp_v8/r26_v3_Manual_Samples.txt",
+                       stringsAsFactors = FALSE,
+                       header = FALSE)
+
+summaries$MANUAL_ANNOTATION= summaries$SANITIZE_NAME %in% manuals$V1
+  
+
+excludes = unique(summaries[which(summaries$NUM_POPS_ASSIGNED!=4),]$SAMPLE)
+summaries=summaries[which(summaries$NUM_POPS_ASSIGNED==4),]
+
+write.table(
+  excludes,
+  file = paste0(outDir,"excludes.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+# l = summaries[which(summaries$POPULATION=="CYTO_effector"&&summaries$COUNT<1000),]
+# summaries[which(summaries$SAMPLE=="2016-11-17_PANEL 1_ZF_Group one_F1652905_004.fcs"),]
+
+summaries$OPTIMAL_K = as.factor(summaries$OPTIMAL_K)
+summaries$POPULATION = as.factor(summaries$POPULATION)
+summaries$PARENT_FREQ = (summaries$COUNT) / summaries$PARENT_COUNT
+summaries$PARENT_PERCENT = (summaries$COUNT * 100) / summaries$PARENT_COUNT
+
+summaries = summaries[which(!is.na(summaries$PARENT_FREQ)), ]
+
+summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27M","pE cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector_CD28P_CD27P","pE1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector_CD28M_CD27P","pE2 cytotoxic Tcells (CD27+ , CD28-)",summaries$POPULATION)
+
+summaries$POPULATION=gsub("CYTO_effector memory_CD28P_CD27P","EM1 cytotoxic Tcells (CD27+  CD28+)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27P","EM2 cytotoxic Tcells (CD27+  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28M_CD27M","EM3 cytotoxic Tcells (CD27-  CD28-)",summaries$POPULATION)
+summaries$POPULATION=gsub("CYTO_effector memory_CD28P_CD27M","EM4 cytotoxic Tcells (CD27-  CD28+)",summaries$POPULATION)
+
+summaries$KEY = paste0(summaries$LAB_ID, "_", summaries$POPULATION)
+summaries$KEYFCS = paste0(summaries$SAMPLE, "_", summaries$POPULATION)
+
+trim = !grepl("CD28",summaries$POPULATION)
+summariesTrim=summaries[trim,]
+summariesTrimC0=summariesTrim[which(summariesTrim$COUNT==0),]
+counts =as.data.frame(table(summariesTrimC0$SAMPLE,summariesTrimC0$COUNT))
+sub= counts[which(counts$Var2==0),]
+keep =!(summaries$SAMPLE %in% sub$Var1)
+rid =(summaries$SAMPLE %in% sub$Var1)
+
+
+excludes = unique(c(excludes, summaries[rid, ]$SAMPLE))
+excludesDF =data.frame(
+    EXCLUDE_SAMPLE = excludes,
+    EXCLUDE_SAMPLE_SANITIZE = gsub(" ", "_", excludes)
+  )
+# excludesDF =m
+map=read.delim("/Volumes/Beta/data/flow/results_r25_25full_SS_SubCD8_SCD14_Manuals/FULL/all.totalCellCounts.metrics.format.txt",
+                         stringsAsFactors = FALSE,
+                         header = TRUE)
+map =map[which(map$PANEL=="panel1"),]
+excludesDF =merge(excludesDF,map,by.x ="EXCLUDE_SAMPLE",by.y = "FILE",all.x=TRUE )
+
+write.table(
+  excludesDF,
+  file = paste0(summaryFile, ".exclude.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+hist(excludesDF$TOTAL_COUNTS)
+write.table(
+  data.frame(
+    EXCLUDE_SAMPLE = excludes  ),
+  file = paste0(summaryFile, ".excludeTransfer.txt"),
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+summaries=summaries[keep,]
+
+
+
+```
+
+Control summary for results
+
+```{r echo=FALSE,warning=FALSE,eval=TRUE}
+
+CV <- function(mean, sd){
+      (sd/mean)*100
+}
+
+cvCalc <- function(vec){
+  CV(mean = mean(vec,na.rm = TRUE),sd=sd(vec,na.rm = TRUE))
+}
+
+
+# ctlCounts1 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/manulacontrolcounts.xlsx", sheet =1)
+# ctlCounts2 = read.xlsx("/Volumes/Beta/data/flow/controlValidate/remainingcontrolsforOCcomp.xlsx", sheet =1)
+# colnames(ctlCounts2)[1]=colnames(ctlCounts1)[1]
+
+ctlCounts=read.xlsx("/Volumes/Beta/data/flow/controlValidate/combinedctlsOC2.xlsx", sheet =1)
+rm =!(grepl("PBMC",ctlCounts$FCS.ID))
+ctlCounts =ctlCounts[rm,]
+ctlCounts$CTL = gsub(".*Ctl-|.*CTL-|.*Ctl_|.*Clt-|.*Ctl|.*Ctl- |.*Ctl ","",ctlCounts$FCS.ID)
+ctlCounts$CTL = gsub("_.*","",ctlCounts$CTL)
+ctlCounts$CTL = gsub(" .*","",ctlCounts$CTL)
+mapCTL =data.frame(FCS=ctlCounts$FCS.ID,CTL=ctlCounts$CTL)
+summaries=merge(summaries,mapCTL,by.x = "SAMPLE",by.y = "FCS",all.x = TRUE)
+
+sC = unique(summaries[,c("SAMPLE","CTL")])
+cCounts = as.data.frame(table(sC$CTL))
+colnames(cCounts) =c("CONTROL","N_FCS")
+kable(cCounts,format = "markdown")
+
+```
+
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
+
+interestCtlsCols = c(
+  "FCS.ID",
+  "CM.CT" ,
+  "EFF.CT" ,
+  "EFF.MEM.CT",
+  "NAÏVE.CT",
+  "CM.HT" ,
+  "EFF.HT",
+  "EFF.MEM.HT" ,
+  "NAÏVE.HT",
+  "PE",
+  "PE1",
+  "PE2",
+  "EM1",
+  "EM2",
+  "EM3",
+  "EM4"
+  
+  
+  )
+
+
+
+interestCtls = ctlCounts[, interestCtlsCols]
+colnames(interestCtls) = c(
+  "Study.ID",
+  "CYTO_central memory" ,
+  "CYTO_effector" ,
+  "CYTO_effector memory",
+  "CYTO_naive",
+  "HELPER_central memory" ,
+  "HELPER_effector",
+  "HELPER_effector memory" ,
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
+
+)
+
+
+interestCtlsM =  melt(interestCtls, id.vars = "Study.ID")
+interestCtlsM$KEY = paste0(interestCtlsM$Study.ID, "_", interestCtlsM$variable)
+comboCtls = merge(summaries,
+              interestCtlsM,
+              by.x = "KEYFCS",
+              by.y = "KEY")
+
+
+kable(comboCtls[which(comboCtls$POPULATION=="CYTO_central memory"&comboCtls$COUNT>7500),],format = "markdown")
+
+pops = unique(comboCtls$POPULATION)
+
+
+
+
+
+
+interestCtlsCT = c("CM.CT" ,
+                   "EFF.CT" ,
+                   "EFF.MEM.CT",
+                   "NAÏVE.CT")
+
+interestCtlsHT = c("CM.HT" ,
+                   "EFF.HT",
+                   "EFF.MEM.HT" ,
+                   "NAÏVE.HT")
+
+interestEff = c(
+    "PE",
+  "PE1",
+  "PE2"
+  )
+
+interestEffMem = c(
+ "EM1",
+  "EM2",
+  "EM3",
+  "EM4"
+  )
+
+for(e in interestEff){
+  ctlCounts[, e] = ctlCounts[, e]/ctlCounts$EFF.CT
+}
+for(e in interestEffMem){
+  ctlCounts[, e] = ctlCounts[, e]/ctlCounts$EFF.MEM.CT
+}
+for(cts in interestCtlsCT){
+  ctlCounts[, cts] = ctlCounts[, cts]/ctlCounts$CT
+}
+for(hts in interestCtlsHT){
+  ctlCounts[, hts] = ctlCounts[, hts]/ctlCounts$HT
+}
+
+
+interestCtlsFreq = ctlCounts[, interestCtlsCols]
+colnames(interestCtlsFreq) = c(
+  "Study.ID",
+  "CYTO_central memory" ,
+  "CYTO_effector" ,
+  "CYTO_effector memory",
+  "CYTO_naive",
+  "HELPER_central memory" ,
+  "HELPER_effector",
+  "HELPER_effector memory" ,
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
+)
+
+
+interestCtlsMFreq =  melt(interestCtlsFreq, id.vars = "Study.ID")
+interestCtlsMFreq$KEY = paste0(interestCtlsMFreq$Study.ID, "_", interestCtlsMFreq$variable)
+comboCtlsFreq = merge(summaries,
+              interestCtlsMFreq,
+              by.x = "KEYFCS",
+              by.y = "KEY")
+pops = unique(comboCtls$POPULATION)
+
+
+  plotIt <- function(plotData,compVar,color) {
+  
+    cor1 = cor.test(
+      as.numeric(plotData[,compVar]),
+      as.numeric(plotData$value),
+      method = "pearson",
+      na.action = "na.omit"
+    )
+    cor2 = cor.test(
+      as.numeric(plotData[,compVar]),
+      as.numeric(plotData$value),
+      method = "spearman",
+      na.action = "na.omit"
+    )
+    
+    g1 = ggplot(plotData,
+                aes(x = plotData[,compVar],
+                    y = value, color = plotData[,color])) +
+      geom_point() +
+      xlab(paste0("KMEANS ",compVar)) +
+      ylab(paste0("MANUAL ",compVar)) + t2 + ggtitle(
+        paste0(
+          pop,
+          "\npearson=",
+          cor1$estimate,
+          "\nspearman=",
+          cor2$estimate,
+          "\nN=",
+          length(plotData$KEY)
+        )
+      )  +theme(legend.position = "bottom")+ scale_colour_discrete(name = "Control")
+    
+    # print(g1)
+    
+    tmp = data.frame(
+      POPULATION = pop,
+      METRIC = compVar,
+      PEARSON = cor1$estimate,
+    PEARSON_CONF_INT = paste0(cor1$conf.int),
+    PEARSON_PVALUE = cor1$p.value,
+    PEARSON_FORMAT = paste0(round(cor1$estimate, digits = 2),
+                            " (",
+                            paste0(round(cor1$conf.int, digits = 2), collapse = ", "),
+                            ")"), 
+     SPEARMAN = cor2$estimate
+    )
+    return(list(tmp,g1))
+  
+
+  }
+
+corSummaryCtl = data.frame()
+
+cvSummary = data.frame()
+
+for (pop in pops) {
+  plotDataC = comboCtls[which(comboCtls$POPULATION == pop), ]
+  plotDataF = comboCtlsFreq[which(comboCtlsFreq$POPULATION == pop), ]
+
+  rC = plotIt(plotData =plotDataC,compVar = "COUNT",color="CTL" )
+  
+  corSummaryCtl=rbind(corSummaryCtl,rC[[1]])
+  
+  rF=plotIt(plotData =plotDataF,compVar = "PARENT_FREQ" ,color="CTL" )
+  corSummaryCtl=rbind(corSummaryCtl,rF[[1]])
+  
+  plotDataF$CV_POP_KEY=paste0(plotDataF$CTL,"_",plotDataF$POPULATION)
+  cvResultsKMeans=aggregate(plotDataF$PARENT_FREQ, list(plotDataF$CV_POP_KEY), cvCalc)
+  colnames(cvResultsKMeans)=c("CV_POP_KEY","SAMPLE_CV")
+  cvResultsKMeans$METHOD = "KMEANS"
+  
+  cvResultsManual=aggregate(plotDataF$value, list(plotDataF$CV_POP_KEY), cvCalc)
+  colnames(cvResultsManual)=c("CV_POP_KEY","SAMPLE_CV")
+  cvResultsManual$METHOD = "MANUAL"
+  
+  cvResults=rbind(cvResultsManual,cvResultsKMeans)
+  manualStats = paste0("Manual median CV = ",median(cvResultsManual$SAMPLE_CV))
+  kmeansStats = paste0("Kmeans median CV = ",median(cvResultsKMeans$SAMPLE_CV))
+
+  tmpCvSummary = data.frame(
+    POPULATION = pop,
+    METHOD = "KMEANS",
+    METRIC = "PARENT_FREQ",
+    MEDIAN_CV = median(cvResultsKMeans$SAMPLE_CV),
+    MEAN_CV = mean(cvResultsKMeans$SAMPLE_CV),
+    SD_CV = sd(cvResultsKMeans$SAMPLE_CV)
+    )
+  cvSummary=rbind(cvSummary,tmpCvSummary)
+   tmpCvSummary = data.frame(
+    POPULATION = pop,
+    METHOD = "MANUAL",
+    METRIC = "PARENT_FREQ",
+    MEDIAN_CV = median(cvResultsManual$SAMPLE_CV),
+    MEAN_CV = mean(cvResultsManual$SAMPLE_CV),
+    SD_CV = sd(cvResultsManual$SAMPLE_CV)
+    )
+  cvSummary=rbind(cvSummary,tmpCvSummary)
+  
+  
+  kmData = data.frame(CTL=plotDataF$CTL,PARENT_FREQ=plotDataF$PARENT_FREQ)
+  kmData$METHOD="KMEANS"
+  manualData = data.frame(CTL=plotDataF$CTL,PARENT_FREQ=plotDataF$value)
+  manualData$METHOD ="MANUAL"
+  
+  comboForBox = rbind(kmData,manualData)
+  
+  bp =ggplot(comboForBox,aes(x=as.factor(CTL),y=PARENT_FREQ,colour=METHOD)) +
+  geom_boxplot() +
+  xlab("Control") +
+  ylab(paste0("Freq Parent"))+t2+ggtitle(paste0("Freq parent by controls"))
+  
+  # "\n",manualStats,"\n",kmeansStats
+  cvP= ggplot(cvResults,aes(x=as.factor(METHOD),y=SAMPLE_CV,colour=METHOD)) +
+  geom_boxplot() +
+  xlab("METHOD") +
+  ylab(paste0("CV of Controls"))+t2+ggtitle(paste0("Freq parent CVs"))
+
+  grid.arrange(rC[[2]],rF[[2]],bp,cvP,ncol=2)
+ grid.rect(
+      width = 1.0,
+      height = 1.0,
+      gp = gpar(
+        lwd = 2,
+        col = "black",
+        fill = NA
+      )
+    )
+
+}
+
+corSummaryCtl$COMPARISON="CTLS_COMP"
+
+# print(corSummary)
+  
+
+
+```
+
+
+# Correlations to manual 1st 1k
+
+
+```{r echo=FALSE,warning=FALSE,fig.height=8,fig.width=10,eval=TRUE}
+
+summaries = summaries[which(!is.na(summaries$LAB_ID)), ]
+summaries$PARENT_FREQ=summaries$PARENT_FREQ*100
+summariesTrim$PARENT_FREQ=summariesTrim$PARENT_FREQ*100
+
+ggplot(summaries, aes(
+  x = reorder(summaries$POPULATION, PARENT_FREQ, FUN = median),
+  y = PARENT_FREQ,
+  colour = POPULATION
+)) +
+  xlab(paste0("Population")) +
+  ylab(paste0("Percent Parent")) + t2 +
+  geom_boxplot() + ggtitle("Kmeans clustering") + ylim(0, 100)
+
+origPercents = read.xlsx("/Volumes/Beta/data/flow/HRS1000 REPORT.xlsx", sheet =
+                           1)
+interest = c(
+  "Study.ID",
+  "CM.CT" ,
+  "E.CT" ,
+  "EM.CT",
+  "N.CT",
+  "CM.HT" ,
+  "E.HT",
+  "EM.HT" ,
+  "N.HT",
+  "pE.CT",
+  "pE1.CT",
+  "pE2.CT",
+  "EM1.C.T",
+  "EM2.CT",
+  "EM3.CT",
+  "EM4.CT"
+
+  )
+ 
+
+
+interestPercents = origPercents[, interest]
+colnames(interestPercents) = c(
+  "Study.ID",
+  "CYTO_central memory" ,
+  "CYTO_effector" ,
+  "CYTO_effector memory",
+  "CYTO_naive",
+  "HELPER_central memory" ,
+  "HELPER_effector",
+  "HELPER_effector memory" ,
+  "HELPER_naive",
+  "pE cytotoxic Tcells (CD27-  CD28-)",
+  "pE1 cytotoxic Tcells (CD27+  CD28+)",
+  "pE2 cytotoxic Tcells (CD27+ , CD28-)",
+  "EM1 cytotoxic Tcells (CD27+  CD28+)",
+  "EM2 cytotoxic Tcells (CD27+  CD28-)",
+  "EM3 cytotoxic Tcells (CD27-  CD28-)",
+  "EM4 cytotoxic Tcells (CD27-  CD28+)"
+)
+
+
+interestPercentsM =  melt(interestPercents, id.vars = "Study.ID")
+interestPercentsM$KEY = paste0(interestPercentsM$Study.ID, "_", interestPercentsM$variable)
+ggplot(interestPercentsM, aes(
+  x = reorder(interestPercentsM$variable, value, FUN = median),
+  y = value,
+  colour = variable
+)) +
+  xlab(paste0("Population")) +
+  ylab(paste0("Percent Parent")) + t2 +
+  geom_boxplot() + ggtitle("Manual gating") + ylim(0, 100)
+
+
+combo = merge(summaries,
+              interestPercentsM,
+              by.x = "KEY",
+              by.y = "KEY")
+
+pops = unique(combo$POPULATION)
+
+
+corSummary = data.frame()
+for (pop in pops) {
+  plotData = combo[which(combo$POPULATION == pop), ]
+  cor1 = cor.test(
+    as.numeric(plotData$PARENT_FREQ),
+    as.numeric(plotData$value),
+    method = "pearson",
+    na.action = "na.omit"
+  )
+  cor2 = cor.test(
+    as.numeric(plotData$PARENT_FREQ),
+    as.numeric(plotData$value),
+    method = "spearman",
+    na.action = "na.omit"
+  )
+  
+  g1 = ggplot(plotData,
+              aes(x = PARENT_FREQ,
+                  y = value, color = MANUAL_ANNOTATION)) +
+    geom_point() +
+    xlab(paste0("KMEANS percent parent")) +
+    ylab(paste0("Manual percent parent")) + t2 + ggtitle(
+      paste0(
+        pop,
+        "\npearson=",
+        cor1$estimate,
+        "\nspearman=",
+        cor2$estimate,
+        "\nN=",
+        length(plotData$KEY)
+      )
+    )  +
+    theme(legend.position = "bottom")
+  
+  print(g1)
+  
+  tmp = data.frame(
+    POPULATION = pop,
+    METRIC = "PARENT_FREQ",
+    PEARSON = cor1$estimate,
+    PEARSON_CONF_INT = paste0(cor1$conf.int,collapse = ","),
+    PEARSON_PVALUE = cor1$p.value,
+    PEARSON_FORMAT = paste0(round(cor1$estimate, digits = 2),
+                            " (",
+                            paste0(round(cor1$conf.int, digits = 2), collapse = ", "),
+                            ")"), 
+    SPEARMAN = cor2$estimate
+  )
+  corSummary = rbind(corSummary, tmp)
+}
+
+write.table(
+  plotData[, c("SAMPLE", "LAB_ID")],
+  file = "./SamplesUsedKmeansTcelSubCor.txt",
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+  )
+
+corSummary$COMPARISON="MANAUAL_1K_COMP"
+corSummaryAll = rbind(corSummary,corSummaryCtl)
+
+print(corSummaryFile)
+write.table(
+  corSummaryAll,
+  file = corSummaryFile,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+write.table(
+  cvSummary,
+  file = cvSummaryFile,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+```
+

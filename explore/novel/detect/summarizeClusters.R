@@ -10,6 +10,7 @@
 
 
 
+
 library(snow)
 library(optparse)
 option_list = list(
@@ -92,95 +93,95 @@ source(paste0(opt$repoDir, "computeMem.R"))
 
 addKmeans <- function(combo, def, type) {
   if (length(combo[which(def &
-                         combo$effector.memory), ]$POP_NAMES_SUB) > 0) {
+                         combo$effector.memory),]$POP_NAMES_SUB) > 0) {
     combo[which(def &
-                  combo$effector.memory), ]$POP_NAMES_SUB = paste0(type, " kmeans effector memory")
+                  combo$effector.memory),]$POP_NAMES_SUB = paste0(type, " kmeans effector memory")
     print("effector memory")
   }
   
   if (length(combo[which(def &
-                         combo$naive), ]$POP_NAMES_SUB)  > 0) {
+                         combo$naive),]$POP_NAMES_SUB)  > 0) {
     combo[which(def &
-                  combo$naive), ]$POP_NAMES_SUB = paste0(type, " kmeans naive")
+                  combo$naive),]$POP_NAMES_SUB = paste0(type, " kmeans naive")
   }
   
   if (length(combo[which(def &
-                         combo$central.memory), ]$POP_NAMES_SUB) > 0) {
+                         combo$central.memory),]$POP_NAMES_SUB) > 0) {
     combo[which(def &
-                  combo$central.memory), ]$POP_NAMES_SUB = paste0(type, " kmeans central memory")
+                  combo$central.memory),]$POP_NAMES_SUB = paste0(type, " kmeans central memory")
   }
   
   if (length(combo[which(def &
-                         combo$effector), ]$POP_NAMES_SUB)  > 0) {
+                         combo$effector),]$POP_NAMES_SUB)  > 0) {
     combo[which(def &
-                  combo$effector), ]$POP_NAMES_SUB = paste0(type, " kmeans effector")
+                  combo$effector),]$POP_NAMES_SUB = paste0(type, " kmeans effector")
   }
   
   
-  
-  if (length(combo[which(def &
-                         combo$effector &
-                         combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
-    combo[which(def &
-                  combo$effector &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans E")
-  }
   
   if (length(combo[which(def &
                          combo$effector &
-                         combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE2")
+                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans E")
   }
   
   if (length(combo[which(def &
                          combo$effector &
-                         combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE1")
+                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE2")
   }
   
   if (length(combo[which(def &
                          combo$effector &
-                         combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans CD28P_27M")
+                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans pE1")
+  }
+  
+  if (length(combo[which(def &
+                         combo$effector &
+                         combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
+    combo[which(def &
+                  combo$effector &
+                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans CD28P_27M")
     
   }
   
   if (length(combo[which(def &
                          combo$effector.memory &
-                         combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28M_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM3")
+                  combo$CD28M_CD27M),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM3")
   }
   
   if (length(combo[which(def &
                          combo$effector.memory &
-                         combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28M_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM2")
+                  combo$CD28M_CD27P),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM2")
   }
   
   if (length(combo[which(def &
                          combo$effector.memory &
-                         combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28P_CD27P), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM1")
+                  combo$CD28P_CD27P),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM1")
   }
   
   if (length(combo[which(def &
                          combo$effector.memory &
-                         combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB)  > 0) {
+                         combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB)  > 0) {
     combo[which(def &
                   combo$effector.memory &
-                  combo$CD28P_CD27M), ]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM4")
+                  combo$CD28P_CD27M),]$POP_NAMES_SUB_SUB = paste0(type, " kmeans EM4")
     
   }
   combo
@@ -208,7 +209,7 @@ summarize <-
                       def = combo$HELPER_T,
                       type = "CD4")
     
-    combo = combo[which(combo[, phenoColumn] >= 0),]
+    combo = combo[which(combo[, phenoColumn] >= 0), ]
     
     
     # combo = combo[which(!is.na(combo$POP_NAMES_SUB)), ]
@@ -424,21 +425,24 @@ processFile <- function(file, outDir, map) {
         sep = "\t",
         col.names = TRUE
       )
-      memsCast = dcast(
-        data = mems,
-        formula = PHENOGRAPH_CLUSTER ~ MARKER + METHOD,
-        fun.aggregate = sum,
-        value.var = "MEM"
-      )
       
-      summary = merge(
-        summary,
-        memsCast,
-        by.x = "PHENOGRAPH_CLUSTER",
-        by.y = "PHENOGRAPH_CLUSTER",
-        all.x = TRUE
-      )
-      
+      toCast=c("MEM","MEM_RAW")
+      # for (cast in toCast) {
+      #   MEMCast = dcast(
+      #     data = mems,
+      #     formula = PHENOGRAPH_CLUSTER ~ MARKER + METHOD,
+      #     fun.aggregate = sum,
+      #     value.var = "MEM"
+      #   )
+      #   colnames(MEMCast) = paste0(cast, "_", colnames(MEMCast))
+      #   
+      #   summary = merge(summary,
+      #                   MEMCast,
+      #                   by.x = "PHENOGRAPH_CLUSTER",
+      #                   by.y = "PHENOGRAPH_CLUSTER",
+      #                   all.x = TRUE)
+      # }
+      # 
       write.table(
         summary,
         file = summaryFileOutput,
