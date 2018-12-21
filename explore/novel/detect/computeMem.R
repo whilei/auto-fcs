@@ -14,22 +14,25 @@
 
 
 
-inDir = "/Volumes/Beta2/flow/testNovelsOut/"
-outDir = "/Volumes/Beta2/flow/testNovelsOutMEM/"
 
-dir.create(outDir)
+#
+# inDir = "/Volumes/Beta2/flow/testNovelsOut/"
+# outDir = "/Volumes/Beta2/flow/testNovelsOutMEM/"
+#
+# dir.create(outDir)
+#
+# refPops = list.files(inDir,
+#                      full.names = TRUE,
+#                      pattern = ".refPop.IQR.MEDIAN.txt$")
 
-refPops = list.files(inDir,
-                     full.names = TRUE,
-                     pattern = ".refPop.IQR.MEDIAN.txt$")
 
-for (refPop in refPops) {
-  ref = read.delim(refPop)
-  clusts = read.delim(gsub(
-    ".refPop.IQR.MEDIAN.txt",
-    ".IQR.MEDIAN.inputData.txt",
-    refPop
-  ))
+
+# for (refPop in refPops) {
+#   print(markers)
+# }
+computeMEM <- function(refPopMEMFile,clustsMEMFile) {
+  ref = read.delim(refPopMEMFile)
+  clusts = read.delim(clustsMEMFile)
   
   markers = ref$MARKER
   results = data.frame()
@@ -89,7 +92,6 @@ for (refPop in refPops) {
     sub = results$METHOD == method
     max = max(results[sub,]$MEM)
     results$MEM[sub] = 10 * (results$MEM[sub] / max)
-    
   }
-  print(markers)
+  return(results)
 }

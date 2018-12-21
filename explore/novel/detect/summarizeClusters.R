@@ -4,6 +4,10 @@
 
 
 
+
+
+
+
 library(snow)
 library(optparse)
 option_list = list(
@@ -56,6 +60,13 @@ option_list = list(
     help = "number of threads for processing",
     metavar = "character",
     default = FALSE
+  ),
+  make_option(
+    c("-r", "--repoDir"),
+    default = "~/git/auto-fcs/explore/novel/detect/",
+    type = "character",
+    help = "full path to repo directory with (includes kmeansGateTCellSubs.R)",
+    metavar = "character"
   )
 )
 
@@ -73,6 +84,8 @@ map = read.delim(opt$ocPopFile ,
 pcol = opt$phenographColumn
 
 map$EXTRACT = paste0("OPEN_CYTO_", map$Manual)
+
+source(paste0(opt$repoDir, "computeMem.R"))
 
 
 addKmeans <- function(combo, def, type) {
@@ -386,10 +399,37 @@ processFile <- function(file, outDir, map) {
         sep = "\t",
         col.names = TRUE
       )
+      
+      
       print(paste0("finished summarizing clusters from ", file))
       
+      refPopMEMFile = gsub(
+        "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
+        "_subFirst_TRUE_normalize_FALSE.refPop.IQR.MEDIAN.txt",
+        file
+      )
+      refPopMEMFile = gsub(
+        "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
+        "_subFirst_TRUE_normalize_FALSE.IQR.MEDIAN.inputData.txt",
+        file
+      )
+      
+      print(paste0("computing MEM scores for ", file))
+      
+      mems = computeMEM(refPopMEMFile = refPopMEMFile, clustsMEMFile = refPopMEMFile)
+      memOut = paste0(outDir,
+                      gsub(".IntMatrix.txt.gz",
+                           ".mem.txt", basename(file)))
+      write.table(
+        mems,
+        file = memOut,
+        row.names = FALSE,
+        quote = FALSE,
+        sep = "\t",
+        col.names = TRUE
+      )
+      
     }
-    
   } else{
     print(paste0("skipping ", file, " since ", summaryFileOutput, " exists"))
   }
