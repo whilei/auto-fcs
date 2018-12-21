@@ -16,6 +16,8 @@
 
 
 
+
+
 #
 # inDir = "/Volumes/Beta2/flow/testNovelsOut/"
 # outDir = "/Volumes/Beta2/flow/testNovelsOutMEM/"
@@ -97,6 +99,8 @@ computeMEM <- function(refPopMEMFile, clustsMEMFile) {
     max = max(results[sub, ]$MEM)
     results$MEM[sub] = 10 * (results$MEM[sub] / max)
   }
+  results$MEM_ROUND = round(results$MEM)
+  results$MEM_LABEL = paste0(results$MARKER, results$MEM_ROUND)
   print(results)
   return(results)
 }
