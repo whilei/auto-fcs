@@ -55,7 +55,8 @@ find $outputDir"inputs/" -name "*.run" \
 # sed -i "s/mem=16384mb/mem=64000mb/g"  *.qsub
 # sed -i "s/walltime=01:00:00/walltime=03:00:00/g" *.qsub
 
-# find . -name "*.qsub" -type f -exec qsub {} \;
+# find $outputDir"inputs/" -name "*.qsub" -type f | parallel -j 24 "qsub {}"
+
 
 # parallel --jobs 24 < "$runScript"
 

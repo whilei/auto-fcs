@@ -105,7 +105,7 @@ computeMEM <- function(refPopMEMFile, clustsMEMFile) {
   }
   results$MEM_ROUND = round(results$MEM)
   addPlus = results$MEM_ROUND >= 0
-  results$MEM_ROUND[addPlus] = paste0("+", results$MEM_ROUND)
+  results$MEM_ROUND[addPlus] = paste0("+", results$MEM_ROUND[addPlus])
   results$MEM_LABEL = paste0(results$MARKER, results$MEM_ROUND)
   print(results)
   return(results)
