@@ -17,11 +17,11 @@ module load gcc/8.1.0
 
 
 threads=2
-inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph/
+inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
 
-# rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
+rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
 
-outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph_summary/
+outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/
 
 ocPopFile=/home/tsaim/lane0212/git/auto-fcs/explore/openCyto/panel1Map.txt
 
