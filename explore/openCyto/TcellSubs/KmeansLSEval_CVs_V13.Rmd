@@ -620,6 +620,9 @@ write.table(
 corSummary$COMPARISON="MANAUAL_1K_COMP"
 corSummaryAll = rbind(corSummary,corSummaryCtl)
 
+# siq=corSummaryAll$PEARSON_PVALUE<0.05
+# corSummaryAll$PEARSON_FORMAT[siq]=paste0(corSummaryAll$PEARSON_FORMAT[siq],"*")
+# corSummaryAll$PEARSON_FORMAT=paste0(corSummaryAll$PEARSON_FORMAT," (p=",corSummaryAll$PEARSON_PVALUE,")")
 print(corSummaryFile)
 write.table(
   corSummaryAll,
