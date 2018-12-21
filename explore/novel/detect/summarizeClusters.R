@@ -409,7 +409,7 @@ processFile <- function(file, outDir, map) {
         "_subFirst_TRUE_normalize_FALSE.refPop.IQR.MEDIAN.txt",
         file
       )
-      refPopMEMFile = gsub(
+      clustsMEMFile = gsub(
         "_subFirst_TRUE_normalize_FALSE.IntMatrix.txt.gz",
         "_subFirst_TRUE_normalize_FALSE.IQR.MEDIAN.inputData.txt",
         file
@@ -417,7 +417,7 @@ processFile <- function(file, outDir, map) {
       
       print(paste0("computing MEM scores for ", file))
       
-      mems = computeMEM(refPopMEMFile = refPopMEMFile, clustsMEMFile = refPopMEMFile)
+      mems = computeMEM(refPopMEMFile = refPopMEMFile, clustsMEMFile = clustsMEMFile)
       memOut = paste0(outDir,
                       gsub(".IntMatrix.txt.gz",
                            ".mem.txt", basename(file)))
