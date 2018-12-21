@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=200gb,walltime=96:00:00,nodes=1:ppn=24
+#PBS -l mem=2gb,walltime=16:00:00,nodes=1:ppn=1
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -46,8 +46,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
 	echo "module load gcc/8.1.0" >> $currentIn.run
 	echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
 	quicksub $currentIn.run
-	qsub $currentIn.qsub
-
+	# qsub $currentIn.qsub
 done
 
 
