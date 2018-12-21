@@ -18,6 +18,7 @@ module load gcc/8.1.0
 
 threads=2
 inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
+repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
 
 echo "rsync"
 rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
@@ -41,7 +42,7 @@ for file in $inputDirectory*.IntMatrix.txt.gz; do
 	currentIn=$outputDir"inputs/$out.in.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-	echo "Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputFile $currentIn --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile" >> $runScript
+	echo "Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputFile $currentIn --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile --repoDir $repoDir" >> $runScript
 
 done
 
