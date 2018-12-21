@@ -16,7 +16,7 @@ option_list = list(
     type = "character",
     help = "input directory",
     metavar = "character",
-    default = "/Volumes/Beta2/flow/testSyncLymph//"
+    default = "/Volumes/Beta2/flow/testNovelsOut/"
   ),
   make_option(
     c("-i", "--inputFile"),
@@ -29,7 +29,7 @@ option_list = list(
     type = "character",
     help = "output directory",
     metavar = "character",
-    default = "/Volumes/Beta2/flow/testSummaryLymph//"
+    default = "/Volumes/Beta2/flow/testNovelsOutSummary/"
   ),
   make_option(
     c("-p", "--ocPopFile"),
@@ -312,7 +312,8 @@ processFile <- function(file, outDir, map) {
   summaryFileOutput = paste0(outDir,
                              gsub(".IntMatrix.txt.gz",
                                   ".known.pops.txt", basename(file)))
-  
+  print(file.exists(knownPopulationFile))
+  print(knownPopulationFile)
   if (!file.exists(summaryFileOutput)) {
     if (file.exists(knownPopulationFile) &
         file.exists(fullOCPopFile)) {

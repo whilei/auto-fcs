@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=62gb,walltime=4:00:00,nodes=1:ppn=12
+#PBS -l mem=124gb,walltime=44:00:00,nodes=1:ppn=24
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -19,7 +19,9 @@ module load gcc/8.1.0
 threads=2
 inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
 
+echo "rsync"
 rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
+echo "finish rsync"
 
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/
 
