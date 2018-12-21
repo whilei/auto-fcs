@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=2gb,walltime=16:00:00,nodes=1:ppn=1
+#PBS -l mem=8gb,walltime=16:00:00,nodes=1:ppn=24
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -33,21 +33,23 @@ runScript="$outputDir"runscript.txt
 echo "" > $runScript
 cd $outputDir"inputs/"
 for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/gatesRename/*_panel1Rename.wsp; do
-	out=$(basename "$file" _panel1Rename.wsp)
-	out="$(echo -e "${out}" | tr -d '[:space:]')"
-	currentIn=$outputDir"inputs/$out.wsp.input.txt"
+    out=$(basename "$file" _panel1Rename.wsp)
+    out="$(echo -e "${out}" | tr -d '[:space:]')"
+    currentIn=$outputDir"inputs/$out.wsp.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-	echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
-	echo "module load parallel" > $currentIn.run
-	echo "module load R/3.5.0" >> $currentIn.run
-	echo "module load hdf5/hdf5-1.8.9-intel" >> $currentIn.run
-	echo "module load libtiff" >> $currentIn.run
-	echo "module load gcc/8.1.0" >> $currentIn.run
-	echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
-	quicksub $currentIn.run
-	# qsub $currentIn.qsub
+    echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
+    echo "module load parallel" > $currentIn.run
+    echo "module load R/3.5.0" >> $currentIn.run
+    echo "module load hdf5/hdf5-1.8.9-intel" >> $currentIn.run
+    echo "module load libtiff" >> $currentIn.run
+    echo "module load gcc/8.1.0" >> $currentIn.run
+    echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $currentIn.run
+    # qsub $currentIn.qsub
 done
+
+find $outputDir"inputs/" -name "*.run" \
+| parallel -j 24 "quicksub {}"
 
 
 # sed -i "s/mem=16384mb/mem=64000mb/g"  *.qsub
