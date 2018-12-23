@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=8gb,walltime=16:00:00,nodes=1:ppn=24
+#PBS -l mem=250gb,walltime=96:00:00,nodes=1:ppn=24
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -48,17 +48,17 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
     # qsub $currentIn.qsub
 done
 
-find $outputDir"inputs/" -name "*.run" \
-| parallel -j 24 "quicksub {}"
+# find $outputDir"inputs/" -name "*.run" \
+# | parallel -j 24 "quicksub {}"
 
 
 # sed -i "s/mem=16384mb/mem=64000mb/g"  *.qsub
 # sed -i "s/walltime=01:00:00/walltime=03:00:00/g" *.qsub
-
+# find $outputDir"inputs/" -name "*.e" -type f |parallel -j 4 --plus  "echo {6.}"
 # find $outputDir"inputs/" -name "*.qsub" -type f | parallel -j 24 "qsub {}"
 
-
-# parallel --jobs 24 < "$runScript"
+# find . -type f -name "*subFirst_TRUE_normalize_FALSE*" | parallel -j 24 "rm {}"
+parallel --jobs 24 < "$runScript"
 
 
 
