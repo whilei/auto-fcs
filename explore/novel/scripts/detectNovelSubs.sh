@@ -38,7 +38,7 @@ for file in /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/
     currentIn=$outputDir"inputs/$out.wsp.input.txt"
     echo "$file" > $currentIn
     # echo "$currentIn"
-    echo "Rscript $script --subsetGate $subsetGate --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
+    echo "Rscript $script --subsetGate $subsetGateQsub --workspaceFiles $currentIn --fcsDir $fcsDir --outputDir $outputDir --repoDir $repoDir" >> $runScript
     echo "module load parallel" > $currentIn.run
     echo "module load R/3.5.0" >> $currentIn.run
     echo "module load hdf5/hdf5-1.8.9-intel" >> $currentIn.run
