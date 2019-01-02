@@ -1,25 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 normChannels <- function(inputData, channels, min, max) {
   t = inputData
   for (channel in channels) {
