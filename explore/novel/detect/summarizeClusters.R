@@ -432,15 +432,17 @@ processFile <- function(file, outDir, map) {
           data = mems,
           formula = PHENOGRAPH_CLUSTER ~ MARKER + METHOD,
           fun.aggregate = sum,
-          value.var = "MEM"
+          value.var = cast
         )
         colnames(MEMCast) = paste0(cast, "_", colnames(MEMCast))
 
-        summary = merge(summary,
-                        MEMCast,
-                        by.x = "PHENOGRAPH_CLUSTER",
-                        by.y = "PHENOGRAPH_CLUSTER",
-                        all.x = TRUE)
+        summary = merge(
+          summary,
+          MEMCast,
+          by.x = "PHENOGRAPH_CLUSTER",
+          by.y = paste0(cast, "_", "PHENOGRAPH_CLUSTER"),
+          all.x = TRUE
+        )
       }
 
       write.table(
