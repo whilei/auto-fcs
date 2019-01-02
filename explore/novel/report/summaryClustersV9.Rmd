@@ -70,7 +70,7 @@ map=map[,c("FILE","TOTAL_COUNTS","PANEL","MACHINE","EXPERIMENTER","LAB_ID")]
 # map =map[which(!is.na(map$LAB_ID)),]
 
 summary = read.delim(
-  "/Volumes/Beta2/flow/testSummaryLymph/allSummaries.txt" ,
+  "/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/allSummaries.txt" ,
   stringsAsFactors = FALSE,
   header = TRUE,check.names = FALSE
   )
@@ -264,15 +264,15 @@ write.table(
   row.names = FALSE
 )
 
-metaMapSub=metaMap[metaMap$META_CLUSTER %in% subs,]
-
-write.table(
-  metaMapSub,
-  file = paste0("subs_",paste0(subs,collapse="_"),"_summary.naive.interest.metaMap" ),
-  sep = "\t",
-  quote = FALSE,
-  row.names = FALSE
-)
+# metaMapSub=metaMap[metaMap$META_CLUSTER %in% subs,]
+# 
+# write.table(
+#   metaMapSub,
+#   file = paste0("subs_",paste0(subs,collapse="_"),"_summary.naive.interest.metaMap" ),
+#   sep = "\t",
+#   quote = FALSE,
+#   row.names = FALSE
+# )
 
 
 require(openxlsx)
