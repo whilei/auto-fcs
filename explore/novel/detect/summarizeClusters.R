@@ -426,7 +426,6 @@ processFile <- function(file, outDir, map) {
         sep = "\t",
         col.names = TRUE
       )
-      test
       toCast = c("MEM", "MEM_RAW", "MEM_LABEL")
       for (cast in toCast) {
         if (cast == "MEM_LABEL") {
