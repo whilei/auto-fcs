@@ -427,22 +427,22 @@ processFile <- function(file, outDir, map) {
       )
       
       toCast=c("MEM","MEM_RAW")
-      # for (cast in toCast) {
-      #   MEMCast = dcast(
-      #     data = mems,
-      #     formula = PHENOGRAPH_CLUSTER ~ MARKER + METHOD,
-      #     fun.aggregate = sum,
-      #     value.var = "MEM"
-      #   )
-      #   colnames(MEMCast) = paste0(cast, "_", colnames(MEMCast))
-      #   
-      #   summary = merge(summary,
-      #                   MEMCast,
-      #                   by.x = "PHENOGRAPH_CLUSTER",
-      #                   by.y = "PHENOGRAPH_CLUSTER",
-      #                   all.x = TRUE)
-      # }
-      # 
+      for (cast in toCast) {
+        MEMCast = dcast(
+          data = mems,
+          formula = PHENOGRAPH_CLUSTER ~ MARKER + METHOD,
+          fun.aggregate = sum,
+          value.var = "MEM"
+        )
+        colnames(MEMCast) = paste0(cast, "_", colnames(MEMCast))
+
+        summary = merge(summary,
+                        MEMCast,
+                        by.x = "PHENOGRAPH_CLUSTER",
+                        by.y = "PHENOGRAPH_CLUSTER",
+                        all.x = TRUE)
+      }
+
       write.table(
         summary,
         file = summaryFileOutput,
