@@ -16,7 +16,7 @@ library(plotly)
 library(knitr)
 library(ClusterR)
 library(cytofkit)
-
+library(reshape2)
 
 # source("./")
 theme_set(theme_bw(15))
@@ -188,20 +188,33 @@ metaMEM = aggregate(summary[, metaName],
                                  list(summary$PHENOGRAPH),
                                  median)
 
-markersMEM=gsub("MEM_","",nms)
-markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
+# markersMEM=gsub("MEM_","",nms)
+# markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
 
-# results$MEM_ROUND = round(results$MEM)
-#   addPlus = results$MEM_ROUND >= 0
-#   results$MEM_ROUND[addPlus] = paste0("+", results$MEM_ROUND[addPlus])
-#   results$MEM_LABEL = paste0(results$MARKER, results$MEM_ROUND)
 
-metaMEM$META_MEM_LABEL=""
 
+metaMEMMelt= melt(data = metaMEM,id.vars = "Group.1")
+metaMEMMelt$MARKER=gsub("MEM_","",metaMEMMelt$variable)
+metaMEMMelt$MARKER=gsub("_BASE_MINUS_CLUST","",metaMEMMelt$MARKER)
+metaMEMMelt$MEM_ROUND = round(metaMEMMelt$value)
+addPlus = metaMEMMelt$MEM_ROUND >= 0
+metaMEMMelt$MEM_ROUND[addPlus] = paste0("+", metaMEMMelt$MEM_ROUND[addPlus])
+metaMEMMelt$MEM_LABEL = paste0(metaMEMMelt$MARKER, metaMEMMelt$MEM_ROUND)
+metaMEMMeltSub=metaMEMMelt[which(abs(round(metaMEMMelt$value))>2),]
+metaMEMMeltSub=metaMEMMeltSub[order(metaMEMMeltSub$value),]
+metaMEMMeltSubCast = dcast(
+            data = metaMEMMeltSub,
+            formula = Group.1 ~ 1,
+            fun.aggregate = toString,
+            value.var ="MEM_LABEL"
+          )
+
+colnames(metaMEMMeltSubCast)=paste0("META_MEM_LABEL",colnames(metaMEMMeltSubCast))
 
 colnames(metaMEM)=paste0("META_",colnames(metaMEM))
 
 
+metaMEM=merge(metaMEM,metaMEMMeltSubCast,by.x ="META_Group.1",by.y ="META_MEM_LABELGroup.1",all.x = TRUE)
 
 gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
     write.table(
