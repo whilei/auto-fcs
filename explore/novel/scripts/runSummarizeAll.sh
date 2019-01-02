@@ -49,3 +49,7 @@ done
 
 parallel --jobs 16 < "$runScript"
 
+# module load parallel
+# parallel --jobs 1 < runscript.txt
+
+
