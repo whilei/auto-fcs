@@ -19,6 +19,10 @@ rawMarkers = nms[grepl(pattern = "_RAW_CENTROID", nms)]
 rawMarkers = rawMarkers[!grepl(pattern = "SAMPLE", rawMarkers)]
 
 
+mem = nms[grepl(pattern = "MEM_", nms)]
+mem = mem[!grepl(pattern = "SAMPLE", mem)]
+
+
 markers = c(normmarkers, rawMarkers)
 markers = markers[!grepl(pattern = "SAMPLE", markers)]
 markers = sort(markers)
@@ -77,7 +81,7 @@ getTsnePlot <- function(data, x, y, color) {
     geom_point(size = .5) + theme(legend.position = "none")
 }
 
-options = c(facets, clusters, markers, pops)
+options = c(facets, clusters, markers, pops,mem)
 
 ui <- fluidPage(
   headerPanel("Meta-cluster Explorer"),
