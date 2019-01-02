@@ -226,6 +226,14 @@ for(marker in markersToCluster){
   marker,
   "in this phenograph cluster"
   )
+  # MEM_RAW_CD45RA_BASE_MINUS_CLUST
+  mem1 = paste0("MEM_", marker, "_BASE_MINUS_CLUST")
+  cols[mem1, "DESCRIPTION"] = paste0(
+  "mem score using method a of https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf ",
+  marker,
+  "in this phenograph cluster"
+  )
+  
 }
 
 cols["PHENOGRAPH_CLUSTER","DESCRIPTION"]="Phenograph cluster for the sample"
