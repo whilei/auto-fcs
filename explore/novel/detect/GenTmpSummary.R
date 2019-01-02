@@ -1,5 +1,5 @@
 # system("/Users/Kitty/git/auto-fcs/explore/novel/scripts/collectSummary.sh")
-dir="/Volumes/Beta2/flow/detect_NoNorm_v5_summary/"
+dir="/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/"
 allSummariesFiles = list.files(dir,
                                full.names = TRUE,
                                pattern = ".known.pops.txt$")

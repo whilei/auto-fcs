@@ -65,7 +65,7 @@ option_list = list(
     default = FALSE
   ),
   make_option(
-    c("-r", "--repoDir"),
+    c("-rd", "--repoDir"),
     default = "~/git/auto-fcs/explore/novel/detect/",
     type = "character",
     help = "full path to repo directory with (includes kmeansGateTCellSubs.R)",
