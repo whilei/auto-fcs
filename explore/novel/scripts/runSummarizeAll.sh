@@ -36,16 +36,16 @@ echo "" > $runScript
 
 
 
-for file in $inputDirectory*.IntMatrix.txt.gz; do
-	out=$(basename "$file" _panel1Rename.wsp)
-	out="$(echo -e "${out}" | tr -d '[:space:]')"
-	currentIn=$outputDir"inputs/$out.in.input.txt"
-    echo "$file" > $currentIn
-    # echo "$currentIn"
-	echo "Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputFile $currentIn --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile --repoDir $repoDir" >> $runScript
+# for file in $inputDirectory*.IntMatrix.txt.gz; do
+# 	out=$(basename "$file" _panel1Rename.wsp)
+# 	out="$(echo -e "${out}" | tr -d '[:space:]')"
+# 	currentIn=$outputDir"inputs/$out.in.input.txt"
+#     echo "$file" > $currentIn
+#     # echo "$currentIn"
+# 	echo "Rscript /home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/summarizeClusters.R --inputFile $currentIn --inputDirectory $inputDirectory --outputDir $outputDir --threads $threads --ocPopFile $ocPopFile --repoDir $repoDir" >> $runScript
 
-done
+# done
 
 
-parallel --jobs 12 < "$runScript"
+parallel --jobs 16 < "$runScript"
 
