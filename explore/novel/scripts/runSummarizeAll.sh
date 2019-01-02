@@ -21,7 +21,7 @@ inputDirectory=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem/
 repoDir=/home/tsaim/lane0212/git/auto-fcs/explore/novel/detect/
 
 echo "rsync"
-# rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
+rsync -avz /scratch.global/lanej/flow/full/results_r26_TcellSubs_Kmeans_wsp_v8/FULL/*/kmeans/*.boolMatrix.txt.gz $inputDirectory
 echo "finish rsync"
 
 outputDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/
