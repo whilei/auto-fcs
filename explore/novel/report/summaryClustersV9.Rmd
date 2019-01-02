@@ -178,7 +178,43 @@ summary$META_CLUSTER =as.numeric(summary$META_CLUSTER )
 summary$metaTsne1=tsne[,1]
 summary$metaTsne2 = tsne[, 2]
 
+
+nms=names(summary)
+metaName = nms[grepl(pattern = "_BASE_MINUS_CLUST", nms)]
+metaName = metaName[!grepl(pattern = "RAW", metaName)]
+metaName = metaName[!grepl(pattern = "MEM_LABEL", metaName)]
+
+metaMEM = aggregate(summary[, metaName],
+                                 list(summary$PHENOGRAPH),
+                                 median)
+
+colnames(metaMEM)=paste0("META_",colnames(metaMEM))
+
+
+gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
+    write.table(
+      metaMEM,
+      file = gz1 ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
+close(gz1)
+
+summary=merge(summary,metaMEM,by.x ="META_CLUSTER",by.y ="META_Group.1",all.x = TRUE)
+
+
+metaMEM = aggregate(summary[, metaName],
+                                 list(summary$PHENOGRAPH),
+                                 mad)
+
+colnames(metaMEM)=paste0("META_MAD_",colnames(metaMEM))
+summary=merge(summary,metaMEM,by.x ="META_CLUSTER",by.y ="META_MAD_Group.1",all.x = TRUE)
+
+# aggregate(summary,"META_CLUSTER+MEM_CD27_BASE_MINUS_CLUST",FUN = median,na.rm=TRUE)
 myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
+
+
 
 ```
 
