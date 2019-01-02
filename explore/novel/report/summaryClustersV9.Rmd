@@ -188,7 +188,19 @@ metaMEM = aggregate(summary[, metaName],
                                  list(summary$PHENOGRAPH),
                                  median)
 
+markersMEM=gsub("MEM_","",nms)
+markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
+
+# results$MEM_ROUND = round(results$MEM)
+#   addPlus = results$MEM_ROUND >= 0
+#   results$MEM_ROUND[addPlus] = paste0("+", results$MEM_ROUND[addPlus])
+#   results$MEM_LABEL = paste0(results$MARKER, results$MEM_ROUND)
+
+metaMEM$META_MEM_LABEL=""
+
+
 colnames(metaMEM)=paste0("META_",colnames(metaMEM))
+
 
 
 gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
@@ -210,6 +222,8 @@ metaMEM = aggregate(summary[, metaName],
 
 colnames(metaMEM)=paste0("META_MAD_",colnames(metaMEM))
 summary=merge(summary,metaMEM,by.x ="META_CLUSTER",by.y ="META_MAD_Group.1",all.x = TRUE)
+
+
 
 # aggregate(summary,"META_CLUSTER+MEM_CD27_BASE_MINUS_CLUST",FUN = median,na.rm=TRUE)
 myColor <- rev(RColorBrewer::brewer.pal(11, "Spectral"))
