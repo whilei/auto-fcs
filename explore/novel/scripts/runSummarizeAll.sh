@@ -4,7 +4,7 @@
 #PBS -e $PBS_JOBNAME.$PBS_JOBID.e
 #PBS -o $PBS_JOBNAME.$PBS_JOBID.o
 #PBS -m ae
-#PBS -l mem=62gb,walltime=24:00:00,nodes=1:ppn=10
+#PBS -l mem=62gb,walltime=24:00:00,nodes=1:ppn=24
 
 
 profile.pl -o detectNovelSubs.profile &
@@ -47,7 +47,7 @@ echo "" > $runScript
 # done
 
 
-parallel --jobs 10 < "$runScript"
+parallel --jobs 24 < "$runScript"
 
 # module load parallel
 # parallel --jobs 1 < runscript.txt
