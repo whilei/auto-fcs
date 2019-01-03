@@ -32,9 +32,8 @@ mkdir -p $outputDir
 mkdir -p $outputDir"inputs/"
 
 runScript="$outputDir"runscript.txt
-echo "" > $runScript
 
-
+# echo "" > $runScript
 
 # for file in $inputDirectory*.IntMatrix.txt.gz; do
 # 	out=$(basename "$file" _panel1Rename.wsp)
