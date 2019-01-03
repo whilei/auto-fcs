@@ -336,9 +336,47 @@ metaRaw = aggregate( summary[, paste0(markersToCluster, "_RAW_CENTROID")],
 
 colnames(metaRaw)[1]="META_CLUSTER"
 
+# |_TotalFreq
+
+
 write.table(
   metaRaw,
   file = "summary.metaRaw" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+
+
+nms=names(summary)
+popsC = nms[grepl(pattern = "_ClusterFreq", nms)]
+
+metaPopC = aggregate( summary[, popsC],
+                      list(summary$META_CLUSTER),
+                      median, na.rm = TRUE)
+
+colnames(metaPopC)[1]="META_CLUSTER"
+
+write.table(
+  metaPopC,
+  file = "summary.meta.ClusterFreq" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+popsT = nms[grepl(pattern = "_TotalFreq", nms)]
+
+metaPopT = aggregate( summary[, popsT],
+                      list(summary$META_CLUSTER),
+                      median, na.rm = TRUE)
+
+colnames(metaPopT)[1]="META_CLUSTER"
+
+write.table(
+  metaPopT,
+  file = "summary.meta.TotalFreq" ,
   sep = "\t",
   quote = FALSE,
   row.names = FALSE
@@ -351,9 +389,12 @@ list_of_datasets <-
     "META_MEM_SUMMARY" = metaMEM,
     "META_SCALE_SUMMARY" = metaScaled,
     "META_RAW_SUMMARY" = metaRaw,
+    "META_CLUSTER_FREQ_SUMMARY" = metaPopC,
+    "META_TOTAL_FREQ_SUMMARY" = metaPopT,
     "FULL_SUMMARY" = summary,
     "META_MAP" = metaMap
   )
+
 write.xlsx(list_of_datasets, file = "summary.xlsx")
 save(list_of_datasets, file = "summary.data.list.meta.RData")
 
