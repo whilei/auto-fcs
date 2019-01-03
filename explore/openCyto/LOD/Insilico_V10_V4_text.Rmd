@@ -298,7 +298,7 @@ colnames(cvResults2)=c("CV_POP_KEY2","SAMPLE_PBMC_CV")
 sub=merge(sub,cvResults2,by.x="CV_POP_KEY2",by.y="CV_POP_KEY2")
   
 sub$BIN=sub$PbmcBin
- 
+
  tmpSummary= aggregate(SAMPLE_PBMC_CV ~ BIN + MACHINE.x ,
       sub,
       median,na.rm=TRUE
@@ -308,6 +308,33 @@ colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$BIN_POPULATION="Live Single PBMCs"
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
+ tmpSummary$MANUSCRIPT_RANGE=FALSE
+ tmpSummary$RATIO=NA
+ 
+ cvResultsSummary=rbind(cvResultsSummary,tmpSummary)
+ 
+sub$PbmcBigBin <- cut(sub$PBMC_COUNT, c(0,20000,600000))
+sub$CV_POP_KEY3=paste0(sub$CV_POP_KEY,sub$PbmcBigBin)
+cvResults3=aggregate(sub$freqParent, list(sub$CV_POP_KEY3), cvCalc)
+colnames(cvResults3)=c("CV_POP_KEY3","SAMPLE_BIG_PBMC_CV")
+sub=merge(sub,cvResults3,by.x="CV_POP_KEY3",by.y="CV_POP_KEY3")
+  
+sub$BIN=sub$PbmcBigBin
+
+tmpSummary= aggregate(SAMPLE_BIG_PBMC_CV ~ BIN + MACHINE.x ,
+      sub,
+      median,na.rm=TRUE
+    )
+colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
+
+ tmpSummary$BIN_POPULATION="Live Single PBMCs"
+ tmpSummary$POPULATION=popP
+ tmpSummary$PANEL=panel
+ tmpSummary$MANUSCRIPT_RANGE=TRUE
+ tmpSummary$RATIO=tmpSummary[1,"MEDIAN_SAMPLE_CV"]/tmpSummary[2,"MEDIAN_SAMPLE_CV"]
+
+ 
+ 
  cvResultsSummary=rbind(cvResultsSummary,tmpSummary)
     # aggregate(sub,PbmcBin~SAMPLE_PBMC_CV+MACHINE.x,FUN = median,na.rm=TRUE)
    
@@ -386,8 +413,30 @@ sub$BIN=sub$LymphBin
  tmpSummary$BIN_POPULATION="Live Single Lymphocytes"
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
+  tmpSummary$MANUSCRIPT_RANGE=FALSE
+ tmpSummary$RATIO=NA
+
  cvResultsSummary=rbind(cvResultsSummary,tmpSummary)  
   
+ sub$LymphBigBin <- cut(sub$LYMPH_COUNT, c(0,20000,600000))
+sub$CV_POP_KEY3=paste0(sub$CV_POP_KEY,sub$LymphBigBin)
+cvResults3=aggregate(sub$freqParent, list(sub$CV_POP_KEY3), cvCalc)
+colnames(cvResults3)=c("CV_POP_KEY3","SAMPLE_BIG_LYMPH_CV")
+sub=merge(sub,cvResults3,by.x="CV_POP_KEY3",by.y="CV_POP_KEY3")
+  
+sub$BIN=sub$LymphBigBin
+
+tmpSummary= aggregate(SAMPLE_BIG_LYMPH_CV ~ BIN + MACHINE.x ,
+      sub,
+      median,na.rm=TRUE
+    )
+colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
+
+ tmpSummary$BIN_POPULATION="Live Single Lymphocytes"
+ tmpSummary$POPULATION=popP
+ tmpSummary$PANEL=panel
+ tmpSummary$MANUSCRIPT_RANGE=TRUE
+ tmpSummary$RATIO=tmpSummary[1,"MEDIAN_SAMPLE_CV"]/tmpSummary[2,"MEDIAN_SAMPLE_CV"]
   pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(" Events in Live, Single, Lymphocytes") +

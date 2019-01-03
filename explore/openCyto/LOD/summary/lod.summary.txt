@@ -1,181 +1,189 @@
-BIN	MACHINE.x	MEDIAN_SAMPLE_CV	BIN_POPULATION	POPULATION	PANEL
-(0,5e+03]	FORTESSA	2.32661628619068	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(5e+03,1e+04]	FORTESSA	1.42978640782195	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1e+04,1.5e+04]	FORTESSA	0.97228647528457	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.5e+04,2e+04]	FORTESSA	0.773824243198415	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(2e+04,3e+04]	FORTESSA	0.723570941792177	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(3e+04,4e+04]	FORTESSA	0.580460307552456	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(4e+04,5e+04]	FORTESSA	0.49047519289891	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(5e+04,6e+04]	FORTESSA	0.508258330445514	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(6e+04,7e+04]	FORTESSA	0.43711733726523	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(7e+04,8e+04]	FORTESSA	0.338123673406956	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(8e+04,9e+04]	FORTESSA	0.424170030691717	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(9e+04,1e+05]	FORTESSA	0.348333747357139	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1e+05,1.1e+05]	FORTESSA	0.285579377794794	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.1e+05,1.2e+05]	FORTESSA	0.356005979645151	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.2e+05,1.3e+05]	FORTESSA	0.297544090362275	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.3e+05,1.4e+05]	FORTESSA	0.133303501705908	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.4e+05,1.5e+05]	FORTESSA	0.207047157228169	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.5e+05,1.6e+05]	FORTESSA	0.208931671823763	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.6e+05,1.7e+05]	FORTESSA	0.272710276237733	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.7e+05,1.8e+05]	FORTESSA	0.182012157070568	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.8e+05,1.9e+05]	FORTESSA	0.0778988849254393	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.9e+05,2e+05]	FORTESSA	0.215589134291346	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(2e+05,6e+05]	FORTESSA	0.160688260914267	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(0,5e+03]	LSR	2.71510331868525	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(5e+03,1e+04]	LSR	1.10291926358203	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1e+04,1.5e+04]	LSR	0.781631050034741	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.5e+04,2e+04]	LSR	0.636463857734814	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(2e+04,3e+04]	LSR	0.632932118193004	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(3e+04,4e+04]	LSR	0.547267361021274	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(4e+04,5e+04]	LSR	0.427371019972635	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(5e+04,6e+04]	LSR	0.454888828219675	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(6e+04,7e+04]	LSR	0.328790304482979	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(7e+04,8e+04]	LSR	0.314330308467184	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(8e+04,9e+04]	LSR	0.291156494243702	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(9e+04,1e+05]	LSR	0.219884160940673	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1e+05,1.1e+05]	LSR	0.265565128688443	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.1e+05,1.2e+05]	LSR	0.229263587992947	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.2e+05,1.3e+05]	LSR	0.296013106016812	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.4e+05,1.5e+05]	LSR	0.175954358374346	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.5e+05,1.6e+05]	LSR	0.156385715341364	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.7e+05,1.8e+05]	LSR	0.141507395479548	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.8e+05,1.9e+05]	LSR	0.0934151616265174	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(1.9e+05,2e+05]	LSR	0.136180231025982	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(2e+05,6e+05]	LSR	0.161603734067124	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1
-(0,5e+03]	FORTESSA	0.695403019436022	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(5e+03,1e+04]	FORTESSA	0.573409299602315	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1e+04,1.5e+04]	FORTESSA	0.474553189341954	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.5e+04,2e+04]	FORTESSA	0.376084598947213	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(2e+04,3e+04]	FORTESSA	0.316039267160342	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(3e+04,4e+04]	FORTESSA	0.305907994194207	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(4e+04,5e+04]	FORTESSA	0.225458178402548	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(5e+04,6e+04]	FORTESSA	0.266725144920322	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(6e+04,7e+04]	FORTESSA	0.258388520974174	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(7e+04,8e+04]	FORTESSA	0.318061811411658	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(8e+04,9e+04]	FORTESSA	0.262138399896685	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(9e+04,1e+05]	FORTESSA	0.226828008024252	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1e+05,1.1e+05]	FORTESSA	0.185981259462615	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.1e+05,1.2e+05]	FORTESSA	0.446889162245371	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.2e+05,1.3e+05]	FORTESSA	0.237874519261881	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.3e+05,1.4e+05]	FORTESSA	0.141603017232727	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.4e+05,1.5e+05]	FORTESSA	0.165363417540064	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.5e+05,1.6e+05]	FORTESSA	0.335996907870266	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.6e+05,1.7e+05]	FORTESSA	0.197039068867953	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.7e+05,1.8e+05]	FORTESSA	0.315088962879958	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.8e+05,1.9e+05]	FORTESSA	0.00636439560921979	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.9e+05,2e+05]	FORTESSA	0.360323822438097	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(2e+05,6e+05]	FORTESSA	0.27055624617477	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(0,5e+03]	LSR	0.856077601609939	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(5e+03,1e+04]	LSR	0.541642677267822	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1e+04,1.5e+04]	LSR	0.408812094071705	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.5e+04,2e+04]	LSR	0.318444294233201	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(2e+04,3e+04]	LSR	0.340410295531982	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(3e+04,4e+04]	LSR	0.28680007649736	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(4e+04,5e+04]	LSR	0.249194143700441	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(5e+04,6e+04]	LSR	0.350747032234474	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(6e+04,7e+04]	LSR	0.213198391179648	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(7e+04,8e+04]	LSR	0.281711421991488	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(8e+04,9e+04]	LSR	0.268030300157815	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(9e+04,1e+05]	LSR	0.216678812826167	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1e+05,1.1e+05]	LSR	0.217623136142154	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.1e+05,1.2e+05]	LSR	0.223276099041595	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.2e+05,1.3e+05]	LSR	0.113471569043176	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.4e+05,1.5e+05]	LSR	0.131931679466349	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.5e+05,1.6e+05]	LSR	0.0366000121475139	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.7e+05,1.8e+05]	LSR	0.343798235230769	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.8e+05,1.9e+05]	LSR	0.0758622123215639	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(1.9e+05,2e+05]	LSR	0.0654629149279077	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(2e+05,6e+05]	LSR	0.075766805745188	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1
-(0,5e+03]	FORTESSA	1.86983857493004	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(5e+03,1e+04]	FORTESSA	1.29985487385078	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1e+04,1.5e+04]	FORTESSA	1.03639348502838	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.5e+04,2e+04]	FORTESSA	0.869240421660058	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(2e+04,3e+04]	FORTESSA	0.62452226095663	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(3e+04,4e+04]	FORTESSA	0.479037372397404	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(4e+04,5e+04]	FORTESSA	0.477149769600873	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(5e+04,6e+04]	FORTESSA	0.637513701004822	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(6e+04,7e+04]	FORTESSA	0.776816820625666	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(7e+04,8e+04]	FORTESSA	0.446123213825064	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(8e+04,9e+04]	FORTESSA	0.386913195260286	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(9e+04,1e+05]	FORTESSA	0.364531954722728	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1e+05,1.1e+05]	FORTESSA	0.553627269116065	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.1e+05,1.2e+05]	FORTESSA	0.227615202823595	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.2e+05,1.3e+05]	FORTESSA	0.357693968584365	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.3e+05,1.4e+05]	FORTESSA	0.313148147950481	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.4e+05,1.5e+05]	FORTESSA	0.311603440925146	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.5e+05,1.6e+05]	FORTESSA	0.253633935907485	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.6e+05,1.7e+05]	FORTESSA	0.263376622055854	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.7e+05,1.8e+05]	FORTESSA	0.26434695405587	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.8e+05,1.9e+05]	FORTESSA	0.156177231992423	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.9e+05,2e+05]	FORTESSA	0.267613856528672	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(2e+05,6e+05]	FORTESSA	0.207875246040108	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(0,5e+03]	LSR	2.0117028210399	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(5e+03,1e+04]	LSR	1.36695818677854	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1e+04,1.5e+04]	LSR	1.00846819576805	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.5e+04,2e+04]	LSR	0.877691231044645	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(2e+04,3e+04]	LSR	0.663784942605172	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(3e+04,4e+04]	LSR	0.469598589482122	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(4e+04,5e+04]	LSR	0.489413826090681	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(5e+04,6e+04]	LSR	0.568570364063978	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(6e+04,7e+04]	LSR	0.60228414152979	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(7e+04,8e+04]	LSR	0.438049176923438	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(8e+04,9e+04]	LSR	0.554022599224959	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(9e+04,1e+05]	LSR	0.365802022303451	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1e+05,1.1e+05]	LSR	0.364985542925876	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.1e+05,1.2e+05]	LSR	0.300306957167615	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.2e+05,1.3e+05]	LSR	0.326589355052065	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.3e+05,1.4e+05]	LSR	0.318007273039064	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.4e+05,1.5e+05]	LSR	0.306980012618326	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.5e+05,1.6e+05]	LSR	0.227384602075015	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.6e+05,1.7e+05]	LSR	0.464380456638668	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.7e+05,1.8e+05]	LSR	0.337135524066375	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.8e+05,1.9e+05]	LSR	0.230784907806127	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(1.9e+05,2e+05]	LSR	0.140134474603512	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(2e+05,6e+05]	LSR	0.243413848377734	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2
-(0,5e+03]	FORTESSA	1.50037426226526	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(5e+03,1e+04]	FORTESSA	1.62859866705547	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1e+04,1.5e+04]	FORTESSA	1.2731698487313	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.5e+04,2e+04]	FORTESSA	1.39298258403632	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(2e+04,3e+04]	FORTESSA	1.17095715872201	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(3e+04,4e+04]	FORTESSA	1.10335709637863	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(4e+04,5e+04]	FORTESSA	0.993951580710462	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(5e+04,6e+04]	FORTESSA	0.767111173124212	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(6e+04,7e+04]	FORTESSA	0.812974457291915	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(7e+04,8e+04]	FORTESSA	0.945729662835601	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(8e+04,9e+04]	FORTESSA	0.999550228435952	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(9e+04,1e+05]	FORTESSA	0.809852652021858	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1e+05,1.1e+05]	FORTESSA	1.06210944571405	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.1e+05,1.2e+05]	FORTESSA	0.906139195145749	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.2e+05,1.3e+05]	FORTESSA	0.673634918989682	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.3e+05,1.4e+05]	FORTESSA	0.477415112373875	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.4e+05,1.5e+05]	FORTESSA	0.651899716056385	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.5e+05,1.6e+05]	FORTESSA	0.798729042095224	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.6e+05,1.7e+05]	FORTESSA	0.507411915789062	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.7e+05,1.8e+05]	FORTESSA	0.733286078615994	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.8e+05,1.9e+05]	FORTESSA	0.683632345110916	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.9e+05,2e+05]	FORTESSA	0.627764372929822	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(2e+05,6e+05]	FORTESSA	1.13698663786816	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(0,5e+03]	LSR	2.02520778422019	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(5e+03,1e+04]	LSR	2.18011404047434	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1e+04,1.5e+04]	LSR	2.04236756407923	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.5e+04,2e+04]	LSR	1.58254548338259	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(2e+04,3e+04]	LSR	1.58746801431157	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(3e+04,4e+04]	LSR	1.44377369008685	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(4e+04,5e+04]	LSR	1.22313295342144	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(5e+04,6e+04]	LSR	1.57006715251168	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(6e+04,7e+04]	LSR	1.16153264964836	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(7e+04,8e+04]	LSR	1.64355421722142	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(8e+04,9e+04]	LSR	1.24493352833735	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(9e+04,1e+05]	LSR	0.987340808575498	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1e+05,1.1e+05]	LSR	1.19105978196791	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.1e+05,1.2e+05]	LSR	1.38576566294894	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.2e+05,1.3e+05]	LSR	1.28916006726317	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.3e+05,1.4e+05]	LSR	0.701625606933789	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.4e+05,1.5e+05]	LSR	1.33024722040073	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.5e+05,1.6e+05]	LSR	0.478789074218649	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.6e+05,1.7e+05]	LSR	0.764053816219963	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.7e+05,1.8e+05]	LSR	0.787227411856986	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.8e+05,1.9e+05]	LSR	0.714137220325839	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(1.9e+05,2e+05]	LSR	1.28672770193445	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
-(2e+05,6e+05]	LSR	1.11770638736837	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2
+BIN	MACHINE.x	MEDIAN_SAMPLE_CV	BIN_POPULATION	POPULATION	PANEL	MANUSCRIPT_RANGE
+(0,5e+03]	FORTESSA	2.32661628619068	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(5e+03,1e+04]	FORTESSA	1.42978640782195	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1e+04,1.5e+04]	FORTESSA	0.97228647528457	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.5e+04,2e+04]	FORTESSA	0.773824243198415	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(2e+04,3e+04]	FORTESSA	0.723570941792177	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(3e+04,4e+04]	FORTESSA	0.580460307552456	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(4e+04,5e+04]	FORTESSA	0.49047519289891	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(5e+04,6e+04]	FORTESSA	0.508258330445514	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(6e+04,7e+04]	FORTESSA	0.43711733726523	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(7e+04,8e+04]	FORTESSA	0.338123673406956	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(8e+04,9e+04]	FORTESSA	0.424170030691717	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(9e+04,1e+05]	FORTESSA	0.348333747357139	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1e+05,1.1e+05]	FORTESSA	0.285579377794794	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.1e+05,1.2e+05]	FORTESSA	0.356005979645151	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.2e+05,1.3e+05]	FORTESSA	0.297544090362275	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.3e+05,1.4e+05]	FORTESSA	0.133303501705908	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.4e+05,1.5e+05]	FORTESSA	0.207047157228169	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.5e+05,1.6e+05]	FORTESSA	0.208931671823763	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.6e+05,1.7e+05]	FORTESSA	0.272710276237733	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.7e+05,1.8e+05]	FORTESSA	0.182012157070568	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.8e+05,1.9e+05]	FORTESSA	0.0778988849254393	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.9e+05,2e+05]	FORTESSA	0.215589134291346	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(2e+05,6e+05]	FORTESSA	0.160688260914267	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(0,5e+03]	LSR	2.71510331868525	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(5e+03,1e+04]	LSR	1.10291926358203	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1e+04,1.5e+04]	LSR	0.781631050034741	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.5e+04,2e+04]	LSR	0.636463857734814	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(2e+04,3e+04]	LSR	0.632932118193004	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(3e+04,4e+04]	LSR	0.547267361021274	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(4e+04,5e+04]	LSR	0.427371019972635	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(5e+04,6e+04]	LSR	0.454888828219675	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(6e+04,7e+04]	LSR	0.328790304482979	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(7e+04,8e+04]	LSR	0.314330308467184	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(8e+04,9e+04]	LSR	0.291156494243702	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(9e+04,1e+05]	LSR	0.219884160940673	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1e+05,1.1e+05]	LSR	0.265565128688443	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.1e+05,1.2e+05]	LSR	0.229263587992947	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.2e+05,1.3e+05]	LSR	0.296013106016812	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.4e+05,1.5e+05]	LSR	0.175954358374346	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.5e+05,1.6e+05]	LSR	0.156385715341364	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.7e+05,1.8e+05]	LSR	0.141507395479548	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.8e+05,1.9e+05]	LSR	0.0934151616265174	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(1.9e+05,2e+05]	LSR	0.136180231025982	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(2e+05,6e+05]	LSR	0.161603734067124	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	FALSE
+(0,5e+03]	FORTESSA	0.695403019436022	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(5e+03,1e+04]	FORTESSA	0.573409299602315	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1e+04,1.5e+04]	FORTESSA	0.474553189341954	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.5e+04,2e+04]	FORTESSA	0.376084598947213	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(2e+04,3e+04]	FORTESSA	0.316039267160342	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(3e+04,4e+04]	FORTESSA	0.305907994194207	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(4e+04,5e+04]	FORTESSA	0.225458178402548	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(5e+04,6e+04]	FORTESSA	0.266725144920322	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(6e+04,7e+04]	FORTESSA	0.258388520974174	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(7e+04,8e+04]	FORTESSA	0.318061811411658	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(8e+04,9e+04]	FORTESSA	0.262138399896685	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(9e+04,1e+05]	FORTESSA	0.226828008024252	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1e+05,1.1e+05]	FORTESSA	0.185981259462615	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.1e+05,1.2e+05]	FORTESSA	0.446889162245371	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.2e+05,1.3e+05]	FORTESSA	0.237874519261881	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.3e+05,1.4e+05]	FORTESSA	0.141603017232727	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.4e+05,1.5e+05]	FORTESSA	0.165363417540064	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.5e+05,1.6e+05]	FORTESSA	0.335996907870266	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.6e+05,1.7e+05]	FORTESSA	0.197039068867953	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.7e+05,1.8e+05]	FORTESSA	0.315088962879958	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.8e+05,1.9e+05]	FORTESSA	0.00636439560921979	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.9e+05,2e+05]	FORTESSA	0.360323822438097	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(2e+05,6e+05]	FORTESSA	0.27055624617477	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(0,5e+03]	LSR	0.856077601609939	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(5e+03,1e+04]	LSR	0.541642677267822	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1e+04,1.5e+04]	LSR	0.408812094071705	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.5e+04,2e+04]	LSR	0.318444294233201	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(2e+04,3e+04]	LSR	0.340410295531982	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(3e+04,4e+04]	LSR	0.28680007649736	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(4e+04,5e+04]	LSR	0.249194143700441	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(5e+04,6e+04]	LSR	0.350747032234474	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(6e+04,7e+04]	LSR	0.213198391179648	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(7e+04,8e+04]	LSR	0.281711421991488	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(8e+04,9e+04]	LSR	0.268030300157815	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(9e+04,1e+05]	LSR	0.216678812826167	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1e+05,1.1e+05]	LSR	0.217623136142154	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.1e+05,1.2e+05]	LSR	0.223276099041595	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.2e+05,1.3e+05]	LSR	0.113471569043176	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.4e+05,1.5e+05]	LSR	0.131931679466349	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.5e+05,1.6e+05]	LSR	0.0366000121475139	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.7e+05,1.8e+05]	LSR	0.343798235230769	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.8e+05,1.9e+05]	LSR	0.0758622123215639	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(1.9e+05,2e+05]	LSR	0.0654629149279077	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(2e+05,6e+05]	LSR	0.075766805745188	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	FALSE
+(0,5e+03]	FORTESSA	1.86983857493004	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(5e+03,1e+04]	FORTESSA	1.29985487385078	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1e+04,1.5e+04]	FORTESSA	1.03639348502838	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.5e+04,2e+04]	FORTESSA	0.869240421660058	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(2e+04,3e+04]	FORTESSA	0.62452226095663	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(3e+04,4e+04]	FORTESSA	0.479037372397404	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(4e+04,5e+04]	FORTESSA	0.477149769600873	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(5e+04,6e+04]	FORTESSA	0.637513701004822	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(6e+04,7e+04]	FORTESSA	0.776816820625666	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(7e+04,8e+04]	FORTESSA	0.446123213825064	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(8e+04,9e+04]	FORTESSA	0.386913195260286	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(9e+04,1e+05]	FORTESSA	0.364531954722728	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1e+05,1.1e+05]	FORTESSA	0.553627269116065	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.1e+05,1.2e+05]	FORTESSA	0.227615202823595	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.2e+05,1.3e+05]	FORTESSA	0.357693968584365	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.3e+05,1.4e+05]	FORTESSA	0.313148147950481	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.4e+05,1.5e+05]	FORTESSA	0.311603440925146	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.5e+05,1.6e+05]	FORTESSA	0.253633935907485	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.6e+05,1.7e+05]	FORTESSA	0.263376622055854	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.7e+05,1.8e+05]	FORTESSA	0.26434695405587	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.8e+05,1.9e+05]	FORTESSA	0.156177231992423	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.9e+05,2e+05]	FORTESSA	0.267613856528672	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(2e+05,6e+05]	FORTESSA	0.207875246040108	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(0,5e+03]	LSR	2.0117028210399	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(5e+03,1e+04]	LSR	1.36695818677854	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1e+04,1.5e+04]	LSR	1.00846819576805	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.5e+04,2e+04]	LSR	0.877691231044645	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(2e+04,3e+04]	LSR	0.663784942605172	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(3e+04,4e+04]	LSR	0.469598589482122	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(4e+04,5e+04]	LSR	0.489413826090681	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(5e+04,6e+04]	LSR	0.568570364063978	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(6e+04,7e+04]	LSR	0.60228414152979	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(7e+04,8e+04]	LSR	0.438049176923438	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(8e+04,9e+04]	LSR	0.554022599224959	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(9e+04,1e+05]	LSR	0.365802022303451	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1e+05,1.1e+05]	LSR	0.364985542925876	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.1e+05,1.2e+05]	LSR	0.300306957167615	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.2e+05,1.3e+05]	LSR	0.326589355052065	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.3e+05,1.4e+05]	LSR	0.318007273039064	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.4e+05,1.5e+05]	LSR	0.306980012618326	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.5e+05,1.6e+05]	LSR	0.227384602075015	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.6e+05,1.7e+05]	LSR	0.464380456638668	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.7e+05,1.8e+05]	LSR	0.337135524066375	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.8e+05,1.9e+05]	LSR	0.230784907806127	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(1.9e+05,2e+05]	LSR	0.140134474603512	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(2e+05,6e+05]	LSR	0.243413848377734	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	FALSE
+(0,2e+04]	FORTESSA	1.44782504198223	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE
+(2e+04,6e+05]	FORTESSA	0.476789810721072	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE
+(0,2e+04]	LSR	1.54185925499627	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE
+(2e+04,6e+05]	LSR	0.512143801696795	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE
+(0,5e+03]	FORTESSA	1.50037426226526	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(5e+03,1e+04]	FORTESSA	1.62859866705547	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1e+04,1.5e+04]	FORTESSA	1.2731698487313	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.5e+04,2e+04]	FORTESSA	1.39298258403632	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(2e+04,3e+04]	FORTESSA	1.17095715872201	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(3e+04,4e+04]	FORTESSA	1.10335709637863	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(4e+04,5e+04]	FORTESSA	0.993951580710462	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(5e+04,6e+04]	FORTESSA	0.767111173124212	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(6e+04,7e+04]	FORTESSA	0.812974457291915	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(7e+04,8e+04]	FORTESSA	0.945729662835601	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(8e+04,9e+04]	FORTESSA	0.999550228435952	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(9e+04,1e+05]	FORTESSA	0.809852652021858	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1e+05,1.1e+05]	FORTESSA	1.06210944571405	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.1e+05,1.2e+05]	FORTESSA	0.906139195145749	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.2e+05,1.3e+05]	FORTESSA	0.673634918989682	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.3e+05,1.4e+05]	FORTESSA	0.477415112373875	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.4e+05,1.5e+05]	FORTESSA	0.651899716056385	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.5e+05,1.6e+05]	FORTESSA	0.798729042095224	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.6e+05,1.7e+05]	FORTESSA	0.507411915789062	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.7e+05,1.8e+05]	FORTESSA	0.733286078615994	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.8e+05,1.9e+05]	FORTESSA	0.683632345110916	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.9e+05,2e+05]	FORTESSA	0.627764372929822	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(2e+05,6e+05]	FORTESSA	1.13698663786816	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(0,5e+03]	LSR	2.02520778422019	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(5e+03,1e+04]	LSR	2.18011404047434	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1e+04,1.5e+04]	LSR	2.04236756407923	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.5e+04,2e+04]	LSR	1.58254548338259	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(2e+04,3e+04]	LSR	1.58746801431157	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(3e+04,4e+04]	LSR	1.44377369008685	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(4e+04,5e+04]	LSR	1.22313295342144	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(5e+04,6e+04]	LSR	1.57006715251168	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(6e+04,7e+04]	LSR	1.16153264964836	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(7e+04,8e+04]	LSR	1.64355421722142	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(8e+04,9e+04]	LSR	1.24493352833735	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(9e+04,1e+05]	LSR	0.987340808575498	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1e+05,1.1e+05]	LSR	1.19105978196791	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.1e+05,1.2e+05]	LSR	1.38576566294894	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.2e+05,1.3e+05]	LSR	1.28916006726317	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.3e+05,1.4e+05]	LSR	0.701625606933789	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.4e+05,1.5e+05]	LSR	1.33024722040073	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.5e+05,1.6e+05]	LSR	0.478789074218649	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.6e+05,1.7e+05]	LSR	0.764053816219963	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.7e+05,1.8e+05]	LSR	0.787227411856986	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.8e+05,1.9e+05]	LSR	0.714137220325839	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(1.9e+05,2e+05]	LSR	1.28672770193445	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(2e+05,6e+05]	LSR	1.11770638736837	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	FALSE
+(0,2e+04]	FORTESSA	1.54345684330964	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE
+(2e+04,6e+05]	FORTESSA	1.23003217673763	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE
+(0,2e+04]	LSR	2.16115548521431	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE
+(2e+04,6e+05]	LSR	1.78696255910868	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE
