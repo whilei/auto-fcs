@@ -237,7 +237,7 @@ getPlot <- function(x,
                     opacity,
                     pointSize,
                     type) {
-  if (type %in% c(normmarkers, pops, rawMarkers)) {
+  if (type %in% c(normmarkers, pops, rawMarkers,mem)) {
     plot_ly(
       x =  x,
       y =  y,

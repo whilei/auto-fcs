@@ -27,7 +27,7 @@ Select a few (less than 10) meta-clusters to characterize before moving beyond t
    2.  median of the normalized (mean 0, SD 1) compensated/transformed expression across all markers use
    3. Frequency of known subsets in the cluster (T cells,B cells, etc) defined by OpenCyto (or kmeans)
    4. Proportion of events in the phenograph cluster out of all events in each known subset
-   5. MEM score of events in phenograph cluster, relative to live single lymph. Using method "a" from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
+   5. MEM score of events in phenograph cluster, relative to live single lymph. Using method "a" from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf , see full manuscript https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5330853/
 3. Combine individual sample's centroids into a single matrix
 4. Run phenograph on the combined matrix (currently using "RAW")
 5. Run tsne on the combined matrix (currently using "RAW")
@@ -74,10 +74,10 @@ Select a few (less than 10) meta-clusters to characterize before moving beyond t
 |Population Distributions      |Distributions of  population values, top is frequency in cluster, bottom is frequency of known |
 
 
-### TODO
+<!-- ### TODO -->
 
-1. legends!! Currently the legends are placed over the plots of interest
-1. add p-values to distribution plots
+<!-- 1. legends!! Currently the legends are placed over the plots of interest -->
+<!-- 1. add p-values to distribution plots -->
 
 
 

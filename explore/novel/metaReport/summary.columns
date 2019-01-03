@@ -18,11 +18,11 @@ metaTsne2	Meta-tsne diminsion 2
 *_TotalFreq	Proportion of events in this phenograph cluster out of all events in the population
 *_ClusterFreq	Frequency of population in this phenograph cluster
 *_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of marker
-                                                           marker in this phenograph cluster
+    marker in this phenograph cluster
 *_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of
-                                                           marker in this phenograph cluster
+    marker in this phenograph cluster
 *_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of
-                                                           marker in this phenograph cluster
+    marker in this phenograph cluster
 MEM_RAW*_BASE_MINUS_CLUST	MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
 MEM*_BASE_MINUS_CLUST	MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
 META_MEM*_BASE_MINUS_CLUST	Meta cluster median MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
