@@ -306,7 +306,7 @@ sub$BIN=sub$PbmcBin
 colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
 
  tmpSummary$BIN_POPULATION="Live Single PBMCs"
- tmpSummary$POPULATION=popP
+ tmpSummary$CV_POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=FALSE
  tmpSummary$REDUCTION=NA
@@ -328,7 +328,7 @@ tmpSummary= aggregate(SAMPLE_BIG_PBMC_CV ~ BIN + MACHINE.x ,
 colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
 
  tmpSummary$BIN_POPULATION="Live Single PBMCs"
- tmpSummary$POPULATION=popP
+ tmpSummary$CV_POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=TRUE
  tmpSummary$REDUCTION=NA
@@ -413,7 +413,7 @@ sub$BIN=sub$LymphBin
     )
  colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$BIN_POPULATION="Live Single Lymphocytes"
- tmpSummary$POPULATION=popP
+ tmpSummary$CV_POPULATION=popP
  tmpSummary$PANEL=panel
   tmpSummary$MANUSCRIPT_RANGE=FALSE
  tmpSummary$REDUCTION=NA
@@ -435,7 +435,7 @@ tmpSummary= aggregate(SAMPLE_BIG_LYMPH_CV ~ BIN + MACHINE.x ,
 colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
 
  tmpSummary$BIN_POPULATION="Live Single Lymphocytes"
- tmpSummary$POPULATION=popP
+ tmpSummary$CV_POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=TRUE
  tmpSummary$REDUCTION=NA
