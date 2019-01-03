@@ -135,6 +135,9 @@ metaMEM = aggregate(summary[, metaName],
                     list(summary$META_CLUSTER),
                     median, na.rm = TRUE)
 
+
+
+
 # markersMEM=gsub("MEM_","",nms)
 # markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
 
@@ -168,6 +171,7 @@ metaMEM = merge(
   by.y = "META_MEM_LABELGroup.1",
   all.x = TRUE
 )
+colnames(metaMEM)[1]="META_CLUSTER"
 
 gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
 write.table(
@@ -311,12 +315,42 @@ write.table(
   row.names = FALSE
 )
 
+# load("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/summary.meta.RData")
+
+metaScaled = aggregate( summary[, paste0(markersToCluster, "_SCALED_CENTROID")],
+                        list(summary$META_CLUSTER),
+                        median, na.rm = TRUE)
+colnames(metaScaled)[1]="META_CLUSTER"
+
+write.table(
+  metaScaled,
+  file = "summary.metaScaled" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
+metaRaw = aggregate( summary[, paste0(markersToCluster, "_RAW_CENTROID")],
+                        list(summary$META_CLUSTER),
+                        median, na.rm = TRUE)
+
+colnames(metaRaw)[1]="META_CLUSTER"
+
+write.table(
+  metaRaw,
+  file = "summary.metaRaw" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
 
 require(openxlsx)
 list_of_datasets <-
   list(
     "DATA_DICTIONARY" = cols,
     "META_MEM_SUMMARY" = metaMEM,
+    "META_SCALE_SUMMARY" = metaScaled,
+    "META_RAW_SUMMARY" = metaRaw,
     "FULL_SUMMARY" = summary,
     "META_MAP" = metaMap
   )
