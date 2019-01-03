@@ -7,9 +7,10 @@ mkdir -p $outDir
 
 rsync -avz msi:$msiDir/* $outDir
 
+# GenTmpSummary.R
 
-Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/GenTmpSummary.R
-Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/knit.R
-Rscript /Users/Kitty/git/auto-fcs/explore/novel/metaClusters/prepare.R
+Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/
+Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/SummaryClusters.R
+Rscript /Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/prepare.R
 cd /Users/Kitty/git/auto-fcs/explore/novel/scripts
 #git save

@@ -21,6 +21,8 @@ rawMarkers = rawMarkers[!grepl(pattern = "SAMPLE", rawMarkers)]
 
 mem = nms[grepl(pattern = "MEM_", nms)]
 mem = mem[!grepl(pattern = "SAMPLE", mem)]
+mem = mem[!grepl(pattern = "LABEL", mem)]
+mem = mem[grepl(pattern = "_BASE_MINUS_CLUST", mem)]
 
 
 markers = c(normmarkers, rawMarkers)

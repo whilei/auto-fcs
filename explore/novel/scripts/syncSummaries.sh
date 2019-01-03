@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-rsync -avz msi:/scratch.global/lanej/flow/novel/detect_NoNorm_v5_lymph_summary/* /Volumes/Beta2/flow/testSummaryLymph/
+rsync -avz msi:scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/* /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/
 
 
 Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/collectLocal.R
@@ -16,3 +16,8 @@ zip -r /Users/Kitty/git/auto-fcs/explore/novel/build/metaClusters.build.zip meta
 # git save
 
 # https://github.com/PankratzLab/auto-fcs/blob/ecac87c6f3886485840e3ea8085264e5e5cf6a29/explore/novel/build/metaClusters.build.zip
+
+
+
+# msiDir=/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/
+# outDir=/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/

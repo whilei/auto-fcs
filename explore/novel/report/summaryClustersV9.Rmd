@@ -185,8 +185,8 @@ metaName = metaName[!grepl(pattern = "RAW", metaName)]
 metaName = metaName[!grepl(pattern = "MEM_LABEL", metaName)]
 
 metaMEM = aggregate(summary[, metaName],
-                                 list(summary$PHENOGRAPH),
-                                 median)
+                                 list(summary$META_CLUSTER),
+                                 median,na.rm=TRUE)
 
 # markersMEM=gsub("MEM_","",nms)
 # markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
@@ -258,97 +258,6 @@ gz1 <- gzfile(paste0("summary.gz"), "w")
     )
 close(gz1)
 
-cols=data.frame(COLUMN=colnames(summary))
-rownames(cols)=cols$COLUMN
-cols$DESCRIPTION="NA"
-
-for(pop in populations){
-  popForm=pop
-  # gsub("."," ",pop,fixed = TRUE)
-  cols[popForm,"DESCRIPTION"] = paste0("Count of ",pop, " events in this phenograph cluster")
-  
-  popTFreq=paste0(popForm,"_TotalFreq")
-  cols[popTFreq,"DESCRIPTION"] = paste0("Proportion of events in this phenograph cluster out of all events in  ",pop)
- 
-  popCFreq=paste0(popForm,"_ClusterFreq")
-  cols[popCFreq,"DESCRIPTION"] = paste0("Frequency of population ",pop, " in this phenograph cluster")
-   
-}
-
-for(marker in markersToCluster){
-  mraw = paste0(marker, "_RAW_CENTROID")
-  cols[mraw, "DESCRIPTION"] = paste0(
-  "Median raw (but after compensating/logicle transform) expression of ",
-  marker,
-  "in this phenograph cluster"
-  )
-  
-  mscale = paste0(marker, "_SCALED_CENTROID")
-  cols[mscale, "DESCRIPTION"] = paste0(
-  "Median scaled (after compensating/logicle transform and normalizing) expression of ",
-  marker,
-  "in this phenograph cluster"
-  )
-  # MEM_RAW_CD45RA_BASE_MINUS_CLUST
-  mem1 = paste0("MEM_", marker, "_BASE_MINUS_CLUST")
-  cols[mem1, "DESCRIPTION"] = paste0(
-  "mem score using method a of https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf ",
-  marker,
-  "in this phenograph cluster"
-  )
-  
-}
-
-cols["PHENOGRAPH_CLUSTER","DESCRIPTION"]="Phenograph cluster for the sample"
-cols["TOTAL_PHENOGRAPH_COUNTS","DESCRIPTION"]="Total events in sample's phenograph cluster"
-cols["SAMPLE_SCALED_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
-cols["SAMPLE_RAW_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
-cols["SAMPLE_RAW_CENTROID","DESCRIPTION"]="Sample used for centroids (just a check)"
-cols["SAMPLE","DESCRIPTION"]="Sample name"
-cols["SANITIZE_NAME","DESCRIPTION"]="Sample with spaces replaced with _"
-cols["CTL","DESCRIPTION"]="Which control this sample is"
-cols["META_CLUSTER","DESCRIPTION"]="The phenograph meta-cluster this sample belongs to"
-cols["metaTsne1","DESCRIPTION"]="Meta-tsne diminsion 1"
-cols["metaTsne2","DESCRIPTION"]="Meta-tsne diminsion 2"
-cols["TOTAL_COUNTS","DESCRIPTION"]="Total events in fcs file"
-cols["PANEL","DESCRIPTION"]="flow panel"
-cols["MACHINE","DESCRIPTION"]="LSR or FORTESSA"
-cols["EXPERIMENTER","DESCRIPTION"]="EXPERIMENTER"
-cols["LAB_ID","DESCRIPTION"]="LAB ID for this sample"
-
-
-write.table(
-cols,
-file = "summary.columns" ,
-sep = "\t",
-quote = FALSE,
-row.names = FALSE
-)
-
-metaMap =summary[,c("SAMPLE","PHENOGRAPH_CLUSTER","META_CLUSTER")]
-
-write.table(
-  metaMap,
-  file = "summary.metaMap" ,
-  sep = "\t",
-  quote = FALSE,
-  row.names = FALSE
-)
-
-# metaMapSub=metaMap[metaMap$META_CLUSTER %in% subs,]
-# 
-# write.table(
-#   metaMapSub,
-#   file = paste0("subs_",paste0(subs,collapse="_"),"_summary.naive.interest.metaMap" ),
-#   sep = "\t",
-#   quote = FALSE,
-#   row.names = FALSE
-# )
-
-
-require(openxlsx)
-list_of_datasets <- list("DATA_DICTIONARY" = cols, "SUMMARY" = summary,"META_MAP"=metaMap)
-write.xlsx(list_of_datasets, file = "summary.xlsx")
 
 save(summary,file ="summary.meta.RData")
 

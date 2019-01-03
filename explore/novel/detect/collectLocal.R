@@ -1,5 +1,5 @@
 print("collecting")
-outDir = "/Volumes/Beta2/flow/testSummaryLymph/"
+outDir = "/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/"
 
 allSummariesFiles = list.files(outDir,
                                full.names = TRUE,
@@ -9,7 +9,7 @@ allSummariesFiles = list.files(outDir,
 minLymph = 20000
 base = colnames(
   read.delim(
-    "/Volumes/Beta2/flow/testSummaryLymph/2016-09-27_PANEL 1_DHS_Group one_F1637196_011.fcs_subFirst_TRUE_normalize_FALSE.known.pops.txt",
+    "/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/2016-09-27_PANEL 1_DHS_Group one_F1637196_011.fcs_subFirst_TRUE_normalize_FALSE.known.pops.txt",
     check.names = FALSE
   )
 )

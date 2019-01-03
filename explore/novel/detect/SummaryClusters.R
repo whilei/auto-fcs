@@ -2,6 +2,7 @@
 
 library(ClusterR)
 library(cytofkit)
+library(reshape2)
 
 setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/")
 theme_set(theme_bw(15))
@@ -59,11 +60,14 @@ map = map[, c("FILE",
               "LAB_ID")]
 
 summary = read.delim(
-  "/Volumes/Beta2/flow/testSummaryLymph/allSummaries.txt" ,
+  "/Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/allSummaries.txt" ,
   stringsAsFactors = FALSE,
   header = TRUE,
   check.names = FALSE
 )
+
+# summary=summary[1:5000,]
+
 
 
 summary$SAMPLE = summary$SAMPLE_RAW_CENTROID
@@ -118,6 +122,58 @@ tsne <- cytof_dimReduction(data = sub,
 summary$META_CLUSTER = clusterPhenograph
 summary$metaTsne1 = tsne[, 1]
 summary$metaTsne2 = tsne[, 2]
+
+
+
+nms=names(summary)
+metaName = nms[grepl(pattern = "_BASE_MINUS_CLUST", nms)]
+metaName = metaName[!grepl(pattern = "RAW", metaName)]
+metaName = metaName[!grepl(pattern = "MEM_LABEL", metaName)]
+
+metaMEM = aggregate(summary[, metaName],
+                    list(summary$META_CLUSTER),
+                    median,na.rm=TRUE)
+
+# markersMEM=gsub("MEM_","",nms)
+# markersMEM=gsub("_BASE_MINUS_CLUST","",markersMEM)
+
+
+
+metaMEMMelt= melt(data = metaMEM,id.vars = "Group.1")
+metaMEMMelt$MARKER=gsub("MEM_","",metaMEMMelt$variable)
+metaMEMMelt$MARKER=gsub("_BASE_MINUS_CLUST","",metaMEMMelt$MARKER)
+metaMEMMelt$MEM_ROUND = round(metaMEMMelt$value)
+addPlus = metaMEMMelt$MEM_ROUND >= 0
+metaMEMMelt$MEM_ROUND[addPlus] = paste0("+", metaMEMMelt$MEM_ROUND[addPlus])
+metaMEMMelt$MEM_LABEL = paste0(metaMEMMelt$MARKER, metaMEMMelt$MEM_ROUND)
+metaMEMMeltSub=metaMEMMelt[which(abs(round(metaMEMMelt$value))>=2),]
+metaMEMMeltSub=metaMEMMeltSub[order(metaMEMMeltSub$value),]
+metaMEMMeltSubCast = dcast(
+  data = metaMEMMeltSub,
+  formula = Group.1 ~ 1,
+  fun.aggregate = toString,
+  value.var ="MEM_LABEL"
+)
+
+colnames(metaMEMMeltSubCast)=paste0("META_MEM_LABEL",colnames(metaMEMMeltSubCast))
+
+colnames(metaMEM)=paste0("META_",colnames(metaMEM))
+
+
+metaMEM=merge(metaMEM,metaMEMMeltSubCast,by.x ="META_Group.1",by.y ="META_MEM_LABELGroup.1",all.x = TRUE)
+
+gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
+write.table(
+  metaMEM,
+  file = gz1 ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+close(gz1)
+
+summary=merge(summary,metaMEM,by.x ="META_CLUSTER",by.y ="META_Group.1",all.x = TRUE)
+
 
 gz1 <- gzfile(paste0("summary.gz"), "w")
 write.table(
@@ -207,7 +263,7 @@ list_of_datasets <-
     "SUMMARY" = summary,
     "META_MAP" = metaMap
   )
-# write.xlsx(list_of_datasets, file = "summary.xlsx")
+write.xlsx(list_of_datasets, file = "summary.xlsx")
 save(list_of_datasets, file = "summary.data.list.meta.RData")
 
 save(summary, file = "summary.meta.RData")
