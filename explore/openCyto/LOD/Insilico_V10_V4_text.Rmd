@@ -257,7 +257,7 @@ for(panel in panels){
       pops=p1full
     }
 
-  for(popP in pops[1:2]){
+  for(popP in pops){
   plot=1  
 
     sub= mergeAll[which(mergeAll$PANEL==panel&mergeAll$Manual == popP),]
@@ -309,7 +309,7 @@ colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=FALSE
- tmpSummary$RATIO=NA
+ tmpSummary$REDUCTION=NA
  
  cvResultsSummary=rbind(cvResultsSummary,tmpSummary)
  
@@ -331,8 +331,10 @@ colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=TRUE
- tmpSummary$RATIO=tmpSummary[1,"MEDIAN_SAMPLE_CV"]/tmpSummary[2,"MEDIAN_SAMPLE_CV"]
-
+ tmpSummary$REDUCTION=NA
+ 
+  tmpSummary$REDUCTION[2]=(tmpSummary[1,"MEDIAN_SAMPLE_CV"]-tmpSummary[2,"MEDIAN_SAMPLE_CV"])/tmpSummary[1,"MEDIAN_SAMPLE_CV"]
+  tmpSummary$REDUCTION[4]=(tmpSummary[3,"MEDIAN_SAMPLE_CV"]-tmpSummary[4,"MEDIAN_SAMPLE_CV"])/tmpSummary[3,"MEDIAN_SAMPLE_CV"]
  
  
  cvResultsSummary=rbind(cvResultsSummary,tmpSummary)
@@ -414,7 +416,7 @@ sub$BIN=sub$LymphBin
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
   tmpSummary$MANUSCRIPT_RANGE=FALSE
- tmpSummary$RATIO=NA
+ tmpSummary$REDUCTION=NA
 
  cvResultsSummary=rbind(cvResultsSummary,tmpSummary)  
   
@@ -436,7 +438,9 @@ colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$POPULATION=popP
  tmpSummary$PANEL=panel
  tmpSummary$MANUSCRIPT_RANGE=TRUE
- tmpSummary$RATIO=tmpSummary[1,"MEDIAN_SAMPLE_CV"]/tmpSummary[2,"MEDIAN_SAMPLE_CV"]
+ tmpSummary$REDUCTION=NA
+   tmpSummary$REDUCTION[2]=(tmpSummary[1,"MEDIAN_SAMPLE_CV"]-tmpSummary[2,"MEDIAN_SAMPLE_CV"])/tmpSummary[1,"MEDIAN_SAMPLE_CV"]
+  tmpSummary$REDUCTION[4]=(tmpSummary[3,"MEDIAN_SAMPLE_CV"]-tmpSummary[4,"MEDIAN_SAMPLE_CV"])/tmpSummary[3,"MEDIAN_SAMPLE_CV"]
   pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(" Events in Live, Single, Lymphocytes") +
@@ -499,7 +503,13 @@ write.table(
       quote = FALSE,
       row.names = FALSE
     )
-
+write.table(
+      cvResultsSummary[which(cvResultsSummary$MANUSCRIPT_RANGE==TRUE),],
+      file = "/Users/Kitty/git/auto-fcs/explore/openCyto/LOD/summary/lod.summary.manuscript.range.txt" ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
 
 #   
 # 
