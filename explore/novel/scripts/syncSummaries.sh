@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-rsync -avz msi:scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/* /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/
+rsync -avz msi:/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/* /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/
 
 
 Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/collectLocal.R
@@ -12,6 +12,9 @@ Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/controlCV.R
 cd /Users/Kitty/git/auto-fcs/explore/novel/
 
 zip -r /Users/Kitty/git/auto-fcs/explore/novel/build/metaClusters.build.zip metaClusters2/*
+
+
+rsync -avz /Users/Kitty/git/auto-fcs/explore/novel/metaReport/* msi:/scratch.global/lanej/flow/novel/summaryFiles/
 
 # git save
 

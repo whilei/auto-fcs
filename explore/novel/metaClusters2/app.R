@@ -7,7 +7,7 @@ library(reshape2)
 library(superheat)
 library(gridExtra)
 
-summary <- readRDS("data/summary.rds")
+summary <- readRDS("data/summary.CV.rds")
 
 theme_set(theme_bw(15))
 maxMeta = 10
@@ -22,6 +22,8 @@ rawMarkers = rawMarkers[!grepl(pattern = "SAMPLE", rawMarkers)]
 mem = nms[grepl(pattern = "MEM_", nms)]
 mem = mem[!grepl(pattern = "SAMPLE", mem)]
 mem = mem[!grepl(pattern = "LABEL", mem)]
+mem = mem[!grepl(pattern = "RAW", mem)]
+
 mem = mem[grepl(pattern = "_BASE_MINUS_CLUST", mem)]
 
 

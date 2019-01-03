@@ -83,7 +83,7 @@ kable(d,format = "markdown")
 
 ```{r echo=FALSE}
 
-d=read.delim("../report/summary.columns")
+d=read.delim("../metaReport/summary.columns")
 library(knitr)
 kable(d,format = "markdown")
 
