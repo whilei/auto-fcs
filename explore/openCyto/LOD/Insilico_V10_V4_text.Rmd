@@ -441,6 +441,8 @@ colnames(tmpSummary)=gsub("SAMPLE_.*","MEDIAN_SAMPLE_CV",colnames(tmpSummary))
  tmpSummary$REDUCTION=NA
    tmpSummary$REDUCTION[2]=(tmpSummary[1,"MEDIAN_SAMPLE_CV"]-tmpSummary[2,"MEDIAN_SAMPLE_CV"])/tmpSummary[1,"MEDIAN_SAMPLE_CV"]
   tmpSummary$REDUCTION[4]=(tmpSummary[3,"MEDIAN_SAMPLE_CV"]-tmpSummary[4,"MEDIAN_SAMPLE_CV"])/tmpSummary[3,"MEDIAN_SAMPLE_CV"]
+   cvResultsSummary=rbind(cvResultsSummary,tmpSummary)
+
   pb=ggplot(sub,aes(x=LymphBin,y=SAMPLE_LYMPH_CV,colour=MACHINE.x)) +
   geom_boxplot() +
   xlab(" Events in Live, Single, Lymphocytes") +
@@ -510,7 +512,21 @@ write.table(
       quote = FALSE,
       row.names = FALSE
     )
+cvResultsSummaryScript=cvResultsSummary[which(cvResultsSummary$MANUSCRIPT_RANGE==TRUE),]
 
+
+cvResultsSummaryScriptSummary= aggregate(REDUCTION ~ PANEL + MACHINE.x ,
+      cvResultsSummaryScript,
+      median,na.rm=TRUE
+    )
+
+write.table(
+      cvResultsSummaryScriptSummary,
+      file = "/Users/Kitty/git/auto-fcs/explore/openCyto/LOD/summary/lod.summary.manuscript.range.medianReduction.txt" ,
+      sep = "\t",
+      quote = FALSE,
+      row.names = FALSE
+    )
 #   
 # 
 # for(pop in pops){

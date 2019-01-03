@@ -1,4 +1,148 @@
-BIN	MACHINE.x	MEDIAN_SAMPLE_CV	BIN_POPULATION	POPULATION	PANEL	MANUSCRIPT_RANGE	REDUCTION
+BIN	MACHINE.x	MEDIAN_SAMPLE_CV	BIN_POPULATION	CV_POPULATION	PANEL	MANUSCRIPT_RANGE	REDUCTION
+(0,2e+04]	FORTESSA	1.57614880379272	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.49047519289891	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	TRUE	0.688814157826552
+(0,2e+04]	LSR	1.73995294704391	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.427371019972635	Live Single Lymphocytes	Lymphocytes (SSC-A v FSC-A)	panel1	TRUE	0.754377829182842
+(0,2e+04]	FORTESSA	0.55827828873043	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.273409622200673	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	TRUE	0.510262842528896
+(0,2e+04]	LSR	0.673803859392894	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.274891078267066	Live Single Lymphocytes	Single Cells (FSC-H v FSC-W)	panel1	TRUE	0.592031012534202
+(0,2e+04]	FORTESSA	0.224016950414104	Live Single Lymphocytes	Live cells (PE-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.0756584629311891	Live Single Lymphocytes	Live cells (PE-)	panel1	TRUE	0.662264561715837
+(0,2e+04]	LSR	0.166955264925613	Live Single Lymphocytes	Live cells (PE-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.0455177409082704	Live Single Lymphocytes	Live cells (PE-)	panel1	TRUE	0.727365645350861
+(0,2e+04]	FORTESSA	0.98880842948995	Live Single Lymphocytes	Tcells (CD3+ CD19-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.339088322223271	Live Single Lymphocytes	Tcells (CD3+ CD19-)	panel1	TRUE	0.657073794973431
+(0,2e+04]	LSR	1.09518702143626	Live Single Lymphocytes	Tcells (CD3+ CD19-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.225088065231281	Live Single Lymphocytes	Tcells (CD3+ CD19-)	panel1	TRUE	0.794475225851295
+(0,2e+04]	FORTESSA	1.18341548940712	Live Single Lymphocytes	Helper Tcells-CD4+	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.376485753158668	Live Single Lymphocytes	Helper Tcells-CD4+	panel1	TRUE	0.681865112863037
+(0,2e+04]	LSR	1.4810265625786	Live Single Lymphocytes	Helper Tcells-CD4+	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.341463104678909	Live Single Lymphocytes	Helper Tcells-CD4+	panel1	TRUE	0.769441606716093
+(0,2e+04]	FORTESSA	3.36129209730531	Live Single Lymphocytes	cytotoxic Tcells-CD8+	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.15348622852882	Live Single Lymphocytes	cytotoxic Tcells-CD8+	panel1	TRUE	0.656832493238673
+(0,2e+04]	LSR	4.47916822572768	Live Single Lymphocytes	cytotoxic Tcells-CD8+	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	1.34973468274653	Live Single Lymphocytes	cytotoxic Tcells-CD8+	panel1	TRUE	0.698663989668025
+(0,2e+04]	FORTESSA	31.5209734105847	Live Single Lymphocytes	activated helper Tcells (CD4+ HLA-DR+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	23.8571520666199	Live Single Lymphocytes	activated helper Tcells (CD4+ HLA-DR+)	panel1	TRUE	0.243134031558532
+(0,2e+04]	LSR	40.1488502131287	Live Single Lymphocytes	activated helper Tcells (CD4+ HLA-DR+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	30.2651750681082	Live Single Lymphocytes	activated helper Tcells (CD4+ HLA-DR+)	panel1	TRUE	0.24617579563433
+(0,2e+04]	FORTESSA	6.03174119826183	Live Single Lymphocytes	B cells (CD3- CD19+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.76749634033472	Live Single Lymphocytes	B cells (CD3- CD19+)	panel1	TRUE	0.706967477178221
+(0,2e+04]	LSR	9.43576008796062	Live Single Lymphocytes	B cells (CD3- CD19+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.22650138894977	Live Single Lymphocytes	B cells (CD3- CD19+)	panel1	TRUE	0.764035820305496
+(0,2e+04]	FORTESSA	6.91886944245748	Live Single Lymphocytes	naive Bcells (CD27- IgD+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.11515937308466	Live Single Lymphocytes	naive Bcells (CD27- IgD+)	panel1	TRUE	0.694291185767282
+(0,2e+04]	LSR	10.1984345818669	Live Single Lymphocytes	naive Bcells (CD27- IgD+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.51225704260356	Live Single Lymphocytes	naive Bcells (CD27- IgD+)	panel1	TRUE	0.753662483939406
+(0,2e+04]	FORTESSA	21.4977513589418	Live Single Lymphocytes	IgD- memory Bcells (CD27+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	8.02815419972694	Live Single Lymphocytes	IgD- memory Bcells (CD27+)	panel1	TRUE	0.626558421591024
+(0,2e+04]	LSR	41.5859950490151	Live Single Lymphocytes	IgD- memory Bcells (CD27+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	13.6390075295628	Live Single Lymphocytes	IgD- memory Bcells (CD27+)	panel1	TRUE	0.672028828131028
+(0,2e+04]	FORTESSA	27.2280396557156	Live Single Lymphocytes	IgD+ memory Bcells (CD27+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	9.79926946805629	Live Single Lymphocytes	IgD+ memory Bcells (CD27+)	panel1	TRUE	0.64010374628644
+(0,2e+04]	LSR	35.715067229493	Live Single Lymphocytes	IgD+ memory Bcells (CD27+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	10.4547958337762	Live Single Lymphocytes	IgD+ memory Bcells (CD27+)	panel1	TRUE	0.707272122250331
+(0,2e+04]	FORTESSA	6.48873244070041	Live Single Lymphocytes	central memory helper Tcells (CCR7+ CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.90718567978942	Live Single Lymphocytes	central memory helper Tcells (CCR7+ CD45RA-)	panel1	TRUE	0.706077312137783
+(0,2e+04]	LSR	10.1720181298974	Live Single Lymphocytes	central memory helper Tcells (CCR7+ CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.52664780226586	Live Single Lymphocytes	central memory helper Tcells (CCR7+ CD45RA-)	panel1	TRUE	0.75160801229408
+(0,2e+04]	FORTESSA	22.3196273092307	Live Single Lymphocytes	effector helper Tcells (CCR7- CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	9.65340194615397	Live Single Lymphocytes	effector helper Tcells (CCR7- CD45RA+)	panel1	TRUE	0.567492690966143
+(0,2e+04]	LSR	32.7924626184665	Live Single Lymphocytes	effector helper Tcells (CCR7- CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	13.0858192032401	Live Single Lymphocytes	effector helper Tcells (CCR7- CD45RA+)	panel1	TRUE	0.600950396574637
+(0,2e+04]	FORTESSA	12.1638023069452	Live Single Lymphocytes	effector memory helper Tcells (CCR7- CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.45323148112042	Live Single Lymphocytes	effector memory helper Tcells (CCR7- CD45RA-)	panel1	TRUE	0.798317054222454
+(0,2e+04]	LSR	15.9397529298844	Live Single Lymphocytes	effector memory helper Tcells (CCR7- CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	3.13167803260167	Live Single Lymphocytes	effector memory helper Tcells (CCR7- CD45RA-)	panel1	TRUE	0.80353032783022
+(0,2e+04]	FORTESSA	3.52125614218714	Live Single Lymphocytes	naive helper Tcells (CCR7+ CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.30452525545373	Live Single Lymphocytes	naive helper Tcells (CCR7+ CD45RA+)	panel1	TRUE	0.629528440199339
+(0,2e+04]	LSR	6.13150442644091	Live Single Lymphocytes	naive helper Tcells (CCR7+ CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	1.98149035859912	Live Single Lymphocytes	naive helper Tcells (CCR7+ CD45RA+)	panel1	TRUE	0.676834554656059
+(0,2e+04]	FORTESSA	30.3345043015411	Live Single Lymphocytes	central memory cytotoxic Tcells (CCR7+ , CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	11.5335676620471	Live Single Lymphocytes	central memory cytotoxic Tcells (CCR7+ , CD45RA-)	panel1	TRUE	0.619787172145708
+(0,2e+04]	LSR	28.069927621957	Live Single Lymphocytes	central memory cytotoxic Tcells (CCR7+ , CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	7.07427699160605	Live Single Lymphocytes	central memory cytotoxic Tcells (CCR7+ , CD45RA-)	panel1	TRUE	0.747976657194072
+(0,2e+04]	FORTESSA	5.79391814004131	Live Single Lymphocytes	effector cytotoxic Tcells  (CCR7-  CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.75528338992394	Live Single Lymphocytes	effector cytotoxic Tcells  (CCR7-  CD45RA+)	panel1	TRUE	0.524452482184311
+(0,2e+04]	LSR	6.23340949396398	Live Single Lymphocytes	effector cytotoxic Tcells  (CCR7-  CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.25542388761968	Live Single Lymphocytes	effector cytotoxic Tcells  (CCR7-  CD45RA+)	panel1	TRUE	0.638171711676622
+(0,2e+04]	FORTESSA	25.9232044758431	Live Single Lymphocytes	effector memory cytotoxic Tcells (CCR7- , CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	7.7392485714145	Live Single Lymphocytes	effector memory cytotoxic Tcells (CCR7- , CD45RA-)	panel1	TRUE	0.701454788175342
+(0,2e+04]	LSR	27.218194315984	Live Single Lymphocytes	effector memory cytotoxic Tcells (CCR7- , CD45RA-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	6.0719336619479	Live Single Lymphocytes	effector memory cytotoxic Tcells (CCR7- , CD45RA-)	panel1	TRUE	0.776916367358648
+(0,2e+04]	FORTESSA	13.4960553062679	Live Single Lymphocytes	naive cytotoxic Tcells (CCR7+ , CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	5.73944129810932	Live Single Lymphocytes	naive cytotoxic Tcells (CCR7+ , CD45RA+)	panel1	TRUE	0.574731937009492
+(0,2e+04]	LSR	17.8863531458701	Live Single Lymphocytes	naive cytotoxic Tcells (CCR7+ , CD45RA+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	5.55202074094399	Live Single Lymphocytes	naive cytotoxic Tcells (CCR7+ , CD45RA+)	panel1	TRUE	0.689594592275736
+(0,2e+04]	FORTESSA	0.642231961782395	Live Single Lymphocytes	activated cytotoxic Tcells (CD8+ HLA-DR+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.0706602642606127	Live Single Lymphocytes	activated cytotoxic Tcells (CD8+ HLA-DR+)	panel1	TRUE	0.889977035611077
+(0,2e+04]	LSR	1.10603666824138	Live Single Lymphocytes	activated cytotoxic Tcells (CD8+ HLA-DR+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.0712355136254532	Live Single Lymphocytes	activated cytotoxic Tcells (CD8+ HLA-DR+)	panel1	TRUE	0.93559389514751
+(0,2e+04]	FORTESSA	64.4315019832398	Live Single Lymphocytes	EM3 cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	14.4270995204956	Live Single Lymphocytes	EM3 cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	0.776086245447942
+(0,2e+04]	LSR	68.1585030776677	Live Single Lymphocytes	EM3 cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	17.2532367108786	Live Single Lymphocytes	EM3 cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	0.746865967827693
+(0,2e+04]	FORTESSA	41.8796403146229	Live Single Lymphocytes	EM4 cytotoxic Tcells (CD27-  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	13.0721220477179	Live Single Lymphocytes	EM4 cytotoxic Tcells (CD27-  CD28+)	panel1	TRUE	0.687864510069501
+(0,2e+04]	LSR	41.1448775152005	Live Single Lymphocytes	EM4 cytotoxic Tcells (CD27-  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	12.8923280997507	Live Single Lymphocytes	EM4 cytotoxic Tcells (CD27-  CD28+)	panel1	TRUE	0.686660190081066
+(0,2e+04]	FORTESSA	54.129288638713	Live Single Lymphocytes	EM2 cytotoxic Tcells (CD27+  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	14.4991168883936	Live Single Lymphocytes	EM2 cytotoxic Tcells (CD27+  CD28-)	panel1	TRUE	0.732139156951271
+(0,2e+04]	LSR	75.8755340373583	Live Single Lymphocytes	EM2 cytotoxic Tcells (CD27+  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	17.5755634450439	Live Single Lymphocytes	EM2 cytotoxic Tcells (CD27+  CD28-)	panel1	TRUE	0.768363232390689
+(0,2e+04]	FORTESSA	8.24220361839707	Live Single Lymphocytes	EM1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	3.70370263291566	Live Single Lymphocytes	EM1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	0.550641696760707
+(0,2e+04]	LSR	10.1482491216551	Live Single Lymphocytes	EM1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	3.30426921642952	Live Single Lymphocytes	EM1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	0.674400068739086
+(0,2e+04]	FORTESSA	23.5905480579473	Live Single Lymphocytes	pE cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.85802604490911	Live Single Lymphocytes	pE cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	0.878848679653872
+(0,2e+04]	LSR	28.2517133090787	Live Single Lymphocytes	pE cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.2711311380689	Live Single Lymphocytes	pE cytotoxic Tcells (CD27-  CD28-)	panel1	TRUE	0.919610852863247
+(0,2e+04]	FORTESSA	24.9021686516897	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD27+ , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	5.05075561895577	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD27+ , CD28-)	panel1	TRUE	0.797176073714646
+(0,2e+04]	LSR	43.5266621427987	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD27+ , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	5.25552904190651	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD27+ , CD28-)	panel1	TRUE	0.879257246405327
+(0,2e+04]	FORTESSA	17.8939318572253	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	12.1652945903711	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	0.32014413112572
+(0,2e+04]	LSR	17.6663569825908	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	6.84554092822886	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD27+  CD28+)	panel1	TRUE	0.612509758804561
+(0,2e+04]	FORTESSA	3.58459500688243	Live Single Lymphocytes	naive helper Tcells (CD95- CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.933599396740585	Live Single Lymphocytes	naive helper Tcells (CD95- CD28+)	panel1	TRUE	0.739552335773477
+(0,2e+04]	LSR	6.01741687410937	Live Single Lymphocytes	naive helper Tcells (CD95- CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	1.13049486074831	Live Single Lymphocytes	naive helper Tcells (CD95- CD28+)	panel1	TRUE	0.812129542559633
+(0,2e+04]	FORTESSA	26.1236377214582	Live Single Lymphocytes	effector memory helper Tcells (CD95- CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	10.9994678538918	Live Single Lymphocytes	effector memory helper Tcells (CD95- CD28-)	panel1	TRUE	0.578945781932326
+(0,2e+04]	LSR	37.3310163337016	Live Single Lymphocytes	effector memory helper Tcells (CD95- CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	12.7658166497186	Live Single Lymphocytes	effector memory helper Tcells (CD95- CD28-)	panel1	TRUE	0.658037259537617
+(0,2e+04]	FORTESSA	2.45116189240234	Live Single Lymphocytes	central memory helper Tcells (CD95+ CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.880983024120019	Live Single Lymphocytes	central memory helper Tcells (CD95+ CD28+)	panel1	TRUE	0.640585541554506
+(0,2e+04]	LSR	3.09995363211912	Live Single Lymphocytes	central memory helper Tcells (CD95+ CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	0.860039908538768	Live Single Lymphocytes	central memory helper Tcells (CD95+ CD28+)	panel1	TRUE	0.722563621717513
+(0,2e+04]	FORTESSA	10.9934793896792	Live Single Lymphocytes	naive cytotoxic Tcells (CD95- , CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.8736885324306	Live Single Lymphocytes	naive cytotoxic Tcells (CD95- , CD28+)	panel1	TRUE	0.738600634924695
+(0,2e+04]	LSR	13.1206606489172	Live Single Lymphocytes	naive cytotoxic Tcells (CD95- , CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	2.78196661274206	Live Single Lymphocytes	naive cytotoxic Tcells (CD95- , CD28+)	panel1	TRUE	0.787970538436901
+(0,2e+04]	FORTESSA	4.80378036218106	Live Single Lymphocytes	central memory cytotoxic Tcells (CD95+ , CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.50554279699442	Live Single Lymphocytes	central memory cytotoxic Tcells (CD95+ , CD28+)	panel1	TRUE	0.686592083008794
+(0,2e+04]	LSR	5.79078242581526	Live Single Lymphocytes	central memory cytotoxic Tcells (CD95+ , CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	1.35834551987083	Live Single Lymphocytes	central memory cytotoxic Tcells (CD95+ , CD28+)	panel1	TRUE	0.765429708804921
+(0,2e+04]	FORTESSA	6.84832058895393	Live Single Lymphocytes	effector memory cytotoxic Tcells (CD95- , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.73471527230127	Live Single Lymphocytes	effector memory cytotoxic Tcells (CD95- , CD28-)	panel1	TRUE	0.746694791844398
+(0,2e+04]	LSR	8.10906302272062	Live Single Lymphocytes	effector memory cytotoxic Tcells (CD95- , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	1.57606413140751	Live Single Lymphocytes	effector memory cytotoxic Tcells (CD95- , CD28-)	panel1	TRUE	0.805641647254243
+(0,2e+04]	FORTESSA	23.7377690126185	Live Single Lymphocytes	pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	4.53578894022569	Live Single Lymphocytes	pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)	panel1	TRUE	0.808921009475888
+(0,2e+04]	LSR	17.4444219700181	Live Single Lymphocytes	pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	4.49604566253723	Live Single Lymphocytes	pE cytotoxic Tcells (CD95-CD28-,CD27-  CD28-)	panel1	TRUE	0.742264566274272
+(0,2e+04]	FORTESSA	26.828625305061	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	7.66003627484637	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)	panel1	TRUE	0.714482714349089
+(0,2e+04]	LSR	39.0335905699394	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	9.13556438595546	Live Single Lymphocytes	pE2 cytotoxic Tcells (CD95-CD28-,CD27+ , CD28-)	panel1	TRUE	0.765956340358016
+(0,2e+04]	FORTESSA	25.3693670826203	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	FORTESSA	7.81706926165828	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)	panel1	TRUE	0.691869756300957
+(0,2e+04]	LSR	37.1937676615454	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)	panel1	TRUE	NA
+(2e+04,6e+05]	LSR	8.01263490925667	Live Single Lymphocytes	pE1 cytotoxic Tcells (CD95-CD28-,CD27+  CD28+)	panel1	TRUE	0.784570496267822
 (0,2e+04]	FORTESSA	1.44782504198223	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE	NA
 (2e+04,6e+05]	FORTESSA	0.476789810721072	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE	0.670685478634701
 (0,2e+04]	LSR	1.54185925499627	Live Single PBMCs	Live immune cells (CD45+ PE-)	panel2	TRUE	NA
@@ -7,3 +151,59 @@ BIN	MACHINE.x	MEDIAN_SAMPLE_CV	BIN_POPULATION	POPULATION	PANEL	MANUSCRIPT_RANGE	
 (2e+04,6e+05]	FORTESSA	1.23003217673763	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE	0.203066686270234
 (0,2e+04]	LSR	2.16115548521431	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE	NA
 (2e+04,6e+05]	LSR	1.78696255910868	Live Single PBMCs	Live Single immune cells(FSC-H/FSC-W)	panel2	TRUE	0.173144842500088
+(0,2e+04]	FORTESSA	0.596479459088949	Live Single PBMCs	Live Single PBMCs (SSC-A/FSC-A)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.205728303267805	Live Single PBMCs	Live Single PBMCs (SSC-A/FSC-A)	panel2	TRUE	0.65509574532201
+(0,2e+04]	LSR	0.706935006592088	Live Single PBMCs	Live Single PBMCs (SSC-A/FSC-A)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	0.257429435678446	Live Single PBMCs	Live Single PBMCs (SSC-A/FSC-A)	panel2	TRUE	0.635851339546146
+(0,2e+04]	FORTESSA	4.34983065750142	Live Single PBMCs	DC NK MONOCYTES (CD3- CD19-)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.23319962746207	Live Single PBMCs	DC NK MONOCYTES (CD3- CD19-)	panel2	TRUE	0.486600789019028
+(0,2e+04]	LSR	6.65156505524796	Live Single PBMCs	DC NK MONOCYTES (CD3- CD19-)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	5.72290041824318	Live Single PBMCs	DC NK MONOCYTES (CD3- CD19-)	panel2	TRUE	0.139615959445827
+(0,2e+04]	FORTESSA	13.4798810651007	Live Single PBMCs	MONOCYTES (CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	8.70394289812832	Live Single PBMCs	MONOCYTES (CD14+)	panel2	TRUE	0.354301209625451
+(0,2e+04]	LSR	18.9432540294798	Live Single PBMCs	MONOCYTES (CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	17.6140082869292	Live Single PBMCs	MONOCYTES (CD14+)	panel2	TRUE	0.0701698736912912
+(0,2e+04]	FORTESSA	51.3672879514219	Live Single PBMCs	Non classical monocytes (CD16+ CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	29.0011461411388	Live Single PBMCs	Non classical monocytes (CD16+ CD14+)	panel2	TRUE	0.435416053723429
+(0,2e+04]	LSR	50.0728696529303	Live Single PBMCs	Non classical monocytes (CD16+ CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	24.1634114962916	Live Single PBMCs	Non classical monocytes (CD16+ CD14+)	panel2	TRUE	0.517435056872607
+(0,2e+04]	FORTESSA	1.83973629188526	Live Single PBMCs	Classical monocytes (CD16- CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.922384645156703	Live Single PBMCs	Classical monocytes (CD16- CD14+)	panel2	TRUE	0.498632141342664
+(0,2e+04]	LSR	1.62072169354823	Live Single PBMCs	Classical monocytes (CD16- CD14+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	0.74895928751842	Live Single PBMCs	Classical monocytes (CD16- CD14+)	panel2	TRUE	0.5378853195463
+(0,2e+04]	FORTESSA	4.56482117952017	Live Single PBMCs	DC NK (CD20- CD14-)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	2.4472899621666	Live Single PBMCs	DC NK (CD20- CD14-)	panel2	TRUE	0.46388043125408
+(0,2e+04]	LSR	6.3879594321678	Live Single PBMCs	DC NK (CD20- CD14-)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	4.71251626671434	Live Single PBMCs	DC NK (CD20- CD14-)	panel2	TRUE	0.262281434821963
+(0,2e+04]	FORTESSA	17.1690747314512	Live Single PBMCs	DC (HLA-DR+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	9.23138183247504	Live Single PBMCs	DC (HLA-DR+)	panel2	TRUE	0.46232502468147
+(0,2e+04]	LSR	19.3197414163483	Live Single PBMCs	DC (HLA-DR+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	12.6760493461324	Live Single PBMCs	DC (HLA-DR+)	panel2	TRUE	0.343881003738178
+(0,2e+04]	FORTESSA	11.5740212071403	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	3.33820551664029	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	0.711577725934969
+(0,2e+04]	LSR	15.7820211596205	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	4.11748693785654	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	0.739102685504475
+(0,2e+04]	FORTESSA	30.2363977359775	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	11.2048606258521	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	0.629424750802252
+(0,2e+04]	LSR	38.1831560079789	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	17.993797704661	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	0.528750381427326
+(0,2e+04]	FORTESSA	11.5740212071403	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	3.33820551664029	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	0.711577725934969
+(0,2e+04]	LSR	15.7820211596205	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	4.11748693785654	Live Single PBMCs	Myeloid DC (CD11c+ CD123-)	panel2	TRUE	0.739102685504475
+(0,2e+04]	FORTESSA	30.2363977359775	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	11.2048606258521	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	0.629424750802252
+(0,2e+04]	LSR	38.1831560079789	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	17.993797704661	Live Single PBMCs	Plasmacytoid DC (CD11c- CD123+)	panel2	TRUE	0.528750381427326
+(0,2e+04]	FORTESSA	4.3204661746254	Live Single PBMCs	NK (CD16+)	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	1.55086634910097	Live Single PBMCs	NK (CD16+)	panel2	TRUE	0.641041895384024
+(0,2e+04]	LSR	4.18261218382756	Live Single PBMCs	NK (CD16+)	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	1.82081318580601	Live Single PBMCs	NK (CD16+)	panel2	TRUE	0.564670807194043
+(0,2e+04]	FORTESSA	1.18700513639397	Live Single PBMCs	NK CD56LO	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	0.483677556582962	Live Single PBMCs	NK CD56LO	panel2	TRUE	0.592522777068735
+(0,2e+04]	LSR	1.4309135666676	Live Single PBMCs	NK CD56LO	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	0.573953092663362	Live Single PBMCs	NK CD56LO	panel2	TRUE	0.598890452901345
+(0,2e+04]	FORTESSA	102.083326325095	Live Single PBMCs	NK CD56HI	panel2	TRUE	NA
+(2e+04,6e+05]	FORTESSA	38.6720479395153	Live Single PBMCs	NK CD56HI	panel2	TRUE	0.621171749279012
+(0,2e+04]	LSR	110.013897745455	Live Single PBMCs	NK CD56HI	panel2	TRUE	NA
+(2e+04,6e+05]	LSR	37.4977536432652	Live Single PBMCs	NK CD56HI	panel2	TRUE	0.659154394020057
