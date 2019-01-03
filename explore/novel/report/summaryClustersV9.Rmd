@@ -200,7 +200,7 @@ metaMEMMelt$MEM_ROUND = round(metaMEMMelt$value)
 addPlus = metaMEMMelt$MEM_ROUND >= 0
 metaMEMMelt$MEM_ROUND[addPlus] = paste0("+", metaMEMMelt$MEM_ROUND[addPlus])
 metaMEMMelt$MEM_LABEL = paste0(metaMEMMelt$MARKER, metaMEMMelt$MEM_ROUND)
-metaMEMMeltSub=metaMEMMelt[which(abs(round(metaMEMMelt$value))>2),]
+metaMEMMeltSub=metaMEMMelt[which(abs(round(metaMEMMelt$value))>=2),]
 metaMEMMeltSub=metaMEMMeltSub[order(metaMEMMeltSub$value),]
 metaMEMMeltSubCast = dcast(
             data = metaMEMMeltSub,
