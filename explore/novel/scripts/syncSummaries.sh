@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-rsync -avz msi:/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/* /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/
+rsync -avz msi:/scratch.global/lanej/flow/novel/detect_NoNorm_v6_lymph_Mem_summary/*.known.pops.txt /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summary/
 
 
-Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/collectLocal.R
+# Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/collectLocal.R
 Rscript /Users/Kitty/git/auto-fcs/explore/novel/detect/SummaryClusters.R
 
 Rscript /Users/Kitty/git/auto-fcs/explore/novel/metaClusters2/prepare.R
