@@ -118,7 +118,7 @@ if (!file.exists(tmpFile)) {
   colnames(sub) = markersToCluster
   clustFile = paste0("clusterPhenograph", type, ".RData")
   tsneFile = paste0("tsne", type, ".RData")
-  
+  set.seed(42)
   clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
   tsne <- cytof_dimReduction(data = sub,
                              method = "tsne",
@@ -192,7 +192,7 @@ close(gz1)
 summary = merge(summary,
                 metaMEM,
                 by.x = "META_CLUSTER",
-                by.y = "META_Group.1",
+                by.y = "META_CLUSTER",
                 all.x = TRUE)
 
 
@@ -380,7 +380,7 @@ metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
 metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
 metaPopCMelt$POPULATION = paste0(metaPopCMelt$POPULATION, " (", metaPopCMelt$value, ")")
 
-metaPopCMelt$PopC_ROUND = metaPopCMelt$value
+metaPopCMelt$PopC_ROUND = round(metaPopCMelt$value,digits = 4)
 metaPopCMeltSub = metaPopCMelt[which(abs(round(metaPopCMelt$value)) >= reportThreshold),]
 metaPopCMeltSub = metaPopCMeltSub[order(-metaPopCMeltSub$value),]
 metaPopCMeltSubCast = dcast(
