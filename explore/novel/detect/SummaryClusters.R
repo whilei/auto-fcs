@@ -1,12 +1,15 @@
 
 
 
+
+
 library(ClusterR)
 library(cytofkit)
 library(reshape2)
 
 setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/")
-reportThreshold=0.25
+tmpFile = "summary.meta.tsne.tmp.RData"
+reportThreshold = 0.25
 theme_set(theme_bw(15))
 
 markersToCluster = c("CD27",
@@ -108,24 +111,26 @@ summary = summary[which(summary$MACHINE == "LSR"),]
 
 
 ## Meta Phenograph +Meta tsne
-
-type = "_SCALED_CENTROID"
-print(paste0("using tsne type ", type))
-sub = summary[, paste0(markersToCluster, type)]
-colnames(sub) = markersToCluster
-clustFile = paste0("clusterPhenograph", type, ".RData")
-tsneFile = paste0("tsne", type, ".RData")
-
-clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
-tsne <- cytof_dimReduction(data = sub,
-                           method = "tsne",
-                           out_dim = 2)
-
-summary$META_CLUSTER = clusterPhenograph
-summary$metaTsne1 = tsne[, 1]
-summary$metaTsne2 = tsne[, 2]
-
-
+if (!file.exists(tmpFile)) {
+  type = "_SCALED_CENTROID"
+  print(paste0("using tsne type ", type))
+  sub = summary[, paste0(markersToCluster, type)]
+  colnames(sub) = markersToCluster
+  clustFile = paste0("clusterPhenograph", type, ".RData")
+  tsneFile = paste0("tsne", type, ".RData")
+  
+  clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
+  tsne <- cytof_dimReduction(data = sub,
+                             method = "tsne",
+                             out_dim = 2)
+  
+  summary$META_CLUSTER = clusterPhenograph
+  summary$metaTsne1 = tsne[, 1]
+  summary$metaTsne2 = tsne[, 2]
+  
+  save(summary, file = tmpFile)
+}
+load(tmpFile)
 
 nms = names(summary)
 metaName = nms[grepl(pattern = "_BASE_MINUS_CLUST", nms)]
@@ -172,7 +177,7 @@ metaMEM = merge(
   by.y = "META_MEM_LABELGroup.1",
   all.x = TRUE
 )
-colnames(metaMEM)[1]="META_CLUSTER"
+colnames(metaMEM)[1] = "META_CLUSTER"
 
 gz1 <- gzfile(paste0("summary.meta.mem.gz"), "w")
 write.table(
@@ -318,10 +323,10 @@ write.table(
 
 # load("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/summary.meta.RData")
 
-metaScaled = aggregate( summary[, paste0(markersToCluster, "_SCALED_CENTROID")],
-                        list(summary$META_CLUSTER),
-                        median, na.rm = TRUE)
-colnames(metaScaled)[1]="META_CLUSTER"
+metaScaled = aggregate(summary[, paste0(markersToCluster, "_SCALED_CENTROID")],
+                       list(summary$META_CLUSTER),
+                       median, na.rm = TRUE)
+colnames(metaScaled)[1] = "META_CLUSTER"
 
 write.table(
   metaScaled,
@@ -331,11 +336,11 @@ write.table(
   row.names = FALSE
 )
 
-metaRaw = aggregate( summary[, paste0(markersToCluster, "_RAW_CENTROID")],
-                        list(summary$META_CLUSTER),
-                        median, na.rm = TRUE)
+metaRaw = aggregate(summary[, paste0(markersToCluster, "_RAW_CENTROID")],
+                    list(summary$META_CLUSTER),
+                    median, na.rm = TRUE)
 
-colnames(metaRaw)[1]="META_CLUSTER"
+colnames(metaRaw)[1] = "META_CLUSTER"
 
 # |_TotalFreq
 
@@ -350,14 +355,14 @@ write.table(
 
 
 
-nms=names(summary)
+nms = names(summary)
 popsC = nms[grepl(pattern = "_ClusterFreq", nms)]
 
-metaPopC = aggregate( summary[, popsC],
-                      list(summary$META_CLUSTER),
-                      median, na.rm = TRUE)
+metaPopC = aggregate(summary[, popsC],
+                     list(summary$META_CLUSTER),
+                     median, na.rm = TRUE)
 
-colnames(metaPopC)[1]="META_CLUSTER"
+colnames(metaPopC)[1] = "META_CLUSTER"
 
 write.table(
   metaPopC,
@@ -373,7 +378,7 @@ metaPopCMelt = melt(data = metaPopC, id.vars = "META_CLUSTER")
 metaPopCMelt$POPULATION = gsub("OPEN_CYTO_", "", metaPopCMelt$variable)
 metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
 metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
-metaPopCMelt$POPULATION = paste0(metaPopCMelt$POPULATION," (",metaPopCMelt$value,")")
+metaPopCMelt$POPULATION = paste0(metaPopCMelt$POPULATION, " (", metaPopCMelt$value, ")")
 
 metaPopCMelt$PopC_ROUND = metaPopCMelt$value
 metaPopCMeltSub = metaPopCMelt[which(abs(round(metaPopCMelt$value)) >= reportThreshold),]
@@ -385,7 +390,14 @@ metaPopCMeltSubCast = dcast(
   value.var = "POPULATION"
 )
 
-metaPopCMetaMEM=merge(metaPopCMeltSubCast,metaMEM,by.x ="META_CLUSTER",by.y = "META_CLUSTER",all.x = TRUE,all.y = TRUE )
+metaPopCMetaMEM = merge(
+  metaPopCMeltSubCast,
+  metaMEM,
+  by.x = "META_CLUSTER",
+  by.y = "META_CLUSTER",
+  all.x = TRUE,
+  all.y = TRUE
+)
 write.table(
   metaPopCMetaMEM,
   file = "summary.meta.mem.cluster" ,
@@ -396,11 +408,11 @@ write.table(
 
 popsT = nms[grepl(pattern = "_TotalFreq", nms)]
 
-metaPopT = aggregate( summary[, popsT],
-                      list(summary$META_CLUSTER),
-                      median, na.rm = TRUE)
+metaPopT = aggregate(summary[, popsT],
+                     list(summary$META_CLUSTER),
+                     median, na.rm = TRUE)
 
-colnames(metaPopT)[1]="META_CLUSTER"
+colnames(metaPopT)[1] = "META_CLUSTER"
 
 write.table(
   metaPopT,
@@ -415,7 +427,7 @@ list_of_datasets <-
   list(
     "DATA_DICTIONARY" = cols,
     "META_MEM_SUMMARY" = metaMEM,
-    "META_MEM_POP_SUMMARY"= metaPopCMetaMEM,
+    "META_MEM_POP_SUMMARY" = metaPopCMetaMEM,
     "META_SCALE_SUMMARY" = metaScaled,
     "META_RAW_SUMMARY" = metaRaw,
     "META_CLUSTER_FREQ_SUMMARY" = metaPopC,
