@@ -112,13 +112,13 @@ ui <- fluidPage(
       'middlecolor',
       'Middle Plot Color',
       choices = options,
-      selected = "OPEN_CYTO_Helper Tcells-CD4+_ClusterFreq"
+      selected = "CD4_SCALED_CENTROID"
     ),
     selectInput(
       'bottomcolor',
       'Bottom Plot Color',
       choices = options,
-      selected = "OPEN_CYTO_cytotoxic Tcells-CD8+_ClusterFreq"
+      selected = "CD8_SCALED_CENTROID"
     ),
     
     # selectInput('facet_col', 'Facet Column', c(None = '.', facets), selected = "."),
@@ -311,7 +311,7 @@ server <- function(input, output) {
         type = "scattergl",
         mode = "markers",
         color = color,
-        colors = colors,
+        colors = myPalette(100),
         marker = list(opacity = opacity, size = pointSize)
       )
     
@@ -325,7 +325,7 @@ server <- function(input, output) {
         type = "scattergl",
         mode = "markers",
         color = color,
-        colors = colors,
+        colors = myPalette(100),
         marker = list(opacity = opacity, size = pointSize)
       )
     

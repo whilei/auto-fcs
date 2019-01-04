@@ -17,6 +17,7 @@ zip -r /Users/Kitty/git/auto-fcs/explore/novel/build/metaClusters.build.zip meta
 rsync -avz /Users/Kitty/git/auto-fcs/explore/novel/metaReport/* msi:/scratch.global/lanej/flow/novel/summaryFiles/
 rsync -avz /Users/Kitty/git/auto-fcs/explore/novel/build/* msi:/scratch.global/lanej/flow/novel/summaryFiles/
 
+rsync -avz /Volumes/Beta2/flow/detect_NoNorm_v6_lymph_Mem_summaryAnnotations/summary_ann.xlsx msi:/scratch.global/lanej/flow/novel/summaryFiles/
 
 # git save
 

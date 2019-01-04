@@ -118,7 +118,7 @@ if (!file.exists(tmpFile)) {
   colnames(sub) = markersToCluster
   clustFile = paste0("clusterPhenograph", type, ".RData")
   tsneFile = paste0("tsne", type, ".RData")
-  set.seed(42)
+  # set.seed(42)
   clusterPhenograph = cytof_cluster(xdata = sub, method = "Rphenograph")
   tsne <- cytof_dimReduction(data = sub,
                              method = "tsne",
