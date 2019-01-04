@@ -37,3 +37,9 @@ vignettes/*.pdf
 .Rproj.user
 
 explore/novel/metaReport/summary.xlsx
+explore/novel/build/*
+explore/novel/metaReport/summary.gz
+explore/novel/metaClusters2/data/summary.CV.rds
+explore/novel/metaClusters2/data/summary.rds
+explore/novel/build/metaClusters.build.zip
+explore/novel/metaClusters2/data/summary.CV.rds
