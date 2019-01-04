@@ -6,6 +6,7 @@ library(cytofkit)
 library(reshape2)
 
 setwd("/Users/Kitty/git/auto-fcs/explore/novel/metaReport/")
+reportThreshold=0.25
 theme_set(theme_bw(15))
 
 markersToCluster = c("CD27",
@@ -366,6 +367,33 @@ write.table(
   row.names = FALSE
 )
 
+
+
+metaPopCMelt = melt(data = metaPopC, id.vars = "META_CLUSTER")
+metaPopCMelt$POPULATION = gsub("OPEN_CYTO_", "", metaPopCMelt$variable)
+metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
+metaPopCMelt$POPULATION = gsub("_ClusterFreq", "", metaPopCMelt$POPULATION)
+metaPopCMelt$POPULATION = paste0(metaPopCMelt$POPULATION," (",metaPopCMelt$value,")")
+
+metaPopCMelt$PopC_ROUND = metaPopCMelt$value
+metaPopCMeltSub = metaPopCMelt[which(abs(round(metaPopCMelt$value)) >= reportThreshold),]
+metaPopCMeltSub = metaPopCMeltSub[order(-metaPopCMeltSub$value),]
+metaPopCMeltSubCast = dcast(
+  data = metaPopCMeltSub,
+  formula = META_CLUSTER ~ 1,
+  fun.aggregate = toString,
+  value.var = "POPULATION"
+)
+
+metaPopCMetaMEM=merge(metaPopCMeltSubCast,metaMEM,by.x ="META_CLUSTER",by.y = "META_CLUSTER",all.x = TRUE,all.y = TRUE )
+write.table(
+  metaPopCMetaMEM,
+  file = "summary.meta.mem.cluster" ,
+  sep = "\t",
+  quote = FALSE,
+  row.names = FALSE
+)
+
 popsT = nms[grepl(pattern = "_TotalFreq", nms)]
 
 metaPopT = aggregate( summary[, popsT],
@@ -387,6 +415,7 @@ list_of_datasets <-
   list(
     "DATA_DICTIONARY" = cols,
     "META_MEM_SUMMARY" = metaMEM,
+    "META_MEM_POP_SUMMARY"= metaPopCMetaMEM,
     "META_SCALE_SUMMARY" = metaScaled,
     "META_RAW_SUMMARY" = metaRaw,
     "META_CLUSTER_FREQ_SUMMARY" = metaPopC,

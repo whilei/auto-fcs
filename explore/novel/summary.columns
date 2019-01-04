@@ -1,0 +1,28 @@
+COLUMN	DESCRIPTION
+META_CLUSTER	The phenograph meta-cluster this sample belongs to
+SAMPLE	Sample name
+PHENOGRAPH_CLUSTER	Phenograph cluster for the sample
+TOTAL_PHENOGRAPH_COUNTS	Total events in sample's phenograph cluster
+SAMPLE_RAW_CENTROID	Sample used for centroids (just a check)
+SAMPLE_SCALED_CENTROID	Sample used for centroids (just a check)
+SANITIZE_NAME	Sample with spaces replaced with _
+TOTAL_COUNTS	Total events in fcs file
+PANEL	flow panel
+MACHINE	LSR or FORTESSA
+EXPERIMENTER	EXPERIMENTER
+LAB_ID	LAB ID for this sample
+CTL	Which control this sample is
+metaTsne1	Meta-tsne diminsion 1
+metaTsne2	Meta-tsne diminsion 2
+-population name-	Count of  events in this phenograph cluster
+*_TotalFreq	Proportion of events in this phenograph cluster out of all events in the population
+*_ClusterFreq	Frequency of population in this phenograph cluster
+*_RAW_CENTROID	Median raw (but after compensating/logicle transform) expression of marker
+        marker in this phenograph cluster
+*_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of
+        marker in this phenograph cluster
+*_SCALED_CENTROID	Median scaled (after compensating/logicle transform and normalizing) expression of
+        marker in this phenograph cluster
+MEM_RAW*_BASE_MINUS_CLUST	MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
+MEM*_BASE_MINUS_CLUST	MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
+META_MEM*_BASE_MINUS_CLUST	Meta cluster median MEM score computed using method a from https://media.nature.com/original/nature-assets/nmeth/journal/v14/n3/extref/nmeth.4149-S1.pdf
