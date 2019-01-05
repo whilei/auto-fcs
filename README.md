@@ -1,3 +1,5 @@
+[![wiki:flow-cytometry](https://img.shields.io/badge/Wikipedia-Flow%20Cytometry-blue.svg)](https://en.wikipedia.org/wiki/Flow_cytometry)
+
 Notes about FCS gating
 ================
 
